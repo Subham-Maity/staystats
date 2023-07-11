@@ -4,6 +4,8 @@ import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import Footer from "@/components/footer/Footer";
 import Providers from "@/app/providers";
+import ThemeSwitcher from "@/components/mode/Switcher";
+import React from "react";
 
 const inter = Inter({subsets: ["latin"]});
 
