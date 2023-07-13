@@ -42,7 +42,6 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: any) => {
     // signOut();
     console.log("logout");
   };
-  console.log("Application re rendering");
 
   const pathname = usePathname();
 
@@ -96,7 +95,9 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: any) => {
               width={35 }
               alt="Image"
               className="rounded-full cursor-pointer"
-              onClick={toggleDropdown}
+              onClick={()=>{
+                toggleDropdown()
+              }}
             />
             {isProfileDropDownOpen && (
               <motion.div
