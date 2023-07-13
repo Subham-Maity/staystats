@@ -5,7 +5,12 @@ import { FaHome, FaRocket,FaBars } from 'react-icons/fa';
 import { HiUserGroup } from 'react-icons/hi';
 import { RiMailFill, RiSettings5Fill } from 'react-icons/ri';
 
-const Sidebar = () => {
+interface SidebarProps{
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+}
+
+const Sidebar = ({isSidebarOpen, toggleSidebar}: SidebarProps) => {
     const [active, setActive] = useState("/")
     const [isNavOpen, setIsNavOpen] = useState(false)
     const [hover, setHover] = useState(false)
