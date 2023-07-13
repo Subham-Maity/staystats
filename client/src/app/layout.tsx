@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./globals.css";
 import type { Metadata } from "next";
@@ -21,8 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex">
-      <DefaultLayout>{children}</DefaultLayout>
-    </div>
+    <html lang="en">
+      <body className={inter.className}>
+        <DefaultLayout>
+            {children}
+            </DefaultLayout>
+      </body>
+    </html>
   );
 }
