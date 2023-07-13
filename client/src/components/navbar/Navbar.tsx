@@ -1,17 +1,3 @@
-// import React from 'react';
-// import ThemeSwitcher from "@/components/mode/Switcher";
-
-// const Navbar = () => {
-//     return (
-//         <div>
-//             <ThemeSwitcher/>
-//         </div>
-//     );
-// };
-
-// export default Navbar;
-
-
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -23,18 +9,18 @@ import Image from "next/image";
 // import Breadcrumbs from "./Breadcrumbs";
 import profileImage from "../../../public/assets/avatar01.png";
 
+interface NavbarProps {
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+}
 
-
-
-
-const Navbar = ({ toggleSidebar, isSidebarOpen }: any) => {
+const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false);
   const [pathName, setPathName] = useState("");
 
   const profileDropdownRef = useRef(null);
 
   const toggleDropdown = () => {
-    console.log("toggle dropdown");
     setIsProfileDropDownOpen(!isProfileDropDownOpen);
   };
 
@@ -51,10 +37,9 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: any) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
-      console.log("handle click outside");
       if (
-          profileDropdownRef.current &&
-          // @ts-ignore
+        profileDropdownRef.current &&
+        // @ts-ignore
         !profileDropdownRef.current.contains(event.target)
       ) {
         setIsProfileDropDownOpen(false);
@@ -68,8 +53,8 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: any) => {
     };
   }, []);
   return (
-    <div className="flex flex-col gap-2 cursor-pointer mt-4 text-gray-600 w-[90%]">
-      <div className="navbar flex justify-between items-center px-4 py-1 bg-white border border-sm rounded-lg">
+    <div className="flex flex-col gap-2 cursor-pointer mt-4 text-gray-600 lg:w-[65%] w-[90%]">
+      <div className="navbar flex justify-between items-center px-4 py-2 bg-white border border-sm rounded-lg">
         <div className="flex items-center justify-around gap-6">
           <RiMenuUnfoldFill
             size={18}
@@ -92,11 +77,11 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: any) => {
             <Image
               src={profileImage}
               height={35}
-              width={35 }
+              width={35}
               alt="Image"
               className="rounded-full cursor-pointer"
-              onClick={()=>{
-                toggleDropdown()
+              onClick={() => {
+                toggleDropdown();
               }}
             />
             {isProfileDropDownOpen && (
