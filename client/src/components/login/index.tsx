@@ -58,7 +58,7 @@ const LoginForm = () => {
         {/* <div className="hidden lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover ">
         <Image src={'/assets/login_graphic.jpg'} height={600} width={600} alt="Image" className="rounded-md cursor-pointer ml-auto md:scale-90 " />
         </div> */}
-          <div className="bg-white hidden pr-16 border-r border-gray-200 lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover">
+          <div className="bg-white hidden pr-16 lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover">
       <AnimatedImage
         src="/assets/login_graphic.jpg"
         height={600}
@@ -89,7 +89,7 @@ const LoginForm = () => {
     </div>
     <div className="bg-white w-full px-4 lg:px-0 h-full flex justify-center items-center">
           <div className="w-[430px] mx-auto flex flex-row h-fit overflow-hidden">
-            <div className="w-full px-2 sm:px-6 py-7 flex flex-col bg-white">
+            <div className="w-full px-2 lg:border-l-2 border-gray-200 sm:px-6 py-7 flex flex-col bg-white">
               <div className="pb-8 w-full h-full flex flex-col justify-end items-start  text-black">
                 <h2 className="text-2xl capitalize mb-2 font-medium">
                   <span className="text-indigo-500 font-semibold">Stay Stats !</span>{" "}
