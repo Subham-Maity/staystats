@@ -6,6 +6,7 @@ import { RiMenuUnfoldFill } from "react-icons/ri";
 import { BsBell, BsBarChart, BsDot, BsHouseCheck } from "react-icons/bs";
 import { MdOutlineTipsAndUpdates, MdLogout } from "react-icons/md";
 import Image from "next/image";
+import Switcher from "../mode/Switcher";
 // import Breadcrumbs from "./Breadcrumbs";
 import profileImage from "../../../public/assets/avatar01.png";
 
@@ -63,7 +64,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
             }}
             className={`block lg:hidden`}
           />
-          <MdOutlineTipsAndUpdates size={18} />
+          <Switcher />
         </div>
         <div className="flex items-center justify-around gap-6">
           <BsHouseCheck size={18} />
