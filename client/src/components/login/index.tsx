@@ -10,6 +10,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { BiError } from "react-icons/bi";
 import { useSearchParams, useRouter } from "next/navigation";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 
 const AnimatedImage = motion(Image);
 
@@ -25,6 +26,7 @@ const LoginForm = () => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("session", session.status);
     if (session.status === "authenticated") {
       router?.replace("/dashboard");
     }
@@ -51,6 +53,13 @@ const LoginForm = () => {
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  
+  if(session.status === "loading"){
+    console.log("loading")
+    return (
+      <LoadingSpinner />
+    )
+  }
 
   if (session.status === "unauthenticated") {
     return (

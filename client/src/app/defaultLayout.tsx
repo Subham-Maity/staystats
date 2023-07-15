@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Sidebar from "@/components/navbar/Sidebar";
 import { useSession } from "next-auth/react";
 import LoginForm from "@/components/login";
+import LoadingSpinner from "@/components/loadingSpinner/LoadingSpinner";
 
 type Props = {};
 
@@ -19,7 +20,9 @@ const DefaultLayout = ({ children }: any) => {
 
   if (session.status === "unauthenticated") {
     return <LoginForm />;
-  } else if (session.status === "authenticated") {
+  } else if(session.status === "loading"){
+    return <LoadingSpinner />
+  } else {
     return (
       <div className="flex">
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
