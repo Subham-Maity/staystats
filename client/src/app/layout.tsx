@@ -4,6 +4,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import DefaultLayout from "@/app/defaultLayout";
+import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import Footer from "@/components/footer/Footer";
 import Providers from "@/app/providers";
 import ThemeSwitcher from "@/components/mode/Switcher";
@@ -20,11 +21,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+    
   return (
-    <html lang="en">
+      <html lang="en">
+        <AuthProvider>
       <body className={`${inter.className} dark:bg-black bg-slate-100`}>
-        <DefaultLayout>{children}</DefaultLayout>
+          <DefaultLayout>{children}</DefaultLayout>
       </body>
+        </AuthProvider>
     </html>
   );
 }

@@ -20,25 +20,40 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   }, [isSidebarOpen]);
 
   const navHoverEffect = () => {
+    if(isSidebarOpen){
+      return;
+    }
     setHover(!hover);
   };
 
   const handleNavigate = (path: string) => {
+    if(isSidebarOpen){
+      return;
+    }
     setActive(path);
   };
   return (
-    <header className="flex h-full text-slate-700 max-w-[300px] z-50">
-      <nav
-        onMouseEnter={navHoverEffect}
-        onMouseLeave={navHoverEffect}
-        className={`fixed w-auto h-screen bg-slate-200  z-50 ${
-          !isNavOpen && !hover
-            ? "hover:w-[300px] transition-width ease-in-out duration-300 hover:shadow-xl"
-            : "min-w-[300px] hover:shadow-lg"
-        }`}
-      >
-        <div className="w-full flex items-center justify-between my-4 p-4 gap-2 font-semibold">
-          <h1 className={`${!isNavOpen && !hover && "hidden"}`}>Stay Stats</h1>
+    <header
+    className={`lg:block h-screen text-slate-700 max-w-[300px] z-50 ${
+      isSidebarOpen ? "md:fixed sm:fixed lg:block" : "hidden"
+    }`}
+  >
+    {isSidebarOpen && (
+      <div
+        className="fixed lg:hidden inset-0 bg-black opacity-50 z-40"
+        onClick={toggleSidebar}
+      />
+    )}
+    <nav
+      onMouseEnter={navHoverEffect}
+      onMouseLeave={navHoverEffect}
+      className={`fixed w-auto h-screen bg-slate-200 z-50 ${
+        !isNavOpen && !hover
+          ? "hover:w-[300px] transition-width ease-in-out duration-300 hover:shadow-xl"
+          : "min-w-[300px] hover:shadow-lg"
+      }`}>
+        <div className="w-full flex items-center justify-between my-4 p-4 gap-2 font-semibold h-16">
+          <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>Stay Stats</span>
           <span
             className="cursor-pointer"
             onClick={() => {
@@ -46,7 +61,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               toggleSidebar();
             }}
           >
-            <FaBars size={15} />
+            <FaBars size={20} />
           </span>
         </div>
         <div className="flex flex-col items-center justify-between h-screen w-full">
@@ -59,8 +74,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
-              <FaHome size={25} />{" "}
-              <p className={`text-md ${!isNavOpen && !hover && "hidden"}`}>
+              <FaHome size={20} />{" "}
+              <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                 Home
               </p>
             </li>
@@ -72,8 +87,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
-              <HiUserGroup size={25} />{" "}
-              <p className={`text-md ${!isNavOpen && !hover && "hidden"}`}>
+              <HiUserGroup size={20} />{" "}
+              <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                 Prospects
               </p>
             </li>
@@ -85,8 +100,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
-              <FaRocket size={25} />{" "}
-              <p className={`text-md ${!isNavOpen && !hover && "hidden"}`}>
+              <FaRocket size={20} />{" "}
+              <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                 Campaigns
               </p>
             </li>
@@ -98,8 +113,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
-              <RiMailFill size={25} />{" "}
-              <p className={`text-md ${!isNavOpen && !hover && "hidden"}`}>
+              <RiMailFill size={20} />{" "}
+              <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                 Inbox
               </p>
             </li>
@@ -113,8 +128,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
-              <RiSettings5Fill size={25} />{" "}
-              <p className={`text-md ${!isNavOpen && !hover && "hidden"}`}>
+              <RiSettings5Fill size={20} />{" "}
+              <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                 Settings
               </p>
             </li>

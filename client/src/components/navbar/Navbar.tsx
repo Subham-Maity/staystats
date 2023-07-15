@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { RiMenuUnfoldFill } from "react-icons/ri";
 import { BsBell, BsBarChart, BsDot, BsHouseCheck } from "react-icons/bs";
 import { MdOutlineTipsAndUpdates, MdLogout } from "react-icons/md";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Switcher from "../mode/Switcher";
 // import Breadcrumbs from "./Breadcrumbs";
@@ -26,8 +27,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   };
 
   const logoutHandler = () => {
-    // signOut();
-    console.log("logout");
+    signOut();
   };
 
   const pathname = usePathname();
