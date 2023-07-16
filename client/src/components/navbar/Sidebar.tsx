@@ -5,6 +5,7 @@ import { useState } from "react";
 import { FaHome, FaRocket, FaBars } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi";
 import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
+import { usePathname } from "next/navigation";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -12,9 +13,11 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
+  const pathname = usePathname();
   const [active, setActive] = useState("/");
   const [isNavOpen, setIsNavOpen] = useState(isSidebarOpen);
   const [hover, setHover] = useState(false);
+  console.log(active);
 
   useEffect(() => {
     setIsNavOpen(isSidebarOpen);
@@ -25,13 +28,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
       return;
     }
     setHover(!hover);
-  };
-
-  const handleNavigate = (path: string) => {
-    if(isSidebarOpen){
-      return;
-    }
-    setActive(path);
   };
   return (
     <header
@@ -48,7 +44,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     <nav
       onMouseEnter={navHoverEffect}
       onMouseLeave={navHoverEffect}
-      className={`fixed w-auto h-screen bg-slate-200 z-50 ${
+      className={`fixed w-auto h-screen dark:bg-inherit light:bg-slate-200 z-50 ${
         !isNavOpen && !hover
           ? "hover:w-[300px] transition-width ease-in-out duration-300 hover:shadow-xl"
           : "min-w-[300px] hover:shadow-lg"
@@ -69,10 +65,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
           <ul className=" w-full px-2 flex flex-col gap-4 font-semibold">
             <Link href="/">
             <li
-              onClick={() => handleNavigate("/")}
+              onClick={() => setActive(pathname)}
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer  ${
                 active === "/"
-                  ? "bg-white text-primary hover:none"
+                  ? "bg-slate-300 text-primary hover:none"
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
@@ -84,10 +80,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             </Link>
             <Link href="/users">
             <li
-              onClick={() => handleNavigate("prospects")}
+              onClick={() => setActive(pathname)}
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                active === "prospects"
-                  ? "bg-white text-primary"
+                active === "/users"
+                  ? "bg-slate-300 text-primary"
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
@@ -99,10 +95,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             </Link>
             <Link href="/hotels">
             <li
-              onClick={() => handleNavigate("campaign")}
+              onClick={() => setActive(pathname)}
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                active === "campaign"
-                  ? "bg-white text-primary"
+                active === "/hotels"
+                  ? "bg-slate-300 text-primary"
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
@@ -114,9 +110,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             </Link>
             <Link href="/bookings">
             <li
-              onClick={() => handleNavigate("inbox")}
+              onClick={() => setActive(pathname)}
               className={`flex text-center items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                active === "inbox"
+                active === "/bookings"
                   ? "bg-white text-primary"
                   : "hover:bg-slate-300"
               } rounded-xl`}
@@ -130,7 +126,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
           </ul>
           <div className="absolute bottom-10 w-full px-2 font-semibold">
             <li
-              onClick={() => handleNavigate("settings")}
+              onClick={() => setActive(pathname)}
               className={`flex  items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                 active === "settings"
                   ? "bg-white text-primary"

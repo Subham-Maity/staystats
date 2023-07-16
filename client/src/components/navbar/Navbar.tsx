@@ -8,6 +8,7 @@ import { MdOutlineTipsAndUpdates, MdLogout } from "react-icons/md";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Switcher from "../mode/Switcher";
+import { ThemeProvider } from "next-themes";
 // import Breadcrumbs from "./Breadcrumbs";
 import profileImage from "../../../public/assets/avatar01.png";
 
@@ -54,8 +55,8 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
     };
   }, []);
   return (
-    <div className="flex flex-col gap-2 cursor-pointer mt-4 text-gray-600 lg:w-[65%] w-[90%]">
-      <div className="navbar flex justify-between items-center px-4 py-2 bg-white border border-sm rounded-lg">
+    <div className="flex  flex-col gap-2 cursor-pointer mt-4 text-gray-600 lg:w-[65%] w-[90%]">
+      <div className="navbar flex justify-between items-center px-4 py-2 dark:bg-blue-950 light:bg-slate-300 border border-sm rounded-lg">
         <div className="flex items-center justify-around gap-6">
           <RiMenuUnfoldFill
             size={18}
@@ -64,7 +65,9 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
             }}
             className={`block lg:hidden`}
           />
+          <ThemeProvider>
           <Switcher />
+          </ThemeProvider>
         </div>
         <div className="flex items-center justify-around gap-6">
           <BsHouseCheck size={18} />
