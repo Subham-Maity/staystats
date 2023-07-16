@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useDeferredValue, useEffect } from "react";
 import { useState } from "react";
 import { FaHome, FaRocket, FaBars } from "react-icons/fa";
@@ -66,6 +67,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
         </div>
         <div className="flex flex-col items-center justify-between h-screen w-full">
           <ul className=" w-full px-2 flex flex-col gap-4 font-semibold">
+            <Link href="/">
             <li
               onClick={() => handleNavigate("/")}
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer  ${
@@ -79,6 +81,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 Home
               </p>
             </li>
+            </Link>
+            <Link href="/users">
             <li
               onClick={() => handleNavigate("prospects")}
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
@@ -89,9 +93,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             >
               <HiUserGroup size={20} />{" "}
               <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
-                Prospects
+                Users
               </p>
             </li>
+            </Link>
+            <Link href="/hotels">
             <li
               onClick={() => handleNavigate("campaign")}
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
@@ -100,11 +106,13 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
-              <FaRocket size={20} />{" "}
+              <FaHome size={20} />{" "}
               <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
-                Campaigns
+                Hotels
               </p>
             </li>
+            </Link>
+            <Link href="/bookings">
             <li
               onClick={() => handleNavigate("inbox")}
               className={`flex text-center items-center justify-start gap-2 p-2 hover:cursor-pointer ${
@@ -115,9 +123,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             >
               <RiMailFill size={20} />{" "}
               <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
-                Inbox
+                Bookings
               </p>
             </li>
+            </Link>
           </ul>
           <div className="absolute bottom-10 w-full px-2 font-semibold">
             <li
