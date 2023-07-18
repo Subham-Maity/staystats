@@ -76,6 +76,57 @@ const Table = () => {
                     Casa Angelina
                 </td>
             </tr>
+            <tr className="light:bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                    Tuhin Bar
+                </th>
+                <td className="px-6 py-4">
+                    01700000000
+                </td>
+                <td className="px-6 py-4">
+                    traaxx@hotelbling.in
+                </td>
+                <td className="px-6 py-4">
+                    123456
+                </td>
+                <td className="px-6 py-4">
+                    Casa Angelina
+                </td>
+            </tr>
+            <tr className="light:bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                    Tuhin Bar
+                </th>
+                <td className="px-6 py-4">
+                    01700000000
+                </td>
+                <td className="px-6 py-4">
+                    traaxx@hotelbling.in
+                </td>
+                <td className="px-6 py-4">
+                    123456
+                </td>
+                <td className="px-6 py-4">
+                    Casa Angelina
+                </td>
+            </tr>
+            <tr className="light:bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                    Tuhin Bar
+                </th>
+                <td className="px-6 py-4">
+                    01700000000
+                </td>
+                <td className="px-6 py-4">
+                    traaxx@hotelbling.in
+                </td>
+                <td className="px-6 py-4">
+                    123456
+                </td>
+                <td className="px-6 py-4">
+                    Casa Angelina
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

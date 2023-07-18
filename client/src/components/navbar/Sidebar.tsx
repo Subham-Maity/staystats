@@ -14,10 +14,8 @@ interface SidebarProps {
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   const pathname = usePathname();
-  const [active, setActive] = useState("/");
   const [isNavOpen, setIsNavOpen] = useState(isSidebarOpen);
   const [hover, setHover] = useState(false);
-  console.log(active);
 
   useEffect(() => {
     setIsNavOpen(isSidebarOpen);
@@ -44,7 +42,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     <nav
       onMouseEnter={navHoverEffect}
       onMouseLeave={navHoverEffect}
-      className={`fixed w-auto h-screen dark:bg-inherit light:bg-slate-200 z-50 ${
+      className={`fixed w-auto h-screen dark:bg-inherit bg-slate-100 z-50 ${
         !isNavOpen && !hover
           ? "hover:w-[300px] transition-width ease-in-out duration-300 hover:shadow-xl"
           : "min-w-[300px] hover:shadow-lg"
@@ -65,9 +63,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
           <ul className=" w-full px-2 flex flex-col gap-4 font-semibold">
             <Link href="/">
             <li
-              onClick={() => setActive(pathname)}
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer  ${
-                active === "/"
+                pathname === "/"
                   ? "bg-slate-300 text-primary hover:none"
                   : "hover:bg-slate-300"
               } rounded-xl`}
@@ -80,9 +77,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             </Link>
             <Link href="/users">
             <li
-              onClick={() => setActive(pathname)}
+              
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                active === "/users"
+                pathname === "/users"
                   ? "bg-slate-300 text-primary"
                   : "hover:bg-slate-300"
               } rounded-xl`}
@@ -95,9 +92,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             </Link>
             <Link href="/hotels">
             <li
-              onClick={() => setActive(pathname)}
+              
               className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                active === "/hotels"
+                pathname === "/hotels"
                   ? "bg-slate-300 text-primary"
                   : "hover:bg-slate-300"
               } rounded-xl`}
@@ -110,10 +107,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             </Link>
             <Link href="/bookings">
             <li
-              onClick={() => setActive(pathname)}
+              
               className={`flex text-center items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                active === "/bookings"
-                  ? "bg-white text-primary"
+                pathname === "/bookings"
+                  ? "bg-slate-300 text-primary"
                   : "hover:bg-slate-300"
               } rounded-xl`}
             >
@@ -126,9 +123,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
           </ul>
           <div className="absolute bottom-10 w-full px-2 font-semibold">
             <li
-              onClick={() => setActive(pathname)}
+              
               className={`flex  items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                active === "settings"
+                pathname === "settings"
                   ? "bg-white text-primary"
                   : "hover:bg-slate-300"
               } rounded-xl`}
