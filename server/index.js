@@ -8,6 +8,7 @@ const cors = require("cors");
 const app = express();
 const connectDB = require("./config/dbConnection");
 const PORT = process.env.PORT || 5000;
+const checkAuth = require("./middlewares/authMiddleware")
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +20,7 @@ const hotelRoutes = require("./routes/hotelRoutes");
 const bookingRoutes = require("./routes/bookingsRoutes");
 
 app.use("/", authRoutes);
+app.use(checkAuth)
 app.use("/", userRoutes);
 app.use("/", hotelRoutes);
 app.use("/", bookingRoutes);
