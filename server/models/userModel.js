@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
     },
+    role: {
+      type: String,
+      enum: ["ADMIN", "SUBADMIN", "USER"],
+      default: "USER",
+      required: true,
+    },
   },
   { timestamps: true }
 );
