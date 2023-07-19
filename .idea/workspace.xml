@@ -4,8 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca8849c3-cf53-433f-ab70-4cbb25f0e237" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/client/src/components/mode/Switcher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/mode/Switcher.tsx" afterDir="false" />
+    <list default="true" id="c1561804-477f-4cbf-ab49-bf15bbb1b2e9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/card/InputUser.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/config/generateToken.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/middlewares/authMiddleware.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/middlewares/catchAsyncError.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/middlewares/errorMiddleware.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/ subAdminRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/adminRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/authRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/userRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/utils/errorHandler.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/utils/roleValidator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/config/dbConnection.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/hotels/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/hotels/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/users/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/users/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Table/Table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Table/Table.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/card/InputForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/InputHotel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/card/InputForm/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/InputEmp.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Sidebar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +44,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2SR3v5YFjZhgj6QCZU8veGIlYrb" />
+  <component name="ProjectId" id="2SnLewsyXjFyehPjOtBVZhFKTwi" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -28,7 +54,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "client",
+    "git-widget-placeholder": "nodenext",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -41,12 +67,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ca8849c3-cf53-433f-ab70-4cbb25f0e237" name="Changes" comment="" />
-      <created>1689095796015</created>
+      <changelist id="c1561804-477f-4cbf-ab49-bf15bbb1b2e9" name="Changes" comment="" />
+      <created>1689777497750</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1689095796015</updated>
-      <workItem from="1689095796693" duration="5852000" />
+      <updated>1689777497750</updated>
+      <workItem from="1689777499811" duration="7910000" />
     </task>
     <servers />
   </component>

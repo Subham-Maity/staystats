@@ -1,5 +1,7 @@
 import React from 'react'
 import Table from '@/components/Table/Table'
+import InputEmp from "@/components/card/InputEmp";
+
 
 const Users = () => {
   return (
@@ -9,6 +11,7 @@ const Users = () => {
 
         <Table />
         </div>
+        <InputEmp/>
     </div>
   )
 }
