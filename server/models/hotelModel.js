@@ -31,7 +31,7 @@ const hotelSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    adharNumber: {
+    aadharNumber: {
         type: String,
         required: true,
     },
