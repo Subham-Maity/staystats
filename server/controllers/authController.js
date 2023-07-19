@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('../models/userModel');
+const { User } = require('../models/userModel');
 const generateJWT = require('../config/generateToken');
 
 
@@ -44,6 +44,7 @@ const login = async (req, res) => {
         res.status(200).json({message: "Login successful", user: user, jwt: jwt});
 
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({message: error.message});
     }
 }

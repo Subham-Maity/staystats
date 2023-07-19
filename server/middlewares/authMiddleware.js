@@ -1,15 +1,15 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
+const { User } = require('../models/userModel');
 
 const checkAuth = (req, res, next) => {
-    const { authToken } = req.headers;
-    if (!authToken) {
+    const { authtoken } = req.headers;
+    if (!authtoken) {
         return res.status(401).json({
             message: "You are not authorized to access this resource"
         });
     } else{
         try {
-            const {id} = jwt.verify(authToken, process.env.JWT_SECRET);
+            const {id} = jwt.verify(authtoken, process.env.JWT_SECRET);
             const user = User.findById(id);
             if(!user) {
                 return res.status(401).json({

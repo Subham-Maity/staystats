@@ -11,38 +11,53 @@ type Props = {};
 const DefaultLayout = ({ children }: any) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const toggleSidebar = () => {
     console.log("toggle sidebar");
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     // @ts-ignore
+
     let user = JSON.parse(localStorage.getItem("user"));
-    if(!user){
-      
+    console.log("user", user);
+    if (!user) {
     }
-    if(user && user._id){
+    if (user && user._id) {
       setUser(user);
+      setLoading(false);
+    }else{
+      setLoading(false);
     }
-  }, [])
+  }, []);
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div>
       {/* @ts-ignore */}
       {user && user._id ? (
         <div className="flex">
-          <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+          <Sidebar
+            isSidebarOpen={isSidebarOpen}
+            toggleSidebar={toggleSidebar}
+          />
           <div className="flex flex-col justify-start items-center w-full">
-            <Navbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+            <Navbar
+              isSidebarOpen={isSidebarOpen}
+              toggleSidebar={toggleSidebar}
+            />
             <div className="lg:w-[65%] w-[90%]">{children}</div>
           </div>
         </div>
-      ): (<LoginForm />)}
+      ) : (
+        <LoginForm />
+      )}
     </div>
   );
-  
 };
 
 export default DefaultLayout;

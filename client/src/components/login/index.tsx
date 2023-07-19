@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import axios from "axios";
+import axios from "@/utils/axios";
+import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
@@ -28,7 +29,6 @@ const LoginForm = () => {
 
   const loginHandler = async (event: any) => {
     event.preventDefault();
-    toast.success("Login Successful");
     // @ts-ignore
     const username = usernameRef.current.value;
     // @ts-ignore
@@ -38,7 +38,19 @@ const LoginForm = () => {
       toast.error("Username and Password cannot be empty");
       return;
     }
-    let url = isSignUpPage ? `${BASE_URL}/api/signup` : `${BASE_URL}/api/login`;
+    if (
+      !validator.isStrongPassword(password, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+    ) {
+      toast.error("Password is not strong enough");
+      return;
+    }
+    let url = isSignUpPage ? `/api/signup` : `/api/login`;
 
     try {
       setLoading(true);
@@ -47,27 +59,27 @@ const LoginForm = () => {
         password,
       });
       setLoading(false);
-      console.log("response", response);
       if (response && response.user && response.user?._id) {
         // @ts-ignore
         localStorage.setItem("user", JSON.stringify(response.user));
+        localStorage.setItem("authToken", response.jwt);
+
         // @ts-ignore
-        toast.success(`Welcome ${response.data.username}`);
-        router.push("/");
+        toast.success(`Welcome ${response.user.username}`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 800);
       }
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       toast.error("Something went wrong");
+      toast.error(error.message);
+      setLoading(false);
     }
   };
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
-  if (loading) {
-    console.log("loading");
-    return <LoadingSpinner />;
-  }
 
   return (
     <div className="fade w-full h-screen flex flex-row items-center justify-center relative">
@@ -183,9 +195,11 @@ const LoginForm = () => {
               <div className="flex flex-row items-center">
                 <button
                   onClick={loginHandler}
-                  className="w-full p-2 rounded-md bg-indigo-500 text-white focus:outline-none hover:opacity-90"
+                  disabled={loading}
+                  className="w-full p-2 rounded-md bg-indigo-500 text-white focus:outline-none hover:opacity-90 disabled:opacity-60"
                 >
-                  {isSignUpPage ? "Sign Up" : "Login"}
+                  {loading && <LoadingSpinner />}
+                  {!loading && (isSignUpPage ? "Sign Up" : "Login")}
                 </button>
               </div>
             </div>
