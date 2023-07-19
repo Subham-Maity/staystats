@@ -6,8 +6,6 @@ import { FaHome, FaRocket, FaBars } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi";
 import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
-import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -23,15 +21,12 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     setIsNavOpen(isSidebarOpen);
   }, [isSidebarOpen]);
 
-
   const navHoverEffect = () => {
     if(isSidebarOpen){
-      
       return;
     }
     setHover(!hover);
   };
-
   return (
     <header
     className={`lg:block h-screen text-slate-700 max-w-[300px] z-50 ${
@@ -47,30 +42,21 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     <nav
       onMouseEnter={navHoverEffect}
       onMouseLeave={navHoverEffect}
-      className={`fixed w-auto h-screen dark:bg-blue-950 bg-slate-100 z-50 ${
+      className={`fixed w-auto h-screen dark:bg-inherit bg-slate-100 z-50 ${
         !isNavOpen && !hover
           ? "hover:w-[300px] transition-width ease-in-out duration-300 hover:shadow-xl"
           : "min-w-[300px] hover:shadow-lg"
       }`}>
-        <div className="w-full flex items-center justify-between my-4 p-4 gap-2 font-semibold h-16 text-blue-500 ">
-          
-         <div className="flex gap-2 items-center justify-center">
-
-          <MdDashboard size={20} className="" />
-
-         <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>Stay Stats</span>
-         </div>
+        <div className="w-full flex items-center justify-between my-4 p-4 gap-2 font-semibold h-16">
+          <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>Stay Stats</span>
           <span
-            className={`${!isNavOpen && !hover && "hidden"} cursor-pointer`}
+            className="cursor-pointer"
             onClick={() => {
               console.log("toggle sidebar");
-              console.log("navopen hai kya?", isNavOpen)
               toggleSidebar();
             }}
           >
-            {/* {isNavOpen && (<FaRegDotCircle size={20} />)}
-            {!isNavOpen && (<FaRegCircle size={20} />)} */}
-            { (isSidebarOpen && !isNavOpen) ? <FaRegDotCircle size={20} /> : <FaRegCircle size={20} /> }
+            <FaBars size={20} />
           </span>
         </div>
         <div className="flex flex-col items-center justify-between h-screen w-full">
