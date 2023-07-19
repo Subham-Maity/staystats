@@ -96,7 +96,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
                   duration: 0.4,
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
-                className="absolute right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg py-2 w-[200px]"
+                className="absolute right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg py-2 w-[200px] z-50"
               >
                 <div className="flex items-center gap-4 px-4 py-2">
                   <Image

@@ -3,8 +3,8 @@ import React from 'react'
 const Table = () => {
   return (
     
-<div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table className="w-full border-white border-2 text-sm text-left text-gray-500 light:bg-white light:bg-white dark:bg-inherit  dark:text-gray-400">
+<div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
+    <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
         <thead className="text-xs text-gray-400 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
@@ -25,7 +25,7 @@ const Table = () => {
             </tr>
         </thead>
         <tbody className='rounded-xl'>
-            <tr className="light:bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white">
                     Tuhin Bar
                 </th>
