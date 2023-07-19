@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 // dotenv.config({ path: "prod.env" });
-dotenv.config({ path: 'dev.env' });
+dotenv.config({ path: "dev.env" });
 console.log("ENV : ", process.env.NODE_ENV);
 
 const express = require("express");
@@ -20,5 +20,6 @@ app.get("/", (req, res) => {
       });
     })
     .catch((err) => {
+        console.log("Error: ", err);
       throw new Error(err);
     }))();
