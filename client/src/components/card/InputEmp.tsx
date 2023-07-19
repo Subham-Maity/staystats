@@ -3,9 +3,11 @@ import axios from "@/utils/axios";
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
-type Props = {};
+interface Props {
+  setUserData: (users: any) => void;
+}
 
-const InputEmp = (props: Props) => {
+const InputEmp = ({ setUserData }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,24 +28,33 @@ const InputEmp = (props: Props) => {
 
     try {
       setLoading(true);
-      const { data } = await axios.post("/users/create-user", {
+      const { data } = await axios.post("/user/create-user", {
         name: formValues.first_name,
         username: formValues.email.split("@")[0],
-        phone: formValues.phone,
+        phoneNumber: formValues.phone,
         email: formValues.email,
         password: formValues.password,
         hotel: formValues.hotel,
         role: "SUBADMIN",
       });
-      setLoading(false);
       if (!data.error) {
+        // const { data } = await axios.post("/user/get-users");
+        if (!data.error) {
+          setUserData((prev: any)=>{
+            return [...prev, data.user]
+          });
+        } else {
+          toast.error(data.error);
+        }
         toast.success(data.message);
         formRef.current?.reset();
       } else {
         toast.error(data.error);
       }
+      setLoading(false);
     } catch (error: any) {
       setLoading(false);
+      console.log(error);
       toast.error(error.message);
     }
   };
