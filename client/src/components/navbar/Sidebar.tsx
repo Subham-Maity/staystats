@@ -70,7 +70,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             >
             {/* {isNavOpen && (<FaRegDotCircle size={20} />)}
             {!isNavOpen && (<FaRegCircle size={20} />)} */}
-              { (isSidebarOpen && !isNavOpen) ? <FaRegDotCircle size={20} /> : <FaRegCircle size={20} /> }
+              {/* { (isSidebarOpen && !isNavOpen) ? <FaRegDotCircle size={20} /> : <FaRegCircle size={20} /> } */}
+              <FaRegDotCircle size={20} />
           </span>
           </div>
           <div className="flex flex-col items-center justify-between h-screen w-full">
