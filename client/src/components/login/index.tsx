@@ -69,6 +69,8 @@ const LoginForm = () => {
         setTimeout(() => {
           window.location.reload();
         }, 800);
+      } else if (response.message) {
+        toast.error(response.message);
       }
       setLoading(false);
     } catch (error: any) {

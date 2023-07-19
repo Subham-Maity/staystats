@@ -29,6 +29,8 @@ const userSchema = new mongoose.Schema(
       default: "USER",
       required: true,
     },
+    addedBy: {type: Schema.Types.ObjectId, ref: "user"},
+    hotel: {type: String}
   },
   { timestamps: true }
 );

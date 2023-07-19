@@ -30,13 +30,15 @@ const login = async (req, res) => {
         const user = await User.findOne({username: username});
 
         if(!user) {
-            res.status(404).json({message: "User not found"});
+            res.status(201).json({message: "User not found"});
+            return;
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
         if(!isPasswordCorrect) {
-            res.status(400).json({message: "Invalid credentials"});
+            res.status(200).json({message: "Invalid credentials"});
+            return;
         }
 
         const jwt = generateJWT(user._id);
