@@ -1,3 +1,7 @@
+const { User } = require('../models/userModel');
+const bcrypt = require('bcryptjs');
+
+
 const getUsers = (req, res) => {
   // Some logic to get the user
   try {
@@ -15,8 +19,31 @@ const getUsers = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  // Some logic to create the user
-};
+    const { name, username, password,phoneNumber,role,hotel } = req.body;
+
+    try {
+
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword = bcrypt.hashSync(password, salt);
+
+        const newUser = User.create({
+            name,
+            username,
+            password: hashedPassword,
+            phoneNumber,
+            role,
+
+        });
+
+        res.status(200).json({ message: "User created successfully", user: newUser });
+
+
+        
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        
+    }
+}
 
 const updateUser = (req, res) => {
   // Some logic to update the user
