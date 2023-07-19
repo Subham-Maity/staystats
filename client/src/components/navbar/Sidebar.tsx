@@ -24,12 +24,16 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   }, [isSidebarOpen]);
 
 
-  const navHoverEffect = () => {
+  const navHoverEffectEnter = () => {
     if(isSidebarOpen){
 
       return;
     }
-    setHover(!hover);
+    setHover(true);
+  };
+
+  const navHoverEffectOut = () => {
+    setHover(false)
   };
 
   return (
@@ -45,8 +49,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             />
         )}
         <nav
-            onMouseEnter={navHoverEffect}
-            onMouseLeave={navHoverEffect}
+            onMouseEnter={navHoverEffectEnter}
+            onMouseLeave={navHoverEffectOut}
             className={`fixed w-auto h-screen dark:bg-blue-950 bg-slate-100 z-50 ${
                 !isNavOpen && !hover
                     ? "hover:w-[300px] transition-width ease-in-out duration-300 hover:shadow-xl"
