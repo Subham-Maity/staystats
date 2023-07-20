@@ -23,11 +23,13 @@ export default function RootLayout({
     
   return (
       <html lang="en">
-      <body className={`${inter.className} dark:bg-[#25293c]`}>
       <Providers>
+      <body className={`${inter.className} dark:bg-[#25293c]`}>
+
           <DefaultLayout>{children}</DefaultLayout>
-      </Providers>
+
       </body>
+      </Providers>
     </html>
   );
 }
