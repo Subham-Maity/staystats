@@ -140,21 +140,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 </li>
               </Link>
             </ul>
-            <div className="absolute bottom-10 w-full px-2 font-semibold">
-              <li
-
-                  className={`flex  items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                      pathname === "settings"
-                          ? "bg-white text-primary"
-                          : "hover:bg-slate-300"
-                  } rounded-xl`}
-              >
-                <RiSettings5Fill size={20} />{" "}
-                <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
-                  Settings
-                </p>
-              </li>
-            </div>
           </div>
         </nav>
       </header>

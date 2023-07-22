@@ -1,13 +1,15 @@
 "use client";
 import axios from "@/utils/axios";
 import React, { useState, useEffect, useRef } from "react";
+import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 interface Props {
   setUserData: (users: any) => void;
+  onClose: (value : boolean) => void;
 }
 
-const InputEmp = ({ setUserData }: Props) => {
+const InputEmp = ({ setUserData,onClose }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -64,6 +66,7 @@ const InputEmp = ({ setUserData }: Props) => {
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
       onSubmit={handleSubmit}
     >
+      <FaTimes onClick={()=>onClose(false)} className="ml-auto cursor-pointer" />
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
           <label

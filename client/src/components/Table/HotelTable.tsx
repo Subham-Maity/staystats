@@ -2,17 +2,20 @@
 import React, { useEffect, useState } from "react";
 import { MdWarningAmber } from "react-icons/md";
 interface TableProps {
-  userData: {
+  hotelData: {
 
-    name?: string;
-    phone?: string;
-    email?: string;
-    hotel?: string;
+    hotelName?: string;
+    ownerName?: string;
+    location?: string;
+    ownerContact?: {
+        email?: string;
+    };
+    frontOfficeContact?: string;
   }[];
 }
 
-const Table = ({ userData }: TableProps) => {
-  console.log(userData, "userdata")
+const HotelTable = ({ hotelData }: TableProps) => {
+    console.log(hotelData, "userdata")
 
   return (
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
@@ -21,34 +24,34 @@ const Table = ({ userData }: TableProps) => {
           <thead className="text-xs text-gray-400 uppercase dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Name
+              Hotel Name
             </th>
             <th scope="col" className="px-6 py-3">
-              Phone
+              Owner Name
             </th>
             <th scope="col" className="px-6 py-3">
-              Email
+              Location
             </th>
-            {/* <th scope="col" className="px-6 py-3">
-              Password
-            </th> */}
             <th scope="col" className="px-6 py-3">
-              Hotel
+              Onwer Email
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Office Contact
             </th>
           </tr>
           </thead>
           <tbody className="rounded-xl">
-          {userData.length === 0 && (
+          {hotelData.length === 0 && (
               <tr
                   className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <MdWarningAmber className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </tr>
           )}
-          {userData.length > 0 && (
+          {hotelData.length > 0 && (
               <>
-                {userData.map((user: any, index: number) => {
-                  console.log(user.name);
+                {hotelData.map((hotel: any, index: number) => {
+                //   console.log(hotel.hotelName);
 
                   return (
                       <tr
@@ -59,12 +62,12 @@ const Table = ({ userData }: TableProps) => {
                             scope="row"
                             className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         >
-                          {user.name || ""}
+                          {hotel.hotelName || ""}
                         </th>
-                        <td className="px-6 py-4">{user.phoneNumber || ""}</td>
-                        <td className="px-6 py-4">{user.email || ""}</td>
-                        {/* <td className="px-6 py-4"></td> */}
-                        <td className="px-6 py-4">{user.hotel || ""}</td>
+                        <td className="px-6 py-4">{hotel.ownerName || ""}</td>
+                        <td className="px-6 py-4">{hotel.location || ""}</td>
+                        <td className="px-6 py-4">{hotel.ownerContact.email || ""}</td>
+                        <td className="px-6 py-4">{hotel.frontOfficeContact}</td>
                       </tr>
                   )
                 })}
@@ -76,4 +79,4 @@ const Table = ({ userData }: TableProps) => {
   );
 };
 
-export default Table;
+export default HotelTable;
