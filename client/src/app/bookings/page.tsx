@@ -1,5 +1,6 @@
 import React from 'react'
 import Table from '@/components/Table/Table'
+import InputBooking from "@/components/card/inputBooking";
 
 const Bookings = () => {
   const userData = [
@@ -23,7 +24,9 @@ const Bookings = () => {
     <div className='flex w-full'>
 
     <Table userData={userData} />
+
     </div>
+      <InputBooking/>
 </div>
   )
 }
