@@ -45,6 +45,7 @@ const InputEmp = ({ setUserData,onClose }: Props) => {
           setUserData((prev: any)=>{
             return [...prev, data.user]
           });
+          onClose(false);
         } else {
           toast.error(data.error);
         }
