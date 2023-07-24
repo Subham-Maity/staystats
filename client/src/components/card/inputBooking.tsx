@@ -1,7 +1,16 @@
-"use client"
-import React, {useState} from "react";
+import {FaTimes} from "react-icons/fa";
 
-const InputBooking = () => {
+interface BookingProps {
+    setBookingData: (users: any) => void;
+    onClose: (value: boolean) => void;
+}
+
+import { toast } from "react-toastify";
+import axios from "@/utils/axios";
+import React, { useState, useEffect, useRef } from "react";
+const InputBooking = ({ setBookingData, onClose }: BookingProps) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const formRef = useRef<HTMLFormElement>(null);
     const [bookingAmount, setBookingAmount] = useState<string>("");
     const [advanceAmount, setAdvanceAmount] = useState<string>("");
     const [dueAmount, setDueAmount] = useState<string>("");
@@ -32,23 +41,84 @@ const InputBooking = () => {
             setDueAmount("");
         }
     };
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+        const formValues: { [key: string]: string } = {};
+
+        // Collect all the form field values
+        formData.forEach((value, key) => {
+            formValues[key] = value as string;
+            if (formValues[key].trim() === "") {
+                toast.error("Please fill all the fields");
+                return;
+            }
+        });
+        console.log(formValues);
+        try {
+            setLoading(true);
+            const { data } = await axios.post("/booking/create-booking", {
+                hotel:formValues.hotel,
+                guestName: formValues.guest_name,
+                checkInDate: formValues.startDate,
+                checkOutDate: formValues.endDate,
+                roomCategory: formValues.roomCategory,
+                numberOfRooms: formValues.nor,
+                numberOfPersons: formValues.nop,
+                bookingAmount: formValues.bookingAmount,
+                advanceAmount: formValues.advanceAmount,
+                dueAmount: formValues.dueamount,
+                advanceDate: formValues.Advancedate,
+                bookingSource: formValues.paymentby,
+                bookingBy: formValues.bb,
+                plan: formValues.plan,
+                contactNumber: formValues.cn,
+                remarks: formValues.remark,
+            });
+            if (!data.error) {
+
+                console.log(data.hotel)
+                setBookingData((prev: any)=>{
+                    return  [...prev, data.hotel]
+                });
+
+                onClose(false)
+
+                toast.success(data.message);
+                formRef.current?.reset();
+            } else {
+                toast.error(data.error);
+            }
+            setLoading(false);
+        } catch (error: any) {
+            setLoading(false);
+            console.log(error);
+            toast.error(error.message);
+        }
+    };
 
     return (
         <form
+            onSubmit={handleSubmit}
             className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
         >
+            <FaTimes
+                onClick={() => onClose(false)}
+                className="ml-auto cursor-pointer"
+            />
             <div className="grid gap-6 mb-6 md:grid-cols-3">
                 <div>
                     <label htmlFor="first_name"
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hotel Name</label>
-                    <input type="text" id="hotel_name"
+                    <input type="text" id="hotel_name" name="hotel_name"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Ex: Digha Saikatabas" required/>
                 </div>
                 <div>
                     <label htmlFor="first_name"
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Guest Name</label>
-                    <input type="text" id="guest_name"
+                    <input type="text" id="guest_name" name="guest_name"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Ex: Subham" required/>
                 </div>
@@ -72,11 +142,11 @@ const InputBooking = () => {
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="09.09.2023" required/>
                 </div>
-                <div><label htmlFor="paymentby"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Room
-                    Category</label>
-                    <select id="paymentby"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div><label htmlFor="roomCategory"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Room Category</label>
+                    <select name="roomCategory"
+                        id="paymentby" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                         <option selected>Executive Double Room</option>
                         <option value="US">Superior Double Room</option>
                         <option value="CA">Premium Quad Triple</option>
@@ -86,14 +156,14 @@ const InputBooking = () => {
                     <label htmlFor="nor"
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of
                         Room</label>
-                    <input type="text" id="nor"
+                    <input type="text" id="nor" name="nor"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="20" required/>
                 </div>
                 <div>
                     <label htmlFor="nop" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number
                         of Person</label>
-                    <input type="number" id="nop"
+                    <input type="number" id="nop" name="nop"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="4" required/>
                 </div>
@@ -104,7 +174,7 @@ const InputBooking = () => {
                     >
                         Booking Amount
                     </label>
-                    <input
+                    <input name="bookingAmount"
                         type="number"
                         id="bookingAmount"
                         value={bookingAmount}
@@ -121,7 +191,7 @@ const InputBooking = () => {
                     >
                         Advance Amount
                     </label>
-                    <input
+                    <input name="advanceAmount"
                         type="number"
                         id="advanceAmount"
                         value={advanceAmount}
@@ -138,7 +208,7 @@ const InputBooking = () => {
                     >
                         Due Amount
                     </label>
-                    <input
+                    <input name="dueamount"
                         id="duedate"
                         type="text"
                         value={dueAmount}
@@ -152,7 +222,7 @@ const InputBooking = () => {
                     <label htmlFor="ad" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Advance
                         Date</label>
                     <input id="Advancedate"
-                           name="endDate"
+                           name="Advancedate"
                            type="datetime-local"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="24.05.26" required/>
@@ -160,7 +230,7 @@ const InputBooking = () => {
                 <div><label htmlFor="paymentby"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Booking
                     Source</label>
-                    <select id="paymentby"
+                    <select id="paymentby" name="paymentby"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option selected>Choose</option>
                         <option value="US">Booking.com</option>
@@ -178,7 +248,7 @@ const InputBooking = () => {
                 <div className="mb-6">
                     <label htmlFor="bb" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Booking
                         By</label>
-                    <input type="text" id="bb"
+                    <input type="text" id="bb" name="bb"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Someone" required/>
                 </div>
@@ -195,7 +265,7 @@ const InputBooking = () => {
                 <div className="mb-6">
                     <label htmlFor="cn" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
                         Number</label>
-                    <input type="number" id="cn"
+                    <input type="number" id="cn" name="cn"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="+91 999999999" required/>
                 </div>
@@ -204,7 +274,7 @@ const InputBooking = () => {
                 <div className="mb-6">
                     <label htmlFor="remark"
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remarks</label>
-                    <input type="text" id="remark"
+                    <input type="text" id="remark" name="remark"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Very Good" required/>
                 </div>
