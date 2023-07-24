@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/card/inputBooking.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/postcss.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/postcss.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/bookings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/bookings/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/bookingsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/bookingsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/hotelModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/hotelModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/bookingsRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/bookingsRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +58,8 @@
       <workItem from="1689866828021" duration="930000" />
       <workItem from="1690035310894" duration="3352000" />
       <workItem from="1690039101499" duration="364000" />
-      <workItem from="1690039483400" duration="8340000" />
+      <workItem from="1690039483400" duration="9129000" />
+      <workItem from="1690178623732" duration="890000" />
     </task>
     <servers />
   </component>
