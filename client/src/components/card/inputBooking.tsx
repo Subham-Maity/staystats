@@ -89,15 +89,15 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         dueAmount: formValues.dueamount,
         advanceDate: formValues.Advancedate,
         bookingSource: formValues.paymentby,
-        bookingBy: formValues.bb,
+        bookingBy: user.name || user.username,
         plan: formValues.plan,
         contactNumber: formValues.cn,
         remarks: formValues.remark,
       });
       if (!data.error) {
-        console.log(data.hotel);
+        console.log(data.booking);
         setBookingData((prev: any) => {
-          return [...prev, data.hotel];
+          return [...prev, data.booking];
         });
 
         onClose(false);
@@ -343,7 +343,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="paymentby"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected>Choose</option>
+            <option defaultValue="choose">Choose</option>
             <option value="US">Booking.com</option>
             <option value="CA">Agoda</option>
             <option value="FR">Cleartrip</option>
@@ -370,7 +370,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Someone"
             disabled
-            value={user.name || user.username || "admin"}
+            defaultValue={user.name || user.username || "admin"}
             required
           />
         </div>

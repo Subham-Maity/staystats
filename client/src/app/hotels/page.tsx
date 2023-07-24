@@ -5,7 +5,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import InputHotel from "@/components/card/InputHotel";
 import axios from '@/utils/axios';
 import { FaPlus } from 'react-icons/fa';
+import { fetchOwner } from '@/utils';
+import { useRouter } from 'next/navigation';
+
 const Hotels = () => {
+    const router = useRouter()
     const [showModal, setShowModal] = useState<boolean>(false);
     const [hotelData, setHotelData] = useState<any>([]);
     const [user,setUser] = useState<any>({});
@@ -15,10 +19,21 @@ const Hotels = () => {
 
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user") || "{}");
-        setUser(user);
-        setAccountType(user?.role);
-      }, []);
+      let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
+      let updateUser = async () => {
+        const user = await fetchOwner(userId);
+        if (user && user._id) {
+          setUser(user);
+          localStorage.setItem("user", JSON.stringify(user));
+          setAccountType(user?.role);
+        } else {
+          toast.error("You are not authorized to view this page");
+          localStorage.removeItem("user");
+          router.replace("/login");
+        }
+      };
+      updateUser();
+    }, []);
     
       useEffect(() => {
         const getUsers = async () => {

@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "@/utils/axios";
 import { FaPlus } from "react-icons/fa";
+import { fetchOwner } from "@/utils";
 
 const Users = () => {
   let router = useRouter();
@@ -16,13 +17,20 @@ const Users = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    if(user.role !== "ADMIN"){
-      toast.error("You are not authorized to view this page");
-      router.replace("/bookings")
-    }
-    setUser(user);
-    setAccountType(user?.role);
+    let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
+    let updateUser = async () => {
+      const user = await fetchOwner(userId);
+      if (user && user._id) {
+        setUser(user);
+        localStorage.setItem("user", JSON.stringify(user));
+        setAccountType(user?.role);
+      } else {
+        toast.error("You are not authorized to view this page");
+        localStorage.removeItem("user");
+        router.replace("/login");
+      }
+    };
+    updateUser();
   }, []);
 
   useEffect(() => {

@@ -24,7 +24,7 @@ const getAllBookings = async (req, res) => {
     console.time("get bookings");
 
     // Fetch all bookings
-    const bookings = await Booking.find();
+    const bookings = await Booking.find().populate('hotel');
 
     console.timeEnd("get bookings");
 

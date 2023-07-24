@@ -24,6 +24,7 @@ interface TableProps {
 }
 
 const BookingTable = ({ bookingData }: TableProps) => {
+    console.log(bookingData)
     return (
         <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
             <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
@@ -41,7 +42,7 @@ const BookingTable = ({ bookingData }: TableProps) => {
                     <th scope="col" className="px-6 py-3">
                         Check-out Date
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    {/* <th scope="col" className="px-6 py-3">
                         Room Category
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -76,7 +77,7 @@ const BookingTable = ({ bookingData }: TableProps) => {
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Remarks
-                    </th>
+                    </th> */}
                 </tr>
                 </thead>
                 <tbody className="rounded-xl">
@@ -99,12 +100,12 @@ const BookingTable = ({ bookingData }: TableProps) => {
                                         scope="row"
                                         className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                                     >
-                                        {booking.hotelName || ""}
+                                        {booking.hotel.hotelName || ""}
                                     </th>
                                     <td className="px-6 py-4">{booking.guestName || ""}</td>
-                                    <td className="px-6 py-4">{booking.checkInDate || ""}</td>
-                                    <td className="px-6 py-4">{booking.checkOutDate || ""}</td>
-                                    <td className="px-6 py-4">{booking.roomCategory || ""}</td>
+                                    <td className="px-6 py-4">{new Date(booking.checkInDate).toLocaleDateString() || ""}</td>
+                                    <td className="px-6 py-4">{new Date(booking.checkOutDate).toLocaleDateString() || ""}</td>
+                                    {/* <td className="px-6 py-4">{booking.roomCategory || ""}</td>
                                     <td className="px-6 py-4">{booking.numberOfRoom || ""}</td>
                                     <td className="px-6 py-4">{booking.numberOfPerson || ""}</td>
                                     <td className="px-6 py-4">{booking.bookingAmount || ""}</td>
@@ -115,7 +116,7 @@ const BookingTable = ({ bookingData }: TableProps) => {
                                     <td className="px-6 py-4">{booking.bookingBy || ""}</td>
                                     <td className="px-6 py-4">{booking.plan || ""}</td>
                                     <td className="px-6 py-4">{booking.contactNumber || ""}</td>
-                                    <td className="px-6 py-4">{booking.remarks || ""}</td>
+                                    <td className="px-6 py-4">{booking.remarks || ""}</td> */}
                                 </tr>
                             );
                         })}

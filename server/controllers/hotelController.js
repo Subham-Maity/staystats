@@ -1,4 +1,5 @@
 const { Hotel } = require("../models/hotelModel");
+const { User } = require("../models/userModel");
 
 const getHotel = async (req, res) => {
   const { hotelId } = req.body;
@@ -65,6 +66,10 @@ const getAllHotels = async (req, res) => {
 };
 
 const createHotel = async (req, res) => {
+  if(req.user.role !== "ADMIN") {
+    res.status(201).json({ error: "You are not authorized to create a hotel" });
+    return;
+  }
   const {
     hotelName,
     location,
@@ -97,6 +102,9 @@ const createHotel = async (req, res) => {
       res.status(201).json({ message: "Hotel not created", hotel: {} });
       return;
     }
+    await User.findByIdAndUpdate(req.user._id,{
+      $push: { hotel: newHotel._id }
+    })
     res
       .status(200)
       .json({ message: "Hotel created successfully", hotel: newHotel });
