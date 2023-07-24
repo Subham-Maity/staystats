@@ -27,7 +27,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         return;
       }
     });
-    console.log(formValues);
+    // console.log(formValues);
 
     try {
       setLoading(true);

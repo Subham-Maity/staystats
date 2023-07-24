@@ -1,17 +1,46 @@
 "use client";
 import axios from "@/utils/axios";
+import Select from "react-select";
 import React, { useState, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 interface Props {
   setUserData: (users: any) => void;
-  onClose: (value : boolean) => void;
+  onClose: (value: boolean) => void;
 }
 
-const InputEmp = ({ setUserData,onClose }: Props) => {
+const InputEmp = ({ setUserData, onClose }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [availableHotels, setAvailableHotels] = useState<any>([]);
+  const [selectedHotels, setSelectedHotels] = useState<any>([]);
+
+  const [reactSelectOptions, setReactSelectOptions] = useState<any>([]);
+
+  useEffect(() => {
+    const getHotels = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get("/hotel/get-all-hotels");
+        if (!data.error) {
+          setAvailableHotels(data.hotels);
+          let options = data.hotels.map((hotel: any) => {
+            return { value: hotel._id, label: hotel.hotelName };
+          });
+          setReactSelectOptions(options);
+        } else {
+          // toast.error(data.error);
+        }
+        setLoading(false);
+      } catch (error: any) {
+        setLoading(false);
+        toast.error(error.message);
+        console.log(error);
+      }
+    };
+    getHotels();
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,14 +65,14 @@ const InputEmp = ({ setUserData,onClose }: Props) => {
         phoneNumber: formValues.phone,
         email: formValues.email,
         password: formValues.password,
-        hotel: formValues.hotel,
+        hotel: selectedHotels.map((hotel: any) => hotel.value),
         role: "SUBADMIN",
       });
       if (!data.error) {
         // const { data } = await axios.post("/user/get-users");
         if (!data.error) {
-          setUserData((prev: any)=>{
-            return [...prev, data.user]
+          setUserData((prev: any) => {
+            return [...prev, data.user];
           });
           onClose(false);
         } else {
@@ -61,13 +90,21 @@ const InputEmp = ({ setUserData,onClose }: Props) => {
       toast.error(error.message);
     }
   };
+
+  const handleHotelSelection = (selectedOptions: any) => {
+    setSelectedHotels(selectedOptions);
+  };
+
   return (
     <form
       ref={formRef}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
       onSubmit={handleSubmit}
     >
-      <FaTimes onClick={()=>onClose(false)} className="ml-auto cursor-pointer" />
+      <FaTimes
+        onClick={() => onClose(false)}
+        className="ml-auto cursor-pointer"
+      />
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
           <label
@@ -99,6 +136,7 @@ const InputEmp = ({ setUserData,onClose }: Props) => {
             id="phone"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="+91 999999999"
+            // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             required
           />
         </div>
@@ -136,27 +174,34 @@ const InputEmp = ({ setUserData,onClose }: Props) => {
           />
         </div>
 
-        <div className="mb-6">
+        <div className="w-[340px]">
           <label
-            htmlFor="email"
+            htmlFor="hotel"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Hotel
+            Hotel Name
           </label>
-          <input
-            type="text"
+          <Select
+            id="hotel"
             name="hotel"
-            id="Hotel"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Hotel Digha"
-            required
+            options={reactSelectOptions}
+            isMulti
+            value={selectedHotels}
+            onChange={handleHotelSelection}
+            className="w-full"
           />
+          {availableHotels.length === 0 && (
+            <div className="text-xs text-red-600 font-medium">
+              No Hotels Available*
+            </div>
+          )}
         </div>
       </div>
 
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        disabled={loading || availableHotels.length === 0 || selectedHotels.length === 0}
       >
         Submit
       </button>

@@ -32,9 +32,13 @@ const Table = ({ userData }: TableProps) => {
             {/* <th scope="col" className="px-6 py-3">
               Password
             </th> */}
-            <th scope="col" className="px-6 py-3">
+            {/* <th scope="col" className="px-6 py-3">
               Hotel
+            </th> */}
+            <th scope="col" className="px-6 py-3">
+              Role
             </th>
+            
           </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -64,7 +68,8 @@ const Table = ({ userData }: TableProps) => {
                         <td className="px-6 py-4">{user.phoneNumber || ""}</td>
                         <td className="px-6 py-4">{user.email || ""}</td>
                         {/* <td className="px-6 py-4"></td> */}
-                        <td className="px-6 py-4">{user.hotel || ""}</td>
+                        {/* <td className="px-6 py-4">{user.hotel || ""}</td> */}
+                        <td className="px-6 py-4">{user.role || ""}</td>
                       </tr>
                   )
                 })}

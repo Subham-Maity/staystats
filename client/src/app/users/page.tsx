@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Table from "@/components/Table/Table";
 import InputEmp from "@/components/card/InputEmp";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,6 +9,7 @@ import axios from "@/utils/axios";
 import { FaPlus } from "react-icons/fa";
 
 const Users = () => {
+  let router = useRouter();
   const [user, setUser] = useState<any>({});
   const [accountType, setAccountType] = useState<string>("");
   const [userData, setUserData] = useState<any>([]);
@@ -15,6 +17,10 @@ const Users = () => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if(user.role !== "ADMIN"){
+      toast.error("You are not authorized to view this page");
+      router.replace("/bookings")
+    }
     setUser(user);
     setAccountType(user?.role);
   }, []);

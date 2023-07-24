@@ -1,5 +1,27 @@
 const { User } = require("../models/userModel");
+const { Hotel } = require("../models/hotelModel");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
+
+const getUser = async (req, res) => {
+  try {
+    console.log("getUser");
+    const user = await User.findById(req.body.id).populate({path: "hotel", model: Hotel});
+    if (!user) {
+      res.status(200).json({ error: "No user found", user: {} });
+      return;
+    } else {
+      res.status(200).json({ user });
+      return;
+    }
+  } catch (error) {
+    console.log("Error: ", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
 
 const getUsers = async (req, res) => {
   // Some logic to get the user
@@ -22,13 +44,12 @@ const getUsers = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { name, username, password, email, phoneNumber, role, hotel } =
-    req.body;
+  let { name, username, password, email, phoneNumber, role, hotel } = req.body;
 
   try {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
-
+    hotelIds = hotel.map((hotelId) => new ObjectId(hotelId));
     const newUser = await User.create({
       name,
       username,
@@ -36,7 +57,7 @@ const createUser = async (req, res) => {
       phoneNumber,
       email,
       role,
-      hotel,
+      hotel: hotelIds,
       addedBy: req.user._id,
     });
 
@@ -44,6 +65,7 @@ const createUser = async (req, res) => {
       .status(200)
       .json({ message: "User created successfully", user: newUser });
   } catch (error) {
+    console.log("[user controller error:]", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -57,6 +79,7 @@ const deleteUser = (req, res) => {
 };
 
 module.exports = {
+  getUser,
   getUsers,
   createUser,
   updateUser,

@@ -22,6 +22,7 @@ const getHotel = async (req, res) => {
 const getAllHotels = async (req, res) => {
   try {
     console.time("get hotels");
+    console.log("[getAllHotels] controller: =====>");
 
     // Extract filters from req.query
     const { sortBy, sortOrder, location, addedByMe } = req.query;

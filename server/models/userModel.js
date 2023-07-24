@@ -29,8 +29,9 @@ const userSchema = new mongoose.Schema(
       default: "USER",
       required: true,
     },
-    addedBy: {type: Schema.Types.ObjectId, ref: "user"},
-    hotel: {type: String}
+    addedBy: {type: Schema.Types.ObjectId, ref: "User"},
+    hotel: [{ type: Schema.Types.ObjectId, ref: "Hotel" }]
+
   },
   { timestamps: true }
 );
