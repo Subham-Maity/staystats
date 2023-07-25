@@ -27,7 +27,7 @@ const Table = ({
 }: TableProps) => {
   console.log(userData, "userdata");
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [editingUserId, setEditingUserId] = useState<string>("");
+  const [editingUserData, setEditingUserData] = useState<object>({});
 
   return (
     <div className="w-full">
@@ -92,7 +92,7 @@ const Table = ({
                             data-tip={"Preview Link"}
                             onClick= {()=>{
                               setShowEditModal(true)
-                              setEditingUserId(user._id)
+                              setEditingUserData(user)
                             }}
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                           >
@@ -116,12 +116,12 @@ const Table = ({
           </tbody>
         </table>
       </div>
-      {showEditModal && editingUserId && (
+      {showEditModal && editingUserData && (
         <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
           <EditUser
             onClose={(value) => setShowEditModal(value)}
             setUserData={setUserData}
-            editingUserId={editingUserId}
+            editingUserDataProps={editingUserData}
             userData={userData}
           />
         </div>

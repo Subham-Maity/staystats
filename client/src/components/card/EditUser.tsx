@@ -8,11 +8,16 @@ import { toast } from "react-toastify";
 interface Props {
   setUserData: (users: any) => void;
   onClose: (value: boolean) => void;
-  editingUserId: string;
+  editingUserDataProps: any;
   userData: any;
 }
 
-const EditUser = ({ setUserData, onClose, editingUserId, userData }: Props) => {
+const EditUser = ({
+  setUserData,
+  onClose,
+  editingUserDataProps,
+  userData,
+}: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [availableHotels, setAvailableHotels] = useState<any>([]);
@@ -32,21 +37,14 @@ const EditUser = ({ setUserData, onClose, editingUserId, userData }: Props) => {
             return { value: hotel._id, label: hotel.hotelName };
           });
           setReactSelectOptions(options);
-          const { data: userData } = await axios.post(`/user/fetch-user`, {
-            id: editingUserId,
-          });
-          if (!data.error) {
-            setEditingUserData(userData.user);
-            setSelectedHotels(
-              userData.user.hotel.map((hotel: any) => {
-                return { value: hotel._id, label: hotel.hotelName };
-              })
-            );
-          } else {
-            toast.error(data.error);
-          }
+          setEditingUserData(editingUserDataProps);
+          setSelectedHotels(
+            editingUserDataProps.hotel.map((hotel: any) => {
+              return { value: hotel._id, label: hotel.hotelName };
+            })
+          );
         } else {
-          // toast.error(data.error);
+          toast.error(data.error);
         }
         setLoading(false);
       } catch (error: any) {
@@ -56,7 +54,7 @@ const EditUser = ({ setUserData, onClose, editingUserId, userData }: Props) => {
       }
     };
     getHotelsAndUser();
-  }, []);
+  }, [editingUserDataProps]);
 
   const handleUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,7 +74,7 @@ const EditUser = ({ setUserData, onClose, editingUserId, userData }: Props) => {
     try {
       setLoading(true);
       const { data } = await axios.post("/user/update-user", {
-        id: editingUserId,
+        id: editingUserData._id,
         // name: formValues.first_name,
         // username: formValues.email.split("@")[0],
         phoneNumber: formValues.phone,
@@ -88,7 +86,7 @@ const EditUser = ({ setUserData, onClose, editingUserId, userData }: Props) => {
       if (!data.error) {
         // const { data } = await axios.post("/user/get-users");
         const userIndex = userData.findIndex(
-          (user: any) => user._id === editingUserId
+          (user: any) => user._id === editingUserDataProps._id
         );
 
         // If the user is found in the array, replace the data at that index

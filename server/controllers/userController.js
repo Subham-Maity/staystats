@@ -30,7 +30,7 @@ const getUsers = async (req, res) => {
   // Some logic to get the user
   try {
     console.log("getUsers");
-    const users = await User.find({ role: "SUBADMIN" });
+    const users = await User.find({ role: "SUBADMIN" }).populate({ path: 'hotel', model: Hotel });
     if (!users) {
       res.status(200).json({ error: "No users found", users: [] });
       return;
