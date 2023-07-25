@@ -99,7 +99,7 @@ const Table = ({
                             <FiEdit className="" />
                           </button>
                           <button
-                            disabled={user.addedBy !== owner._id}
+                            // disabled={user.addedBy !== owner._id}
                             data-tip={"Delete User"}
                             onClick={() => deleteUserHandler(user._id)}
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
@@ -122,6 +122,7 @@ const Table = ({
             onClose={(value) => setShowEditModal(value)}
             setUserData={setUserData}
             editingUserId={editingUserId}
+            userData={userData}
           />
         </div>
       )}

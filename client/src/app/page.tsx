@@ -22,13 +22,13 @@ export default function Home() {
       <div className="flex w-full flex-col justify-center gap-4 items-center">
         <h1 className="text-2xl font-bold">User Details</h1>
         <div className="flex w-full">
-         <Table userData={userData} />
+         {/* <Table userData={userData}   /> */}
         </div>
       </div>
       <div className="flex w-full flex-col justify-center gap-4 items-center">
         <h1 className="text-2xl font-bold">Booking Details</h1>
         <div className="flex w-full">
-            <Table userData={userData} />
+            {/* <Table userData={userData} /> */}
         </div>
       </div>
     </div>

@@ -7,7 +7,10 @@ const ObjectId = mongoose.Types.ObjectId;
 const getUser = async (req, res) => {
   try {
     console.log("getUser");
-    const user = await User.findById(req.body.id).populate({path: "hotel", model: Hotel});
+    const user = await User.findById(req.body.id).populate({
+      path: "hotel",
+      model: Hotel,
+    });
     if (!user) {
       res.status(200).json({ error: "No user found", user: {} });
       return;
@@ -70,26 +73,43 @@ const createUser = async (req, res) => {
   }
 };
 
-const updateUser = (req, res) => {
-  // Some logic to update the user
+const updateUser = async (req, res) => {
+  const { id, phoneNumber, hotel } = req.body;
+  try {
+    console.log("[updateuser controller]");
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { phoneNumber, hotel },
+      { new: true } // This option returns the updated document after the update is applied
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ message: "User updated successfully", user: updatedUser });
+
+
+  } catch (error) {
+    console.log("[user controller update error:]", error);
+    res.status(201).json({ error: error.message });
+  }
 };
 
-const deleteUser = async(req, res) => {
-  try{
-    const {id} = req.body;
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.body;
     const deletedUser = await User.findByIdAndDelete(id);
-    if(!deletedUser){
-      res.status(200).json({message: "No user found"});
+    if (!deletedUser) {
+      res.status(200).json({ message: "No user found" });
       return;
-    }else{
-      res.status(200).json({message: "User deleted successfully"});
+    } else {
+      res.status(200).json({ message: "User deleted successfully" });
       return;
     }
 
     //TODO: delete all the bookings of the user
-
-
-  }catch(error){
+  } catch (error) {
     console.log("[user controller deletion error:]", error);
     res.status(201).json({ error: error.message });
   }

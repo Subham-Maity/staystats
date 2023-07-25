@@ -9,19 +9,20 @@ interface Props {
   setUserData: (users: any) => void;
   onClose: (value: boolean) => void;
   editingUserId: string;
-
+  userData: any;
 }
 
-const EditUser = ({ setUserData, onClose }: Props) => {
+const EditUser = ({ setUserData, onClose, editingUserId, userData }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [availableHotels, setAvailableHotels] = useState<any>([]);
   const [selectedHotels, setSelectedHotels] = useState<any>([]);
+  const [editingUserData, setEditingUserData] = useState<any>({});
 
   const [reactSelectOptions, setReactSelectOptions] = useState<any>([]);
 
   useEffect(() => {
-    const getHotels = async () => {
+    const getHotelsAndUser = async () => {
       setLoading(true);
       try {
         const { data } = await axios.get("/hotel/get-all-hotels");
@@ -31,6 +32,19 @@ const EditUser = ({ setUserData, onClose }: Props) => {
             return { value: hotel._id, label: hotel.hotelName };
           });
           setReactSelectOptions(options);
+          const { data: userData } = await axios.post(`/user/fetch-user`, {
+            id: editingUserId,
+          });
+          if (!data.error) {
+            setEditingUserData(userData.user);
+            setSelectedHotels(
+              userData.user.hotel.map((hotel: any) => {
+                return { value: hotel._id, label: hotel.hotelName };
+              })
+            );
+          } else {
+            toast.error(data.error);
+          }
         } else {
           // toast.error(data.error);
         }
@@ -41,10 +55,10 @@ const EditUser = ({ setUserData, onClose }: Props) => {
         console.log(error);
       }
     };
-    getHotels();
+    getHotelsAndUser();
   }, []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -61,25 +75,32 @@ const EditUser = ({ setUserData, onClose }: Props) => {
 
     try {
       setLoading(true);
-      const { data } = await axios.post("/user/create-user", {
-        name: formValues.first_name,
-        username: formValues.email.split("@")[0],
+      const { data } = await axios.post("/user/update-user", {
+        id: editingUserId,
+        // name: formValues.first_name,
+        // username: formValues.email.split("@")[0],
         phoneNumber: formValues.phone,
-        email: formValues.email,
-        password: formValues.password,
+        // email: formValues.email,
+        // password: formValues.password,
         hotel: selectedHotels.map((hotel: any) => hotel.value),
-        role: "SUBADMIN",
+        // role: "SUBADMIN",
       });
       if (!data.error) {
         // const { data } = await axios.post("/user/get-users");
-        if (!data.error) {
+        const userIndex = userData.findIndex(
+          (user: any) => user._id === editingUserId
+        );
+
+        // If the user is found in the array, replace the data at that index
+        if (userIndex !== -1) {
           setUserData((prev: any) => {
-            return [...prev, data.user];
+            const updatedUserData = [...prev];
+            updatedUserData[userIndex] = data.user;
+            return updatedUserData;
           });
-          onClose(false);
-        } else {
-          toast.error(data.error);
         }
+
+        onClose(false);
         toast.success(data.message);
         formRef.current?.reset();
       } else {
@@ -101,7 +122,7 @@ const EditUser = ({ setUserData, onClose }: Props) => {
     <form
       ref={formRef}
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
-      onSubmit={handleSubmit}
+      onSubmit={handleUpdate}
     >
       <FaTimes
         onClick={() => onClose(false)}
@@ -119,9 +140,11 @@ const EditUser = ({ setUserData, onClose }: Props) => {
             type="text"
             name="first_name"
             id="first_name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
             placeholder="Ex: Digha Saikatabas"
+            value={!loading ? editingUserData.name : "fetching.."}
             required
+            disabled
           />
         </div>
 
@@ -136,9 +159,17 @@ const EditUser = ({ setUserData, onClose }: Props) => {
             type="tel"
             name="phone"
             id="phone"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50 ${
+              loading ? "text-blue-400" : ""
+            } `}
             placeholder="+91 999999999"
             // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+            value={editingUserData.phoneNumber}
+            onChange={(e) => [
+              setEditingUserData((prev: any) => {
+                return { ...prev, phoneNumber: e.target.value };
+              }),
+            ]}
             required
           />
         </div>
@@ -154,12 +185,32 @@ const EditUser = ({ setUserData, onClose }: Props) => {
             type="email"
             name="email"
             id="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
             placeholder="hotel@company.com"
+            value={!loading ? editingUserData.email : "fetching.."}
+            disabled
             required
           />
         </div>
         <div className="mb-6">
+          <label
+            htmlFor="role"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Role
+          </label>
+          <input
+            type="text"
+            name="role"
+            id="role"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
+            placeholder="hotel@company.com"
+            value={!loading ? editingUserData.role : "fetching.."}
+            disabled
+            required
+          />
+        </div>
+        {/* <div className="mb-6">
           <label
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -174,7 +225,7 @@ const EditUser = ({ setUserData, onClose }: Props) => {
             placeholder="•••••••••"
             required
           />
-        </div>
+        </div> */}
 
         <div className="w-[340px]">
           <label
@@ -188,9 +239,10 @@ const EditUser = ({ setUserData, onClose }: Props) => {
             name="hotel"
             options={reactSelectOptions}
             isMulti
-            value={selectedHotels}
+            value={!loading ? selectedHotels : ["Fetching..."]}
             onChange={handleHotelSelection}
             className="w-full"
+            isDisabled={loading}
           />
           {availableHotels.length === 0 && (
             <div className="text-xs text-red-600 font-medium">
@@ -203,7 +255,9 @@ const EditUser = ({ setUserData, onClose }: Props) => {
       <button
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
-        disabled={loading || availableHotels.length === 0 || selectedHotels.length === 0}
+        disabled={
+          loading || availableHotels.length === 0 || selectedHotels.length === 0
+        }
       >
         Update
       </button>
