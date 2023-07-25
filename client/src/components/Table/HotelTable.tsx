@@ -1,6 +1,9 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { MdWarningAmber } from "react-icons/md";
+import { FiEdit, FiExternalLink } from "react-icons/fi";
+import {RiDeleteBin6Line} from "react-icons/ri"
+import { AiOutlineEye } from "react-icons/ai";
 interface TableProps {
   hotelData: {
 
@@ -12,9 +15,11 @@ interface TableProps {
     };
     frontOfficeContact?: string;
   }[];
+  getHotel : (hotel: object)=>void;
+  setShowModal : (value: boolean)=>void;
 }
 
-const HotelTable = ({ hotelData }: TableProps) => {
+const HotelTable = ({ hotelData,getHotel,setShowModal }: TableProps) => {
     console.log(hotelData, "userdata")
 
   return (
@@ -38,6 +43,9 @@ const HotelTable = ({ hotelData }: TableProps) => {
             <th scope="col" className="px-6 py-3">
               Office Contact
             </th>
+            <th scope="col" className="px-6 py-3">
+                Options
+              </th>
           </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -68,6 +76,42 @@ const HotelTable = ({ hotelData }: TableProps) => {
                         <td className="px-6 py-4">{hotel.location || ""}</td>
                         <td className="px-6 py-4">{hotel.ownerContact.email || ""}</td>
                         <td className="px-6 py-4">{hotel.frontOfficeContact}</td>
+                        <td className="px-6 py-4">
+                        <div className="">
+                        <button
+                            // disabled={user.addedBy !== owner._id}
+                            // data-tip={"Preview Link"}
+                            onClick= {()=>{
+                                console.log(hotel)
+                                getHotel(hotel);
+                                setShowModal(true);
+
+                            }}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                          >
+                            <AiOutlineEye className="" />
+                          </button>
+                          <button
+                            // disabled={user.addedBy !== owner._id}
+                            // data-tip={"Preview Link"}
+                            // onClick= {()=>{
+                            //   setShowEditModal(true)
+                            //   setEditingUserId(user._id)
+                            // }}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                          >
+                            <FiEdit className="" />
+                          </button>
+                          <button
+                            // disabled={user.addedBy !== owner._id}
+                            // data-tip={"Delete User"}
+                            // onClick={() => deleteUserHandler(user._id)}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
+                          >
+                            <RiDeleteBin6Line size={15} className="" />
+                          </button>
+                        </div>
+                      </td>
                       </tr>
                   )
                 })}

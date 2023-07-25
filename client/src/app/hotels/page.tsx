@@ -3,6 +3,7 @@ import React,{useState,useEffect} from 'react'
 import HotelTable from '@/components/Table/HotelTable'
 import { ToastContainer, toast } from 'react-toastify';
 import InputHotel from "@/components/card/InputHotel";
+import ViewHotel from '@/components/card/ViewHotel';
 import axios from '@/utils/axios';
 import { FaPlus } from 'react-icons/fa';
 import { fetchOwner } from '@/utils';
@@ -14,8 +15,8 @@ const Hotels = () => {
     const [hotelData, setHotelData] = useState<any>([]);
     const [user,setUser] = useState<any>({});
     const [accountType, setAccountType] = useState<string>("");
-
-
+    const [hotel, setHotel] = useState<object>();
+    const [showViewModal, setShowViewModal] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -52,6 +53,9 @@ const Hotels = () => {
         };
         getUsers();
       }, []);
+
+
+      
   return (
 
     <div className='flex w-full flex-col justify-center gap-4 items-center'>
@@ -68,7 +72,7 @@ const Hotels = () => {
       </div>
         <div className='flex w-full'>
 
-        <HotelTable hotelData={hotelData} />
+        <HotelTable setShowModal={(value)=> setShowViewModal(value)} hotelData={hotelData} getHotel={(hotel)=> setHotel(hotel)} />
 
         </div>
         <ToastContainer theme="dark" position="bottom-center" autoClose={10000} />
@@ -76,6 +80,13 @@ const Hotels = () => {
         showModal &&(
           <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
         {accountType === "ADMIN" && (<InputHotel setHotelData={setHotelData} onClose={(value)=> setShowModal(value)} />)}
+        </div>
+        )
+        }
+        {
+        showViewModal &&(
+          <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        {accountType === "ADMIN" && (<ViewHotel hotel={hotel} onClose={(value)=> setShowViewModal(value)} />)}
         </div>
         )
         }
