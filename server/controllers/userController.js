@@ -74,8 +74,25 @@ const updateUser = (req, res) => {
   // Some logic to update the user
 };
 
-const deleteUser = (req, res) => {
-  // Some logic to delete the user
+const deleteUser = async(req, res) => {
+  try{
+    const {id} = req.body;
+    const deletedUser = await User.findByIdAndDelete(id);
+    if(!deletedUser){
+      res.status(200).json({message: "No user found"});
+      return;
+    }else{
+      res.status(200).json({message: "User deleted successfully"});
+      return;
+    }
+
+    //TODO: delete all the bookings of the user
+
+
+  }catch(error){
+    console.log("[user controller deletion error:]", error);
+    res.status(201).json({ error: error.message });
+  }
 };
 
 module.exports = {
