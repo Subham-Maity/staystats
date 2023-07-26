@@ -100,7 +100,7 @@ const BookingTable = ({ bookingData }: TableProps) => {
                                         scope="row"
                                         className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                                     >
-                                        {booking.hotel.hotelName || ""}
+                                        {booking?.hotel?.hotelName || "DELETED HOTEL"}
                                     </th>
                                     <td className="px-6 py-4">{booking.guestName || ""}</td>
                                     <td className="px-6 py-4">{new Date(booking.checkInDate).toLocaleDateString() || ""}</td>

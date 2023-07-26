@@ -4,6 +4,7 @@ import { MdWarningAmber } from "react-icons/md";
 import { FiEdit, FiExternalLink } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { AiOutlineEye } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "@/utils/axios";
 import EditUser from "../card/EditUser";
@@ -14,6 +15,8 @@ interface TableProps {
     email?: string;
     hotel?: string;
   }[];
+  getUser: (user: object) => void;
+  setShowModal: (value: boolean) => void;
   deleteUserHandler: (id: string) => void;
   setUserData: (users: any) => void;
   owner?: any;
@@ -23,6 +26,8 @@ const Table = ({
   userData,
   deleteUserHandler,
   setUserData,
+  getUser,
+  setShowModal,
   owner,
 }: TableProps) => {
   console.log(userData, "userdata");
@@ -87,6 +92,17 @@ const Table = ({
                       <td className="px-6 py-4">{user.role || ""}</td>
                       <td className="px-6 py-4">
                         <div className="">
+                      <button
+                            onClick= {()=>{
+                                console.log(user)
+                                getUser(user);
+                                setShowModal(true);
+
+                            }}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                          >
+                            <AiOutlineEye className="" />
+                          </button>
                           <button
                             // disabled={user.addedBy !== owner._id}
                             data-tip={"Preview Link"}

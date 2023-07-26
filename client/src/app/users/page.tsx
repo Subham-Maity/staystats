@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "@/utils/axios";
 import { FaPlus } from "react-icons/fa";
 import { fetchOwner } from "@/utils";
+import ViewUser from "@/components/card/ViewUsers";
 
 const Users = () => {
   let router = useRouter();
@@ -15,6 +16,8 @@ const Users = () => {
   const [accountType, setAccountType] = useState<string>("");
   const [userData, setUserData] = useState<any>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [user, setUser] = useState<object>({});
+  const [showViewModal, setShowViewModal] = useState<boolean>(false);
 
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
@@ -88,7 +91,7 @@ const Users = () => {
           </button>
         </div>
         <div className="flex w-full">
-          <Table userData={userData} setUserData={setUserData} deleteUserHandler={deleteUserHandler} owner={owner} />
+          <Table setShowModal={(value) => setShowViewModal(value)} getUser={(user)=> setUser(user)} userData={userData} setUserData={setUserData} deleteUserHandler={deleteUserHandler} owner={owner} />
         </div>
         <ToastContainer
           theme="dark"
@@ -96,6 +99,16 @@ const Users = () => {
           autoClose={10000}
         />
       </div>
+      {
+        showViewModal && (
+          <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+            <ViewUser
+              onClose={(value) => setShowViewModal(value)}
+              user={user}
+            />
+          </div>
+        )
+      }
       {showModal && (
         <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (

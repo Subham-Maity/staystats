@@ -1,10 +1,10 @@
 interface Props {
     user?: {
-        name: string;
-        email: string;
-        phoneNumber: string;
-        role: string;
-        hotel: {
+        name?: string;
+        email?: string;
+        phoneNumber?: string;
+        role?: string;
+        hotel?: {
             _id: string;
             hotelName: string;
         }[]
@@ -19,7 +19,7 @@ interface Props {
   import React, { useState, useEffect, useRef } from "react";
   
   const ViewUser = ({ user, onClose }: Props) => {
-    console.log(user, "userdata");
+    console.log( user, "userdata");
 
     return (
         <form
@@ -133,18 +133,13 @@ interface Props {
             >
               Hotel Name
             </label>
-           {/* {
-                user?.hotel?.map((hotel:any)=>{
-                    return (
+           
                         <input
-                        key={hotel._id}
-                        value={user?.hotel?.hotelName}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
+                        value={user?.hotel?.map((hotel:any)=>hotel.hotelName).join(", ") || "Deleted Hotel"}
                         disabled
                         type="text" />
-                    )
-                   
-                })
-           } */}
+                    
             {/* <Select
               id="hotel"
               name="hotel"

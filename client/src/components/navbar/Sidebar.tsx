@@ -8,6 +8,9 @@ import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
+import { fetchOwner } from "@/utils";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -15,9 +18,30 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
+  let router = useRouter();
+  const [owner, setOwner] = useState<any>({});
+  const [accountType, setAccountType] = useState<string>("");
   const pathname = usePathname();
   const [isNavOpen, setIsNavOpen] = useState(isSidebarOpen);
   const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
+    let updateUser = async () => {
+      const user = await fetchOwner(userId);
+      if (user && user._id) {
+        setOwner(user);
+        localStorage.setItem("user", JSON.stringify(user));
+        setAccountType(user?.role);
+      } else {
+        toast.error("You are not authorized to view this page");
+        localStorage.removeItem("user");
+        router.replace("/login");
+      }
+    };
+    updateUser();
+  }, []);
+
 
   useEffect(() => {
     setIsNavOpen(isSidebarOpen);
@@ -82,7 +106,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             <ul className=" w-full px-2 flex flex-col gap-4 font-semibold">
               <Link href="/">
                 <li
-                    className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer  ${
+                    className={`${accountType === "SUBADMIN" && 'hidden'} flex items-center justify-start gap-2 p-2 hover:cursor-pointer  ${
                         pathname === "/"
                             ? "bg-slate-300 text-primary hover:none"
                             : "hover:bg-slate-300"
@@ -97,7 +121,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               <Link href="/users">
                 <li
 
-                    className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
+                    className={`${accountType === "SUBADMIN" && 'hidden'} flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                         pathname === "/users"
                             ? "bg-slate-300 text-primary"
                             : "hover:bg-slate-300"
@@ -112,7 +136,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               <Link href="/hotels">
                 <li
 
-                    className={`flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
+                    className={`${accountType === "SUBADMIN" && 'hidden'} flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                         pathname === "/hotels"
                             ? "bg-slate-300 text-primary"
                             : "hover:bg-slate-300"
