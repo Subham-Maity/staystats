@@ -114,8 +114,27 @@ const createHotel = async (req, res) => {
   }
 };
 
-const updateHotel = (req, res) => {
-  // Some logic to update the hotel
+const updateHotel = async (req, res) => {
+  const { id, ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,frontOfficeContact } = req.body;
+  try {
+    console.log("[updateuser controller]");
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+      id,
+      { ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,frontOfficeContact },
+      { new: true } // This option returns the updated document after the update is applied
+    );
+
+    if (!updatedHotel) {
+      return res.status(404).json({ error: 'Hotel not found' });
+    }
+
+    res.status(200).json({ message: "Hotel updated successfully", user: updatedHotel });
+
+
+  } catch (error) {
+    console.log("[user controller update error:]", error);
+    res.status(201).json({ error: error.message });
+  }
 };
 
 const deleteHotel = async (req, res) => {
