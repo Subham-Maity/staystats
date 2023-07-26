@@ -128,16 +128,16 @@ const HotelTable = ({ hotelData, setHotelData, getHotel, setShowModal, deleteHot
           </tbody>
         </table>
       </div>
-      {/* { showEditHotelModal && editingHotelData && (
+      { showEditHotelModal && editingHotelData && (
          <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
          <EditHotel
            onClose={(value) => setShowEditHotelModal(value)}
            setHotelData={setHotelData}
-           editingUserDataProps={editingUserData}
-           userData={userData}
+           editingHotelDataProps={editingHotelData}
+           hotelData={hotelData}
          />
        </div>
-      )} */}
+      )}
       </div>
   );
 };
