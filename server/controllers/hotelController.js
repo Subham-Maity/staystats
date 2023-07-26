@@ -46,7 +46,7 @@ const getAllHotels = async (req, res) => {
     }
 
     // Fetch hotels with applied filters and sorting
-    const hotels = await Hotel.find(filter).sort(sort);
+    const hotels = await Hotel.find(filter).sort(sort).populate("addedBy");
 
     console.timeEnd("get hotels");
 

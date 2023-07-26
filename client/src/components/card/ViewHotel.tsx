@@ -4,7 +4,7 @@ interface Props {
         ownerName?: string;
         location?: string;
         bank?: string;
-        gstNumber?: string;
+        GSTNumber?: string;
         panNumber?: string;
         aadharNumber?: string;
         tradeLicense?: string;
@@ -132,7 +132,7 @@ interface Props {
             </label>
             <input
             disabled
-            value={hotel?.gstNumber}
+            value={hotel?.GSTNumber}
             name="GSTNumber"
               type="number"
               id="visitors"
