@@ -66,7 +66,7 @@ const getAllHotels = async (req, res) => {
 };
 
 const createHotel = async (req, res) => {
-  if(req.user.role !== "ADMIN") {
+  if (req.user.role !== "ADMIN") {
     res.status(201).json({ error: "You are not authorized to create a hotel" });
     return;
   }
@@ -102,9 +102,9 @@ const createHotel = async (req, res) => {
       res.status(201).json({ message: "Hotel not created", hotel: {} });
       return;
     }
-    await User.findByIdAndUpdate(req.user._id,{
-      $push: { hotel: newHotel._id }
-    })
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: { hotel: newHotel._id },
+    });
     res
       .status(200)
       .json({ message: "Hotel created successfully", hotel: newHotel });
@@ -118,8 +118,30 @@ const updateHotel = (req, res) => {
   // Some logic to update the hotel
 };
 
-const deleteHotel = (req, res) => {
-  // Some logic to delete the hotel
+const deleteHotel = async (req, res) => {
+  try {
+    const { id } = req.body;
+    let hotelAddedBy = await Hotel.findById(id);
+    hotelAddedBy = hotelAddedBy.addedBy;
+    console.log("hotel added by: ", hotelAddedBy);
+    const deletedHotel = await Hotel.findByIdAndDelete(id);
+    if (!deletedHotel) {
+      res.status(200).json({ error: "No hotel found" });
+      return;
+    } else {
+      let updatedUser = await User.findByIdAndUpdate(hotelAddedBy, {
+        $pull: { hotel: id },
+      }, {new: true});
+      console.log("updated user: ", updatedUser);
+      if (updatedUser) {
+        res.status(200).json({ message: "Hotel deleted successfully" });
+        return;
+      }
+    }
+  } catch (error) {
+    console.log("[hotel controller ]: ", error);
+    res.status(201).json({ error: error.message });
+  }
 };
 
 module.exports = {

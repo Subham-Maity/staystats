@@ -104,18 +104,18 @@ const Table = ({
                             <AiOutlineEye className="" />
                           </button>
                           <button
-                            // disabled={user.addedBy !== owner._id}
-                            data-tip={"Preview Link"}
+                            disabled={user.addedBy !== owner._id}
+                            data-tip={"Edit User"}
                             onClick= {()=>{
                               setShowEditModal(true)
                               setEditingUserData(user)
                             }}
-                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 mb-2 disabled:opacity-50`}
                           >
                             <FiEdit className="" />
                           </button>
                           <button
-                            // disabled={user.addedBy !== owner._id}
+                            disabled={user.addedBy !== owner._id}
                             data-tip={"Delete User"}
                             onClick={() => deleteUserHandler(user._id)}
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}

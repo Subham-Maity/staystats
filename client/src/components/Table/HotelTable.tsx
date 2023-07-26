@@ -4,6 +4,7 @@ import { MdWarningAmber } from "react-icons/md";
 import { FiEdit, FiExternalLink } from "react-icons/fi";
 import {RiDeleteBin6Line} from "react-icons/ri"
 import { AiOutlineEye } from "react-icons/ai";
+import EditHotel from "../card/EditHotel";
 interface TableProps {
   hotelData: {
 
@@ -15,14 +16,19 @@ interface TableProps {
     };
     frontOfficeContact?: string;
   }[];
+  setHotelData: any;
   getHotel : (hotel: object)=>void;
   setShowModal : (value: boolean)=>void;
+  deleteHotelHandler : (id: string)=>void;
+  owner?: any;
 }
 
-const HotelTable = ({ hotelData,getHotel,setShowModal }: TableProps) => {
-    console.log(hotelData, "userdata")
+const HotelTable = ({ hotelData, setHotelData, getHotel, setShowModal, deleteHotelHandler, owner }: TableProps) => {
+  const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
+  const [editingHotelData, setEditingHotelData] = useState<object>({});
 
   return (
+    <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
 
         <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
@@ -92,20 +98,22 @@ const HotelTable = ({ hotelData,getHotel,setShowModal }: TableProps) => {
                             <AiOutlineEye className="" />
                           </button>
                           <button
-                            // disabled={user.addedBy !== owner._id}
+                             disabled={hotel.addedBy._id !== owner._id}
                             // data-tip={"Preview Link"}
-                            // onClick= {()=>{
-                            //   setShowEditModal(true)
-                            //   setEditingUserId(user._id)
-                            // }}
+                            onClick= {()=>{
+                              setShowEditHotelModal(true)
+                              setEditingHotelData(hotel)
+                            }}
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                           >
                             <FiEdit className="" />
                           </button>
                           <button
-                            // disabled={user.addedBy !== owner._id}
-                            // data-tip={"Delete User"}
-                            // onClick={() => deleteUserHandler(user._id)}
+                            disabled={hotel.addedBy._id !== owner._id}
+                            data-tip={"Delete Hotel"}
+                            onClick={()=>{
+                              deleteHotelHandler(hotel._id)
+                            }}
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
                           >
                             <RiDeleteBin6Line size={15} className="" />
@@ -119,6 +127,17 @@ const HotelTable = ({ hotelData,getHotel,setShowModal }: TableProps) => {
           )}
           </tbody>
         </table>
+      </div>
+      {/* { showEditHotelModal && editingHotelData && (
+         <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+         <EditHotel
+           onClose={(value) => setShowEditHotelModal(value)}
+           setHotelData={setHotelData}
+           editingUserDataProps={editingUserData}
+           userData={userData}
+         />
+       </div>
+      )} */}
       </div>
   );
 };
