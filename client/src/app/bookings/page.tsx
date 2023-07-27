@@ -6,12 +6,15 @@ import axios from "@/utils/axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaPlus } from "react-icons/fa";
 import InputBooking from "@/components/card/inputBooking";
+import ViewBooking from "@/components/card/ViewBookings";
 import { fetchOwner } from "@/utils";
 
 const Bookings = () => {
   let router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [bookingData, setBookingData] = useState<any>([]);
+  const [booking,setBooking] = useState<object>()
+  const [showViewModal,setShowViewModal] = useState<boolean>()
   const [user, setUser] = useState<any>({});
   const [accountType, setAccountType] = useState<string>("");
 
@@ -64,7 +67,7 @@ const Bookings = () => {
         </button>
       </div>
       <div className="flex w-full">
-        <BookingTable bookingData={bookingData} />
+        <BookingTable setShowModal={(value) => setShowViewModal(value)} getBooking={(booking) => setBooking(booking)} bookingData={bookingData} />
       </div>
       <ToastContainer theme="dark" position="bottom-center" autoClose={10000} />
       {showModal && (
@@ -78,6 +81,16 @@ const Bookings = () => {
           )}
         </div>
       )}
+      {
+        showViewModal && (
+          <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+            <ViewBooking
+              onClose={(value) => setShowViewModal(value)}
+              booking={booking}
+            />
+          </div>
+        )
+      }
     </div>
   );
 };

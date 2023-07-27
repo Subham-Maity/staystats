@@ -1,6 +1,9 @@
 
 import React, { useEffect, useState } from "react";
 import { MdWarningAmber } from "react-icons/md";
+import { AiOutlineEye } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface TableProps {
     bookingData: {
@@ -21,9 +24,12 @@ interface TableProps {
         contactNumber?: string;
         remarks?: string;
     }[];
+
+    getBooking: (booking: object) => void
+    setShowModal:(value: boolean) => void
 }
 
-const BookingTable = ({ bookingData }: TableProps) => {
+const BookingTable = ({ bookingData,getBooking,setShowModal }: TableProps) => {
     console.log(bookingData)
     return (
         <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
@@ -42,10 +48,10 @@ const BookingTable = ({ bookingData }: TableProps) => {
                     <th scope="col" className="px-6 py-3">
                         Check-out Date
                     </th>
-                    {/* <th scope="col" className="px-6 py-3">
-                        Room Category
+                     <th scope="col" className="px-6 py-3">
+                        OPTIONS
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    {/*<th scope="col" className="px-6 py-3">
                         Number of Room
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -105,6 +111,44 @@ const BookingTable = ({ bookingData }: TableProps) => {
                                     <td className="px-6 py-4">{booking.guestName || ""}</td>
                                     <td className="px-6 py-4">{new Date(booking.checkInDate).toLocaleDateString() || ""}</td>
                                     <td className="px-6 py-4">{new Date(booking.checkOutDate).toLocaleDateString() || ""}</td>
+                                    <td className="px-6 py-4">
+                        <div className="">
+                        <button
+                            // disabled={user.addedBy !== owner._id}
+                            data-tip={"Preview Link"}
+                            onClick= {()=>{
+                                console.log(booking)
+                                getBooking(booking);
+                                setShowModal(true);
+
+                            }}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                          >
+                            <AiOutlineEye className="" />
+                          </button>
+                          <button
+                            //  disabled={hotel.addedBy._id !== owner._id}
+                            // data-tip={"Preview Link"}
+                            // onClick= {()=>{
+                            //   setShowEditHotelModal(true)
+                            //   setEditingHotelData(hotel)
+                            // }}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                          >
+                            <FiEdit className="" />
+                          </button>
+                          <button
+                            // disabled={hotel.addedBy._id !== owner._id}
+                            data-tip={"Delete Hotel"}
+                            // onClick={()=>{
+                            //   deleteHotelHandler(hotel._id)
+                            // }}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
+                          >
+                            <RiDeleteBin6Line size={15} className="" />
+                          </button>
+                        </div>
+                      </td>
                                     {/* <td className="px-6 py-4">{booking.roomCategory || ""}</td>
                                     <td className="px-6 py-4">{booking.numberOfRoom || ""}</td>
                                     <td className="px-6 py-4">{booking.numberOfPerson || ""}</td>
