@@ -11,6 +11,7 @@ interface Props {
         numberOfPersons?: number;
         bookingAmount?: number;
         dueAmount?: number;
+        advanceAmount?: number;
         advanceDate: Date;
         bookingSource?: string;
         booikingBy?: string;
@@ -104,6 +105,7 @@ interface Props {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="08.08.2023"
               required
+              disabled
             />
           </div>
           <div>
@@ -118,6 +120,7 @@ interface Props {
               id="endDate"
               name="endDate"
               type="text"
+              disabled
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="09.09.2023"
               required
@@ -133,10 +136,12 @@ interface Props {
             <input
               id="endDate"
               name="endDate"
-              type="date"
+              type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="09.09.2023"
               required
+              disabled
+              value={booking?.roomCatagory}
             />
           </div>
           <div>
@@ -153,6 +158,8 @@ interface Props {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="20"
               required
+              disabled
+              value={booking?.numberOfRooms}
             />
           </div>
           <div>
@@ -169,6 +176,8 @@ interface Props {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="4"
               required
+              disabled
+              value={booking?.numberOfPersons}
             />
           </div>
           <div className="mb-6">
@@ -180,13 +189,14 @@ interface Props {
             </label>
             <input
               name="bookingAmount"
-              type="number"
+              type="text"
               id="bookingAmount"
               value={booking?.bookingAmount}
               
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter booking amount"
               required
+              disabled
             />
           </div>
           <div className="mb-6">
@@ -198,12 +208,13 @@ interface Props {
             </label>
             <input
               name="advanceAmount"
-              type="number"
+              type="text"
               id="advanceAmount"
-              
+              value={booking?.advanceAmount}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter advance amount"
               required
+              disabled
             />
           </div>
           <div className="mb-6">
@@ -251,10 +262,12 @@ interface Props {
             <input
               id="Advancedate"
               name="Advancedate"
-              type="date"
+              type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="24.05.26"
               required
+              disabled
+              value={booking?.bookingSource}
             />
           </div>
           <div className="mb-6">
@@ -272,6 +285,7 @@ interface Props {
               placeholder="Someone"
               disabled
               required
+              value={booking?.booikingBy}
             />
           </div>
           <div>
@@ -289,6 +303,7 @@ interface Props {
               placeholder="Someone"
               disabled
               required
+              value={booking?.plan}
             />
           </div>
           <div className="mb-6">
@@ -305,6 +320,8 @@ interface Props {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="+91 999999999"
               required
+              value={booking?.contactNumber}
+              disabled
             />
           </div>
   
@@ -316,12 +333,14 @@ interface Props {
               Remarks
             </label>
             <input
+            value={booking?.remarks}
               type="text"
               id="remark"
               name="remark"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Very Good"
               required
+              disabled
             />
           </div>
         </div>
