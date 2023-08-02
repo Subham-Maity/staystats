@@ -1,23 +1,23 @@
 interface Props {
     booking: {
-        hotel?: {
-            hotelName?: string;
+        hotel: {
+            hotelName: string;
         };
-        guestName?: string;
+        guestName: string;
         checkInDate: Date;
         checkOutDate: Date;
-        roomCatagory?: string;
-        numberOfRooms?: number;
-        numberOfPersons?: number;
-        bookingAmount?: number;
-        dueAmount?: number;
-        advanceAmount?: number;
+        roomCatagory: string;
+        numberOfRooms: number;
+        numberOfPersons: number;
+        bookingAmount: number;
+        dueAmount: number;
+        advanceAmount: number;
         advanceDate: Date;
-        bookingSource?: string;
-        booikingBy?: string;
-        plan?: string;
-        contactNumber?: string;
-        remarks?: string;
+        bookingSource: string;
+        booikingBy: string;
+        plan: string;
+        contactNumber: string;
+        remarks: string;
         
     }
     onClose: (value: boolean) => void;
@@ -76,7 +76,7 @@ interface Props {
           <div>
             <label
               htmlFor="guest_name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Guest Name
             </label>

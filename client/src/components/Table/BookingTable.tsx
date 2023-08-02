@@ -13,7 +13,7 @@ interface TableProps {
         checkOutDate?: string;
         roomCategory?: string;
         numberOfRoom?: string;
-        numberOfPerson?: string;
+        numberOfPersons?: string;
         bookingAmount?: string;
         advanceAmount?: string;
         dueAmount?: string;
@@ -43,11 +43,24 @@ const BookingTable = ({ bookingData,getBooking,setShowModal }: TableProps) => {
                         Guest Name
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Check-in Date
+                        Date
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Check-out Date
+                        NOP
                     </th>
+                    <th scope="col" className="px-6 py-3">
+                        Total amount
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Advance amount
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Booking Source
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Status
+                    </th>
+                    
                      <th scope="col" className="px-6 py-3">
                         OPTIONS
                     </th>
@@ -109,8 +122,13 @@ const BookingTable = ({ bookingData,getBooking,setShowModal }: TableProps) => {
                                         {booking?.hotel?.hotelName || "DELETED HOTEL"}
                                     </th>
                                     <td className="px-6 py-4">{booking.guestName || ""}</td>
-                                    <td className="px-6 py-4">{new Date(booking.checkInDate).toLocaleDateString() || ""}</td>
-                                    <td className="px-6 py-4">{new Date(booking.checkOutDate).toLocaleDateString() || ""}</td>
+                                    <td className="px-6 py-4">{new Date(booking.checkInDate).getDate() + '/' + new Date(booking.checkInDate).getMonth() + ' - ' + new Date(booking.checkOutDate).getDate()+ '/'+ new Date(booking.checkOutDate).getMonth() || ""}</td>
+                                    <td className="px-6 py-4">{booking.numberOfPersons || ""}</td>
+                                    <td className="px-6 py-4">{booking.bookingAmount || ""}</td>
+                                    <td className="px-6 py-4">{booking.advanceAmount || ""}</td>
+                                    <td className="px-6 py-4">{booking.bookingSource || ""}</td>
+                                    <td className="px-6 py-4">{booking.status || "Created"}</td>
+                                    
                                     <td className="px-6 py-4">
                         <div className="">
                         <button
@@ -136,16 +154,6 @@ const BookingTable = ({ bookingData,getBooking,setShowModal }: TableProps) => {
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                           >
                             <FiEdit className="" />
-                          </button>
-                          <button
-                            // disabled={hotel.addedBy._id !== owner._id}
-                            data-tip={"Delete Hotel"}
-                            // onClick={()=>{
-                            //   deleteHotelHandler(hotel._id)
-                            // }}
-                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
-                          >
-                            <RiDeleteBin6Line size={15} className="" />
                           </button>
                         </div>
                       </td>

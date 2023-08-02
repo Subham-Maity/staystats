@@ -13,7 +13,7 @@ const Bookings = () => {
   let router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [bookingData, setBookingData] = useState<any>([]);
-  const [booking,setBooking] = useState<object>()
+  const [booking,setBooking] = useState<any>()
   const [showViewModal,setShowViewModal] = useState<boolean>()
   const [user, setUser] = useState<any>({});
   const [accountType, setAccountType] = useState<string>("");
@@ -86,6 +86,7 @@ const Bookings = () => {
           <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
             <ViewBooking
               onClose={(value) => setShowViewModal(value)}
+              
               booking={booking}
             />
           </div>
