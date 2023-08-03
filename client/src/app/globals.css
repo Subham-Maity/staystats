@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*Without Tailwind Setup*/
+/*body {*/
+/*  color: #333;*/
+/*background-color: aliceblue;*/
+/*}*/
+
+/*[data-theme="dark"] body {*/
+/*  background-color: #333;*/
+/*    color: aliceblue;*/
+/*}*/
+
