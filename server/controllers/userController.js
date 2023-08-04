@@ -74,12 +74,12 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { id, phoneNumber, hotel } = req.body;
+  const { id, phoneNumber, hotel,username,name,email } = req.body;
   try {
     console.log("[updateuser controller]");
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { phoneNumber, hotel },
+      { phoneNumber, hotel,name,username,email },
       { new: true } // This option returns the updated document after the update is applied
     );
 

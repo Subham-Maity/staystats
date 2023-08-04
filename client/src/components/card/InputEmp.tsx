@@ -61,7 +61,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
       setLoading(true);
       const { data } = await axios.post("/user/create-user", {
         name: formValues.first_name,
-        username: formValues.email.split("@")[0],
+        username: formValues.email,
         phoneNumber: formValues.phone,
         email: formValues.email,
         password: formValues.password,

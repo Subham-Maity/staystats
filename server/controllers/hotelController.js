@@ -146,17 +146,7 @@ const updateHotel = async (req, res) => {
     console.log("[updateuser controller]");
     const updatedHotel = await Hotel.findByIdAndUpdate(
       id,
-      {
-        ownerName,
-        ownerContact,
-        bank,
-        GSTNumber,
-        panNumber,
-        aadharNumber,
-        tradeLicense,
-        otherDocuments,
-        frontOfficeContact,
-      },
+      { hotelName,location,ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,frontOfficeContact },
       { new: true } // This option returns the updated document after the update is applied
     );
 

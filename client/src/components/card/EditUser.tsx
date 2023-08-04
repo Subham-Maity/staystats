@@ -75,10 +75,10 @@ const EditUser = ({
       setLoading(true);
       const { data } = await axios.post("/user/update-user", {
         id: editingUserData._id,
-        // name: formValues.first_name,
-        // username: formValues.email.split("@")[0],
+        name: formValues.first_name,
+        username: formValues.email,
         phoneNumber: formValues.phone,
-        // email: formValues.email,
+        email: formValues.email,
         // password: formValues.password,
         hotel: selectedHotels.map((hotel: any) => hotel.value),
         // role: "SUBADMIN",
@@ -142,7 +142,6 @@ const EditUser = ({
             placeholder="Ex: Digha Saikatabas"
             value={!loading ? editingUserData.name : "fetching.."}
             required
-            disabled
           />
         </div>
 
@@ -186,7 +185,6 @@ const EditUser = ({
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
             placeholder="hotel@company.com"
             value={!loading ? editingUserData.email : "fetching.."}
-            disabled
             required
           />
         </div>
@@ -204,7 +202,6 @@ const EditUser = ({
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
             placeholder="hotel@company.com"
             value={!loading ? editingUserData.role : "fetching.."}
-            disabled
             required
           />
         </div>

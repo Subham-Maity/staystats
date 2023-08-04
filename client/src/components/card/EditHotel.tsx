@@ -44,6 +44,8 @@ const EditHotel = ({
       setLoading(true);
       const { data } = await axios.post("/hotel/update-hotel", {
         id: editingHotelData._id,
+        hotelName: formValues.hotelName,
+        location: formValues.location,
         ownerName: formValues.ownerName,
         ownerContact: {
           phone: formValues.phoneNumber,
@@ -110,7 +112,12 @@ const EditHotel = ({
             placeholder="Ex: Digha Saikatabas"
             required
             value={editingHotelData.hotelName}
-            disabled
+            onChange={(e) => {
+              setEditingHotelData((prev: any) => {
+                return { ...prev, hotelName: e.target.value };
+              });
+            }
+            }
           />
         </div>
         <div>
@@ -128,7 +135,12 @@ const EditHotel = ({
             placeholder="Ex: Digha"
             required
             value={editingHotelData.location}
-            disabled
+            onChange={(e) => {
+              setEditingHotelData((prev: any) => {
+                return { ...prev, location: e.target.value };
+              });
+            }}
+            
           />
         </div>
         <div>
@@ -209,7 +221,7 @@ const EditHotel = ({
           </label>
           <input
             name="GSTNumber"
-            type="number"
+            type="text"
             id="visitors"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="GST Number"

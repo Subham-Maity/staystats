@@ -57,9 +57,9 @@ const BookingTable = ({ bookingData,getBooking,setShowModal }: TableProps) => {
                     <th scope="col" className="px-6 py-3">
                         Booking Source
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    {/* <th scope="col" className="px-6 py-3">
                         Status
-                    </th>
+                    </th> */}
                     
                      <th scope="col" className="px-6 py-3">
                         OPTIONS
@@ -127,7 +127,7 @@ const BookingTable = ({ bookingData,getBooking,setShowModal }: TableProps) => {
                                     <td className="px-6 py-4">{booking.bookingAmount || ""}</td>
                                     <td className="px-6 py-4">{booking.advanceAmount || ""}</td>
                                     <td className="px-6 py-4">{booking.bookingSource || ""}</td>
-                                    <td className="px-6 py-4">{booking.status || "Created"}</td>
+                                    {/* <td className="px-6 py-4">{booking.status || "Created"}</td> */}
                                     
                                     <td className="px-6 py-4">
                         <div className="">
