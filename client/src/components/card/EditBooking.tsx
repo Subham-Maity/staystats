@@ -1,36 +1,97 @@
 interface Props {
-    booking: {
-        hotel: {
-            hotelName: string;
-        };
-        guestName: string;
-        checkInDate: Date;
-        checkOutDate: Date;
-        roomCatagory: string;
-        numberOfRooms: number;
-        numberOfPersons: number;
-        bookingAmount: number;
-        dueAmount: number;
-        advanceAmount: number;
-        advanceDate: Date;
-        bookingSource: string;
-        booikingBy: string;
-        plan: string;
-        contactNumber: string;
-        remarks: string;
-        
-    }
+    setBookingData: (users: any) => void;
     onClose: (value: boolean) => void;
+    editingBookingDataProps?: any;
+    bookingData?: any;
   }
   
   import { FaTimes } from "react-icons/fa";
+  
+  import { toast } from "react-toastify";
+  import axios from "@/utils/axios";
   import React, { useState, useEffect, useRef } from "react";
   
-  const ViewBooking = ({ booking, onClose }: Props) => {
-    console.log(booking, "userdata");
-
+  const EditBooking = ({
+    setBookingData,
+    onClose,
+    editingBookingDataProps,
+    bookingData,
+  }: Props) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [editingBookingData, setEditingBookingData] = useState<any>({});
+    const formRef = useRef<HTMLFormElement>(null);
+  
+    console.log(editingBookingData)
+    useEffect(() => {
+      setEditingBookingData(editingBookingDataProps);
+    }, [editingBookingDataProps]);
+  
+    const handleUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+  
+      const formData = new FormData(event.currentTarget);
+      const formValues: { [key: string]: string } = {};
+  
+      // Collect all the form field values
+      formData.forEach((value, key) => {
+        formValues[key] = value as string;
+        if (formValues[key].trim() === "") {
+          toast.error("Please fill all the fields");
+          return;
+        }
+      });
+  
+      try {
+        setLoading(true);
+        const { data } = await axios.post("/booking/update-booking", {
+          id: editingBookingData._id,
+          guestName: formValues.guest_name,
+          checkInDate: formValues.checkInDate,
+          checkOutDate: formValues.checkOutDate,
+          roomCatagory: formValues.roomCategory,
+          numberOfRooms: formValues.nor,
+            numberOfPersons: formValues.nop,
+          bookingAmount: formValues.bookingAmount,
+            advanceAmount: formValues.advanceAmount,
+            dueAmount: formValues.dueamount,
+            advanceDate: formValues.Advancedate,
+            bookingSource: formValues.bookingSource,
+            booikingBy: formValues.bb,
+            plan: formValues.plan,
+            contactNumber: formValues.cn,
+            remarks: formValues.remark,
+        });
+        if (!data.error) {
+          // const { data } = await axios.post("/user/get-users");
+          const bookingIndex = bookingData.findIndex(
+            (hotel: any) => hotel._id === editingBookingDataProps._id
+          );
+  
+          // If the user is found in the array, replace the data at that index
+          if (bookingIndex !== -1) {
+            setBookingData((prev: any) => {
+              const updatedBookingData = [...prev];
+              updatedBookingData[bookingIndex] = data.user;
+              return updatedBookingData;
+            });
+          }
+  
+          onClose(false);
+          toast.success(data.message);
+          formRef.current?.reset();
+        } else {
+          toast.error(data.error);
+        }
+        setLoading(false);
+      } catch (error: any) {
+        setLoading(false);
+        console.log(error);
+        toast.error(error.message);
+      }
+    };
     return (
         <form
+        onSubmit={handleUpdate}
         className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
       >
         <FaTimes
@@ -51,10 +112,10 @@ interface Props {
               name="hotel"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Ex: Digha Saikatabas"
-              required
+              
             />
           </div> */}
-          <div>
+          {/* <div>
             <label
               htmlFor="hotel"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -65,14 +126,14 @@ interface Props {
               type="text"
               id="hotel"
               name="hotel"
-              value={booking?.hotel?.hotelName || "Deleted hotel"}
+              // value={editingBookingData.hotel.hotelName || "Deleted hotel"}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Ex: Digha Saikatabas"
-              required
+              
               
             />
             
-          </div>
+          </div> */}
           <div>
             <label
               htmlFor="guest_name"
@@ -81,13 +142,19 @@ interface Props {
               Guest Name
             </label>
             <input
-            value={booking?.guestName}
+            value={editingBookingData.guestName}
               type="text"
               id="guest_name"
               name="guest_name"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Ex: Subham"
-              required
+              
+              onChange={(e) => {
+                setEditingBookingData((prev: any) => {
+                  return { ...prev, guestName: e.target.value };
+                }
+                );
+              }}
             />
           </div>
           <div>
@@ -98,13 +165,23 @@ interface Props {
               Check-in Date
             </label>
             <input
-            value={new Date(booking?.checkInDate).toLocaleDateString()}
+            // value={new Date(editingBookingData.checkInDate)?.toISOString().slice(0,10) ?? new Date().toISOString().split("T")[0]}
+            
               id="startDate"
-              name="startDate"
-              type="text"
+              name="checkInDate"
+              type="date"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="08.08.2023"
-              required
+              
+              min={new Date().toISOString().slice(0,10)}
+              onChange={
+                (e) => {
+                  setEditingBookingData((prev: any) => {
+                    return { ...prev, checkInDate: e.target.value };
+                  }
+                  );
+                }
+              }
               
             />
           </div>
@@ -116,14 +193,20 @@ interface Props {
               Check-out Date
             </label>
             <input
-            value={new Date(booking?.checkOutDate).toLocaleDateString()}
+            // value={new Date(editingBookingData.checkOutDate).toISOString().slice(0,10)}
               id="endDate"
-              name="endDate"
-              type="text"
+              name="checkOutDate"
+              type="date"
+              // value={editingBookingData.checkOutDate}
               
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="09.09.2023"
-              required
+              onChange={
+                (e) =>
+                setEditingBookingData((prev: any) =>{
+                  return {...prev, checkOutdate: e.target.value}
+                }) 
+              }
             />
           </div>
           <div>
@@ -135,13 +218,15 @@ interface Props {
             </label>
             <input
               id="endDate"
-              name="endDate"
+              name="roomCategory"
               type="text"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="09.09.2023"
-              required
               
-              value={booking?.roomCatagory}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              
+              
+              
+              value={editingBookingData.roomCategory}
+              onChange={(e) => setEditingBookingData((prev : any) => {return {...prev,roomCategory: e.target.value}})}
             />
           </div>
           <div>
@@ -157,9 +242,11 @@ interface Props {
               name="nor"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="20"
-              required
               
-              value={booking?.numberOfRooms}
+              onChange={
+                (e)=> setEditingBookingData((prev:any) => {return {...prev,numberOfRooms: e.target.value}})
+              }
+              value={editingBookingData.numberOfRooms}
             />
           </div>
           <div>
@@ -175,9 +262,12 @@ interface Props {
               name="nop"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="4"
-              required
               
-              value={booking?.numberOfPersons}
+              
+              value={editingBookingData.numberOfPersons}
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,numberOfPersons: e.target.value}})
+              }
             />
           </div>
           <div className="mb-6">
@@ -191,11 +281,14 @@ interface Props {
               name="bookingAmount"
               type="text"
               id="bookingAmount"
-              value={booking?.bookingAmount}
+              value={editingBookingData.bookingAmount}
               
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter booking amount"
-              required
+              
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,bookingAmount: e.target.value}})
+              }
               
             />
           </div>
@@ -210,10 +303,13 @@ interface Props {
               name="advanceAmount"
               type="text"
               id="advanceAmount"
-              value={booking?.advanceAmount}
+              value={editingBookingData.advanceAmount}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter advance amount"
-              required
+              
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,advanceAmount: e.target.value}})
+              }
               
             />
           </div>
@@ -228,10 +324,13 @@ interface Props {
               name="dueamount"
               id="duedate"
               type="text"
-              value={booking?.dueAmount}
+              value={editingBookingData.dueAmount}
               readOnly
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required
+              
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,dueAmout: e.target.value}})
+              }
             />
           </div>
   
@@ -243,13 +342,16 @@ interface Props {
               Advance Date
             </label>
             <input
-            value={new Date(booking?.advanceDate).toISOString()}
+            value={editingBookingData.advanceDate}
               id="Advancedate"
               name="Advancedate"
               type="date"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="24.05.26"
-              required
+              
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,advanceDate: e.target.value}})
+              }
             />
           </div>
           <div>
@@ -261,16 +363,19 @@ interface Props {
             </label>
             <input
               id="Advancedate"
-              name="Advancedate"
+              name="bookingSource"
               type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="24.05.26"
-              required
               
-              value={booking?.bookingSource}
+              
+              value={editingBookingData.bookingSource}
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,bookingSource: e.target.value}})
+              }
             />
           </div>
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <label
               htmlFor="bb"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -284,10 +389,10 @@ interface Props {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Someone"
               
-              required
-              value={booking?.booikingBy}
+              
+              value={editingBookingData.booikingBy}
             />
-          </div>
+          </div> */}
           <div>
             <label
               htmlFor="plan"
@@ -298,12 +403,15 @@ interface Props {
             <input
               type="text"
               id="bb"
-              name="bb"
+              name="plan"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Someone"
               
-              required
-              value={booking?.plan}
+              
+              value={editingBookingData.plan}
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,plan: e.target.value}})
+              }
             />
           </div>
           <div className="mb-6">
@@ -319,8 +427,11 @@ interface Props {
               name="cn"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="+91 999999999"
-              required
-              value={booking?.contactNumber}
+              
+              value={editingBookingData.contactNumber}
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,contactNumber: e.target.value}})
+              }
               
             />
           </div>
@@ -333,20 +444,30 @@ interface Props {
               Remarks
             </label>
             <input
-            value={booking?.remarks}
+            value={editingBookingData.remarks}
               type="text"
               id="remark"
               name="remark"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Very Good"
-              required
+              
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,remarks: e.target.value}})
+              }
               
             />
           </div>
         </div>
+        <button
+        type="submit"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        disabled={loading}
+      >
+        Update
+      </button>
       </form>
     );
   };
   
-  export default ViewBooking;
+  export default EditBooking;
   

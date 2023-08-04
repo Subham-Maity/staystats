@@ -67,7 +67,7 @@ const Bookings = () => {
         </button>
       </div>
       <div className="flex w-full">
-        <BookingTable setShowModal={(value) => setShowViewModal(value)} getBooking={(booking) => setBooking(booking)} bookingData={bookingData} />
+        <BookingTable owner={user} setBookingData={setBookingData} setShowModal={(value) => setShowViewModal(value)} getBooking={(booking) => setBooking(booking)} bookingData={bookingData} />
       </div>
       <ToastContainer theme="dark" position="bottom-center" autoClose={10000} />
       {showModal && (

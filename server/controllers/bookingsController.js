@@ -95,8 +95,44 @@ const createBooking = async (req, res) => {
   }
 };
 
-const updateBooking = (req, res) => {
-  // EOD
+const updateBooking = async (req, res) => {
+  const {
+    id,
+    guestName,
+    checkInDate,
+    checkOutDate,
+    roomCategory,
+    numberOfRooms,
+    numberOfPersons,
+    bookingAmount,
+    advanceAmount,
+    dueAmount,
+    advanceDate,
+    bookingSource,
+    bookingBy,
+    plan,
+    contactNumber,
+    remarks,
+  } = req.body;
+  try {
+    console.log("[updateuser controller]");
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      id,
+      { guestName, checkInDate, checkOutDate, roomCategory, numberOfRooms, numberOfPersons, bookingAmount, advanceAmount, dueAmount, advanceDate, bookingSource, bookingBy, plan, contactNumber, remarks},
+      { new: true } // This option returns the updated document after the update is applied
+    );
+
+    if (!updatedBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Booking updated successfully", user: updateBooking });
+  } catch (error) {
+    console.log("[user controller update error:]", error);
+    res.status(201).json({ error: error.message });
+  }
 };
 
 const deleteBooking = (req, res) => {
