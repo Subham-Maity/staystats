@@ -81,6 +81,40 @@ const getAllHotels = async (req, res) => {
   }
 };
 
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+const getAllHotelsBySearch = async (req, res) => {
+  const { query } = req.query;
+  console.log("[get all hotels by search controller: =>]")
+  console.log(req.query);
+  try {
+    const regex = new RegExp(escapeRegex(query), "gi");
+
+    const hotels = await Hotel.find()
+    .or([
+      { hotelName: regex },
+      { location: regex }, 
+      { ownerName: regex },
+      { "ownerContact.email": regex } 
+    ])
+    // .and([formsQuery])    // Additional conditions specified in formsQuery
+    // .limit(5)
+    .populate({ path: "addedBy", model: User });
+
+  if (hotels.length > 0) {
+    res.status(200).json({ hotels, message: "Hotels fetched successfully" });
+  } else {
+    res.status(200).json({ hotels, message: "No result found for this search" });
+  }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+    throw new Error(error);
+  }
+};
+
 const createHotel = async (req, res) => {
   if (req.user.role !== "ADMIN") {
     res.status(201).json({ error: "You are not authorized to create a hotel" });
@@ -197,6 +231,7 @@ const deleteHotel = async (req, res) => {
 module.exports = {
   getHotel,
   getAllHotels,
+  getAllHotelsBySearch,
   createHotel,
   updateHotel,
   deleteHotel,

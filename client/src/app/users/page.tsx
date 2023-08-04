@@ -18,8 +18,7 @@ const Users = () => {
   let router = useRouter();
   const PAGE_LIMIT = 2;
   const [page, setPage] = useState(1);
-  const [searchText, setSearchText] = useState("");
-  const [searchResult, setSearchResults] = useState<any>({}); // {users: [], usersCount: 0}
+  const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [owner, setOwner] = useState<any>({});
   const [accountType, setAccountType] = useState<string>("");
   const [userData, setUserData] = useState<any>([]);
@@ -47,11 +46,6 @@ const Users = () => {
     updateUser();
   }, []);
 
-  useEffect(() => {
-    if (searchText === "") {
-      setSearchResults({});
-    }
-  }, [searchText]);
 
   const getUsersBySearch = async (e?: any) => {
     e && e.preventDefault();
@@ -188,7 +182,7 @@ const Users = () => {
           >
             <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
               <input
-                placeholder="Search by Name..."
+                placeholder="Search Users..."
                 aria-label="Username"
                 aria-describedby="basic-addon1"
                 value={searchText}

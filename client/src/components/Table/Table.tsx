@@ -99,7 +99,7 @@ const Table = ({
                       {/* <td className="px-6 py-4">{user.hotel || ""}</td> */}
                       <td className="px-6 py-4">{user.role || ""}</td>
                       <td className="px-6 py-4">
-                        <div className="">
+                        <div className="flex">
                       <button
                             onClick= {()=>{
                                 console.log(user)
@@ -118,7 +118,7 @@ const Table = ({
                               setShowEditModal(true)
                               setEditingUserData(user)
                             }}
-                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 mb-2 disabled:opacity-50`}
+                            className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                           >
                             <FiEdit className="" />
                           </button>

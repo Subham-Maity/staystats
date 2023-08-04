@@ -17,6 +17,7 @@ import {
 } from "react-icons/md";
 import { BiLink, BiSearch } from "react-icons/bi";
 import { FcNext, FcPrevious } from "react-icons/fc";
+import { CiSquareRemove } from "react-icons/ci";
 
 const Hotels = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const Hotels = () => {
   const [hotel, setHotel] = useState<object>();
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [reloadData, setReloadData] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -49,6 +51,27 @@ const Hotels = () => {
     };
     updateUser();
   }, []);
+
+
+  const getHotelsBySearch = async (e?: any) => {
+    e && e.preventDefault();
+    try {
+      if (searchText?.trim()?.length > 0) {
+        let { data } = await axios.get(
+          `/hotel/get-all-hotels/search?&query=${searchText}`
+        );
+        // console.log("users", data);
+        if (!data.error) {
+          // setSearchResults(data);
+          setHotelData(data.hotels);
+        } else {
+          toast.error(data.error);
+        }
+      }
+    } catch (error) {
+      console.log("Error getting forms", error);
+    }
+  };
 
   useEffect(() => {
     const getHotels = async () => {
@@ -69,8 +92,8 @@ const Hotels = () => {
         console.log(error);
       }
     };
-    getHotels();
-  }, [page, PAGE_LIMIT]);
+    searchText.trim().length > 0 ? getHotelsBySearch() : getHotels();
+  }, [page, PAGE_LIMIT, reloadData]);
 
   const deleteHotelHandler = async (id: string) => {
     try {
@@ -145,7 +168,7 @@ const Hotels = () => {
         <form
           onSubmit={(e)=>{
             e.preventDefault()
-            toast.info("Search feature is not available yet")
+            getHotelsBySearch(e)
           }}
           className="w-full h-full text-xs mt-2 md:mt-0"
         >
@@ -162,11 +185,21 @@ const Hotels = () => {
               className="min-w-[40px] flex justify-center items-center bg-blue-700 text-white cursor-pointer hover:opacity-90"
               onClick={(e)=>{
                 e.preventDefault()
-                toast.info("Search feature is not available yet")
+                getHotelsBySearch(e)
               }}
             >
               <BiSearch className="text-xl" />
             </button>
+            <div className="min-w-[40px] flex items-center justify-center">
+            <CiSquareRemove
+              size={40}
+              className=" text-red-500 cursor-pointer"
+              onClick={() => {
+                setSearchText("");
+                setReloadData(!reloadData);
+              }}
+            />
+          </div>
           </div>
         </form>
       </div>
