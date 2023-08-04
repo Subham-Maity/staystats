@@ -72,7 +72,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
         // const { data } = await axios.post("/user/get-users");
         if (!data.error) {
           setUserData((prev: any) => {
-            return [...prev, data.user];
+            return [data.user, ...prev ];
           });
           onClose(false);
         } else {

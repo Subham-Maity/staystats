@@ -30,12 +30,30 @@ const getUsers = async (req, res) => {
   // Some logic to get the user
   try {
     console.log("getUsers");
-    const users = await User.find({ role: "SUBADMIN" }).populate({ path: 'hotel', model: Hotel });
+    let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
+    page = parseInt(page) ?? 1;
+    limit = parseInt(limit) ?? 10;
+
+    let skipIndex = (page - 1) * limit;
+    const users = await User.find({ role: "SUBADMIN" })
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+      .skip(skipIndex)
+      .limit(limit)
+      .populate({ path: "hotel", model: Hotel });
+
+    let usersCount = await User.countDocuments({ role: "SUBADMIN" });
+
     if (!users) {
-      res.status(200).json({ error: "No users found", users: [] });
+      res
+        .status(200)
+        .json({
+          error: "No users found",
+          users: [],
+          usersCount: usersCount ?? 0,
+        });
       return;
     } else {
-      res.status(200).json({ users });
+      res.status(200).json({ users, usersCount: usersCount ?? 0 });
       return;
     }
   } catch (error) {
@@ -43,6 +61,39 @@ const getUsers = async (req, res) => {
     res.status(500).json({
       message: "Internal server error",
     });
+  }
+};
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+const getUsersBySearch = async (req, res) => {
+  const { query } = req.query;
+  console.log("[get users by search controller: =>]")
+  console.log(req.query);
+  try {
+    const regex = new RegExp(escapeRegex(query), "gi");
+
+    const users = await User.find()
+    .or([
+      { name: regex },    // Search for forms with name matching the provided regex
+      { email: regex },   // Search for forms with email matching the provided regex
+      { username: regex } // Search for forms with username matching the provided regex
+    ])
+    // .and([formsQuery])    // Additional conditions specified in formsQuery
+    // .limit(5)
+    .populate({ path: "hotel", model: Hotel });
+
+  if (users.length > 0) {
+    res.status(200).json({ users, message: "Users fetched successfully" });
+  } else {
+    res.status(200).json({ users, message: "No result found for this search" });
+  }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+    throw new Error(error);
   }
 };
 
@@ -74,22 +125,22 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { id, phoneNumber, hotel,username,name,email } = req.body;
+  const { id, phoneNumber, hotel, username, name, email } = req.body;
   try {
     console.log("[updateuser controller]");
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { phoneNumber, hotel,name,username,email },
+      { phoneNumber, hotel, name, username, email },
       { new: true } // This option returns the updated document after the update is applied
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json({ message: "User updated successfully", user: updatedUser });
-
-
+    res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
     console.log("[user controller update error:]", error);
     res.status(201).json({ error: error.message });
@@ -118,6 +169,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   getUser,
   getUsers,
+  getUsersBySearch,
   createUser,
   updateUser,
   deleteUser,

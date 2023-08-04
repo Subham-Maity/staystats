@@ -51,7 +51,7 @@ const Hotels = () => {
   }, []);
 
   useEffect(() => {
-    const getUsers = async () => {
+    const getHotels = async () => {
       try {
         setLoading(true);
         const { data } = await axios.get(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
@@ -69,7 +69,7 @@ const Hotels = () => {
         console.log(error);
       }
     };
-    getUsers();
+    getHotels();
   }, [page, PAGE_LIMIT]);
 
   const deleteHotelHandler = async (id: string) => {
@@ -127,7 +127,7 @@ const Hotels = () => {
             </button>
           </div>
           {/* <div className="ml-4 py-2 px-2 h-full border shadow rounded text-xs font-medium"> */}
-          <Select
+          {/* <Select
             id="hotel"
             name="hotel"
             options={[{value: "all", label: "All Hotels"}, ...hotelData.map((hotel: any)=>({value: hotel._id, label: hotel.hotelName}))]}
@@ -139,7 +139,7 @@ const Hotels = () => {
             }}
             className="w-[80px] outline-none ml-4 px-2 h-full shadow rounded text-xs font-medium"
             isDisabled={loading}
-          />
+          /> */}
           {/* </div> */}
         </div>
         <form
@@ -151,7 +151,7 @@ const Hotels = () => {
         >
           <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
             <input
-              placeholder="Search by hotel..."
+              placeholder="Search by Hotel..."
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={searchText}

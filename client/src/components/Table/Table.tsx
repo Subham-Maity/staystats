@@ -8,6 +8,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "@/utils/axios";
 import EditUser from "../card/EditUser";
+import { InfinitySpin } from "react-loader-spinner";
 interface TableProps {
   userData: {
     name?: string;
@@ -20,6 +21,7 @@ interface TableProps {
   deleteUserHandler: (id: string) => void;
   setUserData: (users: any) => void;
   owner?: any;
+  loading?: boolean;
 }
 
 const Table = ({
@@ -29,6 +31,7 @@ const Table = ({
   getUser,
   setShowModal,
   owner,
+  loading,
 }: TableProps) => {
   console.log(userData, "userdata");
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
@@ -71,7 +74,12 @@ const Table = ({
             )}
             {userData.length > 0 && (
               <>
-                {userData.map((user: any, index: number) => {
+              {loading ? (
+                  <div className=" m-auto">
+                    <InfinitySpin width="200" color="#4fa94d" />
+                  </div>
+                ) : (
+                userData.map((user: any, index: number) => {
                   console.log(user.name);
 
                   return (
@@ -126,7 +134,7 @@ const Table = ({
                       </td>
                     </tr>
                   );
-                })}
+                }))}
               </>
             )}
           </tbody>

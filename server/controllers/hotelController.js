@@ -51,11 +51,12 @@ const getAllHotels = async (req, res) => {
 
     // Fetch hotels with applied filters and sorting
     const hotels = await Hotel.find(filter)
-      .sort(sort)
-      .skip(skipIndex)
-      .limit(limit)
-      .populate("addedBy");
-    let hotelsCount = await Hotel.countDocuments(filter);
+    .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+    .skip(skipIndex)
+    .limit(limit)
+    .populate("addedBy");
+  let hotelsCount = await Hotel.countDocuments(filter);
+  
 
     console.timeEnd("get hotels");
 
