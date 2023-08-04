@@ -1,3 +1,6 @@
 // utils/constants.ts
 
-export const BASE_URL = "https://stay-stats-backend.onrender.com"; // Replace with your backend base URL
+// comment out the one you don't want to use
+
+// export const BASE_URL = "https://stay-stats-backend.onrender.com"; /
+export const BASE_URL = "http://localhost:5000"; 

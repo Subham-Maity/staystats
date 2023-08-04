@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import HotelTable from "@/components/Table/HotelTable";
+import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import InputHotel from "@/components/card/InputHotel";
 import ViewHotel from "@/components/card/ViewHotel";
@@ -8,15 +9,28 @@ import axios from "@/utils/axios";
 import { FaPlus } from "react-icons/fa";
 import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
+import {
+  MdOutlineArrowBackIos,
+  MdOutlineArrowForwardIos,
+  MdArchive,
+  MdClose,
+} from "react-icons/md";
+import { BiLink, BiSearch } from "react-icons/bi";
+import { FcNext, FcPrevious } from "react-icons/fc";
 
 const Hotels = () => {
   const router = useRouter();
+  const PAGE_LIMIT = 1;
+  const [page, setPage] = useState(1);
+  const [searchText, setSearchText] = useState("");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [hotelData, setHotelData] = useState<any>([]);
+  const [hotelsCount, setHotelsCount] = useState<number>(0);
   const [user, setUser] = useState<any>({});
   const [accountType, setAccountType] = useState<string>("");
   const [hotel, setHotel] = useState<object>();
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -39,20 +53,24 @@ const Hotels = () => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const { data } = await axios.get("/hotel/get-all-hotels");
+        setLoading(true);
+        const { data } = await axios.get(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
         console.log(data);
         if (!data.error) {
           setHotelData(data.hotels);
+          setHotelsCount(data.hotelsCount);
         } else {
           toast.error(data.error);
         }
+        setLoading(false);
       } catch (error: any) {
+        setLoading(false);
         toast.error(error.message);
         console.log(error);
       }
     };
     getUsers();
-  }, []);
+  }, [page, PAGE_LIMIT]);
 
   const deleteHotelHandler = async (id: string) => {
     try {
@@ -61,9 +79,10 @@ const Hotels = () => {
       });
       if (!data.error) {
         toast.success(data.message);
-        const { data: users } = await axios.get("/hotel/get-all-hotels");
+        const { data: users } =  await axios.get(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
         if (!data.error) {
           setHotelData(users.hotels);
+          setHotelsCount(data.hotelsCount);
         } else {
           toast.error(data.error);
         }
@@ -89,6 +108,68 @@ const Hotels = () => {
           <p>Add Hotel</p>
         </button>
       </div>
+      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
+        <div className="h-full flex flex-row  items-center mr-auto">
+          <div className="flex flex-row h-full text-gray-700">
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              className="border p-3 shadow hover:bg-gray-200 cursor-pointer hover:opacity-90 rounded-l-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <FcPrevious />
+            </button>
+            <button
+              disabled={page * PAGE_LIMIT >= hotelsCount}
+              onClick={() => setPage(page + 1)}
+              className="border p-3 shadow hover:bg-gray-200 cursor-pointer hover:opacity-90 rounded-r-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <FcNext />
+            </button>
+          </div>
+          {/* <div className="ml-4 py-2 px-2 h-full border shadow rounded text-xs font-medium"> */}
+          <Select
+            id="hotel"
+            name="hotel"
+            options={[{value: "all", label: "All Hotels"}, ...hotelData.map((hotel: any)=>({value: hotel._id, label: hotel.hotelName}))]}
+            isMulti
+            value={"coming soon"}
+            onChange={()=>{
+              toast.info("Search feature is not available yet")
+              // handleHotelSelection()
+            }}
+            className="w-[80px] outline-none ml-4 px-2 h-full shadow rounded text-xs font-medium"
+            isDisabled={loading}
+          />
+          {/* </div> */}
+        </div>
+        <form
+          onSubmit={(e)=>{
+            e.preventDefault()
+            toast.info("Search feature is not available yet")
+          }}
+          className="w-full h-full text-xs mt-2 md:mt-0"
+        >
+          <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
+            <input
+              placeholder="Search by hotel..."
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="w-full h-full py-2 px-4   outline-none text-gray-700 "
+            />
+            <button
+              className="min-w-[40px] flex justify-center items-center bg-blue-700 text-white cursor-pointer hover:opacity-90"
+              onClick={(e)=>{
+                e.preventDefault()
+                toast.info("Search feature is not available yet")
+              }}
+            >
+              <BiSearch className="text-xl" />
+            </button>
+          </div>
+        </form>
+      </div>
       <div className="flex w-full">
         <HotelTable
           setShowModal={(value) => setShowViewModal(value)}
@@ -97,6 +178,7 @@ const Hotels = () => {
           getHotel={(hotel) => setHotel(hotel)}
           deleteHotelHandler={deleteHotelHandler}
           owner={user}
+          loading={loading}
         />
       </div>
       <ToastContainer theme="dark" position="bottom-center" autoClose={10000} />
@@ -120,6 +202,30 @@ const Hotels = () => {
           )}
         </div>
       )}
+      <div className="w-full flex flex-row justify-between items-center py-3 border-t-2">
+          <div>
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              className="mr-2 py-2 px-4 border rounded-md text-sm font-medium border-gray-300 text-gray-500 cursor-pointer hover:opacity-90 disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              disabled={page * PAGE_LIMIT >= hotelsCount}
+              onClick={() => setPage(page + 1)}
+              className="py-2 px-4 border rounded-md text-sm font-medium border-gray-300 text-gray-500 cursor-pointer hover:opacity-90 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+          <div className="text-gray-500 text-sm">
+            {" "}
+            <div>{`Page ${page} of ${Math.ceil(
+              hotelsCount / PAGE_LIMIT
+            )}`}</div>
+          </div>
+        </div>
     </div>
   );
 };
