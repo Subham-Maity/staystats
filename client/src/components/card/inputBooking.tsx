@@ -97,7 +97,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       if (!data.error) {
         console.log(data.booking);
         setBookingData((prev: any) => {
-          return [...prev, data.booking];
+          return [data.bookin, ...prev];
         });
 
         onClose(false);

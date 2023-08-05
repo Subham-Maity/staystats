@@ -52,7 +52,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
 
             console.log(data.hotel)
           setHotelData((prev: any)=>{
-            return  [...prev, data.hotel]
+            return  [data.hotel, ...prev]
           });
 
           onClose(false)

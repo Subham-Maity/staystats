@@ -21,7 +21,7 @@ import { CiSquareRemove } from "react-icons/ci";
 
 const Hotels = () => {
   const router = useRouter();
-  const PAGE_LIMIT = 1;
+  const PAGE_LIMIT = 10;
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [showModal, setShowModal] = useState<boolean>(false);
