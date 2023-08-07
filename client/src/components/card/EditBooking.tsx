@@ -358,25 +358,30 @@ interface Props {
             />
           </div>
           <div>
-            <label
-              htmlFor="paymentby"
+          <label
+              htmlFor="ad"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Booking Source
+              Booking source
             </label>
-            <input
-              id="Advancedate"
-              name="bookingSource"
-              type="text"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="24.05.26"
-              
-              
-              value={editingBookingData.bookingSource}
-              onChange={
-                (e) => setEditingBookingData((prev:any) => {return {...prev,bookingSource: e.target.value}})
-              }
-            />
+          <select
+            id="paymentby"
+            name="paymentby"
+            onChange={(e)=> setEditingBookingData((prev:any) => {return {...prev,bookingSource: e.target.value}})}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option defaultValue={editingBookingData.bookingSource}>{editingBookingData.bookingSource}</option>
+            <option value="Booking.com">Booking.com</option>
+            <option value="Agoda">Agoda</option>
+            <option value="Cleartrip">Cleartrip</option>
+            <option value="Yatra">Yatra</option>
+            <option value="Sayngo">Sayango</option>
+            <option value="Offline">Offline</option>
+            <option value="Travel Agent">Travel Agent</option>
+            <option value="Via.com">Via.com</option>
+            <option value="Paytm">Paytm</option>
+            <option value="Lxiogo">Lxiogo</option>
+          </select>
           </div>
           {/* <div className="mb-6">
             <label
@@ -403,19 +408,18 @@ interface Props {
             >
               Plan
             </label>
-            <input
-              type="text"
-              id="bb"
-              name="plan"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Someone"
-              
-              
-              value={editingBookingData.plan}
-              onChange={
-                (e) => setEditingBookingData((prev:any) => {return {...prev,plan: e.target.value}})
-              }
-            />
+            <select
+            onChange={(e)=> setEditingBookingData((prev:any) => {return {...prev,plan: e.target.value}})}
+            id="plan"
+            name="plan"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option selected value={editingBookingData.plan}>{editingBookingData.plan}</option>
+            ,<option value="AP">AP</option>
+            <option value="CP">CP</option>
+            <option value="MAP">MAP</option>
+            <option value="EP">EP</option>
+          </select>
           </div>
           <div className="mb-6">
             <label
