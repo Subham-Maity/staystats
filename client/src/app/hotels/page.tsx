@@ -177,7 +177,7 @@ const Hotels = () => {
         >
           <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
             <input
-              placeholder="Search by Hotel..."
+              placeholder="Search Hotels..."
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={searchText}

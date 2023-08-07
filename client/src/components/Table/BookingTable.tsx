@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdWarningAmber } from "react-icons/md";
+import { TbLoader } from "react-icons/tb";
 import { AiOutlineEye } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -121,7 +122,7 @@ const BookingTable = ({
           <tbody className="rounded-xl">
             {bookingData?.length === 0 && (
               <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <MdWarningAmber className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                <TbLoader className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </tr>
             )}
             {bookingData && bookingData.length > 0 && (
@@ -207,10 +208,10 @@ const BookingTable = ({
 
                             <button
                               onClick={() => cancelBookingHandler(booking._id)}
-                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 cursor-pointer`}
+                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-xs rounded-md mr-2 disabled:opacity-50 cursor-pointer`}
                               disabled={booking?.status === "CANCELLED"}
                             >
-                              Cancel
+                              <span className="m-0 p-0">Cancel</span>
                             </button>
                           </div>
                         </td>

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { MdWarningAmber } from "react-icons/md";
+import { TbLoader } from "react-icons/tb";
 import { FiEdit, FiExternalLink } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEye } from "react-icons/ai";
@@ -74,7 +75,7 @@ const HotelTable = ({
           <tbody className="rounded-xl">
             {hotelData.length === 0 && (
               <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <MdWarningAmber className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                <TbLoader className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </tr>
             )}
 
