@@ -142,6 +142,7 @@ const createBooking = async (req, res) => {
     bookingBy,
     plan,
     contactNumber,
+    accountType,
     remarks,
   } = req.body;
   try {
@@ -161,6 +162,7 @@ const createBooking = async (req, res) => {
       bookingBy,
       plan,
       contactNumber,
+      accountType,
       remarks,
       addedBy: req.user._id,
     });
@@ -195,6 +197,7 @@ const updateBooking = async (req, res) => {
     plan,
     contactNumber,
     remarks,
+    status
   } = req.body;
   try {
     console.log("[updateuser controller]");
@@ -216,6 +219,7 @@ const updateBooking = async (req, res) => {
         plan,
         contactNumber,
         remarks,
+        status
       },
       { new: true } // This option returns the updated document after the update is applied
     );
@@ -233,8 +237,29 @@ const updateBooking = async (req, res) => {
   }
 };
 
-const deleteBooking = (req, res) => {
-  // EOD
+const cancelBooking = async (req, res) => {
+  const {bookingId,status} = req.body;
+  try {
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      {
+        status
+      },
+      { new: true } // This option returns the updated document after the update is applied
+    );
+
+    if (!updatedBooking) {
+      return res.status(201).json({ error: "Booking not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Booking cancelled successfully", booking: updatedBooking });
+  } catch (error) {
+    console.log("[user controller update error:]", error);
+    res.status(201).json({ error: error.message });
+    
+  }
 };
 
 module.exports = {
@@ -243,5 +268,5 @@ module.exports = {
   getAllBookingsBySearch,
   createBooking,
   updateBooking,
-  deleteBooking,
+  cancelBooking,
 };

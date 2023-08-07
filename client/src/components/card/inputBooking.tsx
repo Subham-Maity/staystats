@@ -15,6 +15,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [bookingAmount, setBookingAmount] = useState<string>("");
   const [advanceAmount, setAdvanceAmount] = useState<string>("");
+  const [checkInDate,setCheckInDate] = useState<string>("");
   const [dueAmount, setDueAmount] = useState<string>("");
   const [availableHotels, setAvailableHotels] = useState<any>([]);
 // console.log("inputbooking", user);
@@ -73,7 +74,57 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         return;
       }
     });
-    console.log(formValues);
+    console.log(formValues.accountType);
+
+
+    const numberRegex = /^[0-9]+$/;
+    const nameRegex = /^[a-zA-Z ]+$/;
+
+
+    if(formValues.guest_name.trim() === "" || formValues.startDate.trim() === "" || formValues.endDate.trim() === "" || formValues.roomCategory.trim() === "" || formValues.nor.trim() === "" || formValues.nop.trim() === "" || formValues.bookingAmount.trim() === "" || formValues.advanceAmount.trim() === "" || formValues.dueamount.trim() === "" || formValues.Advancedate.trim() === "" || formValues.paymentby.trim() === "" || formValues.plan.trim() === "" || formValues.cn.trim() === "" || formValues.remark.trim() === ""){
+      toast.error("Please fill all the fields");
+      return;
+    }
+
+
+    if (formValues.nor.trim() === "" && !numberRegex.test(formValues.nor)) {
+      toast.error("Please enter a valid number of rooms");
+      return;
+    }
+
+    if (formValues.nop.trim() === "" && !numberRegex.test(formValues.nop)) {
+      toast.error("Please enter a valid number of persons");
+      return;
+    }
+
+    if (formValues.bookingAmount.trim() === "" && !numberRegex.test(formValues.bookingAmount)) {
+      toast.error("Please enter a valid booking amount");
+      return;
+    }
+
+    if (formValues.advanceAmount.trim() === "" && !numberRegex.test(formValues.advanceAmount)) {
+      toast.error("Please enter a valid advance amount");
+      return;
+    }
+
+    if (formValues.dueamount.trim() === "" && !numberRegex.test(formValues.dueamount)) {
+      toast.error("Please enter a valid due amount");
+      return;
+    }
+
+    if (formValues.Advancedate.trim() === "") {
+      toast.error("Please enter a valid advance date");
+      return;
+    }
+
+    if (formValues.cn.trim() === "" && !numberRegex.test(formValues.cn)) {
+      toast.error("Please enter a valid contact number and don't include +91");
+      return;
+    }
+
+
+
+
     try {
       setLoading(true);
       const { data } = await axios.post("/booking/create-booking", {
@@ -90,6 +141,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         advanceDate: formValues.Advancedate,
         bookingSource: formValues.paymentby,
         bookingBy: user.name || user.username,
+        accountType: formValues.accountType,
         plan: formValues.plan,
         contactNumber: formValues.cn,
         remarks: formValues.remark,
@@ -97,7 +149,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       if (!data.error) {
         console.log(data.booking);
         setBookingData((prev: any) => {
-          return [data.bookin, ...prev];
+          return [data.booking, ...prev];
         });
 
         onClose(false);
@@ -194,9 +246,12 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="startDate"
             name="startDate"
             type="date"
+            value={checkInDate}
+            onChange={(e)=>setCheckInDate(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="08.08.2023"
             required
+            min={new Date().toISOString().split("T")[0]}
           />
         </div>
         <div>
@@ -213,6 +268,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="09.09.2023"
             required
+            min={checkInDate}
           />
         </div>
         <div>
@@ -329,6 +385,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="24.05.26"
             required
+            min={checkInDate}
           />
         </div>
         <div>
@@ -391,6 +448,25 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             <option value="MAP">MAP</option>
             <option value="EP">EP</option>
           </select>
+
+        </div>
+        <div>
+          <label
+            htmlFor="plan"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Account type
+          </label>
+          <select
+            id="plan"
+            name="accountType"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option selected value="Hotel">Hotel</option>
+            <option value="Sayngo">Sayngo</option>
+            
+          </select>
+          
         </div>
         <div className="mb-6">
           <label

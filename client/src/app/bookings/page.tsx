@@ -31,6 +31,7 @@ const Bookings = () => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
+      
       if (user && user._id) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
@@ -86,6 +87,30 @@ const Bookings = () => {
     };
     searchText.trim().length > 0 ? getBookingsBySearch() : getBookings();
   }, [page, PAGE_LIMIT, reloadData]);
+
+
+  const cancelBookingHandler = async (bookingId: string) => {
+    try {
+      const { data } = await axios.post(`/booking/cancel-booking`, {
+        bookingId, status: "CANCELLED"
+      });
+      if (!data.error) {
+        toast.success(data.message);
+        const { data: bookingData } =  await axios.get(`/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`);
+        if (!data.error) {
+          setBookingData(bookingData.bookings);
+          setBookingCounts(data.bookingsCount);
+        } else {
+          toast.error(data.error);
+        }
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center">
@@ -187,6 +212,7 @@ const Bookings = () => {
           setBookingData={setBookingData}
           setShowModal={(value) => setShowViewModal(value)}
           getBooking={(booking) => setBooking(booking)}
+          cancelBookingHandler={cancelBookingHandler}
           bookingData={bookingData}
           loading={loading}
         />

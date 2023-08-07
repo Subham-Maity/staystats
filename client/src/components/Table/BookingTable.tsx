@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import EditBooking from "../card/EditBooking";
 import { InfinitySpin } from "react-loader-spinner";
 interface TableProps {
-  bookingData: {
+  bookingData?: {
     hotelName?: string;
     guestName?: string;
     checkInDate?: string;
@@ -23,10 +23,12 @@ interface TableProps {
     plan?: string;
     contactNumber?: string;
     remarks?: string;
+    status?: string;
   }[];
   setBookingData: any;
   getBooking: (booking: object) => void;
   setShowModal: (value: boolean) => void;
+  cancelBookingHandler: (id: string) => void;
   owner?: any;
   loading?: boolean;
 }
@@ -36,12 +38,17 @@ const BookingTable = ({
   getBooking,
   setShowModal,
   setBookingData,
+  cancelBookingHandler,
   owner,
   loading,
 }: TableProps) => {
   console.log(bookingData);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingBookingData, setEditingBookingData] = useState<object>({});
+
+  useEffect(() => {
+    console.log(bookingData);
+  },[bookingData])
   return (
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
@@ -69,9 +76,9 @@ const BookingTable = ({
               <th scope="col" className="px-4 text-center py-3">
                 Booking Source
               </th>
-              {/* <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                         Status
-                    </th> */}
+                    </th>
 
               <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
@@ -112,53 +119,53 @@ const BookingTable = ({
             </tr>
           </thead>
           <tbody className="rounded-xl">
-            {bookingData.length === 0 && (
+            {bookingData?.length === 0 && (
               <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <MdWarningAmber className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </tr>
             )}
-            {bookingData.length > 0 && (
+            {bookingData && bookingData.length > 0 && (
               <>
                 {loading ? (
                   <div className=" m-auto">
                     <InfinitySpin width="200" color="#4fa94d" />
                   </div>
                 ) : (
-                  bookingData.map((booking: any, index: number) => {
+                  bookingData?.map((booking: any, index: number) => {
                     return (
                       <tr
                         key={index}
-                        className="text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${booking?.status === "CANCELLED" ? "line-through" : ""}`}
                       >
                         <th
                           scope="row"
-                          className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                          className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white text-center "
                         >
                           {booking?.hotel?.hotelName || "DELETED HOTEL"}
                         </th>
-                        <td className="px-6 py-4">{booking.guestName || ""}</td>
+                        <td className="px-6 py-4">{booking?.guestName || ""}</td>
                         <td className="px-6 py-4 text-center">
                           <p className="font-semibold whitespace-nowrap">
-                            {new Date(booking.checkInDate).toDateString()}
+                            {new Date(booking?.checkInDate).toDateString()}
                           </p>
                           <span className="text-center">to</span>
                           <p className="font-semibold whitespace-nowrap">
-                            {new Date(booking.checkOutDate).toDateString()}
+                            {new Date(booking?.checkOutDate).toDateString()}
                           </p>
                         </td>
                         <td className="px-6 py-4">
-                          {booking.numberOfPersons || ""}
+                          {booking?.numberOfPersons || ""}
                         </td>
                         <td className="px-6 py-4">
-                          {booking.bookingAmount || ""}
+                          {booking?.bookingAmount || ""}
                         </td>
                         <td className="px-6 py-4">
-                          {booking.advanceAmount || ""}
+                          {booking?.advanceAmount || ""}
                         </td>
                         <td className="px-6 py-4">
-                          {booking.bookingSource || ""}
+                          {booking?.bookingSource || ""}
                         </td>
-                        {/* <td className="px-6 py-4">{booking.status || "Created"}</td> */}
+                        <td className="px-6 py-4">{booking?.status || "Created"}</td>
 
                         <td className="px-6 py-4">
                           <div className="flex justify-center items-center">
@@ -175,7 +182,7 @@ const BookingTable = ({
                               <AiOutlineEye className="" />
                             </button>
                             <button
-                              disabled={booking.addedBy !== owner._id}
+                              disabled={booking?.addedBy !== owner._id && booking?.status === "CANCELLED" && owner.role !== "ADMIN"}
                               data-tip={"Preview Link"}
                               onClick={() => {
                                 setShowEditModal(true);
@@ -185,7 +192,11 @@ const BookingTable = ({
                             >
                               <FiEdit className="" />
                             </button>
-                            <button className="w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50">Cancel</button>
+                            {
+                              booking?.status !== "CANCELLED" && (
+                                <button onClick={()=> cancelBookingHandler(booking._id)} className="w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50">Cancel</button>
+                              )
+                            }
                           </div>
                         </td>
                         {/* <td className="px-6 py-4">{booking.roomCategory || ""}</td>

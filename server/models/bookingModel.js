@@ -74,6 +74,9 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     enum: ['CONFIRMED', 'CANCELLED'],
     default: 'CONFIRMED',
+  },
+  accountType: {
+    type: String,
   }
 },{timestamps: true});
 

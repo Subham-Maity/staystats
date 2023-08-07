@@ -33,6 +33,10 @@ const Users = () => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
+
+      if(user.role !== "ADMIN"){
+        window.location.href = "/bookings"
+      }
       if (user && user._id) {
         setOwner(user);
         localStorage.setItem("user", JSON.stringify(user));
