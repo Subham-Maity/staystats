@@ -216,7 +216,7 @@ const Hotels = () => {
       </div>
       <ToastContainer theme="dark" position="bottom-center" autoClose={10000} />
       {showModal && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <InputHotel
               setHotelData={setHotelData}
@@ -226,7 +226,7 @@ const Hotels = () => {
         </div>
       )}
       {showViewModal && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <ViewHotel
               hotel={hotel}

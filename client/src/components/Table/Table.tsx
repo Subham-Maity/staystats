@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import axios from "@/utils/axios";
 import EditUser from "../card/EditUser";
 import { InfinitySpin } from "react-loader-spinner";
+import { FaTimes } from "react-icons/fa";
 interface TableProps {
   userData: {
     name?: string;
@@ -35,21 +36,28 @@ const Table = ({
 }: TableProps) => {
   console.log(userData, "userdata");
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [editingUserData, setEditingUserData] = useState<object>({});
+  const [editingUserData, setEditingUserData] = useState<any>({});
+  const [showDeletePopUp, setShowDeletePopUp] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>("");
+
+  const handleShowDeleteModal = (id: string) => {
+    setUserId(id);
+    setShowDeletePopUp(true);
+  };
 
   return (
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
         <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
-          <thead className="text-xs text-gray-400 uppercase dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-sm text-gray-900 uppercase dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 py-3 text-center">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 py-3 text-center">
                 Phone
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 py-3 text-center">
                 Email
               </th>
               {/* <th scope="col" className="px-6 py-3">
@@ -58,10 +66,10 @@ const Table = ({
               {/* <th scope="col" className="px-6 py-3">
               Hotel
             </th> */}
-              <th scope="col" className="px-6 py-3">
+              {/* <th scope="col" className="px-4 py-3 text-center">
                 Role
-              </th>
-              <th scope="col" className="px-6 py-3">
+              </th> */}
+              <th scope="col" className="px-4 py-3 text-center">
                 Options
               </th>
             </tr>
@@ -89,17 +97,17 @@ const Table = ({
                     >
                       <th
                         scope="row"
-                        className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        className="text-center px-4 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                       >
                         {user.name || ""}
                       </th>
-                      <td className="px-6 py-4">{user.phoneNumber || ""}</td>
-                      <td className="px-6 py-4">{user.email || ""}</td>
+                      <td className="px-4 py-4 text-center">{user.phoneNumber || ""}</td>
+                      <td className="px-4 py-4 text-center">{user.email || ""}</td>
                       {/* <td className="px-6 py-4"></td> */}
                       {/* <td className="px-6 py-4">{user.hotel || ""}</td> */}
-                      <td className="px-6 py-4">{user.role || ""}</td>
-                      <td className="px-6 py-4">
-                        <div className="flex">
+                      {/* <td className="px-4 py-4 text-center">{user.role || ""}</td> */}
+                      <td className="px-4 py-4 text-center">
+                        <div className="flex justify-center items-center">
                       <button
                             onClick= {()=>{
                                 console.log(user)
@@ -125,7 +133,7 @@ const Table = ({
                           <button
                             disabled={user.addedBy !== owner._id}
                             data-tip={"Delete User"}
-                            onClick={() => deleteUserHandler(user._id)}
+                            onClick={()=> handleShowDeleteModal(user._id)}
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
                           >
                             <RiDeleteBin6Line size={15} className="" />
@@ -141,7 +149,7 @@ const Table = ({
         </table>
       </div>
       {showEditModal && editingUserData && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <EditUser
             onClose={(value) => setShowEditModal(value)}
             setUserData={setUserData}
@@ -150,6 +158,26 @@ const Table = ({
           />
         </div>
       )}
+      {
+        showDeletePopUp && (
+          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+            <div className="w-1/3 bg-white rounded-lg p-6">
+              <div className="flex justify-between items-center">
+                <h1 className="text-lg font-bold">Delete User</h1>
+                <button onClick={()=> setShowDeletePopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
+              </div>
+              <p className="text-sm text-gray-500 mt-2">Are you sure you want to delete this user?</p>
+              <div className="flex justify-end items-center mt-6">
+                <button onClick={()=> setShowDeletePopUp(false)} className="text-sm text-gray-500 mr-4">Cancel</button>
+                <button onClick={()=> {
+                  deleteUserHandler(userId)
+                  setShowDeletePopUp(false)
+                }} className="text-sm text-red-500">Delete</button>
+              </div>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

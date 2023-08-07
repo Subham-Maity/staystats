@@ -40,24 +40,24 @@ const HotelTable = ({
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
         <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
-          <thead className="text-xs text-gray-400 uppercase dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-sm text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Hotel Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Owner Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Location
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Onwer Email
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Office Contact
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Options
               </th>
             </tr>
@@ -86,20 +86,20 @@ const HotelTable = ({
                       >
                         <th
                           scope="row"
-                          className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                          className="text-center px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         >
                           {hotel.hotelName || ""}
                         </th>
-                        <td className="px-6 py-4">{hotel.ownerName || ""}</td>
-                        <td className="px-6 py-4">{hotel.location || ""}</td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-4 text-center">{hotel.ownerName || ""}</td>
+                        <td className="px-6 py-4 text-center">{hotel.location || ""}</td>
+                        <td className="px-6 py-4 text-center">
                           {hotel.ownerContact.email || ""}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-4 text-center">
                           {hotel.frontOfficeContact}
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="flex">
+                        <td className="px-6 py-4 text-center">
+                          <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}
                               // data-tip={"Preview Link"}
@@ -145,7 +145,7 @@ const HotelTable = ({
         </table>
       </div>
       {showEditHotelModal && editingHotelData && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <EditHotel
             onClose={(value) => setShowEditHotelModal(value)}
             setHotelData={setHotelData}

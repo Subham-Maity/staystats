@@ -230,12 +230,12 @@ const Users = () => {
         />
       </div>
       {showViewModal && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <ViewUser onClose={(value) => setShowViewModal(value)} user={user} />
         </div>
       )}
       {showModal && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <InputEmp
               onClose={(value) => setShowModal(value)}

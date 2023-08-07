@@ -215,7 +215,7 @@ const LoginForm = () => {
                 <p className="text-sm text-gray-500 text-center">
                   Don{"'"}t have an account?{" "}
                   <span className="text-indigo-500 cursor-pointer text-xs">
-                    Contact Admin
+                    Register Now
                   </span>
                 </p>
               ) : (

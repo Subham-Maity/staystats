@@ -2,6 +2,7 @@
 import axios from "@/utils/axios";
 import Select from "react-select";
 import React, { useState, useEffect, useRef } from "react";
+import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 
@@ -15,6 +16,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableHotels, setAvailableHotels] = useState<any>([]);
   const [selectedHotels, setSelectedHotels] = useState<any>([]);
+  const [showPassword, setShowPassword] = useState<boolean>(true);
 
   const [reactSelectOptions, setReactSelectOptions] = useState<any>([]);
 
@@ -42,6 +44,10 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
     getHotels();
   }, []);
 
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -56,6 +62,27 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
         return;
       }
     });
+
+    const numberRegex = /^[0-9]+$/;
+    const nameRegex = /^[a-zA-Z ]+$/;
+    const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+
+    if(formValues.phone.length !== 10 && !numberRegex.test(formValues.phone)){
+      toast.error("Please enter a valid phone number and don't include +91");
+      return;
+    }
+
+    if(formValues.name.trim() =="" && !nameRegex.test(formValues.first_name)){
+      toast.error("Please enter a valid name");
+      return;
+    }
+
+    if(formValues.email.trim() == "" && !emailRegex.test(formValues.email)){
+      toast.error("Please enter a valid email");
+      return;
+    }
+
+    
 
     try {
       setLoading(true);
@@ -164,14 +191,27 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
           >
             Password
           </label>
-          <input
-            type="password"
-            name="password"
-            id="Password"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="•••••••••"
-            required
-          />
+          <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="text-gray-700 w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm pr-10"
+                  placeholder="Enter new password"
+                  name="password"
+                  
+                  
+                  required
+                />
+                <div
+                  className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
+                  onClick={handleShowPassword}
+                >
+                  {showPassword ? (
+                    <RiEyeLine size={20} />
+                  ) : (
+                    <RiEyeCloseLine size={20} />
+                  )}
+                </div>
+              </div>
         </div>
 
         <div className="w-[340px]">
