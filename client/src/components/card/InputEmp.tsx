@@ -16,7 +16,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableHotels, setAvailableHotels] = useState<any>([]);
   const [selectedHotels, setSelectedHotels] = useState<any>([]);
-  const [showPassword, setShowPassword] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [reactSelectOptions, setReactSelectOptions] = useState<any>([]);
 
@@ -72,7 +72,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
       return;
     }
 
-    if(formValues.name.trim() =="" && !nameRegex.test(formValues.first_name)){
+    if(formValues.first_name.trim() =="" && !nameRegex.test(formValues.first_name)){
       toast.error("Please enter a valid name");
       return;
     }

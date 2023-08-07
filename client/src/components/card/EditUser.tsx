@@ -24,7 +24,7 @@ const EditUser = ({
   const [availableHotels, setAvailableHotels] = useState<any>([]);
   const [selectedHotels, setSelectedHotels] = useState<any>([]);
   const [editingUserData, setEditingUserData] = useState<any>({});
-  const [showPassword, setShowPassword] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
 
   const [reactSelectOptions, setReactSelectOptions] = useState<any>([]);
