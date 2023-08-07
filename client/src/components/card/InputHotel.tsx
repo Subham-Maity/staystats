@@ -29,7 +29,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
     });
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
-    const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+
 
     if (formValues.hotelName.trim() === "" || formValues.location.trim() === "" || formValues.ownerName.trim() === "" || formValues.phoneNumber.trim() === "" || formValues.bank.trim() === "" || formValues.GSTNumber.trim() === "" || formValues.panNumber.trim() === "" || formValues.aadharNumber.trim() === "" || formValues.tradeLicense.trim() === "" || formValues.otherDocuments.trim() === "" || formValues.frontOfficeContact.trim() === ""){
       toast.error("Please fill all the fields");
@@ -104,10 +104,13 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       onSubmit={handleSubmit}
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
     >
-      <FaTimes
-        onClick={() => onClose(false)}
-        className="ml-auto cursor-pointer"
-      />
+      <div className="flex mb-6">
+          <p className="text-lg font-bold">Hotel Details</p>
+          <FaTimes
+          onClick={() => onClose(false)}
+          className="ml-auto cursor-pointer"
+        />
+        </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
           <label

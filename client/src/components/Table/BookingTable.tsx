@@ -46,34 +46,34 @@ const BookingTable = ({
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
         <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
-          <thead className="text-xs text-gray-400 uppercase dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 Hotel Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 Guest Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 Date
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 NOP
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 Total amount
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 Advance amount
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 Booking Source
               </th>
               {/* <th scope="col" className="px-6 py-3">
                         Status
                     </th> */}
 
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
               </th>
               {/*<th scope="col" className="px-6 py-3">
@@ -128,7 +128,7 @@ const BookingTable = ({
                     return (
                       <tr
                         key={index}
-                        className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        className="text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
                         <th
                           scope="row"
@@ -138,11 +138,11 @@ const BookingTable = ({
                         </th>
                         <td className="px-6 py-4">{booking.guestName || ""}</td>
                         <td className="px-6 py-4 text-center">
-                          <p className="font-medium whitespace-nowrap">
+                          <p className="font-semibold whitespace-nowrap">
                             {new Date(booking.checkInDate).toDateString()}
                           </p>
                           <span className="text-center">to</span>
-                          <p className="font-medium whitespace-nowrap">
+                          <p className="font-semibold whitespace-nowrap">
                             {new Date(booking.checkOutDate).toDateString()}
                           </p>
                         </td>
@@ -161,7 +161,7 @@ const BookingTable = ({
                         {/* <td className="px-6 py-4">{booking.status || "Created"}</td> */}
 
                         <td className="px-6 py-4">
-                          <div className="flex">
+                          <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}
                               data-tip={"Preview Link"}
@@ -185,6 +185,7 @@ const BookingTable = ({
                             >
                               <FiEdit className="" />
                             </button>
+                            <button className="w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50">Cancel</button>
                           </div>
                         </td>
                         {/* <td className="px-6 py-4">{booking.roomCategory || ""}</td>
@@ -209,7 +210,7 @@ const BookingTable = ({
         </table>
       </div>
       {showEditModal && editingBookingData && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <EditBooking
             onClose={(value) => setShowEditModal(value)}
             setBookingData={setBookingData}

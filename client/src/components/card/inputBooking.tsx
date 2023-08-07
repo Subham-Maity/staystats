@@ -120,10 +120,13 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       onSubmit={handleSubmit}
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
     >
-      <FaTimes
-        onClick={() => onClose(false)}
-        className="ml-auto cursor-pointer"
-      />
+     <div className="flex w-full mb-6">
+        <p className="font-bold text-lg">Booking Details</p>
+        <FaTimes
+          onClick={() => onClose(false)}
+          className="ml-auto cursor-pointer"
+        />
+        </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         {/* <div>
           <label
@@ -219,15 +222,12 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           >
             Room Category
           </label>
-          <select
+          <input
+          type="text"
             name="roomCategory"
             id="paymentby"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option selected>Executive Double Room</option>
-            <option value="US">Superior Double Room</option>
-            <option value="CA">Premium Quad Triple</option>
-          </select>
+          />
         </div>
         <div>
           <label
@@ -344,16 +344,16 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option defaultValue="choose">Choose</option>
-            <option value="US">Booking.com</option>
-            <option value="CA">Agoda</option>
-            <option value="FR">Cleartrip</option>
-            <option value="DE">Yatra</option>
-            <option value="DE">Sayango</option>
-            <option value="DE">Offline</option>
-            <option value="DE">Travel Agent</option>
-            <option value="DE">Via.com</option>
-            <option value="DE">Paytm</option>
-            <option value="DE">Lxiogo</option>
+            <option value="Booking.com">Booking.com</option>
+            <option value="Agoda">Agoda</option>
+            <option value="Cleartrip">Cleartrip</option>
+            <option value="Yatra">Yatra</option>
+            <option value="Sayngo">Sayango</option>
+            <option value="Offline">Offline</option>
+            <option value="Travel Agent">Travel Agent</option>
+            <option value="Via.com">Via.com</option>
+            <option value="Paytm">Paytm</option>
+            <option value="Lxiogo">Lxiogo</option>
           </select>
         </div>
         <div className="mb-6">
@@ -386,10 +386,10 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="plan"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected>AP</option>
-            <option value="US">CP</option>
-            <option value="CA">MAP</option>
-            <option value="FR">EP</option>
+            <option selected value="AP">AP</option>
+            <option value="CP">CP</option>
+            <option value="MAP">MAP</option>
+            <option value="EP">EP</option>
           </select>
         </div>
         <div className="mb-6">

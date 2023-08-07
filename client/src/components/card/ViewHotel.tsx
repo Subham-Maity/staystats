@@ -29,10 +29,13 @@ interface Props {
       <form
         className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
       >
-        <FaTimes
+        <div className="flex mb-6">
+          <p className="text-lg font-bold">Hotel Details</p>
+          <FaTimes
           onClick={() => onClose(false)}
           className="ml-auto cursor-pointer"
         />
+        </div>
         <div className="grid gap-6 mb-6 md:grid-cols-3">
           <div>
             <label

@@ -6,7 +6,7 @@ interface Props {
         guestName: string;
         checkInDate: Date;
         checkOutDate: Date;
-        roomCatagory: string;
+        roomCategory: string;
         numberOfRooms: number;
         numberOfPersons: number;
         bookingAmount: number;
@@ -33,10 +33,13 @@ interface Props {
         <form
         className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
       >
+        <div className="flex w-full mb-6">
+        <p className="font-bold text-lg">Booking Details</p>
         <FaTimes
           onClick={() => onClose(false)}
           className="ml-auto cursor-pointer"
         />
+        </div>
         <div className="grid gap-6 mb-6 md:grid-cols-3">
           {/* <div>
             <label
@@ -88,6 +91,7 @@ interface Props {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Ex: Subham"
               required
+              disabled
             />
           </div>
           <div>
@@ -141,7 +145,7 @@ interface Props {
               placeholder="09.09.2023"
               required
               disabled
-              value={booking?.roomCatagory}
+              value={booking?.roomCategory}
             />
           </div>
           <div>
@@ -232,6 +236,7 @@ interface Props {
               readOnly
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
+              disabled
             />
           </div>
   
@@ -243,13 +248,14 @@ interface Props {
               Advance Date
             </label>
             <input
-            value={new Date(booking?.advanceDate).toISOString()}
+            value={new Date(booking?.advanceDate).toISOString().split('T')[0]}
               id="Advancedate"
               name="Advancedate"
               type="date"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="24.05.26"
               required
+              disabled
             />
           </div>
           <div>
@@ -285,7 +291,7 @@ interface Props {
               placeholder="Someone"
               disabled
               required
-              value={booking?.booikingBy}
+              value={booking?.bookingBy}
             />
           </div>
           <div>

@@ -193,7 +193,7 @@ const Bookings = () => {
       </div>
       <ToastContainer theme="dark" position="bottom-center" autoClose={10000} />
       {showModal && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {(accountType === "ADMIN" || accountType === "SUBADMIN") && (
             <InputBooking
               user={user}
@@ -204,7 +204,7 @@ const Bookings = () => {
         </div>
       )}
       {showViewModal && (
-        <div className="w-screen bg-black/50 h-screen absolute top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <ViewBooking
             onClose={(value) => setShowViewModal(value)}
             booking={booking}

@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { FaTimes } from "react-icons/fa";
 import { MdWarningAmber } from "react-icons/md";
 import { FiEdit, FiExternalLink } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -35,6 +36,14 @@ const HotelTable = ({
 }: TableProps) => {
   const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
   const [editingHotelData, setEditingHotelData] = useState<object>({});
+  const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
+  const [hotelId, setHotelId] = useState<string>("");
+
+
+  const handleShowDeleteModal = (id: string) => {
+    setHotelId(id);
+    setShowDeletePopUp(true);
+  };
 
   return (
     <div className="w-full">
@@ -127,7 +136,7 @@ const HotelTable = ({
                               disabled={hotel.addedBy._id !== owner._id}
                               data-tip={"Delete Hotel"}
                               onClick={() => {
-                                deleteHotelHandler(hotel._id);
+                                handleShowDeleteModal(hotel._id);
                               }}
                               className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
                             >
@@ -154,6 +163,26 @@ const HotelTable = ({
           />
         </div>
       )}
+      {
+        showDeletePopup && (
+          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+            <div className="w-1/3 bg-white rounded-lg p-6">
+              <div className="flex justify-between items-center">
+                <h1 className="text-lg font-bold">Delete Hotel</h1>
+                <button onClick={()=> setShowDeletePopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
+              </div>
+              <p className="text-sm text-gray-500 mt-2">Are you sure you want to delete this hotel?</p>
+              <div className="flex justify-end items-center mt-6">
+                <button onClick={()=> setShowDeletePopUp(false)} className="text-sm text-gray-500 mr-4">Cancel</button>
+                <button onClick={()=> {
+                  deleteHotelHandler(hotelId)
+                  setShowDeletePopUp(false)
+                }} className="text-sm text-red-500">Delete</button>
+              </div>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

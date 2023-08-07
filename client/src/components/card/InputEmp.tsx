@@ -66,6 +66,14 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
     const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+    
+    if(formValues.password.trim() === "" || formValues.first_name.trim() === "" || formValues.email.trim() === ""){
+      toast.error("Please fill all the fields");
+      return;
+    }
+
+
+
 
     if(formValues.phone.length !== 10 && !numberRegex.test(formValues.phone)){
       toast.error("Please enter a valid phone number and don't include +91");
@@ -128,10 +136,13 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
       onSubmit={handleSubmit}
     >
-      <FaTimes
-        onClick={() => onClose(false)}
-        className="ml-auto cursor-pointer"
-      />
+     <div className="flex w-full mb-6">
+        <p className="font-bold text-lg">User Details</p>
+        <FaTimes
+          onClick={() => onClose(false)}
+          className="ml-auto cursor-pointer"
+        />
+        </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
           <label
