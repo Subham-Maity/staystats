@@ -12,6 +12,9 @@ import React, { useState, useEffect, useRef } from "react";
 const InputHotel = ({ setHotelData, onClose }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [gstNumber,setGstNumber] = useState<string>("")
+  const [panNumber,setPanNumber] = useState<string>("")
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -203,10 +206,14 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           name="GSTNumber"
             type="text"
             id="visitors"
+            value={gstNumber}
+            onChange={(e) => {
+              setGstNumber(e.target.value.toLocaleUpperCase())
+            }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="GST Number"
             required
-            autoCapitalize="on"
+            // autoCapitalize="on"
           />
         </div>
         <div className="mb-6">
@@ -239,6 +246,10 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           autoCapitalize="on"
             type="text"
             id="pan"
+            value={panNumber}
+            onChange={(e)=>{
+              setPanNumber(e.target.value.toLocaleUpperCase())
+            }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="AAAAA 1234A"
             required
