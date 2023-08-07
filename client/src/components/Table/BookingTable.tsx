@@ -48,13 +48,13 @@ const BookingTable = ({
 
   useEffect(() => {
     console.log(bookingData);
-  },[bookingData])
+  }, [bookingData]);
   return (
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
         <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
           <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-            <tr>
+            <tr className="">
               <th scope="col" className="px-4 text-center py-3">
                 Hotel Name
               </th>
@@ -77,8 +77,8 @@ const BookingTable = ({
                 Booking Source
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                        Status
-                    </th>
+                Status
+              </th>
 
               <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
@@ -135,15 +135,21 @@ const BookingTable = ({
                     return (
                       <tr
                         key={index}
-                        className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${booking?.status === "CANCELLED" ? "line-through" : ""}`}
+                        className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${
+                          booking?.status === "CANCELLED"
+                            ? "line-through text-red-400"
+                            : ""
+                        }`}
                       >
                         <th
                           scope="row"
-                          className="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white text-center "
+                          className="px-6 py-4 font-medium whitespace-nowrap dark:text-white text-center "
                         >
                           {booking?.hotel?.hotelName || "DELETED HOTEL"}
                         </th>
-                        <td className="px-6 py-4">{booking?.guestName || ""}</td>
+                        <td className="px-6 py-4">
+                          {booking?.guestName || ""}
+                        </td>
                         <td className="px-6 py-4 text-center">
                           <p className="font-semibold whitespace-nowrap">
                             {new Date(booking?.checkInDate).toDateString()}
@@ -165,7 +171,9 @@ const BookingTable = ({
                         <td className="px-6 py-4">
                           {booking?.bookingSource || ""}
                         </td>
-                        <td className="px-6 py-4">{booking?.status || "Created"}</td>
+                        <td className="px-6 py-4">
+                          {booking?.status || "Created"}
+                        </td>
 
                         <td className="px-6 py-4">
                           <div className="flex justify-center items-center">
@@ -182,7 +190,11 @@ const BookingTable = ({
                               <AiOutlineEye className="" />
                             </button>
                             <button
-                              disabled={booking?.addedBy !== owner._id && booking?.status === "CANCELLED" && owner.role !== "ADMIN"}
+                              disabled={
+                                booking?.addedBy !== owner._id &&
+                                booking?.status === "CANCELLED" &&
+                                owner.role !== "ADMIN"
+                              }
                               data-tip={"Preview Link"}
                               onClick={() => {
                                 setShowEditModal(true);
@@ -192,11 +204,14 @@ const BookingTable = ({
                             >
                               <FiEdit className="" />
                             </button>
-                            {
-                              booking?.status !== "CANCELLED" && (
-                                <button onClick={()=> cancelBookingHandler(booking._id)} className="w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50">Cancel</button>
-                              )
-                            }
+
+                            <button
+                              onClick={() => cancelBookingHandler(booking._id)}
+                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 cursor-pointer`}
+                              disabled={booking?.status === "CANCELLED"}
+                            >
+                              Cancel
+                            </button>
                           </div>
                         </td>
                         {/* <td className="px-6 py-4">{booking.roomCategory || ""}</td>

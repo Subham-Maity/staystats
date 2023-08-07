@@ -16,7 +16,7 @@ import { CiSquareRemove } from "react-icons/ci";
 
 const Users = () => {
   let router = useRouter();
-  const PAGE_LIMIT = 10;
+  const PAGE_LIMIT = 2;
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [owner, setOwner] = useState<any>({});

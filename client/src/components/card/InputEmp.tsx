@@ -105,14 +105,11 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
       });
       if (!data.error) {
         // const { data } = await axios.post("/user/get-users");
-        if (!data.error) {
           setUserData((prev: any) => {
             return [data.user, ...prev ];
           });
           onClose(false);
-        } else {
-          toast.error(data.error);
-        }
+
         toast.success(data.message);
         formRef.current?.reset();
       } else {

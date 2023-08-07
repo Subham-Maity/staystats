@@ -170,9 +170,15 @@ const createBooking = async (req, res) => {
       res.status(201).json({ message: "Booking not created", booking: {} });
       return;
     }
+
+    const populatedBooking = await Booking.findById(newBooking._id).populate({
+      path: "hotel", model: Hotel
+    })
+
+
     res
       .status(200)
-      .json({ message: "Booking created successfully", booking: newBooking });
+      .json({ message: "Booking created successfully", booking: populatedBooking });
   } catch (error) {
     console.log("Error: ", error);
     res.status(500).json({ error: error.message });
