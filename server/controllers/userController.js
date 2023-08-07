@@ -125,12 +125,14 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { id, phoneNumber, hotel, username, name, email } = req.body;
+  const { id, phoneNumber, hotel, username, name, email,password } = req.body;
   try {
     console.log("[updateuser controller]");
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { phoneNumber, hotel, name, username, email },
+      { phoneNumber, hotel, name, username, email, password: hashedPassword },
       { new: true } // This option returns the updated document after the update is applied
     );
 
