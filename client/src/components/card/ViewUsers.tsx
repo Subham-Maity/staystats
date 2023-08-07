@@ -27,10 +27,13 @@ interface Props {
         className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
        
       >
+        <div className="flex w-full mb-6">
+        <p className="font-bold text-lg">User Details</p>
         <FaTimes
           onClick={() => onClose(false)}
           className="ml-auto cursor-pointer"
         />
+        </div>
         <div className="grid gap-6 mb-6 md:grid-cols-3">
           <div>
             <label
@@ -134,11 +137,11 @@ interface Props {
               Hotel Name
             </label>
            
-                        <input
+                        <textarea
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
                         value={user?.hotel?.map((hotel:any)=>hotel.hotelName).join(", ") || "Deleted Hotel"}
                         disabled
-                        type="text" />
+                        ></textarea>
                     
             {/* <Select
               id="hotel"

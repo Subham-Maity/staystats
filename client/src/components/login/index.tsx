@@ -67,7 +67,9 @@ const LoginForm = () => {
         // @ts-ignore
         toast.success(`Welcome ${response.user.username}`);
         setTimeout(() => {
-          window.location.reload();
+          if(username.role !== "ADMIN"){
+            window.location.href = `/bookings`;
+          }
         }, 800);
       } else if (response.message) {
         toast.error(response.message);
@@ -215,7 +217,7 @@ const LoginForm = () => {
                 <p className="text-sm text-gray-500 text-center">
                   Don{"'"}t have an account?{" "}
                   <span className="text-indigo-500 cursor-pointer text-xs">
-                    Contact Admin
+                    Register Now
                   </span>
                 </p>
               ) : (

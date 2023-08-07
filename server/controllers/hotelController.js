@@ -26,7 +26,11 @@ const getAllHotels = async (req, res) => {
     console.log("[getAllHotels] controller: =====>");
 
     // Extract filters from req.query
-    const { sortBy, sortOrder, location, addedByMe } = req.query;
+    let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
+    page = parseInt(page) ?? 1;
+    limit = parseInt(limit) ?? 10;
+
+    let skipIndex = (page - 1) * limit;
 
     // Build the filter object based on the received query parameters
     const filter = {};
@@ -46,15 +50,27 @@ const getAllHotels = async (req, res) => {
     }
 
     // Fetch hotels with applied filters and sorting
-    const hotels = await Hotel.find(filter).sort(sort).populate("addedBy");
+    const hotels = await Hotel.find(filter)
+    .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+    .skip(skipIndex)
+    .limit(limit)
+    .populate("addedBy");
+  let hotelsCount = await Hotel.countDocuments(filter);
+  
 
     console.timeEnd("get hotels");
 
     if (!hotels || hotels.length === 0) {
-      res.status(200).json({ error: "No hotels found", hotels: [] });
+      res
+        .status(200)
+        .json({
+          error: "No hotels found",
+          hotels: [],
+          hotelsCount: hotelsCount ?? 0,
+        });
       return;
     } else {
-      res.status(200).json({ hotels });
+      res.status(200).json({ hotels, hotelsCount: hotelsCount ?? 0 });
       return;
     }
   } catch (error) {
@@ -62,6 +78,40 @@ const getAllHotels = async (req, res) => {
     res.status(500).json({
       message: "Internal server error",
     });
+  }
+};
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+const getAllHotelsBySearch = async (req, res) => {
+  const { query } = req.query;
+  console.log("[get all hotels by search controller: =>]")
+  console.log(req.query);
+  try {
+    const regex = new RegExp(escapeRegex(query), "gi");
+
+    const hotels = await Hotel.find()
+    .or([
+      { hotelName: regex },
+      { location: regex }, 
+      { ownerName: regex },
+      { "ownerContact.email": regex } 
+    ])
+    // .and([formsQuery])    // Additional conditions specified in formsQuery
+    // .limit(5)
+    .populate({ path: "addedBy", model: User });
+
+  if (hotels.length > 0) {
+    res.status(200).json({ hotels, message: "Hotels fetched successfully" });
+  } else {
+    res.status(200).json({ hotels, message: "No result found for this search" });
+  }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+    throw new Error(error);
   }
 };
 
@@ -115,22 +165,33 @@ const createHotel = async (req, res) => {
 };
 
 const updateHotel = async (req, res) => {
-  const { id, ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,frontOfficeContact } = req.body;
+  const {
+    id,
+    ownerName,
+    ownerContact,
+    bank,
+    GSTNumber,
+    panNumber,
+    aadharNumber,
+    tradeLicense,
+    otherDocuments,
+    frontOfficeContact,
+  } = req.body;
   try {
     console.log("[updateuser controller]");
     const updatedHotel = await Hotel.findByIdAndUpdate(
       id,
-      { ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,frontOfficeContact },
+      { hotelName,location,ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,frontOfficeContact },
       { new: true } // This option returns the updated document after the update is applied
     );
 
     if (!updatedHotel) {
-      return res.status(404).json({ error: 'Hotel not found' });
+      return res.status(404).json({ error: "Hotel not found" });
     }
 
-    res.status(200).json({ message: "Hotel updated successfully", user: updatedHotel });
-
-
+    res
+      .status(200)
+      .json({ message: "Hotel updated successfully", user: updatedHotel });
   } catch (error) {
     console.log("[user controller update error:]", error);
     res.status(201).json({ error: error.message });
@@ -148,9 +209,13 @@ const deleteHotel = async (req, res) => {
       res.status(200).json({ error: "No hotel found" });
       return;
     } else {
-      let updatedUser = await User.findByIdAndUpdate(hotelAddedBy, {
-        $pull: { hotel: id },
-      }, {new: true});
+      let updatedUser = await User.findByIdAndUpdate(
+        hotelAddedBy,
+        {
+          $pull: { hotel: id },
+        },
+        { new: true }
+      );
       console.log("updated user: ", updatedUser);
       if (updatedUser) {
         res.status(200).json({ message: "Hotel deleted successfully" });
@@ -166,6 +231,7 @@ const deleteHotel = async (req, res) => {
 module.exports = {
   getHotel,
   getAllHotels,
+  getAllHotelsBySearch,
   createHotel,
   updateHotel,
   deleteHotel,

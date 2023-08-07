@@ -54,7 +54,8 @@ const hotelSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-});
+  
+},{timestamps: true});
 
 const Hotel = mongoose.model("hotel", hotelSchema);
 

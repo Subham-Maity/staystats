@@ -70,7 +70,15 @@ const bookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-});
+  status: {
+    type: String,
+    enum: ['CONFIRMED', 'CANCELLED'],
+    default: 'CONFIRMED',
+  },
+  accountType: {
+    type: String,
+  }
+},{timestamps: true});
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

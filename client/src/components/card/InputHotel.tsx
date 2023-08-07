@@ -27,7 +27,37 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         return;
       }
     });
-    // console.log(formValues);
+    const numberRegex = /^[0-9]+$/;
+    const nameRegex = /^[a-zA-Z ]+$/;
+
+
+    if (formValues.hotelName.trim() === "" || formValues.location.trim() === "" || formValues.ownerName.trim() === "" || formValues.phoneNumber.trim() === "" || formValues.bank.trim() === "" || formValues.GSTNumber.trim() === "" || formValues.panNumber.trim() === "" || formValues.aadharNumber.trim() === "" || formValues.tradeLicense.trim() === "" || formValues.otherDocuments.trim() === "" || formValues.frontOfficeContact.trim() === ""){
+      toast.error("Please fill all the fields");
+      return;
+    }
+
+    if(!nameRegex.test(formValues.ownerName)){
+      toast.error("Owner name should contain only alphabets");
+      return;
+    }
+
+    if(!numberRegex.test(formValues.phoneNumber) || formValues.phoneNumber.length !== 10){
+      toast.error("Phone number should contain only 10 numbers and don't include +91");
+      return;
+    }
+
+    if(!numberRegex.test(formValues.aadharNumber) || formValues.aadharNumber.length !== 12){
+      toast.error("Aadhar number should contain only 12 numbers");
+      return;
+    }
+
+    if(!numberRegex.test(formValues.frontOfficeContact) || formValues.frontOfficeContact.length !== 10){
+      toast.error("Front office contact should contain only 10 numbers and don't include +91");
+      return;
+    }
+
+
+
 
     try {
       setLoading(true);
@@ -37,7 +67,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         ownerName: formValues.ownerName,
         ownerContact: {
             phone: formValues.phoneNumber,
-            email: formValues.email
+            email: formValues.email ?? "",
         },
         bank: formValues.bank,
         GSTNumber: formValues.GSTNumber,
@@ -52,7 +82,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
 
             console.log(data.hotel)
           setHotelData((prev: any)=>{
-            return  [...prev, data.hotel]
+            return  [data.hotel, ...prev]
           });
 
           onClose(false)
@@ -74,10 +104,13 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       onSubmit={handleSubmit}
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
     >
-      <FaTimes
-        onClick={() => onClose(false)}
-        className="ml-auto cursor-pointer"
-      />
+      <div className="flex mb-6">
+          <p className="text-lg font-bold">Hotel Details</p>
+          <FaTimes
+          onClick={() => onClose(false)}
+          className="ml-auto cursor-pointer"
+        />
+        </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
           <label
@@ -168,11 +201,12 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           </label>
           <input
           name="GSTNumber"
-            type="number"
+            type="text"
             id="visitors"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="GST Number"
             required
+            autoCapitalize="on"
           />
         </div>
         <div className="mb-6">
@@ -180,15 +214,15 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address
+            Email address (Optional)
           </label>
           <input
             name="email"
             type="email"
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="hotel@company.com"
-            required
+            placeholder="hotel@company.com "
+            
           />
         </div>
 
@@ -201,6 +235,8 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           </label>
           <input
           name="panNumber"
+          
+          autoCapitalize="on"
             type="text"
             id="pan"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
