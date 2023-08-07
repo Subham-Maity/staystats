@@ -235,6 +235,7 @@ const EditHotel = ({
                 return { ...prev, GSTNumber: e.target.value };
               });
             }}
+            autoCapitalize="on"
           />
         </div>
         <div className="mb-6">
