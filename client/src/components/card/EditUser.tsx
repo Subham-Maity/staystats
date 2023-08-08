@@ -176,6 +176,11 @@ const EditUser = ({
             placeholder="Ex: Digha Saikatabas"
             value={!loading ? editingUserData.name : "fetching.."}
             required
+            onChange={(e)=>{
+              setEditingUserData((prev: any) => {
+                return { ...prev, name: e.target.value };
+              });
+            }}
           />
         </div>
 
@@ -220,6 +225,12 @@ const EditUser = ({
             placeholder="hotel@company.com"
             value={!loading ? editingUserData.email : "fetching.."}
             required
+            onChange={(e) => {
+              setEditingUserData((prev: any) => {
+                return { ...prev, email: e.target.value };
+              });
+
+            }}
           />
         </div>
         <div className="mb-6">

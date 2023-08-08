@@ -18,11 +18,12 @@ interface Props {
     bookingData,
   }: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
-    const [editingBookingData, setEditingBookingData] = useState<any>({});
+    const [editingBookingData, setEditingBookingData] = useState<any>(editingBookingDataProps);
     const formRef = useRef<HTMLFormElement>(null);
   
     console.log(editingBookingData)
     useEffect(() => {
+      console.log(editingBookingDataProps)
       setEditingBookingData(editingBookingDataProps);
     }, [editingBookingDataProps]);
   
@@ -151,7 +152,7 @@ interface Props {
               name="guest_name"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Ex: Subham"
-              
+              required
               onChange={(e) => {
                 setEditingBookingData((prev: any) => {
                   return { ...prev, guestName: e.target.value };
@@ -168,15 +169,15 @@ interface Props {
               Check-in Date
             </label>
             <input
-            // value={new Date(editingBookingData.checkInDate)?.toISOString().slice(0,10) ?? new Date().toISOString().split("T")[0]}
+            value={editingBookingData.checkInDate.split("T")[0]}
             
               id="startDate"
               name="checkInDate"
               type="date"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="08.08.2023"
-              
-              min={new Date().toISOString().slice(0,10)}
+              required
+              min={editingBookingData.checkInDate.split("T")[0]}
               onChange={
                 (e) => {
                   setEditingBookingData((prev: any) => {
@@ -196,18 +197,18 @@ interface Props {
               Check-out Date
             </label>
             <input
-            // value={new Date(editingBookingData.checkOutDate).toISOString().slice(0,10)}
               id="endDate"
               name="checkOutDate"
               type="date"
-              // value={editingBookingData.checkOutDate}
-              
+              value={editingBookingData.checkOutDate.split("T")[0]}
+              required
+              min={editingBookingData.checkInDate.split("T")[0]}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="09.09.2023"
               onChange={
                 (e) =>
                 setEditingBookingData((prev: any) =>{
-                  return {...prev, checkOutdate: e.target.value}
+                  return {...prev, checkOutDate: e.target.value}
                 }) 
               }
             />
@@ -223,7 +224,7 @@ interface Props {
               id="endDate"
               name="roomCategory"
               type="text"
-              
+              required
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               
               
@@ -240,12 +241,12 @@ interface Props {
               Number of Room
             </label>
             <input
-              type="text"
+              type="number"
               id="nor"
               name="nor"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="20"
-              
+              required
               onChange={
                 (e)=> setEditingBookingData((prev:any) => {return {...prev,numberOfRooms: e.target.value}})
               }
@@ -265,7 +266,7 @@ interface Props {
               name="nop"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="4"
-              
+              required
               
               value={editingBookingData.numberOfPersons}
               onChange={
@@ -285,7 +286,7 @@ interface Props {
               type="text"
               id="bookingAmount"
               value={editingBookingData.bookingAmount}
-              
+              required
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter booking amount"
               
@@ -309,9 +310,9 @@ interface Props {
               value={editingBookingData.advanceAmount}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter advance amount"
-              
+              required
               onChange={
-                (e) => setEditingBookingData((prev:any) => {return {...prev,advanceAmount: e.target.value}})
+                (e) => setEditingBookingData((prev:any) => {return {...prev,advanceAmount: e.target.value,dueAmount: editingBookingData.bookingAmount - parseInt(e.target.value)}})
               }
               
             />
@@ -330,10 +331,8 @@ interface Props {
               value={editingBookingData.dueAmount}
               readOnly
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
               
-              onChange={
-                (e) => setEditingBookingData((prev:any) => {return {...prev,dueAmout: e.target.value}})
-              }
             />
           </div>
   
@@ -345,13 +344,13 @@ interface Props {
               Advance Date
             </label>
             <input
-            value={editingBookingData.advanceDate}
+            value={editingBookingData.advanceDate.split("T")[0]}
               id="Advancedate"
               name="Advancedate"
               type="date"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="24.05.26"
-              
+              required
               onChange={
                 (e) => setEditingBookingData((prev:any) => {return {...prev,advanceDate: e.target.value}})
               }
@@ -365,12 +364,13 @@ interface Props {
               Booking source
             </label>
           <select
+          required
             id="paymentby"
             name="paymentby"
             onChange={(e)=> setEditingBookingData((prev:any) => {return {...prev,bookingSource: e.target.value}})}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option defaultValue={editingBookingData.bookingSource}>{editingBookingData.bookingSource}</option>
+            <option defaultValue={editingBookingData.bookingSource} value={editingBookingData.bookingSource}>{editingBookingData.bookingSource}</option>
             <option value="Booking.com">Booking.com</option>
             <option value="Agoda">Agoda</option>
             <option value="Cleartrip">Cleartrip</option>
@@ -409,12 +409,13 @@ interface Props {
               Plan
             </label>
             <select
+            required
             onChange={(e)=> setEditingBookingData((prev:any) => {return {...prev,plan: e.target.value}})}
             id="plan"
             name="plan"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected value={editingBookingData.plan}>{editingBookingData.plan}</option>
+            <option defaultValue={editingBookingData.plan} value={editingBookingData.plan}>{editingBookingData.plan}</option>
             ,<option value="AP">AP</option>
             <option value="CP">CP</option>
             <option value="MAP">MAP</option>
@@ -434,7 +435,7 @@ interface Props {
               name="cn"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="+91 999999999"
-              
+              required
               value={editingBookingData.contactNumber}
               onChange={
                 (e) => setEditingBookingData((prev:any) => {return {...prev,contactNumber: e.target.value}})

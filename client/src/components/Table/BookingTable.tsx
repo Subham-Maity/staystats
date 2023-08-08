@@ -144,14 +144,14 @@ const BookingTable = ({
                       >
                         <th
                           scope="row"
-                          className="px-6 py-4 font-medium whitespace-nowrap dark:text-white text-center "
+                          className="px-6 py-2 font-medium whitespace-nowrap dark:text-white text-center "
                         >
                           {booking?.hotel?.hotelName || "DELETED HOTEL"}
                         </th>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-2 whitespace-nowrap">
                           {booking?.guestName || ""}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="px-6 py-2 text-center ">
                           <p className="font-semibold whitespace-nowrap">
                             {new Date(booking?.checkInDate).toDateString()}
                           </p>
@@ -160,23 +160,23 @@ const BookingTable = ({
                             {new Date(booking?.checkOutDate).toDateString()}
                           </p>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-2">
                           {booking?.numberOfPersons || ""}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-2">
                           {booking?.bookingAmount || ""}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-2">
                           {booking?.advanceAmount || ""}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-2">
                           {booking?.bookingSource || ""}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-2">
                           {booking?.status || "Created"}
                         </td>
 
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-2">
                           <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}
@@ -192,9 +192,8 @@ const BookingTable = ({
                             </button>
                             <button
                               disabled={
-                                booking?.addedBy !== owner._id &&
-                                booking?.status === "CANCELLED" &&
-                                owner.role !== "ADMIN"
+                                booking?.addedBy !== owner._id ||
+                                booking?.status === "CANCELLED"
                               }
                               data-tip={"Preview Link"}
                               onClick={() => {

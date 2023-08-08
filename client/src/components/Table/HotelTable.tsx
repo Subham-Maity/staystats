@@ -123,7 +123,7 @@ const HotelTable = ({
                               <AiOutlineEye className="" />
                             </button>
                             <button
-                              disabled={hotel.addedBy._id !== owner._id}
+                              disabled={hotel.addedBy._id !== owner._id && owner.role !== "ADMIN"}
                               // data-tip={"Preview Link"}
                               onClick={() => {
                                 setShowEditHotelModal(true);
@@ -134,7 +134,7 @@ const HotelTable = ({
                               <FiEdit className="" />
                             </button>
                             <button
-                              disabled={hotel.addedBy._id !== owner._id}
+                              disabled={hotel.addedBy._id !== owner._id && owner.role !== "ADMIN"}
                               data-tip={"Delete Hotel"}
                               onClick={() => {
                                 handleShowDeleteModal(hotel._id);
