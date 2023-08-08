@@ -131,6 +131,7 @@ const createHotel = async (req, res) => {
     tradeLicense,
     bank,
     otherDocuments,
+    documentId,
     frontOfficeContact,
   } = req.body;
   try {
@@ -145,6 +146,7 @@ const createHotel = async (req, res) => {
       tradeLicense,
       bank,
       otherDocuments,
+      documentId,
       frontOfficeContact,
       addedBy: req.user._id,
     });
@@ -168,6 +170,8 @@ const updateHotel = async (req, res) => {
   const {
     id,
     ownerName,
+    hotelName,
+    location,
     ownerContact,
     bank,
     GSTNumber,
@@ -175,13 +179,14 @@ const updateHotel = async (req, res) => {
     aadharNumber,
     tradeLicense,
     otherDocuments,
+    documentId,
     frontOfficeContact,
   } = req.body;
   try {
     console.log("[updateuser controller]");
     const updatedHotel = await Hotel.findByIdAndUpdate(
       id,
-      { hotelName,location,ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,frontOfficeContact },
+      { hotelName,location,ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,documentId,frontOfficeContact },
       { new: true } // This option returns the updated document after the update is applied
     );
 

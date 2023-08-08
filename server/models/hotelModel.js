@@ -44,7 +44,10 @@ const hotelSchema = new mongoose.Schema({
     required: true,
   },
   otherDocuments: {
-    type: [String],
+    type: String,
+  },
+  documentId: {
+    type: String
   },
   frontOfficeContact: {
     type: String,

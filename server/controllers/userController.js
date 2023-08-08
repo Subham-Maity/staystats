@@ -143,7 +143,7 @@ const updateUser = async (req, res) => {
       { new: true } // This option returns the updated document after the update is applied
     );
 
-    const populatedUser = await updateUser.populate({path: "hotel", model: Hotel}).execPopulate();
+    const populatedUser = await User.findById(updatedUser._id).populate({path: "hotel", model: Hotel});
 
 
     if (!updatedUser) {

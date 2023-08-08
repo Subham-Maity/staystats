@@ -14,7 +14,7 @@ import { BiSearch } from "react-icons/bi";
 
 const Bookings = () => {
   let router = useRouter();
-  const PAGE_LIMIT = 10;
+  const PAGE_LIMIT = 20;
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);

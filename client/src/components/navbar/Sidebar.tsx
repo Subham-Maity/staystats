@@ -77,8 +77,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             onMouseLeave={navHoverEffectOut}
             className={`fixed w-auto h-screen dark:bg-blue-950 bg-slate-100 z-50 ${
                 !isNavOpen && !hover
-                    ? "hover:w-[300px] transition-width ease-in-out duration-300 hover:shadow-xl"
-                    : "min-w-[300px] hover:shadow-lg"
+                    ? "hover:w-[250px] transition-width ease-in-out duration-300 hover:shadow-xl"
+                    : "min-w-[250px] hover:shadow-lg"
             }`}>
           <div className="w-full flex items-center justify-between my-4 p-4 gap-2 font-semibold h-16 text-blue-500 ">
 

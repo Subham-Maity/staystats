@@ -18,12 +18,15 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const hotelRoutes = require("./routes/hotelRoutes");
 const bookingRoutes = require("./routes/bookingsRoutes");
+const fileRoutes = require("./routes/fileRoutes");
 
 app.use("/", authRoutes);
 app.use(checkAuth)
 app.use("/", userRoutes);
 app.use("/", hotelRoutes);
 app.use("/", bookingRoutes);
+app.use("/", fileRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
