@@ -82,7 +82,7 @@ const EditUser = ({
     const nameRegex = /^[a-zA-Z ]+$/;
     const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
 
-    if(formValues.phone.length !== 10 && !numberRegex.test(formValues.phone)){
+    if(formValues.phone.length !== 10 ){
       toast.error("Please enter a valid phone number and don't include +91");
       return;
     }
@@ -166,7 +166,7 @@ const EditUser = ({
             htmlFor="first_name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Name
+            Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -189,7 +189,7 @@ const EditUser = ({
             htmlFor="phone"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Phone number
+            Phone number <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
@@ -215,7 +215,7 @@ const EditUser = ({
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address
+            Email address  <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -256,7 +256,7 @@ const EditUser = ({
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Password
+            Password <span className="text-red-500">*</span>
           </label>
           
           <div className="relative">
@@ -291,7 +291,7 @@ const EditUser = ({
             htmlFor="hotel"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Hotel Name
+            Hotel Name <span className="text-red-500">*</span>
           </label>
           <Select
             id="hotel"

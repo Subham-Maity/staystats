@@ -3,6 +3,7 @@ interface Props {
     onClose: (value: boolean) => void;
     editingBookingDataProps?: any;
     bookingData?: any;
+    owner? : any;
   }
   
   import { FaTimes } from "react-icons/fa";
@@ -16,6 +17,7 @@ interface Props {
     onClose,
     editingBookingDataProps,
     bookingData,
+    owner
   }: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [editingBookingData, setEditingBookingData] = useState<any>(editingBookingDataProps);
@@ -41,6 +43,19 @@ interface Props {
           return;
         }
       });
+
+
+      const numberRegex = /^[0-9]+$/;
+      const nameRegex = /^[a-zA-Z ]+$/;
+  
+  
+     
+  
+      if(!nameRegex.test(formValues.guest_ame)){
+        toast.error("Guest name should contain only alphabets");
+        return;
+      }
+  
   
       try {
         setLoading(true);
@@ -143,7 +158,7 @@ interface Props {
               htmlFor="guest_name"
               className=" block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Guest Name
+              Guest Name <span className="text-red-500">*</span>
             </label>
             <input
             value={editingBookingData.guestName}
@@ -166,7 +181,7 @@ interface Props {
               htmlFor="check_in_date"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Check-in Date
+              Check-in Date <span className="text-red-500">*</span>
             </label>
             <input
             value={editingBookingData.checkInDate.split("T")[0]}
@@ -177,7 +192,7 @@ interface Props {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="08.08.2023"
               required
-              min={editingBookingData.checkInDate.split("T")[0]}
+              min={owner.role !== 'ADMIN'? editingBookingData.checkInDate.split("T")[0] : ""}
               onChange={
                 (e) => {
                   setEditingBookingData((prev: any) => {
@@ -194,9 +209,10 @@ interface Props {
               htmlFor="check_out_date"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Check-out Date
+              Check-out Date <span className="text-red-500">*</span>
             </label>
             <input
+            
               id="endDate"
               name="checkOutDate"
               type="date"
@@ -218,7 +234,7 @@ interface Props {
               htmlFor="roomCategory"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Room Category
+              Room Category <span className="text-red-500">*</span>
             </label>
             <input
               id="endDate"
@@ -238,7 +254,7 @@ interface Props {
               htmlFor="nor"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Number of Room
+              Number of Room <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
@@ -258,7 +274,7 @@ interface Props {
               htmlFor="nop"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Number of Person
+              Number of Person <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
@@ -279,7 +295,7 @@ interface Props {
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Booking Amount
+              Booking Amount <span className="text-red-500">*</span>
             </label>
             <input
               name="bookingAmount"
@@ -301,7 +317,7 @@ interface Props {
               htmlFor="da"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Advance Amount
+              Advance Amount <span className="text-red-500">*</span>
             </label>
             <input
               name="advanceAmount"
@@ -322,7 +338,7 @@ interface Props {
               htmlFor="da"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Due Amount
+              Due Amount 
             </label>
             <input
               name="dueamount"
@@ -341,7 +357,7 @@ interface Props {
               htmlFor="ad"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Advance Date
+              Advance Date <span className="text-red-500">*</span>
             </label>
             <input
             value={editingBookingData.advanceDate.split("T")[0]}
@@ -361,7 +377,7 @@ interface Props {
               htmlFor="ad"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Booking source
+              Booking source <span className="text-red-500">*</span>
             </label>
           <select
           required
@@ -406,7 +422,7 @@ interface Props {
               htmlFor="plan"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Plan
+              Plan <span className="text-red-500">*</span>
             </label>
             <select
             required
@@ -427,7 +443,7 @@ interface Props {
               htmlFor="cn"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Contact Number
+              Contact Number <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
@@ -449,7 +465,7 @@ interface Props {
               htmlFor="remark"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Remarks
+              Remarks (Optional)
             </label>
             <input
             value={editingBookingData.remarks}

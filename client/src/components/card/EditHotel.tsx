@@ -77,17 +77,17 @@ const EditHotel = ({
       return;
     }
 
-    if(!numberRegex.test(formValues.phoneNumber) || formValues.phoneNumber.length !== 10){
+    if(formValues.phoneNumber.length !== 10){
       toast.error("Phone number should contain only 10 numbers and don't include +91");
       return;
     }
 
-    if(!numberRegex.test(formValues.aadharNumber) || formValues.aadharNumber.length !== 12){
+    if( formValues.aadharNumber.length !== 12){
       toast.error("Aadhar number should contain only 12 numbers");
       return;
     }
 
-    if(!numberRegex.test(formValues.frontOfficeContact) || formValues.frontOfficeContact.length !== 10){
+    if(formValues.frontOfficeContact.length !== 10){
       toast.error("Front office contact should contain only 10 numbers and don't include +91");
       return;
     }
@@ -193,7 +193,7 @@ const EditHotel = ({
             htmlFor="first_name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Hotel Name
+            Hotel Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -216,7 +216,7 @@ const EditHotel = ({
             htmlFor="last_name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Location
+            Location <span className="text-red-500">*</span>
           </label>
           <input
             name="location"
@@ -239,7 +239,7 @@ const EditHotel = ({
             htmlFor="company"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Owner Name
+            Owner Name <span className="text-red-500">*</span>
           </label>
           <input
             name="ownerName"
@@ -261,7 +261,7 @@ const EditHotel = ({
             htmlFor="phone"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Phone number
+            Phone number <span className="text-red-500">*</span>
           </label>
           <input
             name="phoneNumber"
@@ -286,7 +286,7 @@ const EditHotel = ({
             htmlFor="website"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Bank
+            Bank <span className="text-red-500">*</span>
           </label>
           <input
             name="bank"
@@ -308,7 +308,7 @@ const EditHotel = ({
             htmlFor="visitors"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            GST Number
+            GST Number <span className="text-red-500">*</span>
           </label>
           <input
             name="GSTNumber"
@@ -331,7 +331,7 @@ const EditHotel = ({
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address
+            Email address <span className="text-red-500">*</span>
           </label>
           <input
             name="email"
@@ -357,7 +357,7 @@ const EditHotel = ({
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Pan Number
+            Pan Number <span className="text-red-500">*</span>
           </label>
           <input
             name="panNumber"
@@ -382,7 +382,7 @@ const EditHotel = ({
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Aadhar Number
+            Aadhar Number <span className="text-red-500">*</span>
           </label>
           <input
             name="aadharNumber"
@@ -408,7 +408,7 @@ const EditHotel = ({
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Trade License
+            Trade License <span className="text-red-500">*</span>
           </label>
           <input
             name="tradeLicense"
@@ -467,7 +467,7 @@ const EditHotel = ({
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Front Office Contact
+            Front Office Contact <span className="text-red-500">*</span>
           </label>
           <input
             name="frontOfficeContact"
