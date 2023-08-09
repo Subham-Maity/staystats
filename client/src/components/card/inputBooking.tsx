@@ -87,28 +87,13 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     }
 
 
-    if (formValues.nor.trim() === "" && !numberRegex.test(formValues.nor)) {
+    if (formValues.nor.trim() === "" || !numberRegex.test(formValues.nor)) {
       toast.error("Please enter a valid number of rooms");
       return;
     }
 
-    if (formValues.nop.trim() === "" && !numberRegex.test(formValues.nop)) {
+    if (formValues.nop.trim() === "" || !numberRegex.test(formValues.nop)) {
       toast.error("Please enter a valid number of persons");
-      return;
-    }
-
-    if (formValues.bookingAmount.trim() === "" && !numberRegex.test(formValues.bookingAmount)) {
-      toast.error("Please enter a valid booking amount");
-      return;
-    }
-
-    if (formValues.advanceAmount.trim() === "" && !numberRegex.test(formValues.advanceAmount)) {
-      toast.error("Please enter a valid advance amount");
-      return;
-    }
-
-    if (formValues.dueamount.trim() === "" && !numberRegex.test(formValues.dueamount)) {
-      toast.error("Please enter a valid due amount");
       return;
     }
 
@@ -117,7 +102,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       return;
     }
 
-    if (formValues.cn.trim() === "" && !numberRegex.test(formValues.cn)) {
+    if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn) || formValues.cn.length !== 10) {
       toast.error("Please enter a valid contact number and don't include +91");
       return;
     }
@@ -383,6 +368,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="Advancedate"
             name="Advancedate"
             type="date"
+            max={checkInDate}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="24.05.26"
             required
@@ -406,7 +392,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             <option value="Agoda">Agoda</option>
             <option value="Cleartrip">Cleartrip</option>
             <option value="Yatra">Yatra</option>
-            <option value="Sayngo">Sayango</option>
+            <option value="Sayngo">Sayngo</option>
             <option value="Offline">Offline</option>
             <option value="Travel Agent">Travel Agent</option>
             <option value="Via.com">Via.com</option>
@@ -506,6 +492,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       </div>
 
       <button
+      disabled={loading}
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >

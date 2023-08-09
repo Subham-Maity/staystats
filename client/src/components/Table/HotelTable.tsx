@@ -40,6 +40,15 @@ const HotelTable = ({
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [hotelId, setHotelId] = useState<string>("");
 
+  useEffect(() => {
+    if(showEditHotelModal){
+      document.body.style.overflow = "hidden";
+    }else{
+      document.body.style.overflow = "unset";
+    }
+
+  },[showEditHotelModal])
+
 
   const handleShowDeleteModal = (id: string) => {
     setHotelId(id);

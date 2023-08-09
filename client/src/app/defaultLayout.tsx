@@ -50,7 +50,7 @@ const DefaultLayout = ({ children }: any) => {
               isSidebarOpen={isSidebarOpen}
               toggleSidebar={toggleSidebar}
             />
-            <div className="lg:w-[65%] w-[90%]">{children}</div>
+            <div className="lg:w-[90%] w-[90%] 2xl:w-[65%]">{children}</div>
           </div>
         </div>
       ) : (

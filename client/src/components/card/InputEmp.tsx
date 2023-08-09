@@ -65,7 +65,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
-    const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+    const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     
     if(formValues.password.trim() === "" || formValues.first_name.trim() === "" || formValues.email.trim() === ""){
       toast.error("Please fill all the fields");
@@ -80,12 +80,12 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
       return;
     }
 
-    if(formValues.first_name.trim() =="" && !nameRegex.test(formValues.first_name)){
+    if(formValues.first_name.trim() =="" || !nameRegex.test(formValues.first_name)){
       toast.error("Please enter a valid name");
       return;
     }
 
-    if(formValues.email.trim() == "" && !emailRegex.test(formValues.email)){
+    if(formValues.email.trim() == "" || !emailRegex.test(formValues.email)){
       toast.error("Please enter a valid email");
       return;
     }
@@ -236,7 +236,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             isMulti
             value={selectedHotels}
             onChange={handleHotelSelection}
-            className="w-full"
+            className="w-full text-black"
           />
           {availableHotels.length === 0 && (
             <div className="text-xs text-red-600 font-medium">
