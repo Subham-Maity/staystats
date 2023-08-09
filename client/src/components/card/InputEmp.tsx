@@ -146,7 +146,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             htmlFor="first_name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Name
+            Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -163,7 +163,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             htmlFor="phone"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Phone number
+            Phone number <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
@@ -181,7 +181,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address
+            Email address <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -197,7 +197,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Password
+            Password <span className="text-red-500">*</span>
           </label>
           <div className="relative">
                 <input
@@ -227,7 +227,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             htmlFor="hotel"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Hotel Name
+            Hotel Name <span className="text-red-500">*</span>
           </label>
           <Select
             id="hotel"

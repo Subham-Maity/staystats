@@ -6,6 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import EditBooking from "../card/EditBooking";
 import { InfinitySpin } from "react-loader-spinner";
+import { FaTimes } from "react-icons/fa";
 interface TableProps {
   bookingData?: {
     hotelName?: string;
@@ -46,6 +47,14 @@ const BookingTable = ({
   console.log(bookingData);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingBookingData, setEditingBookingData] = useState<object>({});
+  const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
+  const [bookingId, setBookingId] = useState<string>("");
+
+
+  const handleShowDeleteModal = (id: string) => {
+    setBookingId(id);
+    setShowDeletePopUp(true);
+  };
 
   useEffect(() => {
     console.log(bookingData);
@@ -192,8 +201,8 @@ const BookingTable = ({
                             </button>
                             <button
                               disabled={
-                                booking?.addedBy !== owner._id ||
-                                booking?.status === "CANCELLED"
+                                booking?.addedBy !== owner._id &&
+                                booking?.status === "CANCELLED" && owner.role !== "ADMIN"
                               }
                               data-tip={"Preview Link"}
                               onClick={() => {
@@ -206,7 +215,7 @@ const BookingTable = ({
                             </button>
 
                             <button
-                              onClick={() => cancelBookingHandler(booking._id)}
+                              onClick={() => handleShowDeleteModal(booking._id)}
                               className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-xs rounded-md mr-2 disabled:opacity-50 cursor-pointer`}
                               disabled={booking?.status === "CANCELLED"}
                             >
@@ -242,9 +251,30 @@ const BookingTable = ({
             setBookingData={setBookingData}
             editingBookingDataProps={editingBookingData}
             bookingData={bookingData}
+            owner={owner}
           />
         </div>
       )}
+      {
+        showDeletePopup && (
+          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+            <div className="w-1/3 bg-white rounded-lg p-6">
+              <div className="flex justify-between items-center">
+                <h1 className="text-lg font-bold">Cancel booking</h1>
+                <button onClick={()=> setShowDeletePopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
+              </div>
+              <p className="text-sm text-gray-500 mt-2">Are you sure you want to cancel this booking?</p>
+              <div className="flex justify-end items-center mt-6">
+                <button onClick={()=> setShowDeletePopUp(false)} className="text-sm text-gray-500 mr-4">No</button>
+                <button onClick={()=> {
+                  cancelBookingHandler(bookingId)
+                  setShowDeletePopUp(false)
+                }} className="text-sm text-red-500">Yes</button>
+              </div>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };
