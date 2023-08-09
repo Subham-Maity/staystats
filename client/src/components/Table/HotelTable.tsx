@@ -17,7 +17,7 @@ interface TableProps {
       email?: string;
     };
     frontOfficeContact?: string;
-  }[];
+  }[]
   setHotelData: any;
   getHotel: (hotel: object) => void;
   setShowModal: (value: boolean) => void;
@@ -96,19 +96,19 @@ const HotelTable = ({
                       >
                         <th
                           scope="row"
-                          className="text-center px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                          className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         >
                           {hotel.hotelName || ""}
                         </th>
-                        <td className="px-6 py-4 text-center">{hotel.ownerName || ""}</td>
-                        <td className="px-6 py-4 text-center">{hotel.location || ""}</td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="px-6 py-2 text-center">{hotel.ownerName || ""}</td>
+                        <td className="px-6 py-2 text-center">{hotel.location || ""}</td>
+                        <td className="px-6 py-2 text-center">
                           {hotel.ownerContact.email || ""}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="px-6 py-2 text-center">
                           {hotel.frontOfficeContact}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="px-6 py-2 text-center">
                           <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}

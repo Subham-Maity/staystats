@@ -75,7 +75,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
 
 
 
-    if(formValues.phone.length !== 10 && !numberRegex.test(formValues.phone)){
+    if(formValues.phone.length !== 10 ){
       toast.error("Please enter a valid phone number and don't include +91");
       return;
     }
