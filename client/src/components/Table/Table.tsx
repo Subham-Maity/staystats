@@ -41,6 +41,15 @@ const Table = ({
   const [showDeletePopUp, setShowDeletePopUp] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
 
+  useEffect(() => {
+    if(showEditModal){
+      document.body.style.overflow = "hidden";
+    }else{
+      document.body.style.overflow = "unset";
+    }
+
+  },[showEditModal])
+
   const handleShowDeleteModal = (id: string) => {
     setUserId(id);
     setShowDeletePopUp(true);

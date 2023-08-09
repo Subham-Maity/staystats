@@ -50,6 +50,15 @@ const BookingTable = ({
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
 
+  useEffect(() => {
+    if(showEditModal){
+      document.body.style.overflow = "hidden";
+    }else{
+      document.body.style.overflow = "unset";
+    }
+
+  },[showEditModal])
+
 
   const handleShowDeleteModal = (id: string) => {
     setBookingId(id);

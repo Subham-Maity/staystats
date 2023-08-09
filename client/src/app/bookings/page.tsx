@@ -28,6 +28,15 @@ const Bookings = () => {
   const [reloadData, setReloadData] = useState<boolean>(false);
 
   useEffect(() => {
+    if(showModal || showViewModal){
+      document.body.style.overflow = "hidden";
+    }else{
+      document.body.style.overflow = "unset";
+    }
+
+  },[showViewModal,showModal])
+
+  useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
@@ -206,7 +215,7 @@ const Bookings = () => {
           </div>
         </form>
       </div>
-      <div className="flex w-full">
+      <div className={` flex w-full`}>
         <BookingTable
           owner={user}
           setBookingData={setBookingData}
