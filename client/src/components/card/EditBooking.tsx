@@ -57,6 +57,8 @@ interface Props {
         }
       });
 
+      console.log(formValues)
+
 
       const numberRegex = /^[0-9]+$/;
       const nameRegex = /^[a-zA-Z ]+$/;
@@ -445,16 +447,16 @@ interface Props {
           <select
           required
             id="paymentby"
-            name="paymentby"
+            name="bookingSource"
             onChange={(e)=> setEditingBookingData((prev:any) => {return {...prev,bookingSource: e.target.value}})}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option defaultValue={editingBookingData.bookingSource} value={editingBookingData.bookingSource}>{editingBookingData.bookingSource}</option>
+            <option value={editingBookingData.bookingSource}>{editingBookingData.bookingSource}</option>
             <option value="Booking.com">Booking.com</option>
             <option value="Agoda">Agoda</option>
             <option value="Cleartrip">Cleartrip</option>
             <option value="Yatra">Yatra</option>
-            <option value="Sayngo">Sayango</option>
+            <option value="Sayngo">Sayngo</option>
             <option value="Offline">Offline</option>
             <option value="Travel Agent">Travel Agent</option>
             <option value="Via.com">Via.com</option>
@@ -478,6 +480,7 @@ interface Props {
               disabled
               
               value={editingBookingData.bookingBy}
+              
             />
           </div>
   

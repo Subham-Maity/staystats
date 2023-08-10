@@ -87,7 +87,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
 
               <Image src="/assets/sayngo.png" width={30} height={20} alt=""></Image>
 
-              <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>Sayngo</span>
+              <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>SAYNGO</span>
             </div>
             <span
                 className={`${!isNavOpen && !hover && "hidden"} cursor-pointer`}
