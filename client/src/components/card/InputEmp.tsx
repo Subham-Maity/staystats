@@ -12,6 +12,7 @@ interface Props {
 }
 
 const InputEmp = ({ setUserData, onClose }: Props) => {
+  const [userName,setUserName] = useState("")
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [availableHotels, setAvailableHotels] = useState<any>([]);
@@ -149,6 +150,10 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             Name <span className="text-red-500">*</span>
           </label>
           <input
+          value={userName}
+          onChange={(e)=>{
+            setUserName(e.target.value.toLocaleUpperCase())
+          }}
             type="text"
             name="first_name"
             id="first_name"

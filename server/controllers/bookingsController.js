@@ -231,12 +231,16 @@ const updateBooking = async (req, res) => {
     );
 
     if (!updatedBooking) {
-      return res.status(404).json({ error: "Booking not found" });
+      return res.status(201).json({ error: "Booking not found" });
     }
+
+    const populatedBooking = await Booking.findById(updatedBooking._id).populate({
+      path: "hotel", model: Hotel
+    })
 
     res
       .status(200)
-      .json({ message: "Booking updated successfully", user: updateBooking });
+      .json({ message: "Booking updated successfully", user: populatedBooking });
   } catch (error) {
     console.log("[user controller update error:]", error);
     res.status(201).json({ error: error.message });

@@ -64,7 +64,6 @@ const bookingSchema = new mongoose.Schema({
   },
   remarks: {
     type: String,
-    required: true,
   },
   addedBy: {
     type: mongoose.Schema.Types.ObjectId,

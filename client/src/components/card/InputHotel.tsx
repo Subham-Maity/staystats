@@ -160,10 +160,12 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
     >
       <div className="flex mb-6">
           <p className="text-lg font-bold">Hotel Details</p>
-          <FaTimes
+          <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
@@ -196,6 +198,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Ex: Digha"
             required
+            onChange={(e)=> e.target.value = e.target.value.toLocaleUpperCase()}
           />
         </div>
         <div>
@@ -212,6 +215,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Subham"
             required
+            onChange={(e)=> e.target.value = e.target.value.toLocaleUpperCase()}
           />
         </div>
         <div>
@@ -244,6 +248,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="State Bank"
             required
+            onChange={(e) => e.target.value = e.target.value.toLocaleUpperCase()}
           />
         </div>
         <div>

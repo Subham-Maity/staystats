@@ -86,7 +86,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
 
               <MdDashboard size={20} className="" />
 
-              <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>Stay Stats</span>
+              <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>Sayngo</span>
             </div>
             <span
                 className={`${!isNavOpen && !hover && "hidden"} cursor-pointer`}

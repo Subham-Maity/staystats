@@ -20,13 +20,22 @@ interface Props {
     owner
   }: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [updatedData,setUpdatedData] =useState(false)
     const [editingBookingData, setEditingBookingData] = useState<any>(editingBookingDataProps);
     const formRef = useRef<HTMLFormElement>(null);
+
+    useEffect(()=>{
+      if(updatedData){
+        setUpdatedData(false)
+        window.location.reload()
+      }
+    },[updatedData])
   
     console.log(editingBookingData)
     useEffect(() => {
       console.log(editingBookingDataProps)
       setEditingBookingData(editingBookingDataProps);
+     
     }, [editingBookingDataProps]);
   
     const handleUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +48,11 @@ interface Props {
       formData.forEach((value, key) => {
         formValues[key] = value as string;
         if (formValues[key].trim() === "") {
-          toast.error("Please fill all the fields");
+          console.log(key)
+         
+          if(key !== "remark"){
+            toast.error("Please fill all the fields");
+          }
           return;
         }
       });
@@ -93,6 +106,7 @@ interface Props {
           }
   
           onClose(false);
+          
           toast.success(data.message);
           formRef.current?.reset();
         } else {
@@ -112,12 +126,14 @@ interface Props {
       >
         <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Booking Details</p>
-        <FaTimes
+        <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
-        <div className="grid gap-6 mb-6 md:grid-cols-3">
+        <div className="grid gap-6  md:grid-cols-3">
           {/* <div>
             <label
               htmlFor="hotel"
@@ -134,7 +150,7 @@ interface Props {
               
             />
           </div> */}
-          {/* <div>
+          <div>
             <label
               htmlFor="hotel"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -142,17 +158,18 @@ interface Props {
               Hotel Name
             </label>
             <input
+            disabled
               type="text"
               id="hotel"
               name="hotel"
-              // value={editingBookingData.hotel.hotelName || "Deleted hotel"}
+              value={editingBookingData.hotel.hotelName || "Deleted hotel"}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Ex: Digha Saikatabas"
               
               
             />
             
-          </div> */}
+          </div>
           <div>
             <label
               htmlFor="guest_name"
@@ -170,14 +187,37 @@ interface Props {
               required
               onChange={(e) => {
                 setEditingBookingData((prev: any) => {
-                  return { ...prev, guestName: e.target.value };
+                  return { ...prev, guestName: e.target.value.toLocaleUpperCase() };
                 }
                 );
               }}
             />
           </div>
           <div>
-            <label
+
+          <label
+              htmlFor="cn"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Contact Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              id="cn"
+              name="cn"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="+91 999999999"
+              required
+              value={editingBookingData.contactNumber}
+              onChange={
+                (e) => setEditingBookingData((prev:any) => {return {...prev,contactNumber: e.target.value}})
+              }
+              
+            />
+            
+          </div>
+          <div>
+<label
               htmlFor="check_in_date"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
@@ -229,26 +269,7 @@ interface Props {
               }
             />
           </div>
-          <div>
-            <label
-              htmlFor="roomCategory"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Room Category <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="endDate"
-              name="roomCategory"
-              type="text"
-              required
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              
-              
-              
-              value={editingBookingData.roomCategory}
-              onChange={(e) => setEditingBookingData((prev : any) => {return {...prev,roomCategory: e.target.value}})}
-            />
-          </div>
+          
           <div>
             <label
               htmlFor="nor"
@@ -290,7 +311,48 @@ interface Props {
               }
             />
           </div>
-          <div className="mb-6">
+          <div>
+            <label
+              htmlFor="roomCategory"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Room Category <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="endDate"
+              name="roomCategory"
+              type="text"
+              required
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              
+              
+              
+              value={editingBookingData.roomCategory}
+              onChange={(e) => setEditingBookingData((prev : any) => {return {...prev,roomCategory: e.target.value.toLocaleUpperCase()}})}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="plan"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Plan <span className="text-red-500">*</span>
+            </label>
+            <select
+            required
+            onChange={(e)=> setEditingBookingData((prev:any) => {return {...prev,plan: e.target.value}})}
+            id="plan"
+            name="plan"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option defaultValue={editingBookingData.plan} value={editingBookingData.plan}>{editingBookingData.plan}</option>
+            <option value="AP">AP</option>
+            <option value="CP">CP</option>
+            <option value="MAP">MAP</option>
+            <option value="EP">EP</option>
+          </select>
+          </div>
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -307,12 +369,12 @@ interface Props {
               placeholder="Enter booking amount"
               
               onChange={
-                (e) => setEditingBookingData((prev:any) => {return {...prev,bookingAmount: e.target.value}})
+                (e) => setEditingBookingData((prev:any) => {return {...prev,bookingAmount: e.target.value,dueAmount:parseInt(e.target.value) - editingBookingData.advanceAmount }})
               }
               
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="da"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -333,7 +395,7 @@ interface Props {
               
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="da"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -352,7 +414,7 @@ interface Props {
             />
           </div>
   
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="ad"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -400,7 +462,7 @@ interface Props {
             <option value="Lxiogo">Lxiogo</option>
           </select>
           </div>
-          {/* <div className="mb-6">
+          <div className="">
             <label
               htmlFor="bb"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -413,51 +475,9 @@ interface Props {
               name="bb"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Someone"
+              disabled
               
-              
-              value={editingBookingData.booikingBy}
-            />
-          </div> */}
-          <div>
-            <label
-              htmlFor="plan"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Plan <span className="text-red-500">*</span>
-            </label>
-            <select
-            required
-            onChange={(e)=> setEditingBookingData((prev:any) => {return {...prev,plan: e.target.value}})}
-            id="plan"
-            name="plan"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option defaultValue={editingBookingData.plan} value={editingBookingData.plan}>{editingBookingData.plan}</option>
-            ,<option value="AP">AP</option>
-            <option value="CP">CP</option>
-            <option value="MAP">MAP</option>
-            <option value="EP">EP</option>
-          </select>
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="cn"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Contact Number <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              id="cn"
-              name="cn"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="+91 999999999"
-              required
-              value={editingBookingData.contactNumber}
-              onChange={
-                (e) => setEditingBookingData((prev:any) => {return {...prev,contactNumber: e.target.value}})
-              }
-              
+              value={editingBookingData.bookingBy}
             />
           </div>
   
@@ -468,16 +488,16 @@ interface Props {
             >
               Remarks (Optional)
             </label>
-            <input
+            <textarea
             value={editingBookingData.remarks}
-              type="text"
+              
               id="remark"
               name="remark"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Very Good"
               
               onChange={
-                (e) => setEditingBookingData((prev:any) => {return {...prev,remarks: e.target.value}})
+                (e) => setEditingBookingData((prev:any) => {return {...prev,remarks: e.target.value.toLocaleUpperCase()}})
               }
               
             />

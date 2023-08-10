@@ -9,7 +9,7 @@ import ThemeSwitcher from "@/components/mode/Switcher";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-    title: "Stay Stats",
+    title: "Sayngo",
     description: "Store Your Internal Data",
 };
 
