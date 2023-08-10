@@ -34,7 +34,14 @@ const Hotels = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
 
+  useEffect(() => {
+    if(showModal || showViewModal){
+      document.body.style.overflow = "hidden";
+    }else{
+      document.body.style.overflow = "unset";
+    }
 
+  },[showViewModal,showModal])
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
@@ -81,7 +88,7 @@ const Hotels = () => {
       try {
         setLoading(true);
         const { data } = await axios.get(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
-        console.log(data);
+        // console.log(data);
         if (!data.error) {
           setHotelData(data.hotels);
           setHotelsCount(data.hotelsCount);

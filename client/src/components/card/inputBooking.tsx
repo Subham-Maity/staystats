@@ -74,17 +74,17 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         return;
       }
     });
-    console.log(formValues.accountType);
+    // console.log(formValues.accountType);
 
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
 
 
-    if(formValues.guest_name.trim() === "" || formValues.startDate.trim() === "" || formValues.endDate.trim() === "" || formValues.roomCategory.trim() === "" || formValues.nor.trim() === "" || formValues.nop.trim() === "" || formValues.bookingAmount.trim() === "" || formValues.advanceAmount.trim() === "" || formValues.dueamount.trim() === "" || formValues.Advancedate.trim() === "" || formValues.paymentby.trim() === "" || formValues.plan.trim() === "" || formValues.cn.trim() === "" || formValues.remark.trim() === ""){
-      toast.error("Please fill all the fields");
-      return;
-    }
+    // if(formValues.guest_name.trim() === "" || formValues.startDate.trim() === "" || formValues.endDate.trim() === "" || formValues.roomCategory.trim() === "" || formValues.nor.trim() === "" || formValues.nop.trim() === "" || formValues.bookingAmount.trim() === "" || formValues.advanceAmount.trim() === "" || formValues.dueamount.trim() === "" || formValues.Advancedate.trim() === "" || formValues.paymentby.trim() === "" || formValues.plan.trim() === "" || formValues.cn.trim() === ""){
+    //   toast.error("Please fill all the fields");
+    //   return;
+    // }
 
 
     if (formValues.nor.trim() === "" || !numberRegex.test(formValues.nor)) {
@@ -132,7 +132,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         remarks: formValues.remark,
       });
       if (!data.error) {
-        console.log(data.booking);
+        // console.log(data.booking);
         setBookingData((prev: any) => {
           return [data.booking, ...prev];
         });
@@ -157,14 +157,16 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       onSubmit={handleSubmit}
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
     >
-     <div className="flex w-full mb-6">
+     <div className="flex w-full mb-4">
         <p className="font-bold text-lg">Booking Details</p>
-        <FaTimes
+        <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
-      <div className="grid gap-6 mb-6 md:grid-cols-3">
+      <div className="grid gap-6  md:grid-cols-3">
         {/* <div>
           <label
             htmlFor="hotel"
@@ -218,6 +220,23 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Ex: Subham"
             required
+            onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
+          />
+        </div>
+        <div className="">
+          <label
+            htmlFor="cn"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Contact Number <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            id="cn"
+            name="cn"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="+91 999999999"
+            required
           />
         </div>
         <div>
@@ -257,20 +276,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             min={checkInDate}
           />
         </div>
-        <div>
-          <label
-            htmlFor="roomCategory"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Room Category <span className="text-red-500">*</span>
-          </label>
-          <input
-          type="text"
-            name="roomCategory"
-            id="paymentby"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </div>
+        
         <div>
           <label
             htmlFor="nor"
@@ -303,7 +309,41 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             required
           />
         </div>
-        <div className="mb-6">
+        <div>
+          <label
+            htmlFor="roomCategory"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Room Category <span className="text-red-500">*</span>
+          </label>
+          <input
+          type="text"
+            name="roomCategory"
+            id="paymentby"
+            onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="plan"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Plan <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="plan"
+            name="plan"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option selected value="AP">AP</option>
+            <option value="CP">CP</option>
+            <option value="MAP">MAP</option>
+            <option value="EP">EP</option>
+          </select>
+
+        </div>
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -321,7 +361,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="da"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -339,7 +379,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="da"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -357,7 +397,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           />
         </div>
 
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="ad"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -373,6 +413,24 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             placeholder="24.05.26"
             required
             
+          />
+        </div>
+        <div className="">
+          <label
+            htmlFor="bb"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Booking By
+          </label>
+          <input
+            type="text"
+            id="bb"
+            name="bb"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Someone"
+            disabled
+            defaultValue={user.name || user.username || "admin"}
+            required
           />
         </div>
         <div>
@@ -400,43 +458,8 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             <option value="Lxiogo">Lxiogo</option>
           </select>
         </div>
-        <div className="mb-6">
-          <label
-            htmlFor="bb"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Booking By
-          </label>
-          <input
-            type="text"
-            id="bb"
-            name="bb"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Someone"
-            disabled
-            defaultValue={user.name || user.username || "admin"}
-            required
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="plan"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Plan <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="plan"
-            name="plan"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option selected value="AP">AP</option>
-            <option value="CP">CP</option>
-            <option value="MAP">MAP</option>
-            <option value="EP">EP</option>
-          </select>
-
-        </div>
+        
+       
         <div>
           <label
             htmlFor="plan"
@@ -456,35 +479,21 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           </select>
           
         </div>
-        <div className="mb-6">
-          <label
-            htmlFor="cn"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Contact Number <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="number"
-            id="cn"
-            name="cn"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="+91 999999999"
-            required
-          />
-        </div>
+        
 
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="remark"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Remarks (Optional)
           </label>
-          <input
-            type="text"
+          <textarea
+            cols={10}
+            onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
             id="remark"
             name="remark"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[250px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Very Good"
             
           />
@@ -492,7 +501,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       </div>
 
       <button
-      disabled={loading}
+      disabled={!loading}
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >

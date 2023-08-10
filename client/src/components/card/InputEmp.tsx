@@ -12,6 +12,7 @@ interface Props {
 }
 
 const InputEmp = ({ setUserData, onClose }: Props) => {
+  const [userName,setUserName] = useState("")
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [availableHotels, setAvailableHotels] = useState<any>([]);
@@ -135,10 +136,12 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
     >
      <div className="flex w-full mb-6">
         <p className="font-bold text-lg">User Details</p>
-        <FaTimes
+        <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
@@ -149,6 +152,10 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             Name <span className="text-red-500">*</span>
           </label>
           <input
+          value={userName}
+          onChange={(e)=>{
+            setUserName(e.target.value.toLocaleUpperCase())
+          }}
             type="text"
             name="first_name"
             id="first_name"

@@ -23,7 +23,7 @@ interface Props {
   import React, { useState, useEffect, useRef } from "react";
   
   const ViewHotel = ({ hotel, onClose }: Props) => {
-    console.log(hotel, "userdata");
+    // console.log(hotel, "userdata");
 
     return (
       <form
@@ -31,10 +31,12 @@ interface Props {
       >
         <div className="flex mb-6">
           <p className="text-lg font-bold">Hotel Details</p>
-          <FaTimes
+          <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
         <div className="grid gap-6 mb-6 md:grid-cols-3">
           <div>

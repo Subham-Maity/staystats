@@ -64,7 +64,7 @@ const EditHotel = ({
         return;
       }
     });
-    console.log(formValues)
+    // console.log(formValues)
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
@@ -104,11 +104,11 @@ const EditHotel = ({
       const API_KEY = '667365862194741'
       const CLOUD_NAME= 'dxixp5wwu'
       
-      console.log(API_KEY,CLOUD_NAME)
+      // console.log(API_KEY,CLOUD_NAME)
   
       if(document){
         const {data: sign} = await axios.post("/signature/get-sign")
-      console.log(sign.signature,sign.timestamp)
+      // console.log(sign.signature,sign.timestamp)
   
       const {data: fileUrl} = await axios_.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,{
         file: document,
@@ -182,10 +182,12 @@ const EditHotel = ({
     >
       <div className="flex mb-6">
           <p className="text-lg font-bold">Hotel Details</p>
-          <FaTimes
+          <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>
@@ -225,10 +227,11 @@ const EditHotel = ({
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Ex: Digha"
             required
+            
             value={editingHotelData.location}
             onChange={(e) => {
               setEditingHotelData((prev: any) => {
-                return { ...prev, location: e.target.value };
+                return { ...prev, location: e.target.value.toLocaleUpperCase() };
               });
             }}
             
@@ -251,7 +254,7 @@ const EditHotel = ({
             value={editingHotelData.ownerName}
             onChange={(e) => {
               setEditingHotelData((prev: any) => {
-                return { ...prev, ownerName: e.target.value };
+                return { ...prev, ownerName: e.target.value.toLocaleUpperCase() };
               });
             }}
           />
@@ -298,7 +301,7 @@ const EditHotel = ({
             value={editingHotelData.bank}
             onChange={(e) => {
               setEditingHotelData((prev: any) => {
-                return { ...prev, bank: e.target.value };
+                return { ...prev, bank: e.target.value.toLocaleUpperCase() };
               });
             }}
           />

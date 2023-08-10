@@ -89,7 +89,7 @@ const Users = () => {
         const { data } = await axios.get(
           `/user/get-users?page=${page}&limit=${PAGE_LIMIT}`
         );
-        console.log(data);
+        // console.log(data);
         if (!data.error) {
           setUserData(data.users);
           setUsersCount(data.usersCount);

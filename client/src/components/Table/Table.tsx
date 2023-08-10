@@ -35,7 +35,7 @@ const Table = ({
   owner,
   loading,
 }: TableProps) => {
-  console.log(userData, "userdata");
+  // console.log(userData, "userdata");
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingUserData, setEditingUserData] = useState<any>({});
   const [showDeletePopUp, setShowDeletePopUp] = useState<boolean>(false);
@@ -120,7 +120,7 @@ const Table = ({
                         <div className="flex justify-center items-center">
                       <button
                             onClick= {()=>{
-                                console.log(user)
+                                // console.log(user)
                                 getUser(user);
                                 setShowModal(true);
 

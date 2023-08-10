@@ -66,7 +66,7 @@ const BookingTable = ({
   };
 
   useEffect(() => {
-    console.log(bookingData);
+    // console.log(bookingData);
   }, [bookingData]);
   return (
     <div className="w-full">
@@ -210,8 +210,8 @@ const BookingTable = ({
                             </button>
                             <button
                               disabled={
-                                booking?.addedBy !== owner._id &&
-                                booking?.status === "CANCELLED" && owner.role !== "ADMIN"
+                                
+                                booking?.status === "CANCELLED" 
                               }
                               data-tip={"Preview Link"}
                               onClick={() => {

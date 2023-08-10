@@ -28,7 +28,7 @@ interface Props {
   import React, { useState, useEffect, useRef } from "react";
   
   const ViewBooking = ({ booking, onClose }: Props) => {
-    console.log(booking, "userdata");
+    // console.log(booking, "userdata");
 
     return (
         <form
@@ -36,10 +36,12 @@ interface Props {
       >
         <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Booking Details</p>
-        <FaTimes
+        <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
         <div className="grid gap-6 mb-6 md:grid-cols-3">
           {/* <div>
