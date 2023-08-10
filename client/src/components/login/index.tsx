@@ -125,7 +125,7 @@ const LoginForm = () => {
             <div className="pb-8 w-full h-full flex flex-col justify-end items-start  text-black">
               <h2 className="text-2xl capitalize mb-2 font-medium">
                 <span className="text-indigo-500 font-semibold">
-                  Stay Stats !
+                  Sayngo
                 </span>{" "}
                 {/* do we know you ? */}
               </h2>
@@ -187,13 +187,13 @@ const LoginForm = () => {
                     Remember me
                   </span>
                 </div>
-                {!isSignUpPage && (
+                {/* {!isSignUpPage && (
                   <p className="text-sm text-gray-500 mt-2">
                     <span className="text-indigo-500 cursor-pointer">
                       Forgot Password?
                     </span>
                   </p>
-                )}
+                )} */}
               </div>
 
               <div className="flex flex-row items-center">
@@ -213,7 +213,7 @@ const LoginForm = () => {
                 setIsSignUpPage(!isSignUpPage);
               }}
             >
-              {!isSignUpPage ? (
+              {/* {!isSignUpPage ? (
                 <p className="text-sm text-gray-500 text-center">
                   Don{"'"}t have an account?{" "}
                   <span className="text-indigo-500 cursor-pointer text-xs">
@@ -228,7 +228,7 @@ const LoginForm = () => {
                     Login
                   </span>
                 </p>
-              )}
+              )} */}
             </div>
             <div className="flex items-center center my-6">
               <div className="w-full border mr-4 h-fit"></div>

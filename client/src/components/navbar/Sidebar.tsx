@@ -11,6 +11,7 @@ import { MdDashboard } from "react-icons/md";
 import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -84,7 +85,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
 
             <div className="flex gap-2 items-center justify-center">
 
-              <MdDashboard size={20} className="" />
+              <Image src="/assets/sayngo.png" width={30} height={20} alt=""></Image>
 
               <span className={`${!isNavOpen && !hover && "hidden"} text-xl font-bold`}>Sayngo</span>
             </div>
@@ -112,9 +113,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                             : "hover:bg-slate-300"
                     } rounded-xl`}
                 >
-                  <FaHome size={20} />{" "}
+                  <MdDashboard size={20} />{" "}
                   <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
-                    Home
+                    Dashboard
                   </p>
                 </li>
               </Link>
