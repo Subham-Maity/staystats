@@ -28,7 +28,7 @@ interface Props {
   import React, { useState, useEffect, useRef } from "react";
   
   const ViewBooking = ({ booking, onClose }: Props) => {
-    console.log(booking, "userdata");
+    // console.log(booking, "userdata");
 
     return (
         <form

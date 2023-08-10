@@ -123,7 +123,7 @@ const HotelTable = ({
                               // disabled={user.addedBy !== owner._id}
                               // data-tip={"Preview Link"}
                               onClick={() => {
-                                console.log(hotel);
+                                // console.log(hotel);
                                 getHotel(hotel);
                                 setShowModal(true);
                               }}

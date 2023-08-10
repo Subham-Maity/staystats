@@ -91,8 +91,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             <span
                 className={`${!isNavOpen && !hover && "hidden"} cursor-pointer`}
                 onClick={() => {
-                  console.log("toggle sidebar");
-                  console.log("navopen hai kya?", isNavOpen)
+                  // console.log("toggle sidebar");
+                  // console.log("navopen hai kya?", isNavOpen)
                   toggleSidebar();
                 }}
             >

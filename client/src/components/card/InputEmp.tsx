@@ -136,10 +136,12 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
     >
      <div className="flex w-full mb-6">
         <p className="font-bold text-lg">User Details</p>
-        <FaTimes
+        <span
           onClick={() => onClose(false)}
-          className="ml-auto cursor-pointer"
-        />
+          className="ml-auto cursor-pointer text-xl"
+        >
+          &times;
+        </span>
         </div>
       <div className="grid gap-6 mb-6 md:grid-cols-3">
         <div>

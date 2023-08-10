@@ -31,9 +31,9 @@ interface Props {
       }
     },[updatedData])
   
-    console.log(editingBookingData)
+    // console.log(editingBookingData)
     useEffect(() => {
-      console.log(editingBookingDataProps)
+      // console.log(editingBookingDataProps)
       setEditingBookingData(editingBookingDataProps);
      
     }, [editingBookingDataProps]);
@@ -48,7 +48,7 @@ interface Props {
       formData.forEach((value, key) => {
         formValues[key] = value as string;
         if (formValues[key].trim() === "") {
-          console.log(key)
+          // console.log(key)
          
           if(key !== "remark"){
             toast.error("Please fill all the fields");

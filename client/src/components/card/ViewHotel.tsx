@@ -23,7 +23,7 @@ interface Props {
   import React, { useState, useEffect, useRef } from "react";
   
   const ViewHotel = ({ hotel, onClose }: Props) => {
-    console.log(hotel, "userdata");
+    // console.log(hotel, "userdata");
 
     return (
       <form

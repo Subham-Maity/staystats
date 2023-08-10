@@ -88,7 +88,7 @@ const Hotels = () => {
       try {
         setLoading(true);
         const { data } = await axios.get(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
-        console.log(data);
+        // console.log(data);
         if (!data.error) {
           setHotelData(data.hotels);
           setHotelsCount(data.hotelsCount);

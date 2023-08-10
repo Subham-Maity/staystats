@@ -64,7 +64,7 @@ const EditHotel = ({
         return;
       }
     });
-    console.log(formValues)
+    // console.log(formValues)
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
@@ -104,11 +104,11 @@ const EditHotel = ({
       const API_KEY = '667365862194741'
       const CLOUD_NAME= 'dxixp5wwu'
       
-      console.log(API_KEY,CLOUD_NAME)
+      // console.log(API_KEY,CLOUD_NAME)
   
       if(document){
         const {data: sign} = await axios.post("/signature/get-sign")
-      console.log(sign.signature,sign.timestamp)
+      // console.log(sign.signature,sign.timestamp)
   
       const {data: fileUrl} = await axios_.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,{
         file: document,

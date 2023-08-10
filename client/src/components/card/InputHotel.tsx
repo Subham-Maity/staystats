@@ -57,7 +57,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       }
     });
 
-    console.log(formValues)
+    // console.log(formValues)
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
 
@@ -78,7 +78,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
     }
 
     if(formValues.aadharNumber.length !== 12){
-      console.log(!numberRegex.test(formValues.aadharNumber))
+      // console.log(!numberRegex.test(formValues.aadharNumber))
       toast.error("Aadhar number should contain only 12 numbers");
       return;
     }
@@ -91,17 +91,17 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
   
 
     try {
-      console.log(document)
+      // console.log(document)
       setLoading(true);
       setUploadingDocument(true);
       const API_KEY = '667365862194741'
       const CLOUD_NAME= 'dxixp5wwu'
       
-      console.log(API_KEY,CLOUD_NAME)
+      // console.log(API_KEY,CLOUD_NAME)
   
       const {data: sign} = await axios.post("/signature/get-sign")
-      console.log(sign.signature,sign.timestamp)
-      console.log(document)
+      // console.log(sign.signature,sign.timestamp)
+      // console.log(document)
   
       const {data: fileUrl} = await axios_.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,{
         file: document,
@@ -134,7 +134,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       if (!data.error) {
         // const { data } = await axios.get("/hotel/get-all-hotels")
 
-            console.log(data.hotel)
+            // console.log(data.hotel)
           setHotelData((prev: any)=>{
             return  [data.hotel, ...prev]
           });

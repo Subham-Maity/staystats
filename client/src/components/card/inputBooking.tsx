@@ -74,7 +74,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         return;
       }
     });
-    console.log(formValues.accountType);
+    // console.log(formValues.accountType);
 
 
     const numberRegex = /^[0-9]+$/;
@@ -132,7 +132,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         remarks: formValues.remark,
       });
       if (!data.error) {
-        console.log(data.booking);
+        // console.log(data.booking);
         setBookingData((prev: any) => {
           return [data.booking, ...prev];
         });

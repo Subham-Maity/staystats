@@ -14,7 +14,7 @@ const DefaultLayout = ({ children }: any) => {
   const [loading, setLoading] = useState(true);
 
   const toggleSidebar = () => {
-    console.log("toggle sidebar");
+    // console.log("toggle sidebar");
     setIsSidebarOpen(!isSidebarOpen);
   };
 
@@ -22,7 +22,7 @@ const DefaultLayout = ({ children }: any) => {
     // @ts-ignore
 
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log("user", user);
+    // console.log("user", user);
     if (!user) {
     }
     if (user && user._id) {
