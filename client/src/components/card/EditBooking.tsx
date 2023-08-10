@@ -124,7 +124,7 @@ interface Props {
     return (
         <form
         onSubmit={handleUpdate}
-        className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+        className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl dark:border-gray-700 dark:bg-gray-800 "
       >
         <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Booking Details</p>
@@ -135,7 +135,7 @@ interface Props {
           &times;
         </span>
         </div>
-        <div className="grid gap-6  md:grid-cols-3">
+        <div className="grid gap-6  md:grid-cols-4">
           {/* <div>
             <label
               htmlFor="hotel"
@@ -483,7 +483,7 @@ interface Props {
               
             />
           </div>
-  
+  <br />
           <div className="mb-6">
             <label
               htmlFor="remark"

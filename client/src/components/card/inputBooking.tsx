@@ -24,6 +24,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       setLoading(true);
       try {
         setAvailableHotels(user.hotel);
+        setLoading(false)
       } catch (error: any) {
         setLoading(false);
         toast.error(error.message);
@@ -70,7 +71,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     formData.forEach((value, key) => {
       formValues[key] = value as string;
       if (formValues[key].trim() === "") {
-        toast.error("Please fill all the fields");
+        if(key !== "remark"){
+          toast.error("Please fill all the fields");
+        }
         return;
       }
     });
@@ -155,7 +158,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl dark:border-gray-700 dark:bg-gray-800 "
     >
      <div className="flex w-full mb-4">
         <p className="font-bold text-lg">Booking Details</p>
@@ -166,7 +169,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           &times;
         </span>
         </div>
-      <div className="grid gap-6  md:grid-cols-3">
+      <div className="grid gap-6  md:grid-cols-4">
         {/* <div>
           <label
             htmlFor="hotel"
@@ -501,9 +504,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       </div>
 
       <button
-      disabled={!loading}
+      disabled={loading}
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Submit
       </button>

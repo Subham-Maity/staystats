@@ -32,7 +32,7 @@ interface Props {
 
     return (
         <form
-        className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+        className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-2xl dark:border-gray-700 dark:bg-gray-800 "
       >
         <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Booking Details</p>
@@ -43,7 +43,7 @@ interface Props {
           &times;
         </span>
         </div>
-        <div className="grid gap-6 mb-6 md:grid-cols-3">
+        <div className="grid gap-6  md:grid-cols-4">
           {/* <div>
             <label
               htmlFor="hotel"
@@ -205,7 +205,7 @@ interface Props {
               value={booking?.numberOfPersons}
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -224,7 +224,7 @@ interface Props {
               disabled
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="da"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -242,7 +242,7 @@ interface Props {
               disabled
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="da"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -261,7 +261,7 @@ interface Props {
             />
           </div>
   
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="ad"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -297,7 +297,7 @@ interface Props {
               value={booking?.bookingSource}
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="bb"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -333,7 +333,7 @@ interface Props {
               value={booking?.plan}
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="cn"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -352,7 +352,7 @@ interface Props {
             />
           </div>
   
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="remark"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
