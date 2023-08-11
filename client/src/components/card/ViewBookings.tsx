@@ -32,7 +32,7 @@ interface Props {
 
     return (
         <form
-        className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+        className="z-50 p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
       >
         <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Booking Details</p>

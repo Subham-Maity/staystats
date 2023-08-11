@@ -228,7 +228,7 @@ const Bookings = () => {
       </div>
       <ToastContainer theme="dark" position="bottom-center" autoClose={10000} />
       {showModal && (
-        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {(accountType === "ADMIN" || accountType === "SUBADMIN") && (
             <InputBooking
               user={user}
@@ -239,14 +239,14 @@ const Bookings = () => {
         </div>
       )}
       {showViewModal && (
-        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <ViewBooking
             onClose={(value) => setShowViewModal(value)}
             booking={booking}
           />
         </div>
       )}
-      <div className="w-full flex flex-row justify-between items-center py-3 border-t-2">
+      <div className="z-10 w-full flex flex-row justify-between items-center py-3 border-t-2">
         <div>
           <button
             onClick={() => setPage(page - 1)}
