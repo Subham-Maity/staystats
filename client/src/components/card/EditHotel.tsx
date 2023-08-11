@@ -101,8 +101,8 @@ const EditHotel = ({
         secure_url: "",
         public_id: ""
       }
-      const API_KEY = '667365862194741'
-      const CLOUD_NAME= 'dxixp5wwu'
+      const API_KEY = '578159845172363'
+      const CLOUD_NAME= 'drtr0suuh'
       
       // console.log(API_KEY,CLOUD_NAME)
   
@@ -189,7 +189,7 @@ const EditHotel = ({
           &times;
         </span>
         </div>
-      <div className="grid gap-6 mb-6 md:grid-cols-3">
+      <div className="grid gap-2 grid-cols-3 md:grid-cols-3">
         <div>
           <label
             htmlFor="first_name"

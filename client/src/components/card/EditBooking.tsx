@@ -135,7 +135,7 @@ interface Props {
           &times;
         </span>
         </div>
-        <div className="grid gap-2  md:grid-cols-3">
+        <div className="grid gap-2 grid-cols-3  md:grid-cols-3">
           {/* <div>
             <label
               htmlFor="hotel"

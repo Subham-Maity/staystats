@@ -162,11 +162,11 @@ const EditUser = ({
           &times;
         </span>
         </div>
-      <div className="grid gap-6 mb-6 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-3 md:grid-cols-3">
         <div>
           <label
             htmlFor="first_name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium whitespace-nowrap text-gray-900 dark:text-white"
           >
             Name <span className="text-red-500">*</span>
           </label>
@@ -189,7 +189,7 @@ const EditUser = ({
         <div>
           <label
             htmlFor="phone"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className=" whitespace-nowrap block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Phone number <span className="text-red-500">*</span>
           </label>
@@ -215,7 +215,7 @@ const EditUser = ({
         <div className="mb-6">
           <label
             htmlFor="email"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
           >
             Email address  <span className="text-red-500">*</span>
           </label>

@@ -38,7 +38,7 @@ interface Props {
           &times;
         </span>
         </div>
-        <div className="grid gap-6 mb-6 md:grid-cols-3">
+        <div className="grid gap-4 grid-cols-3 md:grid-cols-3">
           <div>
             <label
               htmlFor="first_name"
