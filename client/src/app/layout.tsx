@@ -11,6 +11,10 @@ const inter = Inter({subsets: ["latin"]});
 export const metadata: Metadata = {
     title: "Sayngo",
     description: "Store Your Internal Data",
+    // icons: [
+    //     { rel: "icon", url: "./sayngo.png" },
+    // ]
+       
 };
 
 export default function RootLayout({
@@ -21,6 +25,13 @@ export default function RootLayout({
 
     return (
         <html lang="en">
+        <head>
+            <meta charSet="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <meta name="theme-color" content="#000000"/>
+            <meta name="description" content="Store Your Internal Data"/>
+            {/* <link rel="icon" href="/sayngo.png"/> */}
+        </head>
         <Providers>
             <body className={`${inter.className} dark:bg-[#25293c]`}>
 

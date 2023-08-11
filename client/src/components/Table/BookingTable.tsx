@@ -44,7 +44,7 @@ const BookingTable = ({
   owner,
   loading,
 }: TableProps) => {
-  console.log(bookingData);
+  // console.log(bookingData);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingBookingData, setEditingBookingData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
@@ -200,7 +200,7 @@ const BookingTable = ({
                               // disabled={user.addedBy !== owner._id}
                               data-tip={"Preview Link"}
                               onClick={() => {
-                                console.log(booking);
+                                // console.log(booking);
                                 getBooking(booking);
                                 setShowModal(true);
                               }}

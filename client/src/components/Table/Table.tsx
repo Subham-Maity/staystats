@@ -98,7 +98,7 @@ const Table = ({
                   </div>
                 ) : (
                 userData.map((user: any, index: number) => {
-                  console.log(user.name);
+                  // console.log(user.name);
 
                   return (
                     <tr
