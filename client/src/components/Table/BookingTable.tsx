@@ -254,7 +254,7 @@ const BookingTable = ({
         </table>
       </div>
       {showEditModal && editingBookingData && (
-        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <EditBooking
             onClose={(value) => setShowEditModal(value)}
             setBookingData={setBookingData}
