@@ -118,46 +118,46 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
 
 
 
-    // try {
-    //   setLoading(true);
-    //   const { data } = await axios.post("/booking/create-booking", {
-    //     hotel: formValues.hotel,
-    //     guestName: formValues.guest_name,
-    //     checkInDate: formValues.startDate,
-    //     checkOutDate: formValues.endDate,
-    //     roomCategory: formValues.roomCategory,
-    //     numberOfRooms: formValues.nor,
-    //     numberOfPersons: formValues.nop,
-    //     bookingAmount: formValues.bookingAmount,
-    //     advanceAmount: formValues.advanceAmount,
-    //     dueAmount: formValues.dueamount,
-    //     advanceDate: formValues.Advancedate,
-    //     bookingSource: formValues.paymentby,
-    //     bookingBy: user.name || user.username,
-    //     accountType: formValues.accountType,
-    //     plan: formValues.plan,
-    //     contactNumber: formValues.cn,
-    //     remarks: formValues.remark,
-    //   });
-    //   if (!data.error) {
-    //     // console.log(data.booking);
-    //     setBookingData((prev: any) => {
-    //       return [data.booking, ...prev];
-    //     });
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/booking/create-booking", {
+        hotel: formValues.hotel,
+        guestName: formValues.guest_name,
+        checkInDate: formValues.startDate,
+        checkOutDate: formValues.endDate,
+        roomCategory: formValues.roomCategory,
+        numberOfRooms: formValues.nor,
+        numberOfPersons: formValues.nop,
+        bookingAmount: formValues.bookingAmount,
+        advanceAmount: formValues.advanceAmount,
+        dueAmount: formValues.dueamount,
+        advanceDate: formValues.Advancedate,
+        bookingSource: formValues.paymentby,
+        bookingBy: user.name || user.username,
+        accountType: formValues.accountType,
+        plan: formValues.plan,
+        contactNumber: formValues.cn,
+        remarks: formValues.remark,
+      });
+      if (!data.error) {
+        // console.log(data.booking);
+        setBookingData((prev: any) => {
+          return [data.booking, ...prev];
+        });
 
-    //     onClose(false);
+        onClose(false);
 
-    //     toast.success(data.message);
-    //     formRef.current?.reset();
-    //   } else {
-    //     toast.error(data.error);
-    //   }
-    //   setLoading(false);
-    // } catch (error: any) {
-    //   setLoading(false);
-    //   console.log(error);
-    //   toast.error(error.message);
-    // }
+        toast.success(data.message);
+        formRef.current?.reset();
+      } else {
+        toast.error(data.error);
+      }
+      setLoading(false);
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   return (
