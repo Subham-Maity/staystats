@@ -70,10 +70,15 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     // Collect all the form field values
     formData.forEach((value, key) => {
       formValues[key] = value as string;
+      if(formValues[key] === "Choose"){
+        // console.log("formValues[key]", formValues[key]);
+        toast.error("Please select a valid booking source");
+      }
       if (formValues[key].trim() === "") {
         if(key !== "remark"){
           toast.error("Please fill all the fields");
         }
+
         return;
       }
     });
