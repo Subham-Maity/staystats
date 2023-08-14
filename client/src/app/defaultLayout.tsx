@@ -5,10 +5,13 @@ import Navbar from "@/components/navbar/Navbar";
 import Sidebar from "@/components/navbar/Sidebar";
 import LoginForm from "@/components/login";
 import LoadingSpinner from "@/components/loadingSpinner/LoadingSpinner";
+import useAutoLogout from "@/hooks/useAutoLogout";
 
 type Props = {};
 
 const DefaultLayout = ({ children }: any) => {
+
+  const handleUserActivity = useAutoLogout(30000)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -40,7 +43,7 @@ const DefaultLayout = ({ children }: any) => {
     <div>
       {/* @ts-ignore */}
       {user && user._id ? (
-        <div className="flex">
+        <div className="flex" onMouseMove={handleUserActivity} onKeyPress={handleUserActivity}>
           <Sidebar
             isSidebarOpen={isSidebarOpen}
             toggleSidebar={toggleSidebar}
