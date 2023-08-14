@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/defaultLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/defaultLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/hooks/useAutoLogout.ts" beforeDir="false" />
-    </list>
+    <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +61,7 @@
       <workItem from="1690039483400" duration="9129000" />
       <workItem from="1690178623732" duration="2505000" />
       <workItem from="1690200178985" duration="7626000" />
-      <workItem from="1692046322247" duration="6041000" />
+      <workItem from="1692046322247" duration="6470000" />
     </task>
     <servers />
   </component>
