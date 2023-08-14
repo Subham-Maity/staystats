@@ -16,7 +16,14 @@ interface NavbarProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
 }
-
+const events = [
+  "load",
+  "mousemove",
+  "mousedown",
+  "click",
+  "scroll",
+  "keypress",
+];
 const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false);
   const [pathName, setPathName] = useState("");
@@ -62,6 +69,37 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  let timer: number;
+  const resetTimer = () => {
+    if (timer) clearTimeout(timer);
+  };
+
+  const handleLogoutTimer = () => {
+    //@ts-ignore
+    timer = setTimeout(() => {
+      // clears any pending timer.
+      resetTimer();
+      // Listener clean up. Removes the existing event listener from the window
+      Object.values(events).forEach((item) => {
+        window.removeEventListener(item, resetTimer);
+      });
+      // logs out user
+      logoutAction();
+    }, 10000); // 10000ms = 10secs.
+  };
+  useEffect(() => {
+    Object.values(events).forEach((item) => {
+      window.addEventListener(item, () => {
+        resetTimer();
+        handleLogoutTimer();
+      });
+    });
+  }, []);
+  const logoutAction = () => {
+    localStorage.clear();
+    window.location.pathname = "/login";
+  };
+
   return (
     <div className="flex  flex-col gap-2 cursor-pointer mt-4 text-gray-600 lg:w-[65%] w-[90%]">
       <div className="navbar flex justify-between items-center px-4 py-2 dark:bg-blue-950 light:bg-slate-300 border border-sm rounded-lg">
@@ -115,8 +153,12 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
                     className="rounded-full"
                   />
                   <div>
-                    <p className="font-semibold text-sm">{user.username || "user"}</p>
-                    <p className="text-gray-500 text-xs lowercase ">{user.role || "user"}</p>
+                    <p className="font-semibold text-sm">
+                      {user.username || "user"}
+                    </p>
+                    <p className="text-gray-500 text-xs lowercase ">
+                      {user.role || "user"}
+                    </p>
                   </div>
                 </div>
                 <hr className="border-gray-300" />
