@@ -34,11 +34,11 @@ const useAutoLogout = (idleTime: number) => {
   }, []);
 
  
-  useEffect(() => {
-    if (isPageVisible) {
-      resetTimer();
-    }
-  }, [isPageVisible, resetTimer]);
+  // useEffect(() => {
+  //   if (isPageVisible) {
+  //     resetTimer();
+  //   }
+  // }, [isPageVisible, resetTimer]);
 
 
   useEffect(() => {
