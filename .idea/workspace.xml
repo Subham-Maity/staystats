@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/client/2. Root Folder/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/client/3. Card/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/client/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/client/1. File Structure/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/client/3. Card/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/client/3. Card/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +69,7 @@
       <workItem from="1692054131369" duration="617000" />
       <workItem from="1692098933531" duration="631000" />
       <workItem from="1692102935908" duration="1040000" />
-      <workItem from="1692104592030" duration="1440000" />
+      <workItem from="1692104592030" duration="2969000" />
     </task>
     <servers />
   </component>

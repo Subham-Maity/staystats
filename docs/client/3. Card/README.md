@@ -33,7 +33,7 @@
     - Makes an API call to update the booking data using `axios.post`.
     - If the update is successful, it updates the booking data in the state and displays a success toast message.
     - If there's an error, it displays an error toast message.
-4.
+4. Axios -> `src/utils/axios.ts`
 ```ts
 const { data } = await axios.post("/booking/update-booking", {
           id: editingBookingData._id,
