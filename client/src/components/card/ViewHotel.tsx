@@ -14,6 +14,8 @@ interface Props {
             phone?: string;
         };
         frontOfficeContact?: string;
+        accountNumber?: string;
+        ifscCode?: string;
         
     }
     onClose: (value: boolean) => void;
@@ -39,7 +41,7 @@ interface Props {
         </span>
         </div>
         <div className="grid gap-4 grid-cols-3 md:grid-cols-3">
-          <div>
+          <div className="">
             <label
               htmlFor="first_name"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -129,6 +131,42 @@ interface Props {
               required
             />
           </div>
+          <div className="">
+          <label
+            htmlFor="accountNumber"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Account Number
+          </label>
+          <input
+            name="accountNumber"
+            type="number"
+            id="accountNumber"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="0112345678"
+            required
+            disabled
+            value={hotel?.accountNumber}
+          />
+        </div>
+        <div className="">
+          <label
+            htmlFor="accountNumber"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            IFSC Code
+          </label>
+          <input
+            name="ifscCode"
+            type="text"
+            id="ifscCode"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="SBIN0005943"
+            disabled
+            value={hotel?.ifscCode}
+            required
+          />
+        </div>
           <div>
             <label
               htmlFor="visitors"
@@ -147,7 +185,7 @@ interface Props {
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -166,7 +204,7 @@ interface Props {
             />
           </div>
   
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -184,7 +222,7 @@ interface Props {
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -203,7 +241,7 @@ interface Props {
             />
           </div>
   
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -221,7 +259,7 @@ interface Props {
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -239,7 +277,7 @@ interface Props {
               
             ><a className="bg-blue-500 text-white" href={hotel?.otherDocuments}>View Document</a></button>
           </div>
-          <div className="mb-6">
+          <div className="">
             <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
