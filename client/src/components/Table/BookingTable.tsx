@@ -97,10 +97,11 @@ const BookingTable = ({
               <th scope="col" className="px-6 py-3 text-center">
                 Status
               </th>
-
-              <th scope="col" className="px-4 text-center py-3">
-                OPTIONS
+              <th scope="col" className="px-6 py-3 text-center">
+                Room Category
               </th>
+
+              
               <th scope="col" className="px-6 py-3">
                 Number of Room
               </th>
@@ -136,6 +137,10 @@ const BookingTable = ({
               </th>
               <th scope="col" className="px-6 py-3">
                 Account Type
+              </th>
+
+              <th scope="col" className="px-4 text-center py-3">
+                OPTIONS
               </th>
             </tr>
           </thead>
@@ -212,8 +217,8 @@ const BookingTable = ({
                           {booking.advanceAmount || ""}
                         </td>
                         <td className="px-6 py-4">{booking.dueAmount || ""}</td>
-                        <td className="px-6 py-4">
-                          {booking.advanceDate || ""}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {new Date(booking?.advanceDate).toDateString() || ""}
                         </td>
                         <td className="px-6 py-4">
                           {booking.bookingSource || ""}
