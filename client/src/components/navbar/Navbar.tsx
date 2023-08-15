@@ -85,7 +85,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
       });
       // logs out user
       logoutAction();
-    }, 10000); // 10000ms = 10secs.
+    }, 500000); // 10000ms = 10secs.
   };
   useEffect(() => {
     Object.values(events).forEach((item) => {
@@ -97,7 +97,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   }, []);
   const logoutAction = () => {
     localStorage.clear();
-    window.location.pathname = "/login";
+    window.location.pathname = "/";
   };
 
   return (
