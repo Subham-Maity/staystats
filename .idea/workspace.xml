@@ -7,6 +7,10 @@
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Table/HotelTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Table/HotelTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/card/EditHotel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/EditHotel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/card/InputHotel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/InputHotel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/hotelController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/hotelController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/hotelModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/hotelModel.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +77,8 @@
       <workItem from="1692054131369" duration="617000" />
       <workItem from="1692098933531" duration="631000" />
       <workItem from="1692102935908" duration="1040000" />
-      <workItem from="1692104592030" duration="6588000" />
+      <workItem from="1692104592030" duration="9200000" />
+      <workItem from="1692117810206" duration="3150000" />
     </task>
     <servers />
   </component>

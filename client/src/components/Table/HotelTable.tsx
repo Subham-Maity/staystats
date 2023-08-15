@@ -90,12 +90,12 @@ const HotelTable = ({
               <th scope="col" className="px-6 py-3 text-center">
                 GST Number
               </th>
-              {/*<th scope="col" className="px-6 py-3 text-center">*/}
-              {/*  IFSC Code*/}
-              {/*</th>*/}
-              {/*<th scope="col" className="px-6 py-3 text-center">*/}
-              {/*  Account Number*/}
-              {/*</th>*/}
+              <th scope="col" className="px-6 py-3 text-center">
+                IFSC Code
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Account Number
+              </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Pan Number
               </th>
@@ -161,11 +161,18 @@ const HotelTable = ({
                           {hotel.GSTNumber || ""}
                         </td>
                         <td className="px-6 py-2 text-center">
+                          {hotel.ifscCode || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.accountNumber || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
                           {hotel.panNumber || ""}
                         </td>
                         <td className="px-6 py-2 text-center">
                           {hotel.aadharNumber || ""}
                         </td>
+
                         <td className="px-6 py-2 text-center">
                           {hotel.tradeLicense || ""}
                         </td>

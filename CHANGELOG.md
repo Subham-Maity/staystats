@@ -11,6 +11,10 @@
 
 - Lead Generator page and backend controllers
 | Arian |
+###### 2023-08-15
+- Hotel Details Bank Name & IFC (two extra fields) added
+- Select Column (all details) added
+- Hotel Name Capitalized (input/edit)
 
 ---
 
