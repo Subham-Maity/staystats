@@ -51,23 +51,20 @@ const getAllHotels = async (req, res) => {
 
     // Fetch hotels with applied filters and sorting
     const hotels = await Hotel.find(filter)
-    .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
-    .skip(skipIndex)
-    .limit(limit)
-    .populate("addedBy");
-  let hotelsCount = await Hotel.countDocuments(filter);
-  
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+      .skip(skipIndex)
+      .limit(limit)
+      .populate("addedBy");
+    let hotelsCount = await Hotel.countDocuments(filter);
 
     console.timeEnd("get hotels");
 
     if (!hotels || hotels.length === 0) {
-      res
-        .status(200)
-        .json({
-          error: "No hotels found",
-          hotels: [],
-          hotelsCount: hotelsCount ?? 0,
-        });
+      res.status(200).json({
+        error: "No hotels found",
+        hotels: [],
+        hotelsCount: hotelsCount ?? 0,
+      });
       return;
     } else {
       res.status(200).json({ hotels, hotelsCount: hotelsCount ?? 0 });
@@ -87,27 +84,29 @@ function escapeRegex(text) {
 
 const getAllHotelsBySearch = async (req, res) => {
   const { query } = req.query;
-  console.log("[get all hotels by search controller: =>]")
+  console.log("[get all hotels by search controller: =>]");
   console.log(req.query);
   try {
     const regex = new RegExp(escapeRegex(query), "gi");
 
     const hotels = await Hotel.find()
-    .or([
-      { hotelName: regex },
-      { location: regex }, 
-      { ownerName: regex },
-      { "ownerContact.email": regex } 
-    ])
-    // .and([formsQuery])    // Additional conditions specified in formsQuery
-    // .limit(5)
-    .populate({ path: "addedBy", model: User });
+      .or([
+        { hotelName: regex },
+        { location: regex },
+        { ownerName: regex },
+        { "ownerContact.email": regex },
+      ])
+      // .and([formsQuery])    // Additional conditions specified in formsQuery
+      // .limit(5)
+      .populate({ path: "addedBy", model: User });
 
-  if (hotels.length > 0) {
-    res.status(200).json({ hotels, message: "Hotels fetched successfully" });
-  } else {
-    res.status(200).json({ hotels, message: "No result found for this search" });
-  }
+    if (hotels.length > 0) {
+      res.status(200).json({ hotels, message: "Hotels fetched successfully" });
+    } else {
+      res
+        .status(200)
+        .json({ hotels, message: "No result found for this search" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
@@ -133,6 +132,8 @@ const createHotel = async (req, res) => {
     otherDocuments,
     documentId,
     frontOfficeContact,
+    accountNumber,
+    ifscCode,
   } = req.body;
   try {
     const newHotel = await Hotel.create({
@@ -148,6 +149,8 @@ const createHotel = async (req, res) => {
       otherDocuments,
       documentId,
       frontOfficeContact,
+      accountNumber,
+      ifscCode,
       addedBy: req.user._id,
     });
     if (!newHotel) {
@@ -181,13 +184,30 @@ const updateHotel = async (req, res) => {
     otherDocuments,
     documentId,
     frontOfficeContact,
+    accountNumber,
+    ifscCode,
   } = req.body;
   try {
     console.log("[updateuser controller]");
     const updatedHotel = await Hotel.findByIdAndUpdate(
       id,
-      { hotelName,location,ownerName,ownerContact,bank,GSTNumber,panNumber,aadharNumber,tradeLicense,otherDocuments,documentId,frontOfficeContact },
-      { new: true } // This option returns the updated document after the update is applied
+      {
+        hotelName,
+        location,
+        ownerName,
+        ownerContact,
+        bank,
+        GSTNumber,
+        panNumber,
+        aadharNumber,
+        tradeLicense,
+        otherDocuments,
+        documentId,
+        frontOfficeContact,
+        accountNumber,
+        ifscCode,
+      },
+      { new: true }, // This option returns the updated document after the update is applied
     );
 
     if (!updatedHotel) {
@@ -219,7 +239,7 @@ const deleteHotel = async (req, res) => {
         {
           $pull: { hotel: id },
         },
-        { new: true }
+        { new: true },
       );
       console.log("updated user: ", updatedUser);
       if (updatedUser) {

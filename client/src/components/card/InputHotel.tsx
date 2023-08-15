@@ -6,7 +6,7 @@ import { FaTimes } from "react-icons/fa";
 
 import { toast } from "react-toastify";
 import axios from "@/utils/axios";
-import axios_ from 'axios'
+import axios_ from "axios";
 import React, { useState, useEffect, useRef } from "react";
 
 const InputHotel = ({ setHotelData, onClose }: Props) => {
@@ -15,23 +15,24 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
   const [uploadingDocument, setUploadingDocument] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [gstNumber,setGstNumber] = useState<string>("")
-  const [panNumber,setPanNumber] = useState<string>("")
+  const [gstNumber, setGstNumber] = useState<string>("");
+  const [panNumber, setPanNumber] = useState<string>("");
   const [document, setDocument] = useState<any>();
 
-
-  const handleFileInput = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const handleFileInput = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): Promise<void> => {
     try {
       const file = e.target.files?.[0];
-  
+
       if (file) {
         const reader = new FileReader();
-  
+
         reader.onload = (event: ProgressEvent<FileReader>) => {
           const dataURL = event.target?.result as string;
           setDocument(dataURL); // Set the Data URL to the state variable
         };
-  
+
         // Read the file as Data URL
         reader.readAsDataURL(file);
       }
@@ -40,7 +41,6 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       // Handle any errors that might occur during file processing
     }
   };
-
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,72 +61,94 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
 
-
-    if (formValues.hotelName.trim() === "" || formValues.location.trim() === "" || formValues.ownerName.trim() === "" || formValues.phoneNumber.trim() === "" || formValues.bank.trim() === "" || formValues.GSTNumber.trim() === "" || formValues.panNumber.trim() === "" || formValues.aadharNumber.trim() === "" || formValues.tradeLicense.trim() === "" || formValues.frontOfficeContact.trim() === ""){
+    if (
+      formValues.hotelName.trim() === "" ||
+      formValues.location.trim() === "" ||
+      formValues.ownerName.trim() === "" ||
+      formValues.phoneNumber.trim() === "" ||
+      formValues.bank.trim() === "" ||
+      formValues.GSTNumber.trim() === "" ||
+      formValues.panNumber.trim() === "" ||
+      formValues.aadharNumber.trim() === "" ||
+      formValues.tradeLicense.trim() === "" ||
+      formValues.frontOfficeContact.trim() === ""
+    ) {
       toast.error("Please fill all the fields");
       return;
     }
 
-    if(!nameRegex.test(formValues.ownerName)){
+    if (!nameRegex.test(formValues.ownerName)) {
       toast.error("Owner name should contain only alphabets");
       return;
     }
 
-    if(!numberRegex.test(formValues.phoneNumber) || formValues.phoneNumber.length !== 10){
-      toast.error("Phone number should contain only 10 numbers and don't include +91");
+    if (
+      !numberRegex.test(formValues.phoneNumber) ||
+      formValues.phoneNumber.length !== 10
+    ) {
+      toast.error(
+        "Phone number should contain only 10 numbers and don't include +91",
+      );
       return;
     }
 
-    if(formValues.aadharNumber.length !== 12){
+    if (formValues.aadharNumber.length !== 12) {
       // console.log(!numberRegex.test(formValues.aadharNumber))
       toast.error("Aadhar number should contain only 12 numbers");
       return;
     }
 
-    if(!numberRegex.test(formValues.frontOfficeContact) || formValues.frontOfficeContact.length !== 10){
-      toast.error("Front office contact should contain only 10 numbers and don't include +91");
+    if (
+      !numberRegex.test(formValues.frontOfficeContact) ||
+      formValues.frontOfficeContact.length !== 10
+    ) {
+      toast.error(
+        "Front office contact should contain only 10 numbers and don't include +91",
+      );
       return;
     }
-
-  
 
     try {
       // console.log(document)
       setLoading(true);
       setUploadingDocument(true);
-      const API_KEY = '667365862194741'
-      const CLOUD_NAME= 'dxixp5wwu'
-      
+      const API_KEY = "667365862194741";
+      const CLOUD_NAME = "dxixp5wwu";
+
       // console.log(API_KEY,CLOUD_NAME)
-  
-      const {data: sign} = await axios.post("/signature/get-sign")
+
+      const { data: sign } = await axios.post("/signature/get-sign");
       // console.log(sign.signature,sign.timestamp)
       // console.log(document)
-  
-      const {data: fileUrl} = await axios_.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,{
-        file: document,
-        api_key: API_KEY,
-        timestamp: sign.timestamp,
-        signature: sign.signature
-      })
-      if(fileUrl){
-        setUploadingDocument(false)
-      }
 
+      const { data: fileUrl } = await axios_.post(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,
+        {
+          file: document,
+          api_key: API_KEY,
+          timestamp: sign.timestamp,
+          signature: sign.signature,
+        },
+      );
+      if (fileUrl) {
+        setUploadingDocument(false);
+      }
 
       const { data } = await axios.post("/hotel/create-hotel", {
         hotelName: formValues.hotelName,
         location: formValues.location,
         ownerName: formValues.ownerName,
         ownerContact: {
-            phone: formValues.phoneNumber,
-            email: formValues.email ?? "",
+          phone: formValues.phoneNumber,
+          email: formValues.email ?? "",
         },
         bank: formValues.bank,
         GSTNumber: formValues.GSTNumber,
         panNumber: formValues.panNumber,
         aadharNumber: formValues.aadharNumber,
         tradeLicense: formValues.tradeLicense,
+        accountNumber: formValues.accountNumber,
+        ifscCode: formValues.ifscCode,
         otherDocuments: fileUrl.secure_url,
         documentId: fileUrl.public_id,
         frontOfficeContact: formValues.frontOfficeContact,
@@ -134,13 +156,13 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       if (!data.error) {
         // const { data } = await axios.get("/hotel/get-all-hotels")
 
-            // console.log(data.hotel)
-          setHotelData((prev: any)=>{
-            return  [data.hotel, ...prev]
-          });
+        // console.log(data.hotel)
+        setHotelData((prev: any) => {
+          return [data.hotel, ...prev];
+        });
 
-          onClose(false)
-        
+        onClose(false);
+
         toast.success(data.message);
         formRef.current?.reset();
       } else {
@@ -159,14 +181,14 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
     >
       <div className="flex mb-6">
-          <p className="text-lg font-bold">Hotel Details</p>
-          <span
+        <p className="text-lg font-bold">Hotel Details</p>
+        <span
           onClick={() => onClose(false)}
           className="ml-auto cursor-pointer text-xl"
         >
           &times;
         </span>
-        </div>
+      </div>
       <div className="grid gap-4 grid-cols-3 mb-6 md:grid-cols-3">
         <div>
           <label
@@ -182,6 +204,9 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Ex: Digha Saikatabas"
             required
+            onChange={(e) =>
+              (e.target.value = e.target.value.toLocaleUpperCase())
+            }
           />
         </div>
         <div>
@@ -192,13 +217,15 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Location
           </label>
           <input
-          name="location"
+            name="location"
             type="text"
             id="last_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Ex: Digha"
             required
-            onChange={(e)=> e.target.value = e.target.value.toLocaleUpperCase()}
+            onChange={(e) =>
+              (e.target.value = e.target.value.toLocaleUpperCase())
+            }
           />
         </div>
         <div>
@@ -215,7 +242,9 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Subham"
             required
-            onChange={(e)=> e.target.value = e.target.value.toLocaleUpperCase()}
+            onChange={(e) =>
+              (e.target.value = e.target.value.toLocaleUpperCase())
+            }
           />
         </div>
         <div>
@@ -226,7 +255,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Phone number
           </label>
           <input
-           name="phoneNumber"
+            name="phoneNumber"
             type="tel"
             id="phone"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -242,13 +271,15 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Bank
           </label>
           <input
-          name="bank"
+            name="bank"
             type="text"
             id="bank"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="State Bank"
             required
-            onChange={(e) => e.target.value = e.target.value.toLocaleUpperCase()}
+            onChange={(e) =>
+              (e.target.value = e.target.value.toLocaleUpperCase())
+            }
           />
         </div>
         <div>
@@ -259,12 +290,12 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             GST Number
           </label>
           <input
-          name="GSTNumber"
+            name="GSTNumber"
             type="text"
             id="visitors"
             value={gstNumber}
             onChange={(e) => {
-              setGstNumber(e.target.value.toLocaleUpperCase())
+              setGstNumber(e.target.value.toLocaleUpperCase());
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="GST Number"
@@ -285,7 +316,6 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="hotel@company.com "
-            
           />
         </div>
 
@@ -297,14 +327,13 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Pan Number
           </label>
           <input
-          name="panNumber"
-          
-          autoCapitalize="on"
+            name="panNumber"
+            autoCapitalize="on"
             type="text"
             id="pan"
             value={panNumber}
-            onChange={(e)=>{
-              setPanNumber(e.target.value.toLocaleUpperCase())
+            onChange={(e) => {
+              setPanNumber(e.target.value.toLocaleUpperCase());
             }}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="AAAAA 1234A"
@@ -319,11 +348,46 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Aadhar Number
           </label>
           <input
-          name="aadharNumber"
+            name="aadharNumber"
             type="number"
             id="adhar"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="2625-2331-7140"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="accountNumber"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Account Number
+          </label>
+          <input
+            name="accountNumber"
+            type="number"
+            id="accountNumber"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="0112345678"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="accountNumber"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            IFSC Code
+          </label>
+          <input
+            name="ifscCode"
+            type="text"
+            id="ifscCode"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="SBIN0005943"
+            onChange={(e) =>
+              (e.target.value = e.target.value.toLocaleUpperCase())
+            }
             required
           />
         </div>
@@ -336,7 +400,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Trade License
           </label>
           <input
-          name="tradeLicense"
+            name="tradeLicense"
             type="text"
             id="Tread"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -352,20 +416,15 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Other Documents
           </label>
           <input
-          
             type="file"
             id="Other Documents"
-            
-            
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Other Document"
             accept="application/pdf"
             required
             onChange={handleFileInput}
           />
-         {
-          uploadingDocument && ( <p>Uploading...</p>)
-         }
+          {uploadingDocument && <p>Uploading...</p>}
         </div>
         <div className="mb-6">
           <label
@@ -375,7 +434,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             Front Office Contact
           </label>
           <input
-          name="frontOfficeContact"
+            name="frontOfficeContact"
             type="number"
             id="Other Documents"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -386,7 +445,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       </div>
 
       <button
-      disabled={uploadingDocument}
+        disabled={uploadingDocument}
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
