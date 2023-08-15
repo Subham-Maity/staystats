@@ -28,7 +28,7 @@ const DefaultLayout = ({ children }: any) => {
     if (user && user._id) {
       setUser(user);
       setLoading(false);
-    }else{
+    } else {
       setLoading(false);
     }
   }, []);
