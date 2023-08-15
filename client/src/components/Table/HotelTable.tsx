@@ -15,9 +15,16 @@ interface TableProps {
     location?: string;
     ownerContact?: {
       email?: string;
+      phone?: string;
     };
+    bank?: string;
+    GSTNumber?: string;
+    panNumber?: string;
+    aadharNumber?: string;
+    tradeLicense?: string;
+
     frontOfficeContact?: string;
-  }[]
+  }[];
   setHotelData: any;
   getHotel: (hotel: object) => void;
   setShowModal: (value: boolean) => void;
@@ -41,14 +48,12 @@ const HotelTable = ({
   const [hotelId, setHotelId] = useState<string>("");
 
   useEffect(() => {
-    if(showEditHotelModal){
+    if (showEditHotelModal) {
       document.body.style.overflow = "hidden";
-    }else{
+    } else {
       document.body.style.overflow = "unset";
     }
-
-  },[showEditHotelModal])
-
+  }, [showEditHotelModal]);
 
   const handleShowDeleteModal = (id: string) => {
     setHotelId(id);
@@ -76,6 +81,31 @@ const HotelTable = ({
               <th scope="col" className="px-6 py-3 text-center">
                 Office Contact
               </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Phone Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Bank Name
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                GST Number
+              </th>
+              {/*<th scope="col" className="px-6 py-3 text-center">*/}
+              {/*  IFSC Code*/}
+              {/*</th>*/}
+              {/*<th scope="col" className="px-6 py-3 text-center">*/}
+              {/*  Account Number*/}
+              {/*</th>*/}
+              <th scope="col" className="px-6 py-3 text-center">
+                Pan Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Aadhar Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Trade License Number
+              </th>
+
               <th scope="col" className="px-6 py-3 text-center">
                 Options
               </th>
@@ -109,14 +139,37 @@ const HotelTable = ({
                         >
                           {hotel.hotelName || ""}
                         </th>
-                        <td className="px-6 py-2 text-center">{hotel.ownerName || ""}</td>
-                        <td className="px-6 py-2 text-center">{hotel.location || ""}</td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.ownerName || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.location || ""}
+                        </td>
                         <td className="px-6 py-2 text-center">
                           {hotel.ownerContact.email || ""}
                         </td>
                         <td className="px-6 py-2 text-center">
                           {hotel.frontOfficeContact}
                         </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.ownerContact.phone || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.bank || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.GSTNumber || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.panNumber || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.aadharNumber || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.tradeLicense || ""}
+                        </td>
+
                         <td className="px-6 py-2 text-center">
                           <div className="flex justify-center items-center">
                             <button
@@ -132,7 +185,10 @@ const HotelTable = ({
                               <AiOutlineEye className="" />
                             </button>
                             <button
-                              disabled={hotel.addedBy._id !== owner._id && owner.role !== "ADMIN"}
+                              disabled={
+                                hotel.addedBy._id !== owner._id &&
+                                owner.role !== "ADMIN"
+                              }
                               // data-tip={"Preview Link"}
                               onClick={() => {
                                 setShowEditHotelModal(true);
@@ -143,7 +199,10 @@ const HotelTable = ({
                               <FiEdit className="" />
                             </button>
                             <button
-                              disabled={hotel.addedBy._id !== owner._id && owner.role !== "ADMIN"}
+                              disabled={
+                                hotel.addedBy._id !== owner._id &&
+                                owner.role !== "ADMIN"
+                              }
                               data-tip={"Delete Hotel"}
                               onClick={() => {
                                 handleShowDeleteModal(hotel._id);
@@ -173,26 +232,41 @@ const HotelTable = ({
           />
         </div>
       )}
-      {
-        showDeletePopup && (
-          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-            <div className="w-1/3 bg-white rounded-lg p-6">
-              <div className="flex justify-between items-center">
-                <h1 className="text-lg font-bold">Delete Hotel</h1>
-                <button onClick={()=> setShowDeletePopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
-              </div>
-              <p className="text-sm text-gray-500 mt-2">Are you sure you want to delete this hotel?</p>
-              <div className="flex justify-end items-center mt-6">
-                <button onClick={()=> setShowDeletePopUp(false)} className="text-sm text-gray-500 mr-4">Cancel</button>
-                <button onClick={()=> {
-                  deleteHotelHandler(hotelId)
-                  setShowDeletePopUp(false)
-                }} className="text-sm text-red-500">Delete</button>
-              </div>
+      {showDeletePopup && (
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">Delete Hotel</h1>
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-red-500 text-lg"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to delete this hotel?
+            </p>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-sm text-gray-500 mr-4"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  deleteHotelHandler(hotelId);
+                  setShowDeletePopUp(false);
+                }}
+                className="text-sm text-red-500"
+              >
+                Delete
+              </button>
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };
