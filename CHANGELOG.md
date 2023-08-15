@@ -3,7 +3,7 @@
 ###### 2023-08-14
 
 - Auto-Logout after 5 minutes of inactivity
-| subham maity |
+| Subham Maity |
 
 ---
 
@@ -15,6 +15,7 @@
 - Hotel Details Bank Name & IFC (two extra fields) added
 - Select Column (all details) added
 - Hotel Name Capitalized (input/edit)
+| Subham Maity |
 
 ---
 
