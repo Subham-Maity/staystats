@@ -66,7 +66,7 @@ interface Props {
   
      
   
-      if(!nameRegex.test(formValues.guest_ame)){
+      if(!nameRegex.test(formValues.guest_name)){
         toast.error("Guest name should contain only alphabets");
         return;
       }
