@@ -30,8 +30,8 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     addedBy: {type: Schema.Types.ObjectId, ref: "User"},
-    hotel: [{ type: Schema.Types.ObjectId, ref: "Hotel" }]
-
+    hotel: [{ type: Schema.Types.ObjectId, ref: "Hotel" }],
+    
   },
   { timestamps: true }
 );

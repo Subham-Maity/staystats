@@ -7,7 +7,7 @@ import { HiUserGroup } from "react-icons/hi";
 import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdLeaderboard } from "react-icons/md";
 import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -161,6 +161,21 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                   <RiMailFill size={20} />{" "}
                   <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                     Bookings
+                  </p>
+                </li>
+              </Link>
+              <Link href="/leads">
+                <li
+
+                    className={`flex text-center items-center justify-start gap-2 p-2 hover:cursor-pointer ${
+                        pathname === "/leads"
+                            ? "bg-slate-300 text-primary"
+                            : "hover:bg-slate-300"
+                    } rounded-xl`}
+                >
+                  <MdLeaderboard size={20} />{" "}
+                  <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
+                    Lead Generator
                   </p>
                 </li>
               </Link>

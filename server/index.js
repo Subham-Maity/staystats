@@ -19,6 +19,7 @@ const userRoutes = require("./routes/userRoutes");
 const hotelRoutes = require("./routes/hotelRoutes");
 const bookingRoutes = require("./routes/bookingsRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+const leadRoutes = require("./routes/leadRoutes");
 
 app.use("/", authRoutes);
 app.use(checkAuth)
@@ -26,11 +27,17 @@ app.use("/", userRoutes);
 app.use("/", hotelRoutes);
 app.use("/", bookingRoutes);
 app.use("/", fileRoutes);
+app.use("/", leadRoutes);
 
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+// Scripts to run db changes
+//  const addLeads = async ()=>{
+
+//  }
 
 
 (async () =>
