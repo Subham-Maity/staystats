@@ -26,7 +26,9 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
     formData.forEach((value, key) => {
       formValues[key] = value as string;
       if (formValues[key].trim() === "") {
-        toast.error("Please fill all the fields");
+        if(key !== "specialReq"){
+          toast.error("Please fill all the fields");
+        }
         return;
       }
     });

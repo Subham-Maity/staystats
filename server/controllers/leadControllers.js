@@ -49,7 +49,7 @@ const createLead = async (req, res) => {
     }
     console.log("savedLead ===>", populatedLeadObject);
     res.status(200).json({
-      message: "Lead Created Successfullt",
+      message: "Lead Created Successfully",
       lead: populatedLeadObject,
     });
   } catch (error) {
