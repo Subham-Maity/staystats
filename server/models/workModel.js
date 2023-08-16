@@ -14,7 +14,7 @@ const workSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    finishDateLine: {
+    finishDeadline: {
       type: Date,
       required: true,
     },
