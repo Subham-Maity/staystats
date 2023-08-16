@@ -88,7 +88,14 @@ const getAllWorks = async (req, res) => {
   try {
     const works = await Work.find()
       .sort({ createdAt: -1 })
-      .populate("userName createdBy");
+      .populate([
+        {
+          path: "userName", model: User
+        },
+        {
+          path: "createdBy", model: User
+        }
+      ]);
 
     res.status(200).json({ works });
   } catch (error) {
@@ -106,7 +113,14 @@ const getWorksBySearch = async (req, res) => {
 
     const works = await Work.find()
       .or([{ workDetails: regex }, { remarks: regex }, { serialNumber: regex }])
-      .populate("userName createdBy");
+      .populate([
+        {
+          path: "userName", model: User
+        },
+        {
+          path: "createdBy", model: User
+        }
+      ]);
 
     if (works.length > 0) {
       res.status(200).json({ works });
@@ -124,34 +138,6 @@ const getWorksBySearch = async (req, res) => {
   }
 };
 
-const confirmWork = async (req, res) => {
-  const { workId } = req.body;
-  try {
-    const confirmedWork = await Work.findByIdAndUpdate(
-      workId,
-      {
-        workConfirm: true,
-        confirmedAt: new Date(),
-      },
-      { new: true },
-    );
-
-    if (!confirmedWork) {
-      res.status(404).json({ error: "Work not found" });
-      return;
-    }
-
-    res.status(200).json({
-      message: "Work confirmed successfully",
-      work: confirmedWork,
-    });
-  } catch (error) {
-    console.error("Confirm Work error:", error);
-    res.status(500).json({
-      message: "An error occurred while confirming the work",
-    });
-  }
-};
 
 function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -163,5 +149,4 @@ module.exports = {
   deleteWork,
   getAllWorks,
   getWorksBySearch,
-  confirmWork,
 };

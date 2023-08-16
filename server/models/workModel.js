@@ -19,16 +19,15 @@ const workSchema = new mongoose.Schema(
       required: true,
     },
     workConfirm: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ["PENDING", "CONFIRMED", "REJECTED"],
+      default: "PENDING",
     },
     serialNumber: { type: String, required: true },
     createdBy: { type: Schema.Types.ObjectId, ref: "User" },
     remarks: {
       type: String,
     },
-    createdAt: { type: Date },
-    confirmedAt: { type: Date },
   },
   { timestamps: true },
 );
