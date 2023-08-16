@@ -8,7 +8,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEye } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "@/utils/axios";
-import EditUser from "../card/EditUser";
+import EditLead from "../card/EditLead";
 import { InfinitySpin } from "react-loader-spinner";
 import { FaTimes } from "react-icons/fa";
 interface TableProps {
@@ -24,8 +24,8 @@ interface TableProps {
     budget: string;
     specialRequirements: string;
     status: string;
-    createdBy: { name?: string; username?: string };
-    approvedBy: { name?: string; username?: string };
+    createdBy: { name?: string; username?: string; _id: string };
+    approvedBy: { name?: string; username?: string; _id: string };
     isCancelled: boolean;
     serialNumber: string;
   }[];
@@ -49,6 +49,17 @@ const LeadsTable = ({
   //   const [userId, setUserId] = useState<string>("");
 
   const [updating, setUpdating] = useState<boolean>(false);
+
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [editingLeadsData, setEditingLeadsData] = useState<object>({});
+
+  useEffect(() => {
+    if (showEditModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [showEditModal]);
 
   const confirmLeadHandler = async (id: string) => {
     try {
@@ -155,8 +166,16 @@ const LeadsTable = ({
                         budget: string;
                         specialRequirements: string;
                         status: string;
-                        createdBy: { name?: string; username?: string };
-                        approvedBy: { name?: string; username?: string };
+                        createdBy: {
+                          name?: string;
+                          username?: string;
+                          _id: string;
+                        };
+                        approvedBy: {
+                          name?: string;
+                          username?: string;
+                          _id: string;
+                        };
                         isCancelled: boolean;
                         serialNumber: string;
                       },
@@ -168,7 +187,7 @@ const LeadsTable = ({
                           className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${
                             lead?.isCancelled ? "line-through text-red-400" : ""
                           } ${
-                            lead?.status === 'CONFIRMED' ? "text-green-400" : ""
+                            lead?.status === "CONFIRMED" ? "text-green-400" : ""
                           } `}
                         >
                           <th
@@ -226,6 +245,40 @@ const LeadsTable = ({
                             <div className="flex justify-center items-center">
                               <button
                                 // disabled={user.addedBy !== owner._id}
+                                data-tip={"View Lead"}
+                                onClick={() => {
+                                  getLeads(lead);
+                                  setShowModal(true);
+                                }}
+                                disabled={updating}
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 flex gap-2 items-center justify-center font-semibold`}
+                              >
+                                <AiOutlineEye
+                                  size={20}
+                                  className="inline-block"
+                                />{" "}
+                                View
+                              </button>
+                              <button
+                                // disabled={user.addedBy !== owner._id}
+                                data-tip={"Edit Lead"}
+                                onClick={() => {
+                                  setShowEditModal(true);
+                                  setEditingLeadsData(lead);
+                                }}
+                                disabled={
+                                  updating ||
+                                  (lead?.createdBy?._id !== owner?._id &&
+                                    owner?.role !== "ADMIN") // Disable if not created by user and user is not an admin
+                                }
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 flex gap-2 items-center justify-center font-semibold`}
+                              >
+                                <FiEdit size={20} className="inline-block" />{" "}
+                                Edit
+                              </button>
+
+                              <button
+                                // disabled={user.addedBy !== owner._id}
                                 data-tip={"update Lead"}
                                 onClick={() => {
                                   confirmLeadHandler(lead?._id);
@@ -239,7 +292,9 @@ const LeadsTable = ({
                                   size={20}
                                   className="inline-block"
                                 />{" "}
-                                {lead?.status === "CONFIRMED" ? 'Confirmed' : 'Confirm' }
+                                {lead?.status === "CONFIRMED"
+                                  ? "Confirmed"
+                                  : "Confirm"}
                               </button>
                             </div>
                           </td>
@@ -253,6 +308,17 @@ const LeadsTable = ({
           </tbody>
         </table>
       </div>
+      {showEditModal && editingLeadsData && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <EditLead
+            onClose={(value) => setShowEditModal(value)}
+            setLeadData={setLeadsData}
+            editingLeadDataProps={editingLeadsData}
+            leadData={leadsData}
+            owner={owner}
+          />
+        </div>
+      )}
     </div>
   );
 };

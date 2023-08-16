@@ -15,6 +15,7 @@ import ViewUser from "@/components/card/ViewUsers";
 import { BiLink, BiSearch } from "react-icons/bi";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
+import ViewLead from "@/components/card/ViewLead";
 
 const Leads = () => {
   let router = useRouter();
@@ -39,7 +40,7 @@ const Leads = () => {
       document.body.style.overflow = "unset";
     }
 
-  },[showViewModal, showModal])
+  }, [showViewModal, showModal])
 
 
   
@@ -48,9 +49,6 @@ const Leads = () => {
     let updateUser = async () => {
       const user = await fetchOwner(userId);
 
-      if(user.role !== "ADMIN"){
-        window.location.href = "/bookings"
-      }
       if (user && user._id) {
         setOwner(user);
         localStorage.setItem("user", JSON.stringify(user));
@@ -225,17 +223,15 @@ const Leads = () => {
       </div>
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <ViewUser onClose={(value) => setShowViewModal(value)} user={lead} />
+          <ViewLead onClose={(value) => setShowViewModal(value)} lead={lead} />
         </div>
       )}
       {showModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          {accountType === "ADMIN" && (
             <LeadsInput
               onClose={(value) => setShowModal(value)}
               setLeadsData={setLeadsData}
             />
-          )}
         </div>
       )}
       <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">

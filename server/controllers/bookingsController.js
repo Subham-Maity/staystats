@@ -206,7 +206,7 @@ const updateBooking = async (req, res) => {
     status
   } = req.body;
   try {
-    console.log("[updateuser controller]");
+    console.log("[update bookings controller]");
     const updatedBooking = await Booking.findByIdAndUpdate(
       id,
       {
@@ -242,7 +242,7 @@ const updateBooking = async (req, res) => {
       .status(200)
       .json({ message: "Booking updated successfully", user: populatedBooking });
   } catch (error) {
-    console.log("[user controller update error:]", error);
+    console.log("[booking controller update error:]", error);
     res.status(201).json({ error: error.message });
   }
 };

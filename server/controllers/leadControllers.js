@@ -105,6 +105,57 @@ const getLeads = async (req, res) => {
   }
 };
 
+const updateLead = async (req, res) => {
+  const {
+    id,
+    guestName,
+    checkInDate,
+    checkOutDate,
+    numberOfPerson,
+    numberOfRooms,
+    contactNumber,
+    area,
+    budget,
+    specialRequirements,
+  } = req.body;
+  try {
+    console.log("update lead controller===>");
+    const updatedLead = await Leads.findByIdAndUpdate(
+      id,
+      {
+        guestName,
+        checkInDate,
+        checkOutDate,
+        numberOfPerson,
+        numberOfRooms,
+        contactNumber,
+        area,
+        budget,
+        specialRequirements,
+      },
+      { new: true } // This option returns the updated document after the update is applied
+    );
+
+    if (!updatedLead) {
+      return res.status(201).json({ error: "Leads not found" });
+    }
+
+    let populatedLeadObject = await Leads.findById(updatedLead._id).populate([
+      { path: "createdBy", model: User, select: "name email username" },
+      { path: "approvedBy", model: User, select: "name email username" },
+    ]);
+
+
+    res.status(200).json({
+      message: "Leads updated successfully",
+      lead: populatedLeadObject,
+    });
+  } catch (error) {
+    console.log("leads controller update error ===>", error);
+    res.status(201).json({ error: error.message });
+  }
+};
+
 const confirmLead = async (req, res) => {
   console.log("Confirm Lead ===>");
   let { leadId } = req.body;
@@ -139,8 +190,8 @@ const confirmLead = async (req, res) => {
 };
 
 function escapeRegex(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-  }
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 
 const getLeadsBySearch = async (req, res) => {
   const currentDateTime = new Date();
@@ -200,6 +251,7 @@ const getLeadsBySearch = async (req, res) => {
 module.exports = {
   createLead,
   getLeads,
+  updateLead,
   confirmLead,
   getLeadsBySearch,
 };
