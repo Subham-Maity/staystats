@@ -269,7 +269,8 @@ const LeadsTable = ({
                                 disabled={
                                   updating ||
                                   (lead?.createdBy?._id !== owner?._id &&
-                                    owner?.role !== "ADMIN") // Disable if not created by user and user is not an admin
+                                    owner?.role !== "ADMIN") ||
+                                  lead?.status === "CONFIRMED"
                                 }
                                 className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 flex gap-2 items-center justify-center font-semibold`}
                               >
