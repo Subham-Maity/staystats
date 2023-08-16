@@ -74,6 +74,9 @@ const BookingTable = ({
           <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr className="">
               <th scope="col" className="px-4 text-center py-3">
+                #
+              </th>
+              <th scope="col" className="px-4 text-center py-3">
                 Hotel Name
               </th>
               <th scope="col" className="px-4 text-center py-3">
@@ -171,8 +174,14 @@ const BookingTable = ({
                           scope="row"
                           className="px-6 py-2 font-medium whitespace-nowrap dark:text-white text-center "
                         >
-                          {booking?.hotel?.hotelName || "DELETED HOTEL"}
+                          {booking?.serialNumber}
                         </th>
+                        <td
+                          scope="row"
+                          className="px-6 py-2 font-medium whitespace-nowrap dark:text-white text-center "
+                        >
+                          {booking?.hotel?.hotelName || "DELETED HOTEL"}
+                        </td>
                         <td className="px-6 py-2 whitespace-nowrap">
                           {booking?.guestName || ""}
                         </td>

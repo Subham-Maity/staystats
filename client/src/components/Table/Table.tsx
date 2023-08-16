@@ -24,6 +24,7 @@ interface TableProps {
   setUserData: (users: any) => void;
   owner?: any;
   loading?: boolean;
+  serialNumber?: string;
 }
 
 const Table = ({
@@ -61,6 +62,9 @@ const Table = ({
         <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
           <thead className="text-sm text-gray-900 uppercase dark:text-gray-400">
             <tr>
+              <th scope="col" className="px-4 py-2 text-center">
+                #
+              </th>
               <th scope="col" className="px-4 py-2 text-center">
                 Name
               </th>
@@ -109,8 +113,14 @@ const Table = ({
                         scope="row"
                         className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                       >
-                        {user.name || ""}
+                        {user.serialNumber || ""}
                       </th>
+                      <td
+                        scope="row"
+                        className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                      >
+                        {user.name || ""}
+                      </td>
                       <td className="px-4 py-2 text-center">{user.phoneNumber || ""}</td>
                       <td className="px-4 py-2 text-center">{user.email || ""}</td>
                       {/* <td className="px-6 py-4"></td> */}

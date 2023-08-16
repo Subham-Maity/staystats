@@ -38,18 +38,18 @@ const LoginForm = () => {
       toast.error("Username and Password cannot be empty");
       return;
     }
-    if (
-      !validator.isStrongPassword(password, {
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-      })
-    ) {
-      toast.error("Password is not strong enough");
-      return;
-    }
+    // if (
+    //   !validator.isStrongPassword(password, {
+    //     minLength: 8,
+    //     minLowercase: 1,
+    //     minUppercase: 1,
+    //     minNumbers: 1,
+    //     minSymbols: 1,
+    //   })
+    // ) {
+    //   toast.error("Password is not strong enough");
+    //   return;
+    // }
     let url = isSignUpPage ? `/api/signup` : `/api/login`;
 
     try {

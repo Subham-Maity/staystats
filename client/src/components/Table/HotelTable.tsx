@@ -10,6 +10,7 @@ import EditHotel from "../card/EditHotel";
 import { InfinitySpin } from "react-loader-spinner";
 interface TableProps {
   hotelData: {
+    serialNumber?: string;
     hotelName?: string;
     ownerName?: string;
     location?: string;
@@ -66,6 +67,9 @@ const HotelTable = ({
         <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
           <thead className="text-sm text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
+              <th scope="col" className="px-6 py-3 text-center">
+                #
+              </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Hotel Name
               </th>
@@ -137,8 +141,14 @@ const HotelTable = ({
                           scope="row"
                           className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         >
-                          {hotel.hotelName || ""}
+                          {hotel.serialNumber || ""}
                         </th>
+                        <td
+                          scope="row"
+                          className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                          {hotel.hotelName || ""}
+                        </td>
                         <td className="px-6 py-2 text-center">
                           {hotel.ownerName || ""}
                         </td>

@@ -29,4 +29,10 @@
 
 ---
 
+###### 2023-08-16   
+- Added auto-generate password functionality when creating sub-admin
+
+| Arian |
+
+---
 
