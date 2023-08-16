@@ -7,10 +7,12 @@
 
 ---
 
-###### 2020-08-14
+###### 2023-08-15
 
 - Lead Generator page and backend controllers
 | Arian |
+
+---
 ###### 2023-08-15
 - Hotel Details Bank Name & IFC (two extra fields) added
 - Select Column (all details) added
@@ -18,4 +20,13 @@
 | Subham Maity |
 
 ---
+
+###### 2023-08-16
+- Added serial number to all the models
+- Adding serial number when creating collection object
+
+| Arian |
+
+---
+
 

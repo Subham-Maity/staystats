@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
     },
+    serialNumber: { type: String },
     username: {
       type: String,
       required: true,

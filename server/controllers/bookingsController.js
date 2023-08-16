@@ -22,6 +22,31 @@ const getBooking = async (req, res) => {
 
 const getAllBookings = async (req, res) => {
   try {
+
+
+    
+    //scripts to change db
+    // async function updateSerialNumbers() {
+    //   try {
+    //     const bookings = await Booking.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
+    
+    //     // Update serial numbers
+    //     for (let i = 0; i < bookings.length; i++) {
+    //       const booking = bookings[i];
+    //       booking.serialNumber = i + 1;
+    //       booking.advanceDate = booking.createdAt;
+    //       booking.advanceAmount = booking.bookingAmount;
+    //       await booking.save();
+    //     }
+    
+    //     console.log('Serial numbers updated successfully.');
+    //   } catch (error) {
+    //     console.error('Error updating serial numbers:', error);
+    //   }
+    // }
+    // await updateSerialNumbers();
+
+
     let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
     page = parseInt(page) ?? 1;
     limit = parseInt(limit) ?? 10;
@@ -146,6 +171,7 @@ const createBooking = async (req, res) => {
     remarks,
   } = req.body;
   try {
+    const bookingsCount = await Booking.countDocuments();
     const newBooking = await Booking.create({
       hotel,
       guestName,
@@ -165,6 +191,7 @@ const createBooking = async (req, res) => {
       accountType,
       remarks,
       addedBy: req.user._id,
+      serialNumber: bookingsCount + 1,
     });
     if (!newBooking) {
       res.status(201).json({ message: "Booking not created", booking: {} });
@@ -207,6 +234,7 @@ const updateBooking = async (req, res) => {
   } = req.body;
   try {
     console.log("[update bookings controller]");
+
     const updatedBooking = await Booking.findByIdAndUpdate(
       id,
       {

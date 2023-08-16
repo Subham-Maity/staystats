@@ -6,6 +6,7 @@ const bookingSchema = new mongoose.Schema({
     ref: 'hotel',
     required: true,
   },
+  serialNumber: { type: String },
   guestName: {
     type: String,
     required: true,

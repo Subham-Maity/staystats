@@ -30,6 +30,30 @@ const getUsers = async (req, res) => {
   // Some logic to get the user
   try {
     console.log("getUsers");
+
+
+    //scripts to change db
+    // async function updateSerialNumbers() {
+    //   try {
+    //     const users = await User.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
+    
+    //     // Update serial numbers
+    //     for (let i = 0; i < users.length; i++) {
+    //       const user = users[i];
+    //       user.serialNumber = i + 1;
+    //       await user.save();
+    //     }
+    
+    //     console.log('Serial numbers updated successfully.');
+    //   } catch (error) {
+    //     console.error('Error updating serial numbers:', error);
+    //   }
+    // }
+    // await updateSerialNumbers();
+    
+
+
+
     let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
     page = parseInt(page) ?? 1;
     limit = parseInt(limit) ?? 10;
@@ -101,6 +125,7 @@ const createUser = async (req, res) => {
   let { name, username, password, email, phoneNumber, role, hotel } = req.body;
 
   try {
+    const usersCount = await User.countDocuments();
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
     hotelIds = hotel.map((hotelId) => new ObjectId(hotelId));
@@ -113,6 +138,7 @@ const createUser = async (req, res) => {
       role,
       hotel: hotelIds,
       addedBy: req.user._id,
+      serialNumber: usersCount + 1,
     });
     const populatedUser = await User.findById(newUser._id).populate({
       path: "hotel",

@@ -34,10 +34,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// Scripts to run db changes
-//  const addLeads = async ()=>{
-
-//  }
 
 (async () =>
   await connectDB()

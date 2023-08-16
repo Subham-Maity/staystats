@@ -22,8 +22,31 @@ const getHotel = async (req, res) => {
 
 const getAllHotels = async (req, res) => {
   try {
-    console.time("get hotels");
     console.log("[getAllHotels] controller: =====>");
+
+    
+    //scripts to change db
+    // async function updateSerialNumbers() {
+    //   try {
+    //     const hotels = await Hotel.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
+    
+    //     // Update serial numbers
+    //     for (let i = 0; i < hotels.length; i++) {
+    //       const hotel = hotels[i];
+    //       hotel.serialNumber = i + 1;
+    //       hotel.ifscCode = "DEFAULT NONE";
+    //       hotel.accountNumber = "DEFAULT NONE";
+
+    //       await hotel.save();
+    //     }
+    
+    //     console.log('Serial numbers updated successfully.');
+    //   } catch (error) {
+    //     console.error('Error updating serial numbers:', error);
+    //   }
+    // }
+    // await updateSerialNumbers();
+
 
     // Extract filters from req.query
     let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
@@ -119,6 +142,7 @@ const createHotel = async (req, res) => {
     res.status(201).json({ error: "You are not authorized to create a hotel" });
     return;
   }
+  const hotelsCount = await Hotel.countDocuments();
   const {
     hotelName,
     location,
@@ -152,6 +176,7 @@ const createHotel = async (req, res) => {
       accountNumber,
       ifscCode,
       addedBy: req.user._id,
+      serialNumber: hotelsCount + 1,
     });
     if (!newHotel) {
       res.status(201).json({ message: "Hotel not created", hotel: {} });

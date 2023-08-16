@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const hotelSchema = new mongoose.Schema(
   {
+    serialNumber: { type: String },
     hotelName: {
       type: String,
       required: true,
