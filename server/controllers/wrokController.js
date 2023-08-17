@@ -59,7 +59,7 @@ const updateWork = async (req, res) => {
         remarks,
         userName,
       },
-      { new: true },
+      { new: true }
     );
     const populatedWork = await Work.findById(updatedWork._id).populate([
       {
@@ -144,16 +144,31 @@ const getWorksBySearch = async (req, res) => {
   try {
     const regex = new RegExp(escapeRegex(query), "gi");
 
-    const works = await Work.find().distinct("_id")
-      .or([{ workDetails: regex }, { remarks: regex }, { userName: regex }])
+    const matchingUserIds = await User.find({
+      $or: [{ name: regex }, { username: regex }],
+    }).distinct("_id");
+
+    const works = await Work.find()
+      .or([
+        { workDetails: regex },
+        { remarks: regex },
+        {
+          $or: [
+            { userName: { $in: matchingUserIds } },
+            { createdBy: { $in: matchingUserIds } },
+          ],
+        },
+      ])
       .populate([
         {
           path: "userName",
           model: User,
+          select: "name email username",
         },
         {
           path: "createdBy",
           model: User,
+          select: "name email username",
         },
       ]);
 
