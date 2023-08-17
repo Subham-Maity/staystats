@@ -144,7 +144,7 @@ const getWorksBySearch = async (req, res) => {
   try {
     const regex = new RegExp(escapeRegex(query), "gi");
 
-    const works = await Work.find()
+    const works = await Work.find().distinct("_id")
       .or([{ workDetails: regex }, { remarks: regex }, { userName: regex }])
       .populate([
         {
