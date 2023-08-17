@@ -48,7 +48,8 @@ const createWork = async (req, res) => {
 };
 
 const updateWork = async (req, res) => {
-  const { workId, workDetails, finishDeadline, remarks } = req.body;
+  const { workId, userName, workDetails, finishDeadline, remarks } = req.body;
+
   try {
     const updatedWork = await Work.findByIdAndUpdate(
       workId,
@@ -56,9 +57,20 @@ const updateWork = async (req, res) => {
         workDetails,
         finishDeadline,
         remarks,
+        userName,
       },
       { new: true },
     );
+    const populatedWork = await Work.findById(updatedWork._id).populate([
+      {
+        path: "userName",
+        model: User,
+      },
+      {
+        path: "createdBy",
+        model: User,
+      },
+    ]);
 
     if (!updatedWork) {
       res.status(404).json({ error: "Work not found" });
@@ -67,7 +79,7 @@ const updateWork = async (req, res) => {
 
     res.status(200).json({
       message: "Work updated successfully",
-      work: updatedWork,
+      work: populatedWork,
     });
   } catch (error) {
     console.error("Update Work error:", error);
@@ -133,7 +145,7 @@ const getWorksBySearch = async (req, res) => {
     const regex = new RegExp(escapeRegex(query), "gi");
 
     const works = await Work.find()
-      .or([{ workDetails: regex }, { remarks: regex }, { serialNumber: regex }])
+      .or([{ workDetails: regex }, { remarks: regex }, { userName: regex }])
       .populate([
         {
           path: "userName",

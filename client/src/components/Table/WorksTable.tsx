@@ -8,12 +8,17 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineEye } from "react-icons/ai";
 import EditHotel from "../card/EditHotel";
 import { InfinitySpin } from "react-loader-spinner";
+import EditWorks from "@/components/card/EditWorks";
 interface TableProps {
   workData: {
     userName?: { name: string; _id: string; userName: string };
     workDetails?: string;
     finishDeadline?: string;
+    updatedAt?: string;
+    workConfirm?: string;
+    serialNumber?: string;
   }[];
+
   setWorkData: any;
   getWork: (work: object) => void;
   setShowModal: (value: boolean) => void;
@@ -31,21 +36,21 @@ const WorksTable = ({
   owner,
   loading,
 }: TableProps) => {
-  const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
-  const [editingHotelData, setEditingHotelData] = useState<object>({});
+  const [showEditWorkModal, setShowEditWorkModal] = useState<boolean>(false);
+  const [editingWorkData, setEditingWorkData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
-  const [hotelId, setHotelId] = useState<string>("");
-
+  const [workId, setWorkId] = useState<string>("");
   useEffect(() => {
-    if (showEditHotelModal) {
+    if (showEditWorkModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [showEditHotelModal]);
-  console.log(workData);
+  }, [showEditWorkModal]);
+  console.log("Table Work" + workData);
   const handleShowDeleteModal = (id: string) => {
-    setHotelId(id);
+    setWorkId(id);
+
     setShowDeletePopUp(true);
   };
 
@@ -65,7 +70,16 @@ const WorksTable = ({
                 Work Details
               </th>
               <th scope="col" className="px-6 py-3 text-center">
+                Modified Date
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
                 Finish Deadline
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Remarks
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Options
@@ -107,16 +121,25 @@ const WorksTable = ({
                           {work.workDetails || ""}
                         </td>
                         <td className="px-6 py-2 text-center">
+                          {new Date(work.updatedAt).toDateString() || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {work.workConfirm || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
                           {new Date(work.finishDeadline).toDateString() || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {work.remarks || "no remarks"}
                         </td>
 
                         <td className="px-6 py-2 text-center">
                           <div className="flex justify-center items-center">
                             <button
-                              // disabled={user.addedBy !== owner._id}
-                              // data-tip={"Preview Link"}
+                              // disabled={work.createdBy._id !== owner._id}
+                              data-tip={"Preview Link"}
                               onClick={() => {
-                                // console.log(hotel);
+                                console.log("chal nubbb" + work);
                                 getWork(work);
                                 setShowModal(true);
                               }}
@@ -131,8 +154,8 @@ const WorksTable = ({
                               }
                               // data-tip={"Preview Link"}
                               onClick={() => {
-                                setShowEditHotelModal(true);
-                                setEditingHotelData(work);
+                                setShowEditWorkModal(true);
+                                setEditingWorkData(work);
                               }}
                               className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                             >
@@ -162,13 +185,13 @@ const WorksTable = ({
           </tbody>
         </table>
       </div>
-      {showEditHotelModal && editingHotelData && (
+      {showEditWorkModal && editingWorkData && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <EditHotel
-            onClose={(value) => setShowEditHotelModal(value)}
-            setHotelData={setWorkData}
-            editingHotelDataProps={editingHotelData}
-            hotelData={workData}
+          <EditWorks
+            onClose={(value) => setShowEditWorkModal(value)}
+            setWorkData={setWorkData}
+            editingWorkDataProps={editingWorkData}
+            workData={workData}
           />
         </div>
       )}
@@ -196,7 +219,7 @@ const WorksTable = ({
               </button>
               <button
                 onClick={() => {
-                  deleteWorkHandler(hotelId);
+                  deleteWorkHandler(workId);
                   setShowDeletePopUp(false);
                 }}
                 className="text-sm text-red-500"

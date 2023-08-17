@@ -17,12 +17,12 @@ interface NavbarProps {
   toggleSidebar: () => void;
 }
 const events = [
-  "load",
-  "mousemove",
-  "mousedown",
-  "click",
-  "scroll",
-  "keypress",
+  // "load",
+  // "mousemove",
+  // "mousedown",
+  // "click",
+  // "scroll",
+  // "keypress",
 ];
 const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false);

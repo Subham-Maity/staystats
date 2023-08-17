@@ -15,7 +15,7 @@ import ViewWorks from "@/components/card/ViewWorks";
 
 const Works = () => {
   const router = useRouter();
-  const PAGE_LIMIT = 2;
+  const PAGE_LIMIT = 10;
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -27,7 +27,7 @@ const Works = () => {
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
-
+  console.log("workData is Here :)", workData);
   useEffect(() => {
     if (showModal || showViewModal) {
       document.body.style.overflow = "hidden";
@@ -39,9 +39,6 @@ const Works = () => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
-      if (user.role !== "ADMIN") {
-        window.location.href = "/bookings";
-      }
       if (user && user._id) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
@@ -100,41 +97,42 @@ const Works = () => {
   }, [page, PAGE_LIMIT, reloadData]);
 
   const deleteWorkHandler = async (id: string) => {
-    // try {
-    //   const { data } = await axios.post(`/work/delete-work`, {
-    //     id,
-    //   });
-    //   if (!data.error) {
-    //     toast.success(data.message);
-    //     const { data: users } = await axios.get(
-    //       `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`,
-    //     );
-    //     if (!data.error) {
-    //       setWorkData(users.works);
-    //       setWorksCount(data.worksCount);
-    //     } else {
-    //       toast.error(data.error);
-    //     }
-    //   } else {
-    //     toast.error(data.error);
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error.message);
-    //   console.log(error);
-    // }
+    try {
+      const { data } = await axios.post(`/work/delete-work`, {
+        workId: id,
+      });
+      if (!data.error) {
+        toast.success(data.message);
+        const { data: users } = await axios.get(
+          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`,
+        );
+        if (!data.error) {
+          setWorkData(users.works);
+          setWorksCount(data.worksCount);
+        } else {
+          toast.error(data.error);
+        }
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log(error);
+    }
   };
 
+  // @ts-ignore
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center">
       <div className="flex w-full justify-between mt-6">
-        <h1 className="text-2xl font-bold">Hotel Details</h1>
+        <h1 className="text-2xl font-bold">Work Generate</h1>
         <button
           onClick={() => setShowModal(true)}
           type="submit"
           className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           <FaPlus size={20} />
-          <p>Add Hotel</p>
+          <p>Work Generate</p>
         </button>
       </div>
       <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
@@ -235,8 +233,9 @@ const Works = () => {
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <ViewWorks
-            // workData={workData}
-            // onClose={(value) => setShowViewModal(value)}
+              // @ts-ignore`
+              workData={work}
+              onClose={(value) => setShowViewModal(value)}
             />
           )}
         </div>
