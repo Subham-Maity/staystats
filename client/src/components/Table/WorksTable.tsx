@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { MdWarningAmber } from "react-icons/md";
+import { MdFileDownloadDone, MdWarningAmber } from "react-icons/md";
 import { TbLoader } from "react-icons/tb";
 import { FiEdit, FiExternalLink } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -9,6 +9,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import EditHotel from "../card/EditHotel";
 import { InfinitySpin } from "react-loader-spinner";
 import EditWorks from "@/components/card/EditWorks";
+import { Button } from "flowbite-react";
 interface TableProps {
   workData: {
     userName?: { name: string; _id: string; userName: string };
@@ -53,6 +54,11 @@ const WorksTable = ({
 
     setShowDeletePopUp(true);
   };
+
+  const acceptWorkHandler = {};
+  const showAcceptModal = () => {};
+
+  const showRejectModal = () => {};
 
   return (
     <div className="w-full">
@@ -134,47 +140,77 @@ const WorksTable = ({
                         </td>
 
                         <td className="px-6 py-2 text-center">
-                          <div className="flex justify-center items-center">
-                            <button
-                              // disabled={work.createdBy._id !== owner._id}
-                              data-tip={"Preview Link"}
-                              onClick={() => {
-                                console.log("chal nubbb" + work);
-                                getWork(work);
-                                setShowModal(true);
-                              }}
-                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
-                            >
-                              <AiOutlineEye className="" />
-                            </button>
-                            <button
-                              disabled={
-                                work.createdBy._id !== owner._id &&
-                                owner.role !== "ADMIN"
-                              }
-                              // data-tip={"Preview Link"}
-                              onClick={() => {
-                                setShowEditWorkModal(true);
-                                setEditingWorkData(work);
-                              }}
-                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
-                            >
-                              <FiEdit className="" />
-                            </button>
-                            <button
-                              disabled={
-                                work.createdBy._id !== owner._id &&
-                                owner.role !== "ADMIN"
-                              }
-                              data-tip={"Delete Hotel"}
-                              onClick={() => {
-                                handleShowDeleteModal(work._id);
-                              }}
-                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
-                            >
-                              <RiDeleteBin6Line size={15} className="" />
-                            </button>
-                          </div>
+                          {owner.role !== "SUBADMIN" ? (
+                            <div className="flex justify-center items-center">
+                              <button
+                                // disabled={work.createdBy._id !== owner._id}
+                                data-tip={"Preview Link"}
+                                onClick={() => {
+                                  console.log("chal nubbb" + work);
+                                  getWork(work);
+                                  setShowModal(true);
+                                }}
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                              >
+                                <AiOutlineEye className="" />
+                              </button>
+                              <button
+                                disabled={
+                                  work.createdBy._id !== owner._id &&
+                                  owner.role !== "ADMIN"
+                                }
+                                // data-tip={"Preview Link"}
+                                onClick={() => {
+                                  setShowEditWorkModal(true);
+                                  setEditingWorkData(work);
+                                }}
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                              >
+                                <FiEdit className="" />
+                              </button>
+                              <button
+                                disabled={
+                                  work.createdBy._id !== owner._id &&
+                                  owner.role !== "ADMIN"
+                                }
+                                data-tip={"Delete Hotel"}
+                                onClick={() => {
+                                  handleShowDeleteModal(work._id);
+                                }}
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
+                              >
+                                <RiDeleteBin6Line size={15} className="" />
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="flex gap-2">
+                              <button
+                                // disabled={user.addedBy !== owner._id}
+                                onClick={() => {
+                                  showAcceptModal();
+                                }}
+                                data-tip={"update Lead"}
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 flex gap-2 items-center justify-center font-semibold`}
+                              >
+                                <MdFileDownloadDone
+                                  size={20}
+                                  className="inline-block"
+                                />{" "}
+                                Accept
+                              </button>
+                              <button
+                                // disabled={user.addedBy !== owner._id}
+                                data-tip={"update Lead"}
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 flex gap-2 items-center justify-center font-semibold`}
+                              >
+                                <MdFileDownloadDone
+                                  size={20}
+                                  className="inline-block"
+                                />{" "}
+                                Reject
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     );
