@@ -96,6 +96,41 @@ const Works = () => {
     searchText.trim().length > 0 ? getWorksBySearch() : getHotels();
   }, [page, PAGE_LIMIT, reloadData]);
 
+  const workStatusUpdateHandler = async (id: string,workConfirm: string, remarks: string)=> {
+
+    if (id.trim() === "" || workConfirm.trim() === ""  || remarks.trim() === "") {
+      toast.error("Please fill all the fields");
+      return;
+    }
+    
+    try {
+      const {data} = await axios.post("/work/update-status", {
+        id,
+        workConfirm,
+        remarks
+      })
+      if (!data.error) {
+        toast.success(data.message);
+        const { data: users } = await axios.get(
+          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`,
+        );
+        if (!data.error) {
+          setWorkData(users.works);
+          setWorksCount(data.worksCount);
+        } else {
+          toast.error(data.error);
+        }
+      } else {
+        toast.error(data.error);
+      }
+      
+    } catch (error: any) {
+      toast.error(error.message);
+      
+    }
+
+  };
+
   const deleteWorkHandler = async (id: string) => {
     try {
       const { data } = await axios.post(`/work/delete-work`, {
@@ -214,6 +249,7 @@ const Works = () => {
           setWorkData={setWorkData}
           getWork={(work) => setWork(work)}
           deleteWorkHandler={deleteWorkHandler}
+          statusUpdateHandler={workStatusUpdateHandler}
           owner={user}
           loading={loading}
         />

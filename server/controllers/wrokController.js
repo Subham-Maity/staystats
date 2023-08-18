@@ -89,6 +89,47 @@ const updateWork = async (req, res) => {
   }
 };
 
+
+const updateWorkStatus = async (req, res) => {
+  const { id, workConfirm, remarks } = req.body;
+
+  try {
+    const updatedWork = await Work.findByIdAndUpdate(
+      id,
+      {
+        workConfirm,
+        remarks,
+      },
+      { new: true }
+    );
+    const populatedWork = await Work.findById(updatedWork._id).populate([
+      {
+        path: "userName",
+        model: User,
+      },
+      {
+        path: "createdBy",
+        model: User,
+      },
+    ]);
+
+    if (!updatedWork) {
+      res.status(404).json({ error: "Work not found" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Work updated successfully",
+      work: populatedWork,
+    });
+  } catch (error) {
+    console.error("Update Work error:", error);
+    res.status(500).json({
+      message: "An error occurred while updating the work",
+    });
+  }
+};
+
 const deleteWork = async (req, res) => {
   const { workId } = req.body;
   try {
@@ -198,4 +239,5 @@ module.exports = {
   deleteWork,
   getAllWorks,
   getWorksBySearch,
+  updateWorkStatus
 };
