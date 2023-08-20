@@ -15,9 +15,9 @@ const createWork = async (req, res) => {
       userName,
       workDetails,
       finishDeadline,
-      serialNumber: workCount + 1,
       createdBy: req.user._id,
       remarks,
+      serialNumber: workCount + 1,
     });
 
     if (!newWork) {
@@ -150,6 +150,27 @@ const deleteWork = async (req, res) => {
 };
 
 const getAllWorks = async (req, res) => {
+
+
+  // async function updateSerialNumbers() {
+  //   try {
+  //     const users = await Work.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
+
+  //     // Update serial numbers
+  //     for (let i = 0; i < users.length; i++) {
+  //       const user = users[i];
+  //       user.serialNumber = i + 1;
+  //       await user.save();
+  //     }
+
+  //     console.log('Serial numbers updated successfully.');
+  //   } catch (error) {
+  //     console.error('Error updating serial numbers:', error);
+  //   }
+  // }
+  // await updateSerialNumbers();
+
+
   let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
   page = parseInt(page) ?? 1;
   limit = parseInt(limit) ?? 10;

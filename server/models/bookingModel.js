@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Sequence = require('./sequenceModel');
 
 const bookingSchema = new mongoose.Schema({
   hotel: {
@@ -79,6 +80,23 @@ const bookingSchema = new mongoose.Schema({
     type: String,
   }
 },{timestamps: true});
+
+bookingSchema.pre("save", function (next) {
+  let doc = this;
+  Sequence.findByIdAndUpdate(
+    "Booking",
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true }
+  )
+    .then(function (count) {
+      doc.serialNumber = count.seq;
+      next();
+    })
+    .catch(function (err) {
+      console.error("counter error-> : " + err);
+      throw err;
+    });
+});
 
 const Booking = mongoose.model('Booking', bookingSchema);
 

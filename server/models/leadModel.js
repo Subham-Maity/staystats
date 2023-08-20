@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Sequence = require("./sequenceModel");
 
 let Schema = mongoose.Schema;
 
@@ -47,6 +48,23 @@ const leadSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+leadSchema.pre("save", function (next) {
+  let doc = this;
+  Sequence.findByIdAndUpdate(
+    "leads",
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true }
+  )
+    .then(function (count) {
+      doc.serialNumber = count.seq;
+      next();
+    })
+    .catch(function (err) {
+      console.error("counter error-> : " + err);
+      throw err;
+    });
+});
 
 const Leads = mongoose.model("leads", leadSchema);
 

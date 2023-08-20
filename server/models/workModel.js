@@ -1,6 +1,7 @@
 // models/workModel.js
 
 const mongoose = require("mongoose");
+const Sequence = require("./sequenceModel");
 let Schema = mongoose.Schema;
 
 const workSchema = new mongoose.Schema(
@@ -31,6 +32,23 @@ const workSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+workSchema.pre("save", function (next) {
+  let doc = this;
+  Sequence.findByIdAndUpdate(
+    "Work",
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true }
+  )
+    .then(function (count) {
+      doc.serialNumber = count.seq;
+      next();
+    })
+    .catch(function (err) {
+      console.error("counter error-> : " + err);
+      throw err;
+    });
+});
 
 const Work = mongoose.model("Work", workSchema);
 

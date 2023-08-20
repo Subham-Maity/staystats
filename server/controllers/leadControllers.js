@@ -3,6 +3,9 @@ const { Hotel } = require("../models/hotelModel");
 const { User } = require("../models/userModel");
 const { Leads } = require("../models/leadModel");
 
+
+
+
 const createLead = async (req, res) => {
   try {
     console.log("Create Lead ===>");
@@ -63,6 +66,25 @@ const createLead = async (req, res) => {
 
 const getLeads = async (req, res) => {
   const currentDateTime = new Date();
+
+
+  // async function updateSerialNumbers() {
+  //   try {
+  //     const users = await Leads.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
+
+  //     // Update serial numbers
+  //     for (let i = 0; i < users.length; i++) {
+  //       const user = users[i];
+  //       user.serialNumber = i + 1;
+  //       await user.save();
+  //     }
+
+  //     console.log('Serial numbers updated successfully.');
+  //   } catch (error) {
+  //     console.error('Error updating serial numbers:', error);
+  //   }
+  // }
+  // await updateSerialNumbers();
 
   // Some logic to get the user
   try {
