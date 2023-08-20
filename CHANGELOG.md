@@ -36,3 +36,10 @@
 
 ---
 
+
+###### 2023-08-20
+- Sending email to sub-admin with generated password when creating sub-admin
+
+| Arian |
+
+---
