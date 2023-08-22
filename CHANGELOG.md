@@ -43,3 +43,10 @@
 | Arian |
 
 ---
+
+###### 2023-08-22
+- Added filter for bookings collection
+
+| Arian | Tuhin |
+
+---

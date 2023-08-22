@@ -1,5 +1,7 @@
 const { Booking } = require("../models/bookingModel");
 const { Hotel } = require("../models/hotelModel");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 const getBooking = async (req, res) => {
   const { bookingId } = req.body;
@@ -47,7 +49,10 @@ const getAllBookings = async (req, res) => {
     // await updateSerialNumbers();
 
 
-    let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
+    let { page, limit, sortBy, sortOrder, location, addedByMe, filterBy, bookingSource, serialNumber, guestName, hotelName, status } = req.query;
+    let { startDate, endDate } = req.body;
+    // console.log("req.body: ", req.body);
+    // console.log("req.query: ", req.query);
     page = parseInt(page) ?? 1;
     limit = parseInt(limit) ?? 10;
 
@@ -62,6 +67,36 @@ const getAllBookings = async (req, res) => {
     if (req.user.role === "SUBADMIN") {
       filter.addedBy = req.user._id;
     }
+    
+
+    if (filterBy && startDate && endDate) {
+      if (filterBy === 'checkInDate') {
+        filter.checkInDate = { $gte: new Date(startDate), $lte: new Date(endDate) };
+      } else if (filterBy === 'checkOutDate') {
+        filter.checkOutDate = { $gte: new Date(startDate), $lte: new Date(endDate) };
+      } else if (filterBy === 'createdAt') {
+        filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+      } 
+      else if (filterBy === 'updatedAt') {
+        filter.updatedAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+      }
+    }
+    if(bookingSource !== 'undefined' && bookingSource !== 'null' && bookingSource !== '' && bookingSource !== "--select--") {
+      filter.bookingSource = bookingSource;
+    }
+    if(serialNumber !== 'undefined' && serialNumber !== 'null' && serialNumber !== '' ) {
+      filter.serialNumber = serialNumber;
+    }
+    if(guestName !== 'undefined' && guestName !== 'null' && guestName !== '' ) {
+      filter.guestName = guestName.toUpperCase();
+    }
+    if(hotelName !== 'undefined' && hotelName !== 'null' && hotelName !== '' && hotelName !== "--select--") {
+      filter.hotel = hotelName;
+    }
+    if(status !== 'undefined' && status !== 'null' && status !== '' && status !== "--select--") {
+      filter.status = status;
+    }
+
 
     // Fetch all bookings
     const bookings = await Booking.find(filter)
@@ -70,7 +105,9 @@ const getAllBookings = async (req, res) => {
       .limit(limit)
       .populate({ path: "hotel", model: Hotel });
 
+
     let bookingsCount = await Booking.countDocuments(filter);
+    console.log("bookingsCount: ", bookingsCount);
 
     console.timeEnd("get bookings");
 
@@ -78,7 +115,7 @@ const getAllBookings = async (req, res) => {
       res
         .status(200)
         .json({
-          error: "No bookings found",
+          message: "No bookings found",
           bookings: [],
           bookingsCount: bookingsCount ?? 0,
         });

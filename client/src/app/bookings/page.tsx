@@ -19,7 +19,7 @@ const Bookings = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [filterData,setFilterData] = useState<any>()
+  const [filterData, setFilterData] = useState<any>();
   const [bookingData, setBookingData] = useState<any>([]);
   const [bookingCounts, setBookingCounts] = useState<number>(0);
   const [booking, setBooking] = useState<any>();
@@ -30,19 +30,18 @@ const Bookings = () => {
   const [reloadData, setReloadData] = useState<boolean>(false);
 
   useEffect(() => {
-    if(showModal || showViewModal){
+    if (showModal || showViewModal) {
       document.body.style.overflow = "hidden";
-    }else{
+    } else {
       document.body.style.overflow = "unset";
     }
-
-  },[showViewModal,showModal])
+  }, [showViewModal, showModal]);
 
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
-      
+
       if (user && user._id) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
@@ -56,11 +55,12 @@ const Bookings = () => {
     updateUser();
   }, []);
 
-  useEffect(()=>{
-    console.log(filterData)
-  },[filterData])
+  // useEffect(()=>{
+  //   console.log(filterData)
+  // },[filterData])
 
   const getBookingsBySearch = async (e?: any) => {
+    setFilterData(null);
     e && e.preventDefault();
     try {
       if (searchText?.trim()?.length > 0) {
@@ -84,8 +84,13 @@ const Bookings = () => {
     const getBookings = async () => {
       try {
         setLoading(true);
+
         const { data } = await axios.post(
-          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`
+          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}&filterBy=${filterData?.filterBy}&hotelName=${filterData?.hotelName}&bookingSource=${filterData?.bookingSource}&guestName=${filterData?.guestName}&serialNumber=${filterData?.serialNumber}&status=${filterData?.status}`,
+          {
+            startDate: filterData?.dateRange?.startDate ?? null,
+            endDate: filterData?.dateRange?.endDate ?? null,
+          }
         );
         if (!data.error) {
           setBookingData(data.bookings);
@@ -101,17 +106,20 @@ const Bookings = () => {
       }
     };
     searchText.trim().length > 0 ? getBookingsBySearch() : getBookings();
-  }, [page, PAGE_LIMIT, reloadData]);
-
+  }, [page, PAGE_LIMIT, reloadData, filterData]);
 
   const cancelBookingHandler = async (bookingId: string) => {
+    setFilterData(null);
     try {
       const { data } = await axios.post(`/booking/cancel-booking`, {
-        bookingId, status: "CANCELLED"
+        bookingId,
+        status: "CANCELLED",
       });
       if (!data.error) {
         toast.success(data.message);
-        const { data: bookingData } =  await axios.post(`/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`);
+        const { data: bookingData } = await axios.post(
+          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`
+        );
         if (!data.error) {
           setBookingData(bookingData.bookings);
           setBookingCounts(data.bookingsCount);
@@ -125,7 +133,7 @@ const Bookings = () => {
       toast.error(error.message);
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center">
@@ -141,7 +149,13 @@ const Bookings = () => {
         </button>
       </div>
       <div className="w-full m-2">
-      <Filter setFilterData={setFilterData}/>
+        <Filter
+          setFilterData={(filter: any) => {
+            setFilterData(filter);
+            setReloadData(!reloadData);
+            setPage(1);
+          }}
+        />
       </div>
       <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
