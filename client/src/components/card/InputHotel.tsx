@@ -47,17 +47,24 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
 
     const formData = new FormData(event.currentTarget);
     const formValues: { [key: string]: string } = {};
+    let roomCategories: string[] = []
 
     // Collect all the form field values
     formData.forEach((value, key) => {
       formValues[key] = value as string;
+
+      if( key === "roomCategories"){
+        roomCategories = value.toString().split(",")
+        console.log(roomCategories)
+      }
+
       if (formValues[key].trim() === "") {
         toast.error("Please fill all the fields");
         return;
       }
     });
 
-    // console.log(formValues)
+    console.log(formValues)
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
 
@@ -111,28 +118,28 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
     try {
       // console.log(document)
       setLoading(true);
-      setUploadingDocument(true);
-      const API_KEY = "667365862194741";
-      const CLOUD_NAME = "dxixp5wwu";
+      // setUploadingDocument(true);
+      // const API_KEY = "667365862194741";
+      // const CLOUD_NAME = "dxixp5wwu";
 
-      // console.log(API_KEY,CLOUD_NAME)
+      // // console.log(API_KEY,CLOUD_NAME)
 
-      const { data: sign } = await axios.post("/signature/get-sign");
-      // console.log(sign.signature,sign.timestamp)
-      // console.log(document)
+      // const { data: sign } = await axios.post("/signature/get-sign");
+      // // console.log(sign.signature,sign.timestamp)
+      // // console.log(document)
 
-      const { data: fileUrl } = await axios_.post(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,
-        {
-          file: document,
-          api_key: API_KEY,
-          timestamp: sign.timestamp,
-          signature: sign.signature,
-        },
-      );
-      if (fileUrl) {
-        setUploadingDocument(false);
-      }
+      // const { data: fileUrl } = await axios_.post(
+      //   `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,
+      //   {
+      //     file: document,
+      //     api_key: API_KEY,
+      //     timestamp: sign.timestamp,
+      //     signature: sign.signature,
+      //   },
+      // );
+      // if (fileUrl) {
+      //   setUploadingDocument(false);
+      // }
 
       const { data } = await axios.post("/hotel/create-hotel", {
         hotelName: formValues.hotelName,
@@ -149,9 +156,10 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         tradeLicense: formValues.tradeLicense,
         accountNumber: formValues.accountNumber,
         ifscCode: formValues.ifscCode,
-        otherDocuments: fileUrl.secure_url,
-        documentId: fileUrl.public_id,
+        otherDocuments: "",
+        documentId: "",
         frontOfficeContact: formValues.frontOfficeContact,
+        roomCategories: roomCategories
       });
       if (!data.error) {
         // const { data } = await axios.get("/hotel/get-all-hotels")
@@ -189,7 +197,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           &times;
         </span>
       </div>
-      <div className="grid gap-4 grid-cols-3 mb-6 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-3  md:grid-cols-3">
         <div>
           <label
             htmlFor="first_name"
@@ -303,7 +311,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             // autoCapitalize="on"
           />
         </div>
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -319,7 +327,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           />
         </div>
 
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -340,7 +348,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -356,7 +364,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="accountNumber"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -372,7 +380,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             required
           />
         </div>
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="accountNumber"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -392,7 +400,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           />
         </div>
 
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -408,7 +416,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             required
           />
         </div>
-        <div className="mb-6">
+        {/* <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -425,8 +433,8 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             onChange={handleFileInput}
           />
           {uploadingDocument && <p>Uploading...</p>}
-        </div>
-        <div className="mb-6">
+        </div> */}
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -442,12 +450,28 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             required
           />
         </div>
+        <div className="">
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Room categories
+          </label>
+          <textarea
+            name="roomCategories"
+            
+            id="Other Documents"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="E.g. AC Deluxe, AC Standard"
+            required
+          />
+        </div>
       </div>
 
       <button
         disabled={uploadingDocument}
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Submit
       </button>

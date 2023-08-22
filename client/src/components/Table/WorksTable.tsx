@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { MdFileDownloadDone, MdWarningAmber } from "react-icons/md";
 import { TbLoader } from "react-icons/tb";
@@ -45,9 +45,27 @@ const WorksTable = ({
   const [editingWorkData, setEditingWorkData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [showRemarksPopup, setShowRemarksPopup] = useState<boolean>(false);
+  const [showOptionTooltip, setShowOptionTooltip] = useState<boolean>(false);
+  const [tooltipPosition, setTooltipPosition] = useState<any>({top:0, left:0});
   const [action, setAction] = useState<string>("");
   const [workId, setWorkId] = useState<string>("");
   const [remarks, setRemarks] = useState<string>("");
+
+
+  const handleDocumentClick = (event: any) => {
+    if (!event.target.closest('#tooltip')) {
+      setShowOptionTooltip(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, []);
+
+
   useEffect(() => {
     if (showEditWorkModal) {
       document.body.style.overflow = "hidden";
@@ -55,6 +73,15 @@ const WorksTable = ({
       document.body.style.overflow = "unset";
     }
   }, [showEditWorkModal, showDeletePopup, showRemarksPopup]);
+
+
+  const handleRowClick = (event: any, rowNumber: any) => {
+    console.log("row clicked", event, rowNumber);
+    const rect = event?.target?.getBoundingClientRect();
+    console.log("rect", rect);
+    showOptionTooltip ? setShowOptionTooltip(false) : setShowOptionTooltip(true);
+    setTooltipPosition({ top: rect.bottom, left: rect.left });
+  };
   const handleShowDeleteModal = (id: string) => {
     setWorkId(id);
 
@@ -250,6 +277,8 @@ const WorksTable = ({
                     } else if (owner.role === "ADMIN") {
                       return (
                         <tr
+                        // @ts-ignore
+                        onClick={handleRowClick}
                           key={index}
                           className={`bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
                         >
@@ -263,7 +292,7 @@ const WorksTable = ({
                             {work.userName.name || ""}
                           </td>
                           <td className="px-6 py-2 text-center">
-                            {work.workDetails || ""}
+                            {work.workDetails.length > 50 ? work.workDetails.substring(0,50) + "...": work.workDetails || ""}
                           </td>
                           <td className="px-6 py-2 text-center">
                             {new Date(work.updatedAt).toDateString() || ""}
@@ -275,7 +304,7 @@ const WorksTable = ({
                             {new Date(work.finishDeadline).toDateString() || ""}
                           </td>
                           <td className="px-6 py-2 text-center">
-                            {work.remarks || "no remarks"}
+                            {work.remarks?.length > 50 ? work.remarks?.substring(0,50) + "..." : work.remarks || "no remarks"}
                           </td>
   
                           <td className="px-6 py-2 text-center">
@@ -363,6 +392,24 @@ const WorksTable = ({
             )}
           </tbody>
         </table>
+
+        {
+          showOptionTooltip && (
+            <div id="tooltip" style={{ top: tooltipPosition.top + "px", left: tooltipPosition.left + "px" }} className="absolute top-0 left-0 bg-white shadow-lg rounded-lg p-2">
+              <ul className="flex flex-col gap-2">
+                <li className="flex gap-2 items-center">
+                  <MdFileDownloadDone size={20} className="inline-block" />
+                  <span>Accept</span>
+                </li>
+                <li className="flex gap-2 items-center">
+                  <MdFileDownloadDone size={20} className="inline-block" />
+                  <span>Reject</span>
+                </li>
+              </ul>
+            </div>
+          )
+
+        }
       </div>
       {showEditWorkModal && editingWorkData && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">

@@ -17,6 +17,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   const [advanceAmount, setAdvanceAmount] = useState<string>("");
   const [checkInDate,setCheckInDate] = useState<string>("");
   const [dueAmount, setDueAmount] = useState<string>("");
+  const [selectedHotel, setSelectedHotel] = useState<any>();
   const [availableHotels, setAvailableHotels] = useState<any>([]);
 // console.log("inputbooking", user);
   useEffect(() => {
@@ -82,7 +83,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         return;
       }
     });
-    // console.log(formValues.accountType);
+    console.log(formValues);
 
 
     const numberRegex = /^[0-9]+$/;
@@ -118,46 +119,46 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
 
 
 
-    try {
-      setLoading(true);
-      const { data } = await axios.post("/booking/create-booking", {
-        hotel: formValues.hotel,
-        guestName: formValues.guest_name,
-        checkInDate: formValues.startDate,
-        checkOutDate: formValues.endDate,
-        roomCategory: formValues.roomCategory,
-        numberOfRooms: formValues.nor,
-        numberOfPersons: formValues.nop,
-        bookingAmount: formValues.bookingAmount,
-        advanceAmount: formValues.advanceAmount,
-        dueAmount: formValues.dueamount,
-        advanceDate: formValues.Advancedate,
-        bookingSource: formValues.paymentby,
-        bookingBy: user.name || user.username,
-        accountType: formValues.accountType,
-        plan: formValues.plan,
-        contactNumber: formValues.cn,
-        remarks: formValues.remark,
-      });
-      if (!data.error) {
-        // console.log(data.booking);
-        setBookingData((prev: any) => {
-          return [data.booking, ...prev];
-        });
+    // try {
+    //   setLoading(true);
+    //   const { data } = await axios.post("/booking/create-booking", {
+    //     hotel: formValues.hotel,
+    //     guestName: formValues.guest_name,
+    //     checkInDate: formValues.startDate,
+    //     checkOutDate: formValues.endDate,
+    //     roomCategory: formValues.roomCategory,
+    //     numberOfRooms: formValues.nor,
+    //     numberOfPersons: formValues.nop,
+    //     bookingAmount: formValues.bookingAmount,
+    //     advanceAmount: formValues.advanceAmount,
+    //     dueAmount: formValues.dueamount,
+    //     advanceDate: formValues.Advancedate,
+    //     bookingSource: formValues.paymentby,
+    //     bookingBy: user.name || user.username,
+    //     accountType: formValues.accountType,
+    //     plan: formValues.plan,
+    //     contactNumber: formValues.cn,
+    //     remarks: formValues.remark,
+    //   });
+    //   if (!data.error) {
+    //     // console.log(data.booking);
+    //     setBookingData((prev: any) => {
+    //       return [data.booking, ...prev];
+    //     });
 
-        onClose(false);
+    //     onClose(false);
 
-        toast.success(data.message);
-        formRef.current?.reset();
-      } else {
-        toast.error(data.error);
-      }
-      setLoading(false);
-    } catch (error: any) {
-      setLoading(false);
-      console.log(error);
-      toast.error(error.message);
-    }
+    //     toast.success(data.message);
+    //     formRef.current?.reset();
+    //   } else {
+    //     toast.error(data.error);
+    //   }
+    //   setLoading(false);
+    // } catch (error: any) {
+    //   setLoading(false);
+    //   console.log(error);
+    //   toast.error(error.message);
+    // }
   };
 
   return (
@@ -199,6 +200,13 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             Hotel Name <span className="text-red-500">*</span>
           </label>
           <select
+            onChange={(e) => {
+              const hotel = availableHotels.find(
+                (hotel: any) => hotel._id === e.target.value
+              );
+              setSelectedHotel(hotel);
+              // console.log("hotel", hotel);
+            }}
             id="hotel"
             name="hotel"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -324,13 +332,25 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           >
             Room Category <span className="text-red-500">*</span>
           </label>
-          <input
-          type="text"
+          <select
+          disabled={!selectedHotel}
             name="roomCategory"
             id="paymentby"
-            onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
+            // onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
+          >
+            {
+              selectedHotel?.roomCategories.map((room: any, index: number) => {
+                return (
+                  <option key={index} value={room.trim()}>
+                    {room.trim() }
+                  </option>
+                );
+              })
+            }
+           
+            
+          </select>
         </div>
         <div>
           <label

@@ -87,7 +87,7 @@ const Hotels = () => {
     const getHotels = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
+        const { data } = await axios.post(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
         // console.log(data);
         if (!data.error) {
           setHotelData(data.hotels);
@@ -112,12 +112,12 @@ const Hotels = () => {
       });
       if (!data.error) {
         toast.success(data.message);
-        const { data: users } =  await axios.post(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`, {
+        const { data: hotel } =  await axios.post(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`, {
           startDateFilter: "",
           endDateFilter: "",
         });
         if (!data.error) {
-          setHotelData(users.hotels);
+          setHotelData(hotel.hotels);
           setHotelsCount(data.hotelsCount);
         } else {
           toast.error(data.error);

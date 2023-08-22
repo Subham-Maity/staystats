@@ -156,7 +156,7 @@ const HotelTable = ({
                           {hotel.location || ""}
                         </td>
                         <td className="px-6 py-2 text-center">
-                          {hotel.ownerContact.email || ""}
+                          {hotel.ownerContact.email || "No data"}
                         </td>
                         <td className="px-6 py-2 text-center">
                           {hotel.frontOfficeContact}

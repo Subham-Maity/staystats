@@ -23,7 +23,7 @@ const hotelSchema = new mongoose.Schema(
       },
       email: {
         type: String,
-        required: true,
+        
       },
     },
     GSTNumber: {
@@ -41,6 +41,11 @@ const hotelSchema = new mongoose.Schema(
     tradeLicense: {
       type: String,
       required: true,
+    },
+    roomCategories:{
+      type: [String],
+      default: []
+      
     },
     bank: {
       type: String,

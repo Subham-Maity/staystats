@@ -49,7 +49,7 @@ const getAllHotels = async (req, res) => {
 
 
     // Extract filters from req.query
-    let { page, limit, sortBy, sortOrder, location, addedByMe, filterBy } = req.query;
+    let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
     page = parseInt(page) ?? 1;
     limit = parseInt(limit) ?? 10;
 
@@ -158,6 +158,7 @@ const createHotel = async (req, res) => {
     frontOfficeContact,
     accountNumber,
     ifscCode,
+    roomCategories,
   } = req.body;
   try {
     const newHotel = await Hotel.create({
@@ -177,6 +178,7 @@ const createHotel = async (req, res) => {
       ifscCode,
       addedBy: req.user._id,
       serialNumber: hotelsCount + 1,
+      roomCategories
     });
     if (!newHotel) {
       res.status(201).json({ message: "Hotel not created", hotel: {} });
