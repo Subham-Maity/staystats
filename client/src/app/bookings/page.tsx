@@ -11,6 +11,7 @@ import { fetchOwner } from "@/utils";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
 import { BiSearch } from "react-icons/bi";
+import Filter from "@/components/card/Filter";
 
 const Bookings = () => {
   let router = useRouter();
@@ -18,6 +19,7 @@ const Bookings = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [filterData,setFilterData] = useState<any>()
   const [bookingData, setBookingData] = useState<any>([]);
   const [bookingCounts, setBookingCounts] = useState<number>(0);
   const [booking, setBooking] = useState<any>();
@@ -53,6 +55,10 @@ const Bookings = () => {
     };
     updateUser();
   }, []);
+
+  useEffect(()=>{
+    console.log(filterData)
+  },[filterData])
 
   const getBookingsBySearch = async (e?: any) => {
     e && e.preventDefault();
@@ -133,6 +139,9 @@ const Bookings = () => {
           <FaPlus size={20} />
           <p>Add Booking</p>
         </button>
+      </div>
+      <div className="w-full m-2">
+      <Filter setFilterData={setFilterData}/>
       </div>
       <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
