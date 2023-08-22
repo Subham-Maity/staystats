@@ -78,7 +78,7 @@ const Bookings = () => {
     const getBookings = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(
+        const { data } = await axios.post(
           `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`
         );
         if (!data.error) {
@@ -105,7 +105,7 @@ const Bookings = () => {
       });
       if (!data.error) {
         toast.success(data.message);
-        const { data: bookingData } =  await axios.get(`/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`);
+        const { data: bookingData } =  await axios.post(`/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`);
         if (!data.error) {
           setBookingData(bookingData.bookings);
           setBookingCounts(data.bookingsCount);
