@@ -49,7 +49,7 @@ const getAllHotels = async (req, res) => {
 
 
     // Extract filters from req.query
-    let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
+    let { page, limit, sortBy, sortOrder, location, addedByMe, filterBy } = req.query;
     page = parseInt(page) ?? 1;
     limit = parseInt(limit) ?? 10;
 

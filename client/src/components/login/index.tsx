@@ -187,13 +187,15 @@ const LoginForm = () => {
                     Remember me
                   </span>
                 </div>
-                {/* {!isSignUpPage && (
-                  <p className="text-sm text-gray-500 mt-2">
-                    <span className="text-indigo-500 cursor-pointer">
+                {!isSignUpPage && (
+                  <p className="text-sm text-gray-500 mt-2" onClick={()=>{
+                    router.push("/forgot-password")
+                  }} >
+                    <span className="text-indigo-500 cursor-pointer hover:underline ">
                       Forgot Password?
                     </span>
                   </p>
-                )} */}
+                )}
               </div>
 
               <div className="flex flex-row items-center">

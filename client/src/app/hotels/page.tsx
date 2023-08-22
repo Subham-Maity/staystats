@@ -112,7 +112,10 @@ const Hotels = () => {
       });
       if (!data.error) {
         toast.success(data.message);
-        const { data: users } =  await axios.get(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
+        const { data: users } =  await axios.post(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`, {
+          startDateFilter: "",
+          endDateFilter: "",
+        });
         if (!data.error) {
           setHotelData(users.hotels);
           setHotelsCount(data.hotelsCount);
