@@ -50,3 +50,9 @@
 | Arian | Tuhin |
 
 ---
+
+###### 2023-08-23
+- Added reset password functionality for sub-admin
+| Arian |
+
+---

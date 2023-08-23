@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaQuoteLeft } from "react-icons/fa";
+import { MdOutlineDoneAll } from "react-icons/md";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { BiError } from "react-icons/bi";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -15,64 +16,40 @@ import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import { BASE_URL, FRONTEND_URL } from "@/constants/constant";
 const AnimatedImage = motion(Image);
 
-const LoginForm = () => {
-  const usernameRef = useRef();
-  const passwordRef = useRef();
-  const [showPassword, setShowPassword] = useState(false);
+const ForgotPasswordRequest = () => {
+  const [emailAddress, setEmailAddress] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const searchParams = useSearchParams();
 
-  const [loginError, setLoginError] = useState(searchParams.get("error"));
   const [loading, setLoading] = useState(false);
-  const [isSignUpPage, setIsSignUpPage] = useState(false);
 
   const router = useRouter();
 
-  const loginHandler = async (event: any) => {
+  const sendResetLinkHandler = async (event: any) => {
     event.preventDefault();
-    // @ts-ignore
-    const username = usernameRef.current.value;
-    // @ts-ignore
-    const password = passwordRef.current.value;
-    // console.log('Registering user:', { username, password });
-    if (username.trim() == "" || password.trim() == "") {
-      toast.error("Username and Password cannot be empty");
+
+    let email = emailAddress;
+    if (!validator.isEmail(email)) {
+      toast.error("Please enter a valid email address");
       return;
     }
-    // if (
-    //   !validator.isStrongPassword(password, {
-    //     minLength: 8,
-    //     minLowercase: 1,
-    //     minUppercase: 1,
-    //     minNumbers: 1,
-    //     minSymbols: 1,
-    //   })
-    // ) {
-    //   toast.error("Password is not strong enough");
-    //   return;
-    // }
-    let url = isSignUpPage ? `/api/signup` : `/api/login`;
 
     try {
       setLoading(true);
-      const { data: response } = await axios.post(url, {
-        username,
-        password,
+      const { data: response } = await axios.post("/api/forgot-password", {
+        email,
       });
       setLoading(false);
-      if (response && response.user && response.user?._id) {
-        // @ts-ignore
-        localStorage.setItem("user", JSON.stringify(response.user));
-        localStorage.setItem("authToken", response.jwt);
-
-        // @ts-ignore
-        toast.success(`Welcome ${response.user.username}`);
-        setTimeout(() => {
-          if (username.role !== "ADMIN") {
-            window.location.href = `/bookings`;
-          }
-        }, 800);
-      } else if (response.message) {
-        toast.error(response.message);
+      if (!response.error) {
+        toast.success(response.message);
+        setSuccessMessage(response.message);
+        setEmailAddress("");
+        setErrorMessage("");
+      } else {
+        toast.error(response.error);
+        setErrorMessage(response.error);
+        setSuccessMessage("");
       }
       setLoading(false);
     } catch (error: any) {
@@ -81,15 +58,9 @@ const LoginForm = () => {
       setLoading(false);
     }
   };
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   return (
     <div className="fade w-full h-screen flex flex-row items-center justify-center relative">
-      {/* <div className="hidden lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover ">
-        <Image src={'/assets/login_graphic.jpg'} height={600} width={600} alt="Image" className="rounded-md cursor-pointer ml-auto md:scale-90 " />
-        </div> */}
       <div className="bg-white hidden pr-16 lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover">
         <AnimatedImage
           src="/assets/login_graphic.jpg"
@@ -128,95 +99,62 @@ const LoginForm = () => {
                 {/* do we know you ? */}
               </h2>
               <p className="text-sm">
-                {!isSignUpPage
-                  ? "Log in to view Dashboard!"
-                  : "Create your account to view Dashboard!"}
+                Ohh no! It seems you forgot your password.
+              </p>
+              <p className="text-sm text-indigo-500">
+                {" "}
+                Enter your email address below and we will send you a link to
+                reset your password.{" "}
               </p>
             </div>
             <div className="w-full flex flex-col">
-              <label className="text-sm mb-1 text-gray-700">Username</label>
+              <label className="text-sm mb-1 text-gray-700">Email</label>
               <input
                 type="text"
+                value={emailAddress}
+                onChange={(e) => setEmailAddress(e.target.value)}
                 className="text-gray-700 w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm"
-                placeholder="Enter your username"
-                //@ts-ignore
-                ref={usernameRef}
+                placeholder="Registered email.."
+                onFocus={()=>{
+                  setErrorMessage("");
+                  setSuccessMessage("");
+                }}
               />
-
-              <label className="text-sm mt-4 mb-1 text-gray-700">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="text-gray-700 w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm pr-10"
-                  placeholder="Enter your password"
-                  //@ts-ignore
-                  ref={passwordRef}
-                  onFocus={() => setLoginError("")}
-                  required
-                />
-                <div
-                  className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
-                  onClick={handleShowPassword}
-                >
-                  {showPassword ? (
-                    <RiEyeLine size={20} />
-                  ) : (
-                    <RiEyeCloseLine size={20} />
-                  )}
-                </div>
-              </div>
-              {loginError && (
+              {errorMessage && (
                 <div className="flex flex-row items-center mt-2">
                   <BiError className="text-red-500 text-xl" />
                   <span className="text-sm text-red-500 ml-2">
-                    {loginError}
+                    {errorMessage}
                   </span>
                 </div>
               )}
-              <div className="flex justify-between items-center my-6">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 text-[#9a6afd] focus:outline-none rounded-sm accent-indigo-600"
-                  />
-                  <span className="text-sm text-gray-500 ml-2">
-                    Remember me
+              {successMessage && (
+                <div className="flex flex-row items-center mt-2">
+                  <MdOutlineDoneAll className="text-green-500 text-xl" />
+                  <span className="text-sm text-green-500 ml-2">
+                    {successMessage}
                   </span>
                 </div>
-                {!isSignUpPage && (
-                  <p
-                    className="text-sm text-gray-500 mt-2"
-                    onClick={() => {
-                      window.open(`${FRONTEND_URL}/forgot-password`, "_blank");
-                    }}
-                  >
-                    <span className="text-indigo-500 cursor-pointer hover:underline ">
-                      Forgot Password?
-                    </span>
-                  </p>
-                )}
-              </div>
+              )}
 
-              <div className="flex flex-row items-center">
+              <div className="flex flex-row items-center mt-4">
                 <button
-                  onClick={loginHandler}
+                  onClick={sendResetLinkHandler}
                   disabled={loading}
                   className="w-full p-2 rounded-md bg-indigo-500 text-white focus:outline-none hover:opacity-90 disabled:opacity-60"
                 >
                   {loading && <LoadingSpinner />}
-                  {!loading && (isSignUpPage ? "Sign Up" : "Login")}
+                  Send Link
                 </button>
               </div>
             </div>
-            <div
+            {/* <div
               className="mt-4 cursor-pointer"
               onClick={() => {
                 setIsSignUpPage(!isSignUpPage);
               }}
-            >
-              {/* {!isSignUpPage ? (
+            > */}
+            {/* {!isSignUpPage ? (
                 <p className="text-sm text-gray-500 text-center">
                   Don{"'"}t have an account?{" "}
                   <span className="text-indigo-500 cursor-pointer text-xs">
@@ -232,7 +170,7 @@ const LoginForm = () => {
                   </span>
                 </p>
               )} */}
-            </div>
+            {/* </div> */}
             <div className="flex items-center center my-6">
               <div className="w-full border mr-4 h-fit"></div>
               <span className="text-gray-600 text-xs font-semibold whitespace-nowrap">
@@ -256,7 +194,7 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordRequest;
 
 // <div className="flex justify-center items-center h-screen">
 //   <form className="w-64 border rounded p-4 shadow-lg" onSubmit={loginHandler} >

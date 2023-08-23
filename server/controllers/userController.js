@@ -41,7 +41,7 @@ const sendEmail = async (
     });
 
     const mailOptions = {
-      from: "STAT STATS ADMIN PANEL <freeproject87@gmail.com>",
+      from: "STAY STATS ADMIN PANEL <freeproject87@gmail.com>",
       to: receiverEmail,
       subject: subject,
       text: bodyTemplateText,
@@ -275,4 +275,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  sendEmail,
 };

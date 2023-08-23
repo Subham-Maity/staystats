@@ -7,7 +7,7 @@ import { HiUserGroup } from "react-icons/hi";
 import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
-import { MdDashboard, MdLeaderboard, MdWorkOutline } from "react-icons/md";
+import { MdDashboard, MdLeaderboard, MdWorkOutline, MdWorkHistory } from "react-icons/md";
 import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -196,7 +196,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                     : "hover:bg-slate-300"
                 } rounded-xl`}
               >
-                <MdWorkOutline size={20} />{" "}
+                <MdWorkHistory size={20} />{" "}
                 <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                   Work Generate
                 </p>

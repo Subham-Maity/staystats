@@ -5,10 +5,16 @@ import Navbar from "@/components/navbar/Navbar";
 import Sidebar from "@/components/navbar/Sidebar";
 import LoginForm from "@/components/login";
 import LoadingSpinner from "@/components/loadingSpinner/LoadingSpinner";
+import { usePathname, useRouter } from "next/navigation";
+import { FRONTEND_URL } from "@/constants/constant";
+import ForgotPasswordRequest from "@/components/ForgotPasswordRequest";
+import ResetPasswordForm from "@/components/ResetPasswordComponent";
 
 type Props = {};
 
 const DefaultLayout = ({ children }: any) => {
+  let router = useRouter();
+  let pathName = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   let [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -36,6 +42,13 @@ const DefaultLayout = ({ children }: any) => {
     return <LoadingSpinner />;
   }
 
+  // @ts-ignore
+  // if (!user && !user._id && pathName === "/forgot-password") {
+  //   window.open(`${FRONTEND_URL}/forgot-password`, "_blank");
+  // }
+
+  console.log("pathName", pathName);
+
   return (
     <div>
       {/* @ts-ignore */}
@@ -53,6 +66,10 @@ const DefaultLayout = ({ children }: any) => {
             <div className="lg:w-[90%] w-[90%] 2xl:w-[65%]">{children}</div>
           </div>
         </div>
+      ) : pathName === "/forgot-password" ? (
+        <ForgotPasswordRequest />
+      ) : pathName === "/reset-password" ? (
+        <ResetPasswordForm />
       ) : (
         <LoginForm />
       )}
