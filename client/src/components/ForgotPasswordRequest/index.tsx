@@ -143,7 +143,7 @@ const ForgotPasswordRequest = () => {
                   disabled={loading}
                   className="w-full p-2 rounded-md bg-indigo-500 text-white focus:outline-none hover:opacity-90 disabled:opacity-60"
                 >
-                  {loading && <LoadingSpinner />}
+                  {loading && <LoadingSpinner color="#ffff" />}
                   Send Link
                 </button>
               </div>

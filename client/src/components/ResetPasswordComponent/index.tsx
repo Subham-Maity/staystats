@@ -97,6 +97,7 @@ const ResetPasswordForm = () => {
         setPassword("");
         setReEnteredPassword("");
         setErrorMessage("");
+        window.open(`${FRONTEND_URL}/login`, "_self");
       } else {
         toast.error(response.error);
         setErrorMessage(response.error);
@@ -104,8 +105,9 @@ const ResetPasswordForm = () => {
       }
       setLoading(false);
     } catch (error: any) {
-      toast.error("Something went wrong");
-      toast.error(error.message);
+      toast.error("Maybe reset link is expired!");
+      setAuthorizationError("Maybe reset link is expired!");
+      setErrorMessage("Maybe reset link is expired!");
       setLoading(false);
     }
   };
@@ -251,7 +253,7 @@ const ResetPasswordForm = () => {
                     disabled={loading}
                     className="w-full p-2 rounded-md bg-indigo-500 text-white focus:outline-none hover:opacity-90 disabled:opacity-60"
                   >
-                    {loading && <LoadingSpinner />}
+                    {loading && <LoadingSpinner color="#ffff" />}
                     Reset Password
                   </button>
                 </div>
