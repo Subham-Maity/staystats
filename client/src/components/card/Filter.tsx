@@ -12,6 +12,8 @@ type Props = {
 
 const Filter = ({ setFilterData }: Props) => {
   const [hotels, setHotels] = React.useState<any>([]);
+  const [users, setUsers] = React.useState<any>([]);
+
   const [filter, setFilter] = useState({
     guestName: "",
     hotelName: "--select--",
@@ -19,6 +21,7 @@ const Filter = ({ setFilterData }: Props) => {
     serialNumber: "",
     filterBy: "--select--",
     status: "--select--",
+    addedBy: "--select--",
     dateRange: {},
   });
   const [isFilterOptionSelected, setisFilterOptionSelected] =
@@ -35,9 +38,11 @@ const Filter = ({ setFilterData }: Props) => {
       try {
         setLoading(true);
         const { data } = await axios.post(`/hotel/get-all-hotels`);
+        const {data: users} = await axios.get(`/user/get-users`);
         // console.log(data);
         if (!data.error) {
           setHotels(data.hotels);
+          setUsers(users.users)
           //   console.log(hotels)
         } else {
           toast.error(data.error);
@@ -154,6 +159,33 @@ const Filter = ({ setFilterData }: Props) => {
               />
             </div>
             <div className="">
+              <label htmlFor="" className="whitespace-nowrap">
+                Added By
+              </label>
+              <select
+                onChange={(e) => {
+                  setFilter({...filter, addedBy: e.target.value})
+                  // console.log(e.target.value)
+                }}
+                name=""
+                id="hotel-drop-down"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={filter.addedBy && filter.addedBy}
+              >
+                <option disabled selected value={"--select--"}>
+                  --Select--
+                </option>
+                {users.map((user: any, index: any) => {
+                  // console.log(user)
+                  return (
+                    <option key={user._id} value={user._id}>
+                      {user.name || user.username}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className="">
               {" "}
               <h1>Status</h1>
               <select
@@ -218,7 +250,7 @@ const Filter = ({ setFilterData }: Props) => {
           onClick={handleSubmit}
           type="submit"
           disabled={
-            !filter.guestName && filter.hotelName === "--select--" && filter.bookingSource === "--select--" && !filter.serialNumber && filter.filterBy === "--select--" && filter.status === "--select--"
+            !filter.guestName && filter.hotelName === "--select--" && filter.bookingSource === "--select--" && !filter.serialNumber && filter.filterBy === "--select--" && filter.status === "--select--" && filter.addedBy === "--select--"
           }
           className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
         >
@@ -235,6 +267,7 @@ const Filter = ({ setFilterData }: Props) => {
               filterBy: "--select--",
               dateRange: {},
               status: "--select--",
+              addedBy: "--select--",
             })
             setFilterData({
               guestName: "",
@@ -244,6 +277,7 @@ const Filter = ({ setFilterData }: Props) => {
               filterBy: "",
               dateRange: {},
               status: "",
+              addedBy: "",
             })
           }}
           type="submit"

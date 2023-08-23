@@ -49,7 +49,7 @@ const getAllBookings = async (req, res) => {
     // await updateSerialNumbers();
 
 
-    let { page, limit, sortBy, sortOrder, location, addedByMe, filterBy, bookingSource, serialNumber, guestName, hotelName, status } = req.query;
+    let { page, limit, sortBy, sortOrder, location, addedByMe, addedBy, filterBy, bookingSource, serialNumber, guestName, hotelName, status } = req.query;
     let { startDate, endDate } = req.body;
     // console.log("req.body: ", req.body);
     // console.log("req.query: ", req.query);
@@ -93,10 +93,14 @@ const getAllBookings = async (req, res) => {
     if(hotelName !== 'undefined' && hotelName !== 'null' && hotelName !== '' && hotelName !== "--select--") {
       filter.hotel = hotelName;
     }
+    if(addedBy !== 'undefined' && addedBy !== 'null' && addedBy !== '' && addedBy !== "--select--") {
+      filter.addedBy = addedBy;
+    }
     if(status !== 'undefined' && status !== 'null' && status !== '' && status !== "--select--") {
       filter.status = status;
     }
 
+    console.log("filter: ", filter);
 
     // Fetch all bookings
     const bookings = await Booking.find(filter)
