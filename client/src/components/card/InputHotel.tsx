@@ -119,8 +119,8 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       // console.log(document)
       setLoading(true);
       setUploadingDocument(true);
-      const API_KEY = "667365862194741";
-      const CLOUD_NAME = "dxixp5wwu";
+      const API_KEY = "578159845172363";
+      const CLOUD_NAME = "drtr0suuh";
 
       // console.log(API_KEY,CLOUD_NAME)
 
