@@ -72,7 +72,7 @@ const BookingTable = ({
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
         <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
           <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-            <tr className="">
+            <tr className=" whitespace-nowrap">
               <th scope="col" className="px-4 text-center py-3">
                 #
               </th>
@@ -82,34 +82,20 @@ const BookingTable = ({
               <th scope="col" className="px-4 text-center py-3">
                 Guest Name
               </th>
+              <th scope="col" className="px-6 py-3">
+                Contact Number
+              </th>
               <th scope="col" className="px-4 text-center py-3">
                 Date
               </th>
-              <th scope="col" className="px-4 text-center py-3">
-                NOP
+              <th scope="col" className="px-6 py-3">
+                Number of Rooms
               </th>
               <th scope="col" className="px-4 text-center py-3">
-                Total amount
-              </th>
-              <th scope="col" className="px-4 text-center py-3">
-                Advance amount
-              </th>
-              <th scope="col" className="px-4 text-center py-3">
-                Booking Source
-              </th>
-              <th scope="col" className="px-6 py-3 text-center">
-                Status
+                Number of persons
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Room Category
-              </th>
-
-              
-              <th scope="col" className="px-6 py-3">
-                Number of Room
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Number of Person
               </th>
               <th scope="col" className="px-6 py-3">
                 Booking Amount
@@ -124,27 +110,28 @@ const BookingTable = ({
                 Advance Date
               </th>
               <th scope="col" className="px-6 py-3">
+                Account Type
+              </th>
+              <th scope="col" className="px-4 text-center py-3">
                 Booking Source
               </th>
               <th scope="col" className="px-6 py-3">
                 Booking By
               </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Status
+              </th>
               <th scope="col" className="px-6 py-3">
                 Plan
               </th>
               <th scope="col" className="px-6 py-3">
-                Contact Number
-              </th>
-              <th scope="col" className="px-6 py-3">
                 Remarks
               </th>
-              <th scope="col" className="px-6 py-3">
-                Account Type
-              </th>
-
               <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
               </th>
+              
+
             </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -185,6 +172,9 @@ const BookingTable = ({
                         <td className="px-6 py-2 whitespace-nowrap">
                           {booking?.guestName || ""}
                         </td>
+                        <td className="px-6 py-4">
+                          {booking.contactNumber || ""}
+                        </td>
                         <td className="px-6 py-2 text-center ">
                           <p className="font-semibold whitespace-nowrap">
                             {new Date(booking?.checkInDate).toDateString()}
@@ -194,8 +184,14 @@ const BookingTable = ({
                             {new Date(booking?.checkOutDate).toDateString()}
                           </p>
                         </td>
+                        <td className="px-6 py-4">
+                          {booking.numberOfRooms || ""}
+                        </td>
                         <td className="px-6 py-2">
                           {booking?.numberOfPersons || ""}
+                        </td>
+                        <td className="px-6 py-4">
+                          {booking.roomCategory || ""}
                         </td>
                         <td className="px-6 py-2">
                           {booking?.bookingAmount || ""}
@@ -203,44 +199,31 @@ const BookingTable = ({
                         <td className="px-6 py-2">
                           {booking?.advanceAmount || ""}
                         </td>
-                        <td className="px-6 py-2">
-                          {booking?.bookingSource || ""}
-                        </td>
-                        <td className="px-6 py-2">
-                          {booking?.status || "Created"}
-                        </td>
-
-                        <td className="px-6 py-4">
-                          {booking.roomCategory || ""}
-                        </td>
-                        <td className="px-6 py-4">
-                          {booking.numberOfRooms || ""}
-                        </td>
-                        <td className="px-6 py-4">
-                          {booking.numberOfPersons || ""}
-                        </td>
-                        <td className="px-6 py-4">
-                          {booking.bookingAmount || ""}
-                        </td>
-                        <td className="px-6 py-4">
-                          {booking.advanceAmount || ""}
-                        </td>
                         <td className="px-6 py-4">{booking.dueAmount || ""}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {new Date(booking?.advanceDate).toDateString() || ""}
                         </td>
                         <td className="px-6 py-4">
+                          {booking.accountType || ""}
+                        </td>
+                        <td className="px-6 py-4">
                           {booking.bookingSource || ""}
                         </td>
                         <td className="px-6 py-4">{booking.bookingBy || ""}</td>
+                        
+                        <td className="px-6 py-2">
+                          {booking?.status || "Created"}
+                        </td>
+
+                        
+                        
+                       
+                       
+                        
+                        
                         <td className="px-6 py-4">{booking.plan || ""}</td>
-                        <td className="px-6 py-4">
-                          {booking.contactNumber || ""}
-                        </td>
                         <td className="px-6 py-4">{booking.remarks || ""}</td>
-                        <td className="px-6 py-4">
-                          {booking.accountType || ""}
-                        </td>
+                       
                         <td className="px-6 py-2">
                           <div className="flex justify-center items-center">
                             <button
