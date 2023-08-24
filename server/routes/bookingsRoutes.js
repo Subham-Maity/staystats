@@ -8,5 +8,6 @@ router.get('/booking/get-all-bookings/search', bookingController.getAllBookingsB
 router.post('/booking/create-booking', bookingController.createBooking);
 router.post('/booking/update-booking', bookingController.updateBooking);
 router.post('/booking/cancel-booking', bookingController.cancelBooking);
+router.post('/bookings/download-excel', bookingController.downloadExcel)
 
 module.exports = router;

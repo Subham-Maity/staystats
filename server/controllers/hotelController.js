@@ -24,12 +24,11 @@ const getAllHotels = async (req, res) => {
   try {
     console.log("[getAllHotels] controller: =====>");
 
-    
     //scripts to change db
     // async function updateSerialNumbers() {
     //   try {
     //     const hotels = await Hotel.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
-    
+
     //     // Update serial numbers
     //     for (let i = 0; i < hotels.length; i++) {
     //       const hotel = hotels[i];
@@ -39,7 +38,7 @@ const getAllHotels = async (req, res) => {
 
     //       await hotel.save();
     //     }
-    
+
     //     console.log('Serial numbers updated successfully.');
     //   } catch (error) {
     //     console.error('Error updating serial numbers:', error);
@@ -47,18 +46,18 @@ const getAllHotels = async (req, res) => {
     // }
     // await updateSerialNumbers();
 
-
     // Extract filters from req.query
-    let { page, limit, sortBy, sortOrder, location, addedByMe, filterBy } = req.query;
-    page = parseInt(page) ?? 1;
-    limit = parseInt(limit) ?? 10;
+    let { page, limit, sortBy, sortOrder, location, addedByMe, filterBy } =
+      req.query;
+    let query_page = parseInt(page) ?? 1;
+    let query_limit = parseInt(limit) ?? 10;
 
-    let skipIndex = (page - 1) * limit;
+    let skipIndex = (query_page - 1) * query_limit;
+    let hotels;
 
     // Build the filter object based on the received query parameters
     const filter = {};
-    if(filterBy) {
-      
+    if (filterBy) {
     }
 
     if (location) {
@@ -76,11 +75,17 @@ const getAllHotels = async (req, res) => {
     }
 
     // Fetch hotels with applied filters and sorting
-    const hotels = await Hotel.find(filter)
-      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
-      .skip(skipIndex)
-      .limit(limit)
-      .populate("addedBy");
+    if (page && limit) {
+      hotels = await Hotel.find(filter)
+        .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+        .skip(skipIndex)
+        .limit(query_limit)
+        .populate("addedBy");
+    } else {
+      hotels = await Hotel.find(filter)
+        .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+        .populate("addedBy");
+    }
     let hotelsCount = await Hotel.countDocuments(filter);
 
     console.timeEnd("get hotels");
@@ -181,7 +186,7 @@ const createHotel = async (req, res) => {
       ifscCode,
       addedBy: req.user._id,
       serialNumber: hotelsCount + 1,
-      roomCategories
+      roomCategories,
     });
     if (!newHotel) {
       res.status(201).json({ message: "Hotel not created", hotel: {} });
@@ -237,7 +242,7 @@ const updateHotel = async (req, res) => {
         accountNumber,
         ifscCode,
       },
-      { new: true }, // This option returns the updated document after the update is applied
+      { new: true } // This option returns the updated document after the update is applied
     );
 
     if (!updatedHotel) {
@@ -269,7 +274,7 @@ const deleteHotel = async (req, res) => {
         {
           $pull: { hotel: id },
         },
-        { new: true },
+        { new: true }
       );
       console.log("updated user: ", updatedUser);
       if (updatedUser) {

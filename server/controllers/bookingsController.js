@@ -24,14 +24,11 @@ const getBooking = async (req, res) => {
 
 const getAllBookings = async (req, res) => {
   try {
-
-
-    
     //scripts to change db
     // async function updateSerialNumbers() {
     //   try {
     //     const bookings = await Booking.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
-    
+
     //     // Update serial numbers
     //     for (let i = 0; i < bookings.length; i++) {
     //       const booking = bookings[i];
@@ -40,7 +37,7 @@ const getAllBookings = async (req, res) => {
     //       booking.advanceAmount = booking.bookingAmount;
     //       await booking.save();
     //     }
-    
+
     //     console.log('Serial numbers updated successfully.');
     //   } catch (error) {
     //     console.error('Error updating serial numbers:', error);
@@ -48,15 +45,29 @@ const getAllBookings = async (req, res) => {
     // }
     // await updateSerialNumbers();
 
-
-    let { page, limit, sortBy, sortOrder, location, addedByMe, addedBy, filterBy, bookingSource, serialNumber, guestName, hotelName, status } = req.query;
+    let {
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+      location,
+      addedByMe,
+      addedBy,
+      filterBy,
+      bookingSource,
+      serialNumber,
+      guestName,
+      hotelName,
+      status,
+    } = req.query;
     let { startDate, endDate } = req.body;
     // console.log("req.body: ", req.body);
     // console.log("req.query: ", req.query);
-    page = parseInt(page) ?? 1;
-    limit = parseInt(limit) ?? 10;
+    let query_page = parseInt(page) ?? 1;
+    let query_limit = parseInt(limit) ?? 10;
 
-    let skipIndex = (page - 1) * limit;
+    let skipIndex = (query_page - 1) * query_limit;
+    let bookings;
 
     console.log("[get all bookings controller: =>]");
     console.time("get bookings");
@@ -67,48 +78,87 @@ const getAllBookings = async (req, res) => {
     if (req.user.role === "SUBADMIN") {
       filter.addedBy = req.user._id;
     }
-    
 
     if (filterBy && startDate && endDate) {
-      if (filterBy === 'checkInDate') {
-        filter.checkInDate = { $gte: new Date(startDate), $lte: new Date(endDate) };
-      } else if (filterBy === 'checkOutDate') {
-        filter.checkOutDate = { $gte: new Date(startDate), $lte: new Date(endDate) };
-      } else if (filterBy === 'createdAt') {
-        filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
-      } 
-      else if (filterBy === 'updatedAt') {
-        filter.updatedAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+      if (filterBy === "checkInDate") {
+        filter.checkInDate = {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        };
+      } else if (filterBy === "checkOutDate") {
+        filter.checkOutDate = {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        };
+      } else if (filterBy === "createdAt") {
+        filter.createdAt = {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        };
+      } else if (filterBy === "updatedAt") {
+        filter.updatedAt = {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        };
       }
     }
-    if(bookingSource !== 'undefined' && bookingSource !== 'null' && bookingSource !== '' && bookingSource !== "--select--") {
+    if (
+      bookingSource !== "undefined" &&
+      bookingSource !== "null" &&
+      bookingSource !== "" &&
+      bookingSource !== "--select--"
+    ) {
       filter.bookingSource = bookingSource;
     }
-    if(serialNumber !== 'undefined' && serialNumber !== 'null' && serialNumber !== '' ) {
+    if (
+      serialNumber !== "undefined" &&
+      serialNumber !== "null" &&
+      serialNumber !== ""
+    ) {
       filter.serialNumber = serialNumber;
     }
-    if(guestName !== 'undefined' && guestName !== 'null' && guestName !== '' ) {
+    if (guestName !== "undefined" && guestName !== "null" && guestName !== "") {
       filter.guestName = guestName.toUpperCase();
     }
-    if(hotelName !== 'undefined' && hotelName !== 'null' && hotelName !== '' && hotelName !== "--select--") {
+    if (
+      hotelName !== "undefined" &&
+      hotelName !== "null" &&
+      hotelName !== "" &&
+      hotelName !== "--select--"
+    ) {
       filter.hotel = hotelName;
     }
-    if(addedBy !== 'undefined' && addedBy !== 'null' && addedBy !== '' && addedBy !== "--select--") {
+    if (
+      addedBy !== "undefined" &&
+      addedBy !== "null" &&
+      addedBy !== "" &&
+      addedBy !== "--select--"
+    ) {
       filter.addedBy = addedBy;
     }
-    if(status !== 'undefined' && status !== 'null' && status !== '' && status !== "--select--") {
+    if (
+      status !== "undefined" &&
+      status !== "null" &&
+      status !== "" &&
+      status !== "--select--"
+    ) {
       filter.status = status;
     }
 
     console.log("filter: ", filter);
 
     // Fetch all bookings
-    const bookings = await Booking.find(filter)
-      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
-      .skip(skipIndex)
-      .limit(limit)
-      .populate({ path: "hotel", model: Hotel });
-
+    if (page && limit) {
+      bookings = await Booking.find(filter)
+        .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+        .skip(skipIndex)
+        .limit(query_limit)
+        .populate({ path: "hotel", model: Hotel });
+    } else {
+      bookings = await Booking.find(filter)
+        .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+        .populate({ path: "hotel", model: Hotel });
+    }
 
     let bookingsCount = await Booking.countDocuments(filter);
     console.log("bookingsCount: ", bookingsCount);
@@ -116,13 +166,11 @@ const getAllBookings = async (req, res) => {
     console.timeEnd("get bookings");
 
     if (!bookings || bookings.length === 0) {
-      res
-        .status(200)
-        .json({
-          message: "No bookings found",
-          bookings: [],
-          bookingsCount: bookingsCount ?? 0,
-        });
+      res.status(200).json({
+        message: "No bookings found",
+        bookings: [],
+        bookingsCount: bookingsCount ?? 0,
+      });
       return;
     } else {
       res.status(200).json({ bookings, bookingsCount: bookingsCount ?? 0 });
@@ -142,54 +190,53 @@ function escapeRegex(text) {
 
 const getAllBookingsBySearch = async (req, res) => {
   const { query } = req.query;
-  console.log("[get all bookings by search controller: =>]")
+  console.log("[get all bookings by search controller: =>]");
   console.log(req.query);
   try {
-
     let filter = {};
 
     if (req.user.role === "SUBADMIN") {
       filter.addedBy = req.user._id;
     }
 
-
     const regex = new RegExp(escapeRegex(query), "gi");
 
     const bookings = await Booking.find(filter)
-    .or([
-      { guestName: regex }, // Search for bookings with guentName matching the provided regex
-      {
-        hotel: {
-          $in: await Hotel.find({
-            $or: [
-              { hotelName: regex }, // Search for hotels with hotelName matching the provided regex
-              { location: regex },  // Search for hotels with location matching the provided regex
-            ]
-          }).distinct('_id')
-        }
-      }
-    ])
-    .populate({
-      path: "hotel",
-      model: Hotel,
-    });
-    
-  
+      .or([
+        { guestName: regex }, // Search for bookings with guentName matching the provided regex
+        {
+          hotel: {
+            $in: await Hotel.find({
+              $or: [
+                { hotelName: regex }, // Search for hotels with hotelName matching the provided regex
+                { location: regex }, // Search for hotels with location matching the provided regex
+              ],
+            }).distinct("_id"),
+          },
+        },
+      ])
+      .populate({
+        path: "hotel",
+        model: Hotel,
+      });
 
-  if (bookings.length > 0) {
-    console.log(bookings);
-    res.status(200).json({ bookings, message: "Bookings fetched successfully" });
-  } else {
-    console.log("No result found for this search");
-    res.status(200).json({ bookings, message: "No result found for this search" });
-  }
+    if (bookings.length > 0) {
+      console.log(bookings);
+      res
+        .status(200)
+        .json({ bookings, message: "Bookings fetched successfully" });
+    } else {
+      console.log("No result found for this search");
+      res
+        .status(200)
+        .json({ bookings, message: "No result found for this search" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
     throw new Error(error);
   }
 };
-
 
 const createBooking = async (req, res) => {
   const {
@@ -240,13 +287,14 @@ const createBooking = async (req, res) => {
     }
 
     const populatedBooking = await Booking.findById(newBooking._id).populate({
-      path: "hotel", model: Hotel
-    })
+      path: "hotel",
+      model: Hotel,
+    });
 
-
-    res
-      .status(200)
-      .json({ message: "Booking created successfully", booking: populatedBooking });
+    res.status(200).json({
+      message: "Booking created successfully",
+      booking: populatedBooking,
+    });
   } catch (error) {
     console.log("Error: ", error);
     res.status(500).json({ error: error.message });
@@ -271,7 +319,7 @@ const updateBooking = async (req, res) => {
     plan,
     contactNumber,
     remarks,
-    status
+    status,
   } = req.body;
   try {
     console.log("[update bookings controller]");
@@ -294,7 +342,7 @@ const updateBooking = async (req, res) => {
         plan,
         contactNumber,
         remarks,
-        status
+        status,
       },
       { new: true } // This option returns the updated document after the update is applied
     );
@@ -303,13 +351,17 @@ const updateBooking = async (req, res) => {
       return res.status(201).json({ error: "Booking not found" });
     }
 
-    const populatedBooking = await Booking.findById(updatedBooking._id).populate({
-      path: "hotel", model: Hotel
-    })
+    const populatedBooking = await Booking.findById(
+      updatedBooking._id
+    ).populate({
+      path: "hotel",
+      model: Hotel,
+    });
 
-    res
-      .status(200)
-      .json({ message: "Booking updated successfully", user: populatedBooking });
+    res.status(200).json({
+      message: "Booking updated successfully",
+      user: populatedBooking,
+    });
   } catch (error) {
     console.log("[booking controller update error:]", error);
     res.status(201).json({ error: error.message });
@@ -317,12 +369,12 @@ const updateBooking = async (req, res) => {
 };
 
 const cancelBooking = async (req, res) => {
-  const {bookingId,status} = req.body;
+  const { bookingId, status } = req.body;
   try {
     const updatedBooking = await Booking.findByIdAndUpdate(
       bookingId,
       {
-        status
+        status,
       },
       { new: true } // This option returns the updated document after the update is applied
     );
@@ -331,15 +383,17 @@ const cancelBooking = async (req, res) => {
       return res.status(201).json({ error: "Booking not found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Booking cancelled successfully", booking: updatedBooking });
+    res.status(200).json({
+      message: "Booking cancelled successfully",
+      booking: updatedBooking,
+    });
   } catch (error) {
     console.log("[user controller update error:]", error);
     res.status(201).json({ error: error.message });
-    
   }
 };
+
+const downloadExcel = async (req, res) => {};
 
 module.exports = {
   getBooking,
@@ -348,4 +402,5 @@ module.exports = {
   createBooking,
   updateBooking,
   cancelBooking,
+  downloadExcel,
 };

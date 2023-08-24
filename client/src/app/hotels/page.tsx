@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import InputHotel from "@/components/card/InputHotel";
 import ViewHotel from "@/components/card/ViewHotel";
 import axios from "@/utils/axios";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTimes } from "react-icons/fa";
 import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
 import {
@@ -15,9 +15,11 @@ import {
   MdArchive,
   MdClose,
 } from "react-icons/md";
+import { SiMicrosoftexcel } from "react-icons/si";
 import { BiLink, BiSearch } from "react-icons/bi";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
+import { utils, writeFile } from "xlsx";
 
 const Hotels = () => {
   const router = useRouter();
@@ -33,21 +35,22 @@ const Hotels = () => {
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
+  const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
+  const [downloading, setDownloading] = useState<boolean>(false);
 
   useEffect(() => {
-    if(showModal || showViewModal){
+    if (showModal || showViewModal) {
       document.body.style.overflow = "hidden";
-    }else{
+    } else {
       document.body.style.overflow = "unset";
     }
-
-  },[showViewModal,showModal])
+  }, [showViewModal, showModal]);
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
-      if(user.role !== "ADMIN"){
-        window.location.href = "/bookings"
+      if (user.role !== "ADMIN") {
+        window.location.href = "/bookings";
       }
       if (user && user._id) {
         setUser(user);
@@ -61,7 +64,6 @@ const Hotels = () => {
     };
     updateUser();
   }, []);
-
 
   const getHotelsBySearch = async (e?: any) => {
     e && e.preventDefault();
@@ -87,7 +89,9 @@ const Hotels = () => {
     const getHotels = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.post(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`);
+        const { data } = await axios.post(
+          `/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`
+        );
         // console.log(data);
         if (!data.error) {
           setHotelData(data.hotels);
@@ -112,10 +116,13 @@ const Hotels = () => {
       });
       if (!data.error) {
         toast.success(data.message);
-        const { data: hotel } =  await axios.post(`/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`, {
-          startDateFilter: "",
-          endDateFilter: "",
-        });
+        const { data: hotel } = await axios.post(
+          `/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`,
+          {
+            startDateFilter: "",
+            endDateFilter: "",
+          }
+        );
         if (!data.error) {
           setHotelData(hotel.hotels);
           setHotelsCount(data.hotelsCount);
@@ -131,18 +138,79 @@ const Hotels = () => {
     }
   };
 
+  const handleDownload = async () => {
+    const getHotelsForDownload = async () => {
+      try {
+        const { data } = await axios.post(`/hotel/get-all-hotels`);
+        // console.log(data);
+        if (!data.error) {
+          return data.hotels;
+        } else {
+          toast.error(data.error);
+        }
+      } catch (error: any) {
+        toast.error(error.message);
+        console.log(error);
+      }
+    };
+    let hotelDataForDownload = await getHotelsForDownload();
+    let hotelDataForExcel = hotelDataForDownload.map((hotel: any) => {
+      return {
+        "Serial Number": hotel?.serialNumber,
+        "Hotel Name": hotel?.hotelName,
+        Location: hotel?.location,
+        "Owner Name": hotel?.ownerName,
+        "Owner Phone No.": hotel?.ownerContact.phone,
+        "Owner Email": hotel?.ownerContact.email,
+        "Office Contact": hotel?.frontOfficeContact,
+        "Bank Name": hotel?.bank,
+        "Bank Account Number": hotel?.accountNumber,
+        "Bank IFSC Code": hotel?.ifscCode,
+        "GST Number": hotel?.GSTNumber,
+        "PAN Number": hotel?.panNumber,
+        "Aadhar Number": hotel?.aadharNumber,
+        "Trade License Number": hotel?.tradeLicense,
+        "Room Categories": hotel?.roomCategories
+          ?.map((room: any) => room)
+          .join(", "),
+        "Other Documents": hotel?.otherDocuments,
+        "Added By": hotel?.addedBy?.name ?? hotel?.addedBy?.username,
+        Status: hotel?.isActive ? "active" : "inactive",
+      };
+    });
+
+    const worksheet = utils.json_to_sheet(hotelDataForExcel);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Data");
+    writeFile(
+      workbook,
+      `Hotels-${user?.name || user?.username}-${new Date().toDateString()}.xlsx`
+    );
+  };
+
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center">
       <div className="flex w-full justify-between mt-6">
         <h1 className="text-2xl font-bold">Hotel Details</h1>
-        <button
-          onClick={() => setShowModal(true)}
-          type="submit"
-          className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          <FaPlus size={20} />
-          <p>Add Hotel</p>
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setShowDownloadPopUp(true);
+            }}
+            className="flex gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
+          >
+            <SiMicrosoftexcel size={20} />
+            <p>Download Excel</p>
+          </button>
+          <button
+            onClick={() => setShowModal(true)}
+            type="submit"
+            className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            <FaPlus size={20} />
+            <p>Add Hotel</p>
+          </button>
+        </div>
       </div>
       <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
@@ -179,9 +247,9 @@ const Hotels = () => {
           {/* </div> */}
         </div>
         <form
-          onSubmit={(e)=>{
-            e.preventDefault()
-            getHotelsBySearch(e)
+          onSubmit={(e) => {
+            e.preventDefault();
+            getHotelsBySearch(e);
           }}
           className="w-full h-full text-xs mt-2 md:mt-0"
         >
@@ -196,23 +264,23 @@ const Hotels = () => {
             />
             <button
               className="min-w-[40px] flex justify-center items-center bg-blue-700 text-white cursor-pointer hover:opacity-90"
-              onClick={(e)=>{
-                e.preventDefault()
-                getHotelsBySearch(e)
+              onClick={(e) => {
+                e.preventDefault();
+                getHotelsBySearch(e);
               }}
             >
               <BiSearch className="text-xl" />
             </button>
             <div className="min-w-[40px] flex items-center justify-center">
-            <CiSquareRemove
-              size={40}
-              className=" text-red-500 cursor-pointer"
-              onClick={() => {
-                setSearchText("");
-                setReloadData(!reloadData);
-              }}
-            />
-          </div>
+              <CiSquareRemove
+                size={40}
+                className=" text-red-500 cursor-pointer"
+                onClick={() => {
+                  setSearchText("");
+                  setReloadData(!reloadData);
+                }}
+              />
+            </div>
           </div>
         </form>
       </div>
@@ -249,29 +317,72 @@ const Hotels = () => {
         </div>
       )}
       <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">
-          <div>
-            <button
-              onClick={() => setPage(page - 1)}
-              disabled={page === 1}
-              className="mr-2 py-2 px-4 border rounded-md text-sm font-medium border-gray-300 text-gray-500 cursor-pointer hover:opacity-90 disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <button
-              disabled={page * PAGE_LIMIT >= hotelsCount}
-              onClick={() => setPage(page + 1)}
-              className="py-2 px-4 border rounded-md text-sm font-medium border-gray-300 text-gray-500 cursor-pointer hover:opacity-90 disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-          <div className="text-gray-500 text-sm">
-            {" "}
-            <div>{`Page ${page} of ${Math.ceil(
-              hotelsCount / PAGE_LIMIT
-            )}`}</div>
+        <div>
+          <button
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+            className="mr-2 py-2 px-4 border rounded-md text-sm font-medium border-gray-300 text-gray-500 cursor-pointer hover:opacity-90 disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <button
+            disabled={page * PAGE_LIMIT >= hotelsCount}
+            onClick={() => setPage(page + 1)}
+            className="py-2 px-4 border rounded-md text-sm font-medium border-gray-300 text-gray-500 cursor-pointer hover:opacity-90 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+        <div className="text-gray-500 text-sm">
+          {" "}
+          <div>{`Page ${page} of ${Math.ceil(hotelsCount / PAGE_LIMIT)}`}</div>
+        </div>
+      </div>
+      {showDownloadPopUp && (
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">
+                Downlod data in a Excel file
+              </h1>
+              <button
+                disabled={downloading}
+                onClick={() => setShowDownloadPopUp(false)}
+                className="text-red-500 text-lg disabled:opacity-50"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to download?
+            </p>
+            <span className="text-sm text-gray-500 mt-2">
+              This might take some time!
+            </span>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowDownloadPopUp(false)}
+                className="text-sm text-white rounded-md bg-gray-500 mr-4 p-2 disabled:opacity-50"
+                disabled={downloading}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  setDownloading(true);
+                  await handleDownload();
+                  setDownloading(false);
+                  setShowDownloadPopUp(false);
+                }}
+                className="text-sm text-white font-semibold rounded-md bg-indigo-500 p-2 disabled:opacity-50"
+                disabled={downloading}
+              >
+                {downloading ? "Downloading" : "Download"}
+              </button>
+            </div>
           </div>
         </div>
+      )}
     </div>
   );
 };
