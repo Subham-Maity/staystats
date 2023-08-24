@@ -7,5 +7,6 @@ router.get('/user/get-users/search', userController.getUsersBySearch);
 router.post('/user/create-user',userController.createUser);
 router.post('/user/update-user', userController.updateUser);
 router.post('/user/delete-user', userController.deleteUser);
+router.post('/user/update-user-status', userController.activateDeactiveUser);
 
 module.exports = router;

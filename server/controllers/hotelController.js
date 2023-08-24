@@ -199,6 +199,25 @@ const createHotel = async (req, res) => {
   }
 };
 
+const updateHotelStatus = async (req, res) => {
+  const { id } = req.body;
+  try {
+    console.log("[updateuser controller]");
+    const updatedHotel = await Hotel.findById(id);
+    if (!updatedHotel) {
+      return res.status(404).json({ error: "Hotel not found" });
+    }
+    updatedHotel.isActive = !updatedHotel.isActive;
+    await updatedHotel.save();
+    res
+      .status(200)
+      .json({ message: "Hotel updated successfully", hotel: updatedHotel });
+  } catch (error) {
+    console.log("[user controller update error:]", error);
+    res.status(201).json({ error: error.message });
+  }
+};
+
 const updateHotel = async (req, res) => {
   const {
     id,
@@ -290,4 +309,5 @@ module.exports = {
   createHotel,
   updateHotel,
   deleteHotel,
+  updateHotelStatus,
 };

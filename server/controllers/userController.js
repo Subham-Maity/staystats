@@ -219,6 +219,30 @@ const createUser = async (req, res) => {
   }
 };
 
+const activateDeactiveUser = async (req, res) => {
+  try { 
+    const { id } = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      res.status(200).json({ error: "No user found" });
+      return;
+    } else {
+      if(user.isActive){
+        user.isActive = false;
+      }else{
+        user.isActive = true;
+      }
+      await user.save();
+      res.status(200).json({ message: "User updated successfully" });
+      return;
+    }
+  } catch (error) {
+    console.log("[user controller activation error:]", error);
+    res.status(201).json({ error: error.message });
+  }
+};
+
+
 const updateUser = async (req, res) => {
   const { id, phoneNumber, hotel, username, name, email, password } = req.body;
   try {
@@ -276,4 +300,5 @@ module.exports = {
   updateUser,
   deleteUser,
   sendEmail,
+  activateDeactiveUser
 };

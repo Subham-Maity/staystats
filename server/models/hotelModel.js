@@ -26,6 +26,10 @@ const hotelSchema = new mongoose.Schema(
         
       },
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     GSTNumber: {
       type: String,
       required: true,

@@ -7,5 +7,6 @@ router.get('/hotel/get-all-hotels/search' ,hotelController.getAllHotelsBySearch)
 router.post('/hotel/create-hotel',hotelController.createHotel);
 router.post('/hotel/update-hotel', hotelController.updateHotel);
 router.post('/hotel/delete-hotel', hotelController.deleteHotel);
+router.post('/hotel/update-hotel-status', hotelController.updateHotelStatus);
 
 module.exports = router;

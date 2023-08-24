@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
       default: "USER",
       required: true,
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     addedBy: {type: Schema.Types.ObjectId, ref: "User"},
     hotel: [{ type: Schema.Types.ObjectId, ref: "Hotel" }],
     
