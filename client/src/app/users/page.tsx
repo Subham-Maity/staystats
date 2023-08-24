@@ -7,12 +7,14 @@ import InputEmp from "@/components/card/InputEmp";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "@/utils/axios";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTimes } from "react-icons/fa";
 import { fetchOwner } from "@/utils";
 import ViewUser from "@/components/card/ViewUsers";
 import { BiLink, BiSearch } from "react-icons/bi";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
+import { SiMicrosoftexcel } from "react-icons/si";
+import { utils, writeFile } from "xlsx";
 
 const Users = () => {
   let router = useRouter();
@@ -28,25 +30,24 @@ const Users = () => {
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
-
+  const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
+  const [downloading, setDownloading] = useState<boolean>(false);
 
   useEffect(() => {
-    if(showModal || showViewModal){
+    if (showModal || showViewModal) {
       document.body.style.overflow = "hidden";
-    }else{
+    } else {
       document.body.style.overflow = "unset";
     }
+  }, [showViewModal, showModal]);
 
-  },[showViewModal,showModal])
-
-  
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
 
-      if(user.role !== "ADMIN"){
-        window.location.href = "/bookings"
+      if (user.role !== "ADMIN") {
+        window.location.href = "/bookings";
       }
       if (user && user._id) {
         setOwner(user);
@@ -60,7 +61,6 @@ const Users = () => {
     };
     updateUser();
   }, []);
-
 
   const getUsersBySearch = async (e?: any) => {
     e && e.preventDefault();
@@ -132,19 +132,73 @@ const Users = () => {
     }
   };
 
+  const handleDownload = async() => {
+    const getUsersForDownload = async () => {
+      try {
+        const { data } = await axios.get(
+          `/user/get-users`
+        );
+        // console.log(data);
+        if (!data.error) {
+          return data.users;
+        } else {
+          toast.error(data.error);
+          return
+        }
+      } catch (error: any) {
+        toast.error(error.message);
+        console.log(error);
+      }
+    };
+    let userDataForDownload = await getUsersForDownload();
+    let userDataForExcel = userDataForDownload.map((user: any) => {
+      return {
+        "Serial Number": user?.serialNumber,
+        Name: user?.name,
+        Username: user?.username,
+        Email: user?.email,
+        "Phone Number": user?.phoneNumber,
+        Role: user?.role,
+        Hotels: user?.hotel?.map((hotel: any) => hotel?.hotelName).join(", "),
+        Status: user?.isActive ? 'active' : 'inactive',
+      };
+    });
+
+    const worksheet = utils.json_to_sheet(userDataForExcel);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Data");
+    writeFile(
+      workbook,
+      `Users-${
+        owner?.name || owner?.username
+      }-${new Date().toDateString()}.xlsx`
+    );
+  };
+
   return (
     <>
       <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
         <div className="flex w-full justify-between mt-6">
           <h1 className="text-2xl font-bold">User Details</h1>
-          <button
-            onClick={() => setShowModal(true)}
-            type="submit"
-            className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            <FaPlus size={20} />
-            <p>Add User</p>
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                setShowDownloadPopUp(true);
+              }}
+              className="flex gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
+            >
+              <SiMicrosoftexcel size={20} />
+              <p>Download Excel</p>
+            </button>
+            <button
+              onClick={() => setShowModal(true)}
+              type="submit"
+              className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              <FaPlus size={20} />
+              <p>Add User</p>
+            </button>
+          </div>
         </div>
         <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
           <div className="h-full flex flex-row  items-center mr-auto">
@@ -214,16 +268,16 @@ const Users = () => {
               >
                 <BiSearch className="text-xl" />
               </button>
-          <div className="min-w-[40px] flex items-center justify-center">
-            <CiSquareRemove
-              size={40}
-              className=" text-red-500 cursor-pointer"
-              onClick={() => {
-                setSearchText("");
-                setReloadData(!reloadData);
-              }}
-            />
-          </div>
+              <div className="min-w-[40px] flex items-center justify-center">
+                <CiSquareRemove
+                  size={40}
+                  className=" text-red-500 cursor-pointer"
+                  onClick={() => {
+                    setSearchText("");
+                    setReloadData(!reloadData);
+                  }}
+                />
+              </div>
             </div>
           </form>
         </div>
@@ -281,6 +335,51 @@ const Users = () => {
           <div>{`Page ${page} of ${Math.ceil(usersCount / PAGE_LIMIT)}`}</div>
         </div>
       </div>
+      {showDownloadPopUp && (
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">
+                Downlod data in a Excel file
+              </h1>
+              <button
+                disabled={downloading}
+                onClick={() => setShowDownloadPopUp(false)}
+                className="text-red-500 text-lg disabled:opacity-50"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to download?
+            </p>
+            <span className="text-sm text-gray-500 mt-2">
+              This might take some time!
+            </span>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowDownloadPopUp(false)}
+                className="text-sm text-white rounded-md bg-gray-500 mr-4 p-2 disabled:opacity-50"
+                disabled={downloading}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async() => {
+                  setDownloading(true);
+                  await handleDownload();
+                  setDownloading(false);
+                  setShowDownloadPopUp(false);
+                }}
+                className="text-sm text-white font-semibold rounded-md bg-indigo-500 p-2 disabled:opacity-50"
+                disabled={downloading}
+              >
+                {downloading ? "Downloading" : "Download"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

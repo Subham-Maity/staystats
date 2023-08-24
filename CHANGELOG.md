@@ -56,3 +56,9 @@
 | Arian |
 
 ---
+
+###### 2023-08-24
+- Added excel download functionality for bookings - hotels - users
+| Arian |
+
+---

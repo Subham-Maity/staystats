@@ -103,15 +103,22 @@ const getUsers = async (req, res) => {
     // await updateSerialNumbers();
 
     let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
-    page = parseInt(page) ?? 1;
-    limit = parseInt(limit) ?? 10;
+    let query_page = parseInt(page) ?? 1;
+    let query_limit = parseInt(limit) ?? 10;
 
-    let skipIndex = (page - 1) * limit;
-    const users = await User.find({ role: "SUBADMIN" })
+    let skipIndex = (query_page - 1) * query_limit;
+    let users;
+    if(page && limit){
+      users = await User.find({ role: "SUBADMIN" })
       .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
       .skip(skipIndex)
-      .limit(limit)
+      .limit(query_limit)
       .populate({ path: "hotel", model: Hotel });
+    }else{
+      users = await User.find({ role: "SUBADMIN" })
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+      .populate({ path: "hotel", model: Hotel });
+    }
 
     let usersCount = await User.countDocuments({ role: "SUBADMIN" });
 
