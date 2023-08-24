@@ -12,7 +12,7 @@ import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { BiError } from "react-icons/bi";
 import { useSearchParams, useRouter } from "next/navigation";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import { BASE_URL } from "@/constants/constant";
+import { BASE_URL, FRONTEND_URL } from "@/constants/constant";
 const AnimatedImage = motion(Image);
 
 const LoginForm = () => {
@@ -38,18 +38,18 @@ const LoginForm = () => {
       toast.error("Username and Password cannot be empty");
       return;
     }
-    if (
-      !validator.isStrongPassword(password, {
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-      })
-    ) {
-      toast.error("Password is not strong enough");
-      return;
-    }
+    // if (
+    //   !validator.isStrongPassword(password, {
+    //     minLength: 8,
+    //     minLowercase: 1,
+    //     minUppercase: 1,
+    //     minNumbers: 1,
+    //     minSymbols: 1,
+    //   })
+    // ) {
+    //   toast.error("Password is not strong enough");
+    //   return;
+    // }
     let url = isSignUpPage ? `/api/signup` : `/api/login`;
 
     try {
@@ -67,7 +67,7 @@ const LoginForm = () => {
         // @ts-ignore
         toast.success(`Welcome ${response.user.username}`);
         setTimeout(() => {
-          if(username.role !== "ADMIN"){
+          if (username.role !== "ADMIN") {
             window.location.href = `/bookings`;
           }
         }, 800);
@@ -124,9 +124,7 @@ const LoginForm = () => {
           <div className="w-full px-2 lg:border-l-2 border-gray-200 sm:px-6 py-7 flex flex-col bg-white">
             <div className="pb-8 w-full h-full flex flex-col justify-end items-start  text-black">
               <h2 className="text-2xl capitalize mb-2 font-medium">
-                <span className="text-indigo-500 font-semibold">
-                  Sayngo
-                </span>{" "}
+                <span className="text-indigo-500 font-semibold">Sayngo</span>{" "}
                 {/* do we know you ? */}
               </h2>
               <p className="text-sm">
@@ -187,13 +185,18 @@ const LoginForm = () => {
                     Remember me
                   </span>
                 </div>
-                {/* {!isSignUpPage && (
-                  <p className="text-sm text-gray-500 mt-2">
-                    <span className="text-indigo-500 cursor-pointer">
+                {!isSignUpPage && (
+                  <p
+                    className="text-sm text-gray-500 mt-2"
+                    onClick={() => {
+                      window.open(`${FRONTEND_URL}/forgot-password`, "_blank");
+                    }}
+                  >
+                    <span className="text-indigo-500 cursor-pointer hover:underline ">
                       Forgot Password?
                     </span>
                   </p>
-                )} */}
+                )}
               </div>
 
               <div className="flex flex-row items-center">
@@ -202,7 +205,7 @@ const LoginForm = () => {
                   disabled={loading}
                   className="w-full p-2 rounded-md bg-indigo-500 text-white focus:outline-none hover:opacity-90 disabled:opacity-60"
                 >
-                  {loading && <LoadingSpinner />}
+                  {loading && <LoadingSpinner color="#ffff" />}
                   {!loading && (isSignUpPage ? "Sign Up" : "Login")}
                 </button>
               </div>

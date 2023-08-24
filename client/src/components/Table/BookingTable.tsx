@@ -14,7 +14,7 @@ interface TableProps {
     checkInDate?: string;
     checkOutDate?: string;
     roomCategory?: string;
-    numberOfRoom?: string;
+    numberOfRooms?: string;
     numberOfPersons?: string;
     bookingAmount?: string;
     advanceAmount?: string;
@@ -26,6 +26,7 @@ interface TableProps {
     contactNumber?: string;
     remarks?: string;
     status?: string;
+    accountType?: string;
   }[];
   setBookingData: any;
   getBooking: (booking: object) => void;
@@ -51,14 +52,12 @@ const BookingTable = ({
   const [bookingId, setBookingId] = useState<string>("");
 
   useEffect(() => {
-    if(showEditModal){
+    if (showEditModal) {
       document.body.style.overflow = "hidden";
-    }else{
+    } else {
       document.body.style.overflow = "unset";
     }
-
-  },[showEditModal])
-
+  }, [showEditModal]);
 
   const handleShowDeleteModal = (id: string) => {
     setBookingId(id);
@@ -73,68 +72,66 @@ const BookingTable = ({
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
         <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
           <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-            <tr className="">
+            <tr className=" whitespace-nowrap">
+              <th scope="col" className="px-4 text-center py-3">
+                #
+              </th>
               <th scope="col" className="px-4 text-center py-3">
                 Hotel Name
               </th>
               <th scope="col" className="px-4 text-center py-3">
                 Guest Name
               </th>
+              <th scope="col" className="px-6 py-3">
+                Contact Number
+              </th>
               <th scope="col" className="px-4 text-center py-3">
                 Date
               </th>
-              <th scope="col" className="px-4 text-center py-3">
-                NOP
+              <th scope="col" className="px-6 py-3">
+                Number of Rooms
               </th>
               <th scope="col" className="px-4 text-center py-3">
-                Total amount
+                Number of persons
               </th>
-              <th scope="col" className="px-4 text-center py-3">
-                Advance amount
+              <th scope="col" className="px-6 py-3 text-center">
+                Room Category
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Booking Amount
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Advance Amount
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Due Amount
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Advance Date
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Account Type
               </th>
               <th scope="col" className="px-4 text-center py-3">
                 Booking Source
               </th>
+              <th scope="col" className="px-6 py-3">
+                Booking By
+              </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Status
               </th>
-
+              <th scope="col" className="px-6 py-3">
+                Plan
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Remarks
+              </th>
               <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
               </th>
-              {/*<th scope="col" className="px-6 py-3">
-                        Number of Room
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Number of Person
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Booking Amount
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Advance Amount
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Due Amount
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Advance Date
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Booking Source
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Booking By
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Plan
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Contact Number
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Remarks
-                    </th> */}
+              
+
             </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -164,10 +161,19 @@ const BookingTable = ({
                           scope="row"
                           className="px-6 py-2 font-medium whitespace-nowrap dark:text-white text-center "
                         >
-                          {booking?.hotel?.hotelName || "DELETED HOTEL"}
+                          {booking?.serialNumber}
                         </th>
+                        <td
+                          scope="row"
+                          className="px-6 py-2 font-medium whitespace-nowrap dark:text-white text-center "
+                        >
+                          {booking?.hotel?.hotelName || "DELETED HOTEL"}
+                        </td>
                         <td className="px-6 py-2 whitespace-nowrap">
                           {booking?.guestName || ""}
+                        </td>
+                        <td className="px-6 py-4">
+                          {booking.contactNumber || ""}
                         </td>
                         <td className="px-6 py-2 text-center ">
                           <p className="font-semibold whitespace-nowrap">
@@ -178,8 +184,14 @@ const BookingTable = ({
                             {new Date(booking?.checkOutDate).toDateString()}
                           </p>
                         </td>
+                        <td className="px-6 py-4">
+                          {booking.numberOfRooms || ""}
+                        </td>
                         <td className="px-6 py-2">
                           {booking?.numberOfPersons || ""}
+                        </td>
+                        <td className="px-6 py-4">
+                          {booking.roomCategory || ""}
                         </td>
                         <td className="px-6 py-2">
                           {booking?.bookingAmount || ""}
@@ -187,13 +199,31 @@ const BookingTable = ({
                         <td className="px-6 py-2">
                           {booking?.advanceAmount || ""}
                         </td>
-                        <td className="px-6 py-2">
-                          {booking?.bookingSource || ""}
+                        <td className="px-6 py-4">{booking.dueAmount || ""}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {new Date(booking?.advanceDate).toDateString() || ""}
                         </td>
+                        <td className="px-6 py-4">
+                          {booking.accountType || ""}
+                        </td>
+                        <td className="px-6 py-4">
+                          {booking.bookingSource || ""}
+                        </td>
+                        <td className="px-6 py-4">{booking.bookingBy || ""}</td>
+                        
                         <td className="px-6 py-2">
                           {booking?.status || "Created"}
                         </td>
 
+                        
+                        
+                       
+                       
+                        
+                        
+                        <td className="px-6 py-4">{booking.plan || ""}</td>
+                        <td className="px-6 py-4">{booking.remarks || ""}</td>
+                       
                         <td className="px-6 py-2">
                           <div className="flex justify-center items-center">
                             <button
@@ -209,10 +239,7 @@ const BookingTable = ({
                               <AiOutlineEye className="" />
                             </button>
                             <button
-                              disabled={
-                                
-                                booking?.status === "CANCELLED" 
-                              }
+                              disabled={booking?.status === "CANCELLED"}
                               data-tip={"Preview Link"}
                               onClick={() => {
                                 setShowEditModal(true);
@@ -232,18 +259,6 @@ const BookingTable = ({
                             </button>
                           </div>
                         </td>
-                        {/* <td className="px-6 py-4">{booking.roomCategory || ""}</td>
-                            <td className="px-6 py-4">{booking.numberOfRoom || ""}</td>
-                            <td className="px-6 py-4">{booking.numberOfPerson || ""}</td>
-                            <td className="px-6 py-4">{booking.bookingAmount || ""}</td>
-                            <td className="px-6 py-4">{booking.advanceAmount || ""}</td>
-                            <td className="px-6 py-4">{booking.dueAmount || ""}</td>
-                            <td className="px-6 py-4">{booking.advanceDate || ""}</td>
-                            <td className="px-6 py-4">{booking.bookingSource || ""}</td>
-                            <td className="px-6 py-4">{booking.bookingBy || ""}</td>
-                            <td className="px-6 py-4">{booking.plan || ""}</td>
-                            <td className="px-6 py-4">{booking.contactNumber || ""}</td>
-                            <td className="px-6 py-4">{booking.remarks || ""}</td> */}
                       </tr>
                     );
                   })
@@ -264,26 +279,41 @@ const BookingTable = ({
           />
         </div>
       )}
-      {
-        showDeletePopup && (
-          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-            <div className="w-1/3 bg-white rounded-lg p-6">
-              <div className="flex justify-between items-center">
-                <h1 className="text-lg font-bold">Cancel booking</h1>
-                <button onClick={()=> setShowDeletePopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
-              </div>
-              <p className="text-sm text-gray-500 mt-2">Are you sure you want to cancel this booking?</p>
-              <div className="flex justify-end items-center mt-6">
-                <button onClick={()=> setShowDeletePopUp(false)} className="text-sm text-gray-500 mr-4">No</button>
-                <button onClick={()=> {
-                  cancelBookingHandler(bookingId)
-                  setShowDeletePopUp(false)
-                }} className="text-sm text-red-500">Yes</button>
-              </div>
+      {showDeletePopup && (
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">Cancel booking</h1>
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-red-500 text-lg"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to cancel this booking?
+            </p>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-sm text-gray-500 mr-4"
+              >
+                No
+              </button>
+              <button
+                onClick={() => {
+                  cancelBookingHandler(bookingId);
+                  setShowDeletePopUp(false);
+                }}
+                className="text-sm text-red-500"
+              >
+                Yes
+              </button>
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };

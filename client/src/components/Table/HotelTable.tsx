@@ -10,18 +10,28 @@ import EditHotel from "../card/EditHotel";
 import { InfinitySpin } from "react-loader-spinner";
 interface TableProps {
   hotelData: {
+    serialNumber?: string;
     hotelName?: string;
     ownerName?: string;
     location?: string;
     ownerContact?: {
       email?: string;
+      phone?: string;
     };
+    bank?: string;
+    GSTNumber?: string;
+    panNumber?: string;
+    aadharNumber?: string;
+    tradeLicense?: string;
+
     frontOfficeContact?: string;
-  }[]
+  }[];
   setHotelData: any;
   getHotel: (hotel: object) => void;
   setShowModal: (value: boolean) => void;
   deleteHotelHandler: (id: string) => void;
+  updateStatusHandler: (id: string) => void;
+
   owner?: any;
   loading?: boolean;
 }
@@ -32,28 +42,34 @@ const HotelTable = ({
   getHotel,
   setShowModal,
   deleteHotelHandler,
+  updateStatusHandler,
   owner,
   loading,
 }: TableProps) => {
   const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
   const [editingHotelData, setEditingHotelData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
+  const [showStatusPopup, setShowStatusPopUp] = useState<boolean>(false);
+
   const [hotelId, setHotelId] = useState<string>("");
 
   useEffect(() => {
-    if(showEditHotelModal){
+    if (showEditHotelModal) {
       document.body.style.overflow = "hidden";
-    }else{
+    } else {
       document.body.style.overflow = "unset";
     }
-
-  },[showEditHotelModal])
-
+  }, [showEditHotelModal]);
 
   const handleShowDeleteModal = (id: string) => {
     setHotelId(id);
     setShowDeletePopUp(true);
   };
+
+  const handleShowStatusModal= (id: string) =>{
+    setHotelId(id)
+    setShowStatusPopUp(true)
+  }
 
   return (
     <div className="w-full">
@@ -61,6 +77,9 @@ const HotelTable = ({
         <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
           <thead className="text-sm text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
             <tr>
+              <th scope="col" className="px-6 py-3 text-center">
+                #
+              </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Hotel Name
               </th>
@@ -76,6 +95,31 @@ const HotelTable = ({
               <th scope="col" className="px-6 py-3 text-center">
                 Office Contact
               </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Phone Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Bank Name
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                GST Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                IFSC Code
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Account Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Pan Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Aadhar Number
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Trade License Number
+              </th>
+
               <th scope="col" className="px-6 py-3 text-center">
                 Options
               </th>
@@ -107,16 +151,52 @@ const HotelTable = ({
                           scope="row"
                           className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         >
-                          {hotel.hotelName || ""}
+                          {hotel.serialNumber || ""}
                         </th>
-                        <td className="px-6 py-2 text-center">{hotel.ownerName || ""}</td>
-                        <td className="px-6 py-2 text-center">{hotel.location || ""}</td>
+                        <td
+                          scope="row"
+                          className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                          {hotel.hotelName || ""}
+                        </td>
                         <td className="px-6 py-2 text-center">
-                          {hotel.ownerContact.email || ""}
+                          {hotel.ownerName || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.location || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.ownerContact.email || "No data"}
                         </td>
                         <td className="px-6 py-2 text-center">
                           {hotel.frontOfficeContact}
                         </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.ownerContact.phone || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.bank || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.GSTNumber || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.ifscCode || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.accountNumber || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.panNumber || ""}
+                        </td>
+                        <td className="px-6 py-2 text-center">
+                          {hotel.aadharNumber || ""}
+                        </td>
+
+                        <td className="px-6 py-2 text-center">
+                          {hotel.tradeLicense || ""}
+                        </td>
+
                         <td className="px-6 py-2 text-center">
                           <div className="flex justify-center items-center">
                             <button
@@ -132,7 +212,10 @@ const HotelTable = ({
                               <AiOutlineEye className="" />
                             </button>
                             <button
-                              disabled={hotel.addedBy._id !== owner._id && owner.role !== "ADMIN"}
+                              disabled={
+                                hotel.addedBy._id !== owner._id &&
+                                owner.role !== "ADMIN"
+                              }
                               // data-tip={"Preview Link"}
                               onClick={() => {
                                 setShowEditHotelModal(true);
@@ -143,7 +226,10 @@ const HotelTable = ({
                               <FiEdit className="" />
                             </button>
                             <button
-                              disabled={hotel.addedBy._id !== owner._id && owner.role !== "ADMIN"}
+                              disabled={
+                                hotel.addedBy._id !== owner._id &&
+                                owner.role !== "ADMIN"
+                              }
                               data-tip={"Delete Hotel"}
                               onClick={() => {
                                 handleShowDeleteModal(hotel._id);
@@ -152,6 +238,15 @@ const HotelTable = ({
                             >
                               <RiDeleteBin6Line size={15} className="" />
                             </button>
+                            <button
+                            disabled={hotel.addedBy._id !== owner._id &&
+                              owner.role !== "ADMIN"}
+                            data-tip={"Delete User"}
+                            onClick={()=> handleShowStatusModal(hotel._id)}
+                            className={`w-fit text-center p-2 ml-2 shadow border bg-gray-100 ${!hotel.isActive ? 'text-cyan-500': 'text-red-500'}  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
+                          >
+                            {hotel.isActive ? "Deactivate" : "Activate"}
+                          </button>
                           </div>
                         </td>
                       </tr>
@@ -173,26 +268,76 @@ const HotelTable = ({
           />
         </div>
       )}
-      {
-        showDeletePopup && (
-          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-            <div className="w-1/3 bg-white rounded-lg p-6">
-              <div className="flex justify-between items-center">
-                <h1 className="text-lg font-bold">Delete Hotel</h1>
-                <button onClick={()=> setShowDeletePopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
-              </div>
-              <p className="text-sm text-gray-500 mt-2">Are you sure you want to delete this hotel?</p>
-              <div className="flex justify-end items-center mt-6">
-                <button onClick={()=> setShowDeletePopUp(false)} className="text-sm text-gray-500 mr-4">Cancel</button>
-                <button onClick={()=> {
-                  deleteHotelHandler(hotelId)
-                  setShowDeletePopUp(false)
-                }} className="text-sm text-red-500">Delete</button>
-              </div>
+      {showDeletePopup && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">Delete Hotel</h1>
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-red-500 text-lg"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to delete this hotel?
+            </p>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-sm text-gray-500 mr-4"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  deleteHotelHandler(hotelId);
+                  setShowDeletePopUp(false);
+                }}
+                className="text-sm text-red-500"
+              >
+                Delete
+              </button>
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
+      {showStatusPopup && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">Active / Deactive Hotel</h1>
+              <button
+                onClick={() => setShowStatusPopUp(false)}
+                className="text-red-500 text-lg"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to active / deactive this hotel?
+            </p>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowStatusPopUp(false)}
+                className="text-sm text-gray-500 mr-4"
+              >
+                No
+              </button>
+              <button
+                onClick={() => {
+                  updateStatusHandler(hotelId);
+                  setShowStatusPopUp(false);
+                }}
+                className="text-sm text-red-500"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

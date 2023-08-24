@@ -21,14 +21,17 @@ interface TableProps {
   getUser: (user: object) => void;
   setShowModal: (value: boolean) => void;
   deleteUserHandler: (id: string) => void;
+  updateStatusHandler: (id: string) => void;
   setUserData: (users: any) => void;
   owner?: any;
   loading?: boolean;
+  serialNumber?: string;
 }
 
 const Table = ({
   userData,
   deleteUserHandler,
+  updateStatusHandler,
   setUserData,
   getUser,
   setShowModal,
@@ -39,6 +42,8 @@ const Table = ({
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingUserData, setEditingUserData] = useState<any>({});
   const [showDeletePopUp, setShowDeletePopUp] = useState<boolean>(false);
+  const [showStatusPopUp, setShowStatusPopUp] = useState<boolean>(false);
+
   const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
@@ -54,6 +59,10 @@ const Table = ({
     setUserId(id);
     setShowDeletePopUp(true);
   };
+  const handleShowStatusModal = (id: string) => {
+    setUserId(id);
+    setShowStatusPopUp(true);
+  };
 
   return (
     <div className="w-full">
@@ -61,6 +70,9 @@ const Table = ({
         <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
           <thead className="text-sm text-gray-900 uppercase dark:text-gray-400">
             <tr>
+              <th scope="col" className="px-4 py-2 text-center">
+                #
+              </th>
               <th scope="col" className="px-4 py-2 text-center">
                 Name
               </th>
@@ -109,8 +121,14 @@ const Table = ({
                         scope="row"
                         className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                       >
-                        {user.name || ""}
+                        {user.serialNumber || ""}
                       </th>
+                      <td
+                        scope="row"
+                        className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                      >
+                        {user.name || ""}
+                      </td>
                       <td className="px-4 py-2 text-center">{user.phoneNumber || ""}</td>
                       <td className="px-4 py-2 text-center">{user.email || ""}</td>
                       {/* <td className="px-6 py-4"></td> */}
@@ -147,6 +165,14 @@ const Table = ({
                             className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
                           >
                             <RiDeleteBin6Line size={15} className="" />
+                          </button>
+                          <button
+                            disabled={user.addedBy !== owner._id}
+                            data-tip={"Delete User"}
+                            onClick={()=> handleShowStatusModal(user._id)}
+                            className={`w-fit text-center p-2 ml-2 shadow border bg-gray-100 ${!user.isActive ? 'text-cyan-500': 'text-red-500'}  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
+                          >
+                            {user.isActive ? "Deactivate" : "Activate"}
                           </button>
                         </div>
                       </td>
@@ -187,6 +213,27 @@ const Table = ({
             </div>
           </div>
         )
+      }
+      {
+        showStatusPopUp && (
+          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+            <div className="w-1/3 bg-white rounded-lg p-6">
+              <div className="flex justify-between items-center">
+                <h1 className="text-lg font-bold">Activate/ Deactivate User</h1>
+                <button onClick={()=> setShowStatusPopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
+              </div>
+              <p className="text-sm text-gray-500 mt-2">Are you sure you want to activate/deactivate this user?</p>
+              <div className="flex justify-end items-center mt-6">
+                <button onClick={()=> setShowStatusPopUp(false)} className="text-sm text-gray-500 mr-4">No</button>
+                <button onClick={()=> {
+                  updateStatusHandler(userId)
+                  setShowStatusPopUp(false)
+                }} className="text-sm text-red-500">Yes</button>
+              </div>
+            </div>
+          </div>
+        )
+
       }
     </div>
   );

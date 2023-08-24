@@ -33,7 +33,7 @@ const EditUser = ({
     const getHotelsAndUser = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/hotel/get-all-hotels");
+        const { data } = await axios.post("/hotel/get-all-hotels");
         if (!data.error) {
           setAvailableHotels(data.hotels);
           let options = data.hotels.map((hotel: any) => {

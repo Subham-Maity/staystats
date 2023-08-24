@@ -3,6 +3,58 @@ const { Hotel } = require("../models/hotelModel");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+
+const FRONTEND_URL = process.env.FRONTEND_URL;
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI
+);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+const sendEmail = async (
+  receiverEmail,
+  subject,
+  bodyTemplateText,
+  bodyTemplateHtml
+) => {
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: "freeproject87@gmail.com",
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: "STAY STATS ADMIN PANEL <freeproject87@gmail.com>",
+      to: receiverEmail,
+      subject: subject,
+      text: bodyTemplateText,
+      html: bodyTemplateHtml,
+    };
+
+    const result = await transport.sendMail(mailOptions);
+
+    return result;
+  } catch (error) {
+    console.log("Error in sendEmail ===> ", error);
+  }
+};
 
 const getUser = async (req, res) => {
   try {
@@ -30,16 +82,43 @@ const getUsers = async (req, res) => {
   // Some logic to get the user
   try {
     console.log("getUsers");
-    let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
-    page = parseInt(page) ?? 1;
-    limit = parseInt(limit) ?? 10;
 
-    let skipIndex = (page - 1) * limit;
-    const users = await User.find({ role: "SUBADMIN" })
+    //scripts to change db
+    // async function updateSerialNumbers() {
+    //   try {
+    //     const users = await User.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
+
+    //     // Update serial numbers
+    //     for (let i = 0; i < users.length; i++) {
+    //       const user = users[i];
+    //       user.serialNumber = i + 1;
+    //       await user.save();
+    //     }
+
+    //     console.log('Serial numbers updated successfully.');
+    //   } catch (error) {
+    //     console.error('Error updating serial numbers:', error);
+    //   }
+    // }
+    // await updateSerialNumbers();
+
+    let { page, limit, sortBy, sortOrder, location, addedByMe } = req.query;
+    let query_page = parseInt(page) ?? 1;
+    let query_limit = parseInt(limit) ?? 10;
+
+    let skipIndex = (query_page - 1) * query_limit;
+    let users;
+    if(page && limit){
+      users = await User.find({ role: "SUBADMIN" })
       .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
       .skip(skipIndex)
-      .limit(limit)
+      .limit(query_limit)
       .populate({ path: "hotel", model: Hotel });
+    }else{
+      users = await User.find({ role: "SUBADMIN" })
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+      .populate({ path: "hotel", model: Hotel });
+    }
 
     let usersCount = await User.countDocuments({ role: "SUBADMIN" });
 
@@ -101,6 +180,7 @@ const createUser = async (req, res) => {
   let { name, username, password, email, phoneNumber, role, hotel } = req.body;
 
   try {
+    const usersCount = await User.countDocuments();
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
     hotelIds = hotel.map((hotelId) => new ObjectId(hotelId));
@@ -113,11 +193,26 @@ const createUser = async (req, res) => {
       role,
       hotel: hotelIds,
       addedBy: req.user._id,
+      serialNumber: usersCount + 1,
     });
     const populatedUser = await User.findById(newUser._id).populate({
       path: "hotel",
       model: Hotel,
-    })
+    });
+
+    // Send email to the user
+    const subject = "STAY STATS ADMIN PANEL - Account Created";
+
+    const bodyTemplateText = `Hello ${name},\n\nYour account has been created successfully.\n\nYour username is: ${username}\nYour password is: ${password}\n\nPlease login to your account at: ${FRONTEND_URL+'/login'}\n\nRegards,\nSTATYSTATS ADMIN PANEL`;
+
+    const bodyTemplateHtml = `<p>Hello ${name},</p><p>Your account has been created successfully.</p><p>Your username is: ${username}</p><p>Your password is: ${password}</p><p>Please login to your account <a href="${FRONTEND_URL}/login">here</a>.</p><p>Regards,</p><p>STAY STATS ADMIN PANEL</p>`;
+
+    
+    let emailResponse =  await sendEmail(email, subject, bodyTemplateText, bodyTemplateHtml);
+
+
+
+
     res
       .status(200)
       .json({ message: "User created successfully", user: populatedUser });
@@ -131,6 +226,30 @@ const createUser = async (req, res) => {
   }
 };
 
+const activateDeactiveUser = async (req, res) => {
+  try { 
+    const { id } = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      res.status(200).json({ error: "No user found" });
+      return;
+    } else {
+      if(user.isActive){
+        user.isActive = false;
+      }else{
+        user.isActive = true;
+      }
+      await user.save();
+      res.status(200).json({ message: "User updated successfully" });
+      return;
+    }
+  } catch (error) {
+    console.log("[user controller activation error:]", error);
+    res.status(201).json({ error: error.message });
+  }
+};
+
+
 const updateUser = async (req, res) => {
   const { id, phoneNumber, hotel, username, name, email, password } = req.body;
   try {
@@ -143,8 +262,10 @@ const updateUser = async (req, res) => {
       { new: true } // This option returns the updated document after the update is applied
     );
 
-    const populatedUser = await User.findById(updatedUser._id).populate({path: "hotel", model: Hotel});
-
+    const populatedUser = await User.findById(updatedUser._id).populate({
+      path: "hotel",
+      model: Hotel,
+    });
 
     if (!updatedUser) {
       return res.status(404).json({ error: "User not found" });
@@ -185,4 +306,6 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  sendEmail,
+  activateDeactiveUser
 };

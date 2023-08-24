@@ -17,6 +17,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   const [advanceAmount, setAdvanceAmount] = useState<string>("");
   const [checkInDate,setCheckInDate] = useState<string>("");
   const [dueAmount, setDueAmount] = useState<string>("");
+  const [selectedHotel, setSelectedHotel] = useState<any>();
   const [availableHotels, setAvailableHotels] = useState<any>([]);
 // console.log("inputbooking", user);
   useEffect(() => {
@@ -82,7 +83,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         return;
       }
     });
-    // console.log(formValues.accountType);
+    // console.log(formValues);
 
 
     const numberRegex = /^[0-9]+$/;
@@ -199,17 +200,27 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             Hotel Name <span className="text-red-500">*</span>
           </label>
           <select
+            onChange={(e) => {
+              const hotel = availableHotels.find(
+                (hotel: any) => hotel._id === e.target.value
+              );
+              setSelectedHotel(hotel);
+              // console.log("hotel", hotel);
+            }}
             id="hotel"
             name="hotel"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             {/* <option selected>Choose</option> */}
 
+            <option selected disabled>--Choose--</option>
             {availableHotels.map((hotel: any, index: number) => {
               return (
-                <option value={hotel._id} key={index}>
+                <>
+                <option className={"disabled:text-red-500 line-through p-2"} disabled={!hotel.isActive} value={hotel._id} key={index}>
                   {hotel.hotelName}
                 </option>
+                </>
               );
             })}
           </select>
@@ -324,13 +335,27 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           >
             Room Category <span className="text-red-500">*</span>
           </label>
-          <input
-          type="text"
+          <select
+          disabled={!selectedHotel}
             name="roomCategory"
             id="paymentby"
-            onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
+            // onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
+          >
+            <option selected disabled>--Choose--</option>
+
+            {
+              selectedHotel?.roomCategories.map((room: any, index: number) => {
+                return (
+                  <option key={index} value={room.trim()}>
+                    {room.trim() }
+                  </option>
+                );
+              })
+            }
+           
+            
+          </select>
         </div>
         <div>
           <label
@@ -344,7 +369,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="plan"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected value="AP">AP</option>
+            <option selected disabled>--Choose--</option>
+
+            <option value="AP">AP</option>
             <option value="CP">CP</option>
             <option value="MAP">MAP</option>
             <option value="EP">EP</option>
@@ -453,7 +480,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="paymentby"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option defaultValue="choose">Choose</option>
+            <option defaultValue="choose" disabled>Choose</option>
             <option value="Booking.com">Booking.com</option>
             <option value="Agoda">Agoda</option>
             <option value="Cleartrip">Cleartrip</option>
@@ -481,7 +508,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="accountType"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected value="Hotel">Hotel</option>
+            <option selected disabled>--Choose--</option>
+
+            <option value="Hotel">Hotel</option>
             <option value="Sayngo">Sayngo</option>
             
           </select>
