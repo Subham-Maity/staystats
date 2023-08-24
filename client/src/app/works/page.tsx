@@ -12,6 +12,7 @@ import { CiSquareRemove } from "react-icons/ci";
 import WorksTable from "@/components/Table/WorksTable";
 import InputWork from "@/components/card/inputWork";
 import ViewWorks from "@/components/card/ViewWorks";
+import { FRONTEND_URL } from "@/constants/constant";
 
 const Works = () => {
   const router = useRouter();
@@ -39,14 +40,17 @@ const Works = () => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
-      if (user && user._id) {
+      if (user && user._id && user.isActive) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         setAccountType(user?.role);
       } else {
         toast.error("You are not authorized to view this page");
         localStorage.removeItem("user");
-        router.replace("/login");
+        localStorage.removeItem("authToken");
+
+        window.open(`${FRONTEND_URL}/login`,"_self")
+
       }
     };
     updateUser();

@@ -39,6 +39,10 @@ const login = async (req, res) => {
     if (!user) {
       res.status(201).json({ message: "User not found" });
       return;
+    } else if(user.isActive === false){
+      res.status(201).json({ message: "Your account has been deactivated by admin" });
+      return
+      
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);

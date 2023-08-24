@@ -16,6 +16,7 @@ import { BiLink, BiSearch } from "react-icons/bi";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
 import ViewLead from "@/components/card/ViewLead";
+import { FRONTEND_URL } from "@/constants/constant";
 
 const Leads = () => {
   let router = useRouter();
@@ -49,14 +50,17 @@ const Leads = () => {
     let updateUser = async () => {
       const user = await fetchOwner(userId);
 
-      if (user && user._id) {
+      if (user && user._id && user.isActive) {
         setOwner(user);
         localStorage.setItem("user", JSON.stringify(user));
         setAccountType(user?.role);
       } else {
         toast.error("You are not authorized to view this page");
         localStorage.removeItem("user");
-        router.replace("/login");
+        localStorage.removeItem("authToken");
+
+        window.open(`${FRONTEND_URL}/login`,"_self")
+
       }
     };
     updateUser();

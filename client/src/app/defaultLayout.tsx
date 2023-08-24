@@ -31,7 +31,7 @@ const DefaultLayout = ({ children }: any) => {
     // console.log("user", user);
     if (!user) {
     }
-    if (user && user._id) {
+    if (user && user._id && user.isActive) {
       setUser(user);
       setLoading(false);
     } else {
@@ -52,7 +52,7 @@ const DefaultLayout = ({ children }: any) => {
   return (
     <div>
       {/* @ts-ignore */}
-      {user && user._id ? (
+      {user && user._id && user.isActive ? (
         <div className="flex">
           <Sidebar
             isSidebarOpen={isSidebarOpen}

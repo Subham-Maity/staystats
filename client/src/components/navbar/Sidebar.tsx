@@ -12,6 +12,7 @@ import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Image from "next/image";
+import { FRONTEND_URL } from "@/constants/constant";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -30,14 +31,17 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
     let updateUser = async () => {
       const user = await fetchOwner(userId);
-      if (user && user._id) {
+      if (user && user._id && user.isActive) {
         setOwner(user);
         localStorage.setItem("user", JSON.stringify(user));
         setAccountType(user?.role);
       } else {
         toast.error("You are not authorized to view this page");
         localStorage.removeItem("user");
-        router.replace("/login");
+        localStorage.removeItem("authToken");
+
+        window.open(`${FRONTEND_URL}/login`,"_self")
+
       }
     };
     updateUser();

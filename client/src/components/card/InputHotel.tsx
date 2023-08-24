@@ -64,7 +64,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
       }
     });
 
-    console.log(formValues)
+    // console.log(formValues)
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
 
@@ -118,28 +118,28 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
     try {
       // console.log(document)
       setLoading(true);
-      // setUploadingDocument(true);
-      // const API_KEY = "667365862194741";
-      // const CLOUD_NAME = "dxixp5wwu";
+      setUploadingDocument(true);
+      const API_KEY = "667365862194741";
+      const CLOUD_NAME = "dxixp5wwu";
 
-      // // console.log(API_KEY,CLOUD_NAME)
+      // console.log(API_KEY,CLOUD_NAME)
 
-      // const { data: sign } = await axios.post("/signature/get-sign");
-      // // console.log(sign.signature,sign.timestamp)
-      // // console.log(document)
+      const { data: sign } = await axios.post("/signature/get-sign");
+      // console.log(sign.signature,sign.timestamp)
+      // console.log(document)
 
-      // const { data: fileUrl } = await axios_.post(
-      //   `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,
-      //   {
-      //     file: document,
-      //     api_key: API_KEY,
-      //     timestamp: sign.timestamp,
-      //     signature: sign.signature,
-      //   },
-      // );
-      // if (fileUrl) {
-      //   setUploadingDocument(false);
-      // }
+      const { data: fileUrl } = await axios_.post(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`,
+        {
+          file: document,
+          api_key: API_KEY,
+          timestamp: sign.timestamp,
+          signature: sign.signature,
+        },
+      );
+      if (fileUrl) {
+        setUploadingDocument(false);
+      }
 
       const { data } = await axios.post("/hotel/create-hotel", {
         hotelName: formValues.hotelName,
@@ -156,8 +156,8 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         tradeLicense: formValues.tradeLicense,
         accountNumber: formValues.accountNumber,
         ifscCode: formValues.ifscCode,
-        otherDocuments: "",
-        documentId: "",
+        otherDocuments: fileUrl.secure_url,
+        documentId: fileUrl.public_id,
         frontOfficeContact: formValues.frontOfficeContact,
         roomCategories: roomCategories
       });
@@ -416,7 +416,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             required
           />
         </div>
-        {/* <div className="">
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -433,7 +433,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             onChange={handleFileInput}
           />
           {uploadingDocument && <p>Uploading...</p>}
-        </div> */}
+        </div>
         <div className="">
           <label
             htmlFor="email"
@@ -446,7 +446,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             type="number"
             id="Other Documents"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Other Document"
+            placeholder="Contact Number"
             required
           />
         </div>

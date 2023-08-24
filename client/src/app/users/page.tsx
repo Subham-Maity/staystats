@@ -15,6 +15,7 @@ import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { utils, writeFile } from "xlsx";
+import { FRONTEND_URL } from "@/constants/constant";
 
 const Users = () => {
   let router = useRouter();
@@ -49,14 +50,15 @@ const Users = () => {
       if (user.role !== "ADMIN") {
         window.location.href = "/bookings";
       }
-      if (user && user._id) {
+      if (user && user._id && user.isActive) {
         setOwner(user);
         localStorage.setItem("user", JSON.stringify(user));
         setAccountType(user?.role);
       } else {
         toast.error("You are not authorized to view this page");
         localStorage.removeItem("user");
-        router.replace("/login");
+        window.open(`${FRONTEND_URL}/login`,"_self")
+
       }
     };
     updateUser();
@@ -131,6 +133,31 @@ const Users = () => {
       console.log(error);
     }
   };
+
+  const updateStatusHandler = async (id: string) => {
+    try {
+      const { data } = await axios.post(`/user/update-user-status`, {
+        id,
+      });
+      if (!data.error) {
+        toast.success(data.message);
+        const { data: users } = await axios.get(
+          `/user/get-users?page=${page}&limit=${PAGE_LIMIT}`
+        );
+        if (!data.error) {
+          setUserData(users.users);
+          setUsersCount(users.usersCount);
+        } else {
+          toast.error(data.error);
+        }
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  }
 
   const handleDownload = async() => {
     const getUsersForDownload = async () => {
@@ -288,6 +315,7 @@ const Users = () => {
             userData={userData}
             setUserData={setUserData}
             deleteUserHandler={deleteUserHandler}
+            updateStatusHandler={updateStatusHandler}
             owner={owner}
             loading={loading}
           />

@@ -20,6 +20,7 @@ import { BiLink, BiSearch } from "react-icons/bi";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
 import { utils, writeFile } from "xlsx";
+import { FRONTEND_URL } from "@/constants/constant";
 
 const Hotels = () => {
   const router = useRouter();
@@ -59,7 +60,10 @@ const Hotels = () => {
       } else {
         toast.error("You are not authorized to view this page");
         localStorage.removeItem("user");
-        router.replace("/login");
+        localStorage.removeItem("authToken");
+
+        window.open(`${FRONTEND_URL}/login`,"_self")
+
       }
     };
     updateUser();
@@ -137,6 +141,35 @@ const Hotels = () => {
       console.log(error);
     }
   };
+
+  const updateHotelStatushandler = async (id: string) =>{
+    try {
+      const { data } = await axios.post(`/hotel/update-hotel-status`, {
+        id,
+      });
+      if (!data.error) {
+        toast.success(data.message);
+        const { data: hotel } = await axios.post(
+          `/hotel/get-all-hotels?page=${page}&limit=${PAGE_LIMIT}`,
+          {
+            startDateFilter: "",
+            endDateFilter: "",
+          }
+        );
+        if (!data.error) {
+          setHotelData(hotel.hotels);
+          setHotelsCount(data.hotelsCount);
+        } else {
+          toast.error(data.error);
+        }
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  }
 
   const handleDownload = async () => {
     const getHotelsForDownload = async () => {
@@ -291,6 +324,7 @@ const Hotels = () => {
           setHotelData={setHotelData}
           getHotel={(hotel) => setHotel(hotel)}
           deleteHotelHandler={deleteHotelHandler}
+          updateStatusHandler={updateHotelStatushandler}
           owner={user}
           loading={loading}
         />

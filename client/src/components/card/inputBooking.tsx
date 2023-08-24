@@ -83,7 +83,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         return;
       }
     });
-    console.log(formValues);
+    // console.log(formValues);
 
 
     const numberRegex = /^[0-9]+$/;
@@ -119,46 +119,46 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
 
 
 
-    // try {
-    //   setLoading(true);
-    //   const { data } = await axios.post("/booking/create-booking", {
-    //     hotel: formValues.hotel,
-    //     guestName: formValues.guest_name,
-    //     checkInDate: formValues.startDate,
-    //     checkOutDate: formValues.endDate,
-    //     roomCategory: formValues.roomCategory,
-    //     numberOfRooms: formValues.nor,
-    //     numberOfPersons: formValues.nop,
-    //     bookingAmount: formValues.bookingAmount,
-    //     advanceAmount: formValues.advanceAmount,
-    //     dueAmount: formValues.dueamount,
-    //     advanceDate: formValues.Advancedate,
-    //     bookingSource: formValues.paymentby,
-    //     bookingBy: user.name || user.username,
-    //     accountType: formValues.accountType,
-    //     plan: formValues.plan,
-    //     contactNumber: formValues.cn,
-    //     remarks: formValues.remark,
-    //   });
-    //   if (!data.error) {
-    //     // console.log(data.booking);
-    //     setBookingData((prev: any) => {
-    //       return [data.booking, ...prev];
-    //     });
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/booking/create-booking", {
+        hotel: formValues.hotel,
+        guestName: formValues.guest_name,
+        checkInDate: formValues.startDate,
+        checkOutDate: formValues.endDate,
+        roomCategory: formValues.roomCategory,
+        numberOfRooms: formValues.nor,
+        numberOfPersons: formValues.nop,
+        bookingAmount: formValues.bookingAmount,
+        advanceAmount: formValues.advanceAmount,
+        dueAmount: formValues.dueamount,
+        advanceDate: formValues.Advancedate,
+        bookingSource: formValues.paymentby,
+        bookingBy: user.name || user.username,
+        accountType: formValues.accountType,
+        plan: formValues.plan,
+        contactNumber: formValues.cn,
+        remarks: formValues.remark,
+      });
+      if (!data.error) {
+        // console.log(data.booking);
+        setBookingData((prev: any) => {
+          return [data.booking, ...prev];
+        });
 
-    //     onClose(false);
+        onClose(false);
 
-    //     toast.success(data.message);
-    //     formRef.current?.reset();
-    //   } else {
-    //     toast.error(data.error);
-    //   }
-    //   setLoading(false);
-    // } catch (error: any) {
-    //   setLoading(false);
-    //   console.log(error);
-    //   toast.error(error.message);
-    // }
+        toast.success(data.message);
+        formRef.current?.reset();
+      } else {
+        toast.error(data.error);
+      }
+      setLoading(false);
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -213,11 +213,14 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           >
             {/* <option selected>Choose</option> */}
 
+            <option selected disabled>--Choose--</option>
             {availableHotels.map((hotel: any, index: number) => {
               return (
-                <option value={hotel._id} key={index}>
+                <>
+                <option className={"disabled:text-red-500 line-through p-2"} disabled={!hotel.isActive} value={hotel._id} key={index}>
                   {hotel.hotelName}
                 </option>
+                </>
               );
             })}
           </select>
@@ -339,6 +342,8 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             // onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
+            <option selected disabled>--Choose--</option>
+
             {
               selectedHotel?.roomCategories.map((room: any, index: number) => {
                 return (
@@ -364,7 +369,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="plan"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected value="AP">AP</option>
+            <option selected disabled>--Choose--</option>
+
+            <option value="AP">AP</option>
             <option value="CP">CP</option>
             <option value="MAP">MAP</option>
             <option value="EP">EP</option>
@@ -473,7 +480,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="paymentby"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option defaultValue="choose">Choose</option>
+            <option defaultValue="choose" disabled>Choose</option>
             <option value="Booking.com">Booking.com</option>
             <option value="Agoda">Agoda</option>
             <option value="Cleartrip">Cleartrip</option>
@@ -501,7 +508,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="accountType"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected value="Hotel">Hotel</option>
+            <option selected disabled>--Choose--</option>
+
+            <option value="Hotel">Hotel</option>
             <option value="Sayngo">Sayngo</option>
             
           </select>

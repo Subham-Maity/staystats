@@ -30,6 +30,8 @@ interface TableProps {
   getHotel: (hotel: object) => void;
   setShowModal: (value: boolean) => void;
   deleteHotelHandler: (id: string) => void;
+  updateStatusHandler: (id: string) => void;
+
   owner?: any;
   loading?: boolean;
 }
@@ -40,12 +42,15 @@ const HotelTable = ({
   getHotel,
   setShowModal,
   deleteHotelHandler,
+  updateStatusHandler,
   owner,
   loading,
 }: TableProps) => {
   const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
   const [editingHotelData, setEditingHotelData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
+  const [showStatusPopup, setShowStatusPopUp] = useState<boolean>(false);
+
   const [hotelId, setHotelId] = useState<string>("");
 
   useEffect(() => {
@@ -60,6 +65,11 @@ const HotelTable = ({
     setHotelId(id);
     setShowDeletePopUp(true);
   };
+
+  const handleShowStatusModal= (id: string) =>{
+    setHotelId(id)
+    setShowStatusPopUp(true)
+  }
 
   return (
     <div className="w-full">
@@ -228,6 +238,15 @@ const HotelTable = ({
                             >
                               <RiDeleteBin6Line size={15} className="" />
                             </button>
+                            <button
+                            disabled={hotel.addedBy._id !== owner._id &&
+                              owner.role !== "ADMIN"}
+                            data-tip={"Delete User"}
+                            onClick={()=> handleShowStatusModal(hotel._id)}
+                            className={`w-fit text-center p-2 ml-2 shadow border bg-gray-100 ${!hotel.isActive ? 'text-cyan-500': 'text-red-500'}  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
+                          >
+                            {hotel.isActive ? "Deactivate" : "Activate"}
+                          </button>
                           </div>
                         </td>
                       </tr>
@@ -250,7 +269,7 @@ const HotelTable = ({
         </div>
       )}
       {showDeletePopup && (
-        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
               <h1 className="text-lg font-bold">Delete Hotel</h1>
@@ -279,6 +298,41 @@ const HotelTable = ({
                 className="text-sm text-red-500"
               >
                 Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showStatusPopup && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">Active / Deactive Hotel</h1>
+              <button
+                onClick={() => setShowStatusPopUp(false)}
+                className="text-red-500 text-lg"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to active / deactive this hotel?
+            </p>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowStatusPopUp(false)}
+                className="text-sm text-gray-500 mr-4"
+              >
+                No
+              </button>
+              <button
+                onClick={() => {
+                  updateStatusHandler(hotelId);
+                  setShowStatusPopUp(false);
+                }}
+                className="text-sm text-red-500"
+              >
+                Yes
               </button>
             </div>
           </div>
