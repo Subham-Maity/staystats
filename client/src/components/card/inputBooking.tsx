@@ -138,6 +138,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         accountType: formValues.accountType,
         plan: formValues.plan,
         contactNumber: formValues.cn,
+        guestEmail: formValues.guestEmail,
         remarks: formValues.remark,
       });
       if (!data.error) {
@@ -516,7 +517,21 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           </select>
           
         </div>
-        
+        <div className="">
+          <label
+            htmlFor="bb"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Guest&apos;s email (Optional)
+          </label>
+          <input
+            type="text"
+            id="bb"
+            name="guestEmail"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter email"
+          />
+        </div>
 
         <div className="">
           <label
@@ -535,6 +550,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             
           />
         </div>
+        
       </div>
 
       <button

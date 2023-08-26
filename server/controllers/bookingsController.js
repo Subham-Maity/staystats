@@ -257,6 +257,7 @@ const createBooking = async (req, res) => {
     contactNumber,
     accountType,
     remarks,
+    guestEmail
   } = req.body;
   try {
     const bookingsCount = await Booking.countDocuments();
@@ -278,6 +279,7 @@ const createBooking = async (req, res) => {
       contactNumber,
       accountType,
       remarks,
+      guestEmail,
       addedBy: req.user._id,
       serialNumber: bookingsCount + 1,
     });
@@ -319,6 +321,7 @@ const updateBooking = async (req, res) => {
     plan,
     contactNumber,
     remarks,
+    guestEmail,
     status,
   } = req.body;
   try {
@@ -342,6 +345,7 @@ const updateBooking = async (req, res) => {
         plan,
         contactNumber,
         remarks,
+        guestEmail,
         status,
       },
       { new: true } // This option returns the updated document after the update is applied

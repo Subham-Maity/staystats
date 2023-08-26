@@ -125,6 +125,9 @@ const BookingTable = ({
                 Plan
               </th>
               <th scope="col" className="px-6 py-3">
+                GUEST EMAIL
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Remarks
               </th>
               <th scope="col" className="px-4 text-center py-3">
@@ -222,7 +225,9 @@ const BookingTable = ({
                         
                         
                         <td className="px-6 py-4">{booking.plan || ""}</td>
-                        <td className="px-6 py-4">{booking.remarks || ""}</td>
+                        <td className="px-6 py-4">{booking.guestEmail || "No data"}</td>
+
+                        <td className="px-6 py-4">{booking.remarks || "No remarks"}</td>
                        
                         <td className="px-6 py-2">
                           <div className="flex justify-center items-center">

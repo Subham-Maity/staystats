@@ -170,7 +170,7 @@ const Bookings = () => {
       return {
         "Reservation Number": booking.serialNumber,
         "Hotel Name": booking.hotel?.hotelName,
-        "Guest Number": booking.guestName,
+        "Guest Name": booking.guestName,
         "Check-In Data": new Date(booking.checkInDate).toDateString(),
         "Check-Out Data": new Date(booking.checkOutDate).toDateString(),
         "Number of Rooms": booking.numberOfRooms,
