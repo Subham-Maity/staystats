@@ -126,13 +126,17 @@ const Bookings = () => {
       if (!data.error) {
         toast.success(data.message);
         const { data: bookingData } = await axios.post(
-          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`
+          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}&filterBy=${filterData?.filterBy}&hotelName=${filterData?.hotelName}&bookingSource=${filterData?.bookingSource}&guestName=${filterData?.guestName}&serialNumber=${filterData?.serialNumber}&status=${filterData?.status}&addedBy=${filterData?.addedBy}`,
+          {
+            startDate: filterData?.dateRange?.startDate ?? null,
+            endDate: filterData?.dateRange?.endDate ?? null,
+          }
         );
-        if (!data.error) {
+        if (!bookingData.error) {
           setBookingData(bookingData.bookings);
-          setBookingCounts(data.bookingsCount);
+          setBookingCounts(bookingData.bookingsCount);
         } else {
-          toast.error(data.error);
+          toast.error(bookingData.error);
         }
       } else {
         toast.error(data.error);
@@ -171,8 +175,8 @@ const Bookings = () => {
         "Reservation Number": booking.serialNumber,
         "Hotel Name": booking.hotel?.hotelName,
         "Guest Name": booking.guestName,
-        "Check-In Data": new Date(booking.checkInDate).toDateString(),
-        "Check-Out Data": new Date(booking.checkOutDate).toDateString(),
+        "Check-In Date": new Date(booking.checkInDate).toDateString(),
+        "Check-Out Date": new Date(booking.checkOutDate).toDateString(),
         "Number of Rooms": booking.numberOfRooms,
         "Number of Person": booking.numberOfPersons,
         "Room Category": booking.roomCategory,
@@ -340,6 +344,7 @@ const Bookings = () => {
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <ViewBooking
+          cancelBookingHandler={cancelBookingHandler}
             onClose={(value) => setShowViewModal(value)}
             booking={booking}
           />

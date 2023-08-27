@@ -53,7 +53,7 @@ const Hotels = () => {
       if (user.role !== "ADMIN") {
         window.location.href = "/bookings";
       }
-      if (user && user._id) {
+      if (user && user._id && user.isActive) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         setAccountType(user?.role);

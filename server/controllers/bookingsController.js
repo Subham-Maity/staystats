@@ -60,6 +60,7 @@ const getAllBookings = async (req, res) => {
       hotelName,
       status,
     } = req.query;
+    console.log(req.query)
     let { startDate, endDate } = req.body;
     // console.log("req.body: ", req.body);
     // console.log("req.query: ", req.query);

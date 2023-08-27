@@ -1,5 +1,6 @@
 interface Props {
     booking: {
+      _id: string;
         hotel: {
             hotelName: string;
         };
@@ -20,18 +21,30 @@ interface Props {
         guestEmail: string;
         contactNumber: string;
         remarks: string;
+        status: string;
         
     }
+    cancelBookingHandler: (id: string) => void;
     onClose: (value: boolean) => void;
   }
   
   import { FaTimes } from "react-icons/fa";
   import React, { useState, useEffect, useRef } from "react";
+  import { FiEdit } from "react-icons/fi";
   
-  const ViewBooking = ({ booking, onClose }: Props) => {
+  const ViewBooking = ({ booking, onClose,cancelBookingHandler }: Props) => {
+    const [showDeletePopup,setShowDeletePopUp] = useState<boolean>(false)
     // console.log(booking, "userdata");
 
+    const handleShowDeleteModal = (event: any) =>{
+      event.preventDefault()
+      setShowDeletePopUp(true)
+      // onClose(false)
+    }
+
     return (
+      <div>
+
         <form
         className="z-50 p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
       >
@@ -106,7 +119,7 @@ interface Props {
               Check-in Date
             </label>
             <input
-            value={new Date(booking?.checkInDate).toLocaleDateString()}
+            value={new Date(booking?.checkInDate).toDateString()}
               id="startDate"
               name="startDate"
               type="text"
@@ -124,7 +137,7 @@ interface Props {
               Check-out Date
             </label>
             <input
-            value={new Date(booking?.checkOutDate).toLocaleDateString()}
+            value={new Date(booking?.checkOutDate).toDateString()}
               id="endDate"
               name="endDate"
               type="text"
@@ -270,10 +283,10 @@ interface Props {
               Advance Date
             </label>
             <input
-            value={new Date(booking?.advanceDate).toISOString().split('T')[0]}
+            value={new Date(booking?.advanceDate).toDateString()}
               id="Advancedate"
               name="Advancedate"
-              type="date"
+              type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="24.05.26"
               required
@@ -389,8 +402,68 @@ interface Props {
               disabled
             />
           </div>
+          <div className=" flex justify-center items-center">
+          <button
+                disabled={booking?.status === "CANCELLED"}
+                data-tip={"Preview Link"}
+                // onClick={() => {
+                //   setShowEditModal(true);
+                //   setEditingBookingData(booking);
+                //   setShowOptionPopup(false);
+                // }}
+                className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+              >
+                <FiEdit className="" size={20} />
+                <p>Edit</p>
+              </button>
+              <button
+                onClick={(event) => handleShowDeleteModal(event)}
+                className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-xs rounded-md mr-2 disabled:opacity-50 cursor-pointer`}
+                disabled={booking?.status === "CANCELLED"}
+              >
+                <FaTimes size={20} className="" />
+                <span className="m-0 p-0">Cancel</span>
+              </button>
+          </div>
         </div>
       </form>
+      {showDeletePopup && (
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">Cancel booking</h1>
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-red-500 text-lg"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to cancel this booking?
+            </p>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowDeletePopUp(false)}
+                className="text-sm text-gray-500 mr-4"
+              >
+                No
+              </button>
+              <button
+                onClick={() => {
+                  cancelBookingHandler(booking._id);
+                  setShowDeletePopUp(false);
+                  onClose(false)
+                }}
+                className="text-sm text-red-500"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      </div>
     );
   };
   

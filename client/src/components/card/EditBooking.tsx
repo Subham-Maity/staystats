@@ -371,7 +371,7 @@ const EditBooking = ({
           </label>
           <input
             name="bookingAmount"
-            type="text"
+            type="number"
             id="bookingAmount"
             value={editingBookingData.bookingAmount}
             required
@@ -398,7 +398,7 @@ const EditBooking = ({
           </label>
           <input
             name="advanceAmount"
-            type="text"
+            type="number"
             id="advanceAmount"
             value={editingBookingData.advanceAmount}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -426,7 +426,7 @@ const EditBooking = ({
           <input
             name="dueamount"
             id="duedate"
-            type="text"
+            type="number"
             value={editingBookingData.dueAmount}
             readOnly
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -518,7 +518,7 @@ const EditBooking = ({
           <input
             type="text"
             id="bb"
-            name="bb"
+            name="guestEmail"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Email address"
             onChange={(e) =>
@@ -541,7 +541,7 @@ const EditBooking = ({
             value={editingBookingData.remarks}
             id="remark"
             name="remark"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full lg:w-[250px] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Very Good"
             onChange={(e) =>
               setEditingBookingData((prev: any) => {

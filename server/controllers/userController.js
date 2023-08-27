@@ -253,15 +253,14 @@ const activateDeactiveUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { id, phoneNumber, hotel, username, name, email, password } = req.body;
   try {
-    console.log("[updateuser controller]");
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      { phoneNumber, hotel, name, username, email, password: hashedPassword },
-      { new: true } // This option returns the updated document after the update is applied
-    );
-
+    console.log("[updateuser controller]")
+    if(password === null || password === undefined || password === ''){
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { phoneNumber, hotel, name, username, email },
+        { new: true } // This option returns the updated document after the update is applied
+      );
+      
     const populatedUser = await User.findById(updatedUser._id).populate({
       path: "hotel",
       model: Hotel,
@@ -274,6 +273,31 @@ const updateUser = async (req, res) => {
     res
       .status(200)
       .json({ message: "User updated successfully", user: populatedUser });
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { phoneNumber, hotel, name, username, email, password: hashedPassword },
+        { new: true } // This option returns the updated document after the update is applied
+      );
+
+      const populatedUser = await User.findById(updatedUser._id).populate({
+        path: "hotel",
+        model: Hotel,
+      });
+  
+      if (!updatedUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      res
+        .status(200)
+        .json({ message: "User updated successfully", user: populatedUser });
+
+    }
+    
+
   } catch (error) {
     console.log("[user controller update error:]", error);
     res.status(201).json({ error: error.message });
