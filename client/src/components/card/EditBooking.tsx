@@ -27,6 +27,7 @@ const EditBooking = ({
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
+    // console.log(editingBookingDataProps)
     if (updatedData) {
       setUpdatedData(false);
       window.location.reload();
@@ -50,15 +51,14 @@ const EditBooking = ({
       formValues[key] = value as string;
       if (formValues[key].trim() === "") {
         // console.log(key)
-
-        if (key !== "remark") {
+        if (key !== "remark" && key !== "guestEmail") {
           toast.error("Please fill all the fields");
         }
         return;
       }
     });
 
-    console.log(formValues);
+    // console.log(formValues);
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
@@ -516,7 +516,7 @@ const EditBooking = ({
             Guest Email (Optional)
           </label>
           <input
-            type="text"
+            type="email"
             id="bb"
             name="guestEmail"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

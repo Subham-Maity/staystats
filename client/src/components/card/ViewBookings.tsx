@@ -25,6 +25,8 @@ interface Props {
         
     }
     cancelBookingHandler: (id: string) => void;
+    setEditingBookingData: (data: any) => void;
+    setShowEditModal: (value: boolean) => void;
     onClose: (value: boolean) => void;
   }
   
@@ -32,7 +34,7 @@ interface Props {
   import React, { useState, useEffect, useRef } from "react";
   import { FiEdit } from "react-icons/fi";
   
-  const ViewBooking = ({ booking, onClose,cancelBookingHandler }: Props) => {
+  const ViewBooking = ({ booking, onClose,cancelBookingHandler,setShowEditModal,setEditingBookingData }: Props) => {
     const [showDeletePopup,setShowDeletePopUp] = useState<boolean>(false)
     // console.log(booking, "userdata");
 
@@ -406,11 +408,13 @@ interface Props {
           <button
                 disabled={booking?.status === "CANCELLED"}
                 data-tip={"Preview Link"}
-                // onClick={() => {
-                //   setShowEditModal(true);
-                //   setEditingBookingData(booking);
-                //   setShowOptionPopup(false);
-                // }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setShowEditModal(true);
+                  setEditingBookingData(booking);
+                  onClose(false)
+                  
+                }}
                 className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
               >
                 <FiEdit className="" size={20} />

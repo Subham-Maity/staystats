@@ -15,6 +15,7 @@ import Filter from "@/components/card/Filter";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { utils, writeFile } from "xlsx";
 import { FRONTEND_URL } from "@/constants/constant";
+import EditBooking from "@/components/card/EditBooking";
 
 const Bookings = () => {
   let router = useRouter();
@@ -31,17 +32,19 @@ const Bookings = () => {
   const [accountType, setAccountType] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [editingBookingData, setEditingBookingData] = useState<object>({});
 
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (showModal || showViewModal) {
+    if (showModal || showViewModal || showEditModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [showViewModal, showModal]);
+  }, [showViewModal, showModal,showEditModal]);
 
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
@@ -344,9 +347,22 @@ const Bookings = () => {
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <ViewBooking
+          setShowEditModal={(value) => setShowEditModal(value)}
           cancelBookingHandler={cancelBookingHandler}
             onClose={(value) => setShowViewModal(value)}
             booking={booking}
+            setEditingBookingData={(value) => setEditingBookingData(value)}
+          />
+        </div>
+      )}
+      {showEditModal && editingBookingData && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <EditBooking
+            onClose={(value) => setShowEditModal(value)}
+            setBookingData={setBookingData}
+            editingBookingDataProps={editingBookingData}
+            bookingData={bookingData}
+            owner={user}
           />
         </div>
       )}

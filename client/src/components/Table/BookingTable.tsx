@@ -40,32 +40,16 @@ const BookingTable = ({
   bookingData,
   getBooking,
   setShowModal,
-  setBookingData,
   cancelBookingHandler,
-  owner,
+
   loading,
 }: TableProps) => {
   // console.log(bookingData);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [editingBookingData, setEditingBookingData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
-  const [showOptionPopup, setShowOptionPopup] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
-  const [booking, setBooking] = useState<any>({});
 
-  useEffect(() => {
-    if (showEditModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [showEditModal]);
 
-  const handleShowDeleteModal = (id: string) => {
-    setBookingId(id);
-    setShowDeletePopUp(true);
-    setShowOptionPopup(false);
-  };
+
 
   useEffect(() => {
     // console.log(bookingData);
@@ -133,9 +117,9 @@ const BookingTable = ({
               <th scope="col" className="px-6 py-3">
                 Remarks
               </th>
-              <th scope="col" className="px-4 text-center py-3">
+              {/* <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -154,7 +138,7 @@ const BookingTable = ({
                   bookingData?.map((booking: any, index: number) => {
                     return (
                       <tr
-                        title="Click for options"
+                        title="Click to view"
                         onClick={() => {
                           // console.log(booking);
                           getBooking(booking);
@@ -232,7 +216,7 @@ const BookingTable = ({
                         <td className="px-6 py-4">
                           {booking.remarks || "No remarks"}
                         </td>
-                        <td className="px-6 py-4">
+                        {/* <td className="px-6 py-4">
                           <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}
@@ -270,7 +254,7 @@ const BookingTable = ({
                               <span className="m-0 p-0">Cancel</span>
                             </button>
                           </div>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })
@@ -280,17 +264,7 @@ const BookingTable = ({
           </tbody>
         </table>
       </div>
-      {showEditModal && editingBookingData && (
-        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <EditBooking
-            onClose={(value) => setShowEditModal(value)}
-            setBookingData={setBookingData}
-            editingBookingDataProps={editingBookingData}
-            bookingData={bookingData}
-            owner={owner}
-          />
-        </div>
-      )}
+      
       {showDeletePopup && (
         <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">

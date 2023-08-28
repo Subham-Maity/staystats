@@ -76,7 +76,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         toast.error("Please select a valid booking source");
       }
       if (formValues[key].trim() === "") {
-        if(key !== "remark"){
+        if(key !== "remark" && key !== "guestEmail"){
           toast.error("Please fill all the fields");
         }
 
@@ -525,7 +525,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             Guest&apos;s email (Optional)
           </label>
           <input
-            type="text"
+            type="email"
             id="bb"
             name="guestEmail"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
