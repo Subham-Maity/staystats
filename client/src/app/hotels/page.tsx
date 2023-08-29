@@ -21,6 +21,7 @@ import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
 import { utils, writeFile } from "xlsx";
 import { FRONTEND_URL } from "@/constants/constant";
+import EditHotel from "@/components/card/EditHotel";
 
 const Hotels = () => {
   const router = useRouter();
@@ -32,13 +33,14 @@ const Hotels = () => {
   const [hotelsCount, setHotelsCount] = useState<number>(0);
   const [user, setUser] = useState<any>({});
   const [accountType, setAccountType] = useState<string>("");
-  const [hotel, setHotel] = useState<object>();
+  const [hotel, setHotel] = useState<any>();
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
-
+ const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
+  const [editingHotelData, setEditingHotelData] = useState<object>({});
   useEffect(() => {
     if (showModal || showViewModal) {
       document.body.style.overflow = "hidden";
@@ -53,7 +55,7 @@ const Hotels = () => {
       if (user.role !== "ADMIN") {
         window.location.href = "/bookings";
       }
-      if (user && user._id) {
+      if (user && user._id && user.isActive) {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
         setAccountType(user?.role);
@@ -113,7 +115,7 @@ const Hotels = () => {
     searchText.trim().length > 0 ? getHotelsBySearch() : getHotels();
   }, [page, PAGE_LIMIT, reloadData]);
 
-  const deleteHotelHandler = async (id: string) => {
+  const deleteHotelHandler = async (id?: string) => {
     try {
       const { data } = await axios.post(`/hotel/delete-hotel`, {
         id,
@@ -142,7 +144,7 @@ const Hotels = () => {
     }
   };
 
-  const updateHotelStatushandler = async (id: string) =>{
+  const updateHotelStatushandler = async (id?: string) =>{
     try {
       const { data } = await axios.post(`/hotel/update-hotel-status`, {
         id,
@@ -344,10 +346,25 @@ const Hotels = () => {
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <ViewHotel
+            setEditingHotelData={(value) => setEditingHotelData(value)}
+            setShowEditHotelModal={(value) => setShowEditHotelModal(value)}
+            updateStatusHandler={updateHotelStatushandler}
+            deleteHotelHandler={deleteHotelHandler}
+            owner={user}
               hotel={hotel}
               onClose={(value) => setShowViewModal(value)}
             />
           )}
+        </div>
+      )}
+      {showEditHotelModal && editingHotelData && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <EditHotel
+            onClose={(value) => setShowEditHotelModal(value)}
+            setHotelData={setHotelData}
+            editingHotelDataProps={editingHotelData}
+            hotelData={hotelData}
+          />
         </div>
       )}
       <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">

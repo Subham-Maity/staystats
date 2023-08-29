@@ -7,6 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import EditBooking from "../card/EditBooking";
 import { InfinitySpin } from "react-loader-spinner";
 import { FaTimes } from "react-icons/fa";
+import{toast} from "react-toastify";
 interface TableProps {
   bookingData?: {
     hotelName?: string;
@@ -40,32 +41,21 @@ const BookingTable = ({
   bookingData,
   getBooking,
   setShowModal,
-  setBookingData,
   cancelBookingHandler,
-  owner,
+
   loading,
 }: TableProps) => {
   // console.log(bookingData);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [editingBookingData, setEditingBookingData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
 
+
+
+
   useEffect(() => {
-    if (showEditModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+    if(bookingData?.length === 0){
+      toast.error("No bookings found")
     }
-  }, [showEditModal]);
-
-  const handleShowDeleteModal = (id: string) => {
-    setBookingId(id);
-    setShowDeletePopUp(true);
-  };
-
-  useEffect(() => {
-    // console.log(bookingData);
   }, [bookingData]);
   return (
     <div className="w-full">
@@ -124,14 +114,15 @@ const BookingTable = ({
               <th scope="col" className="px-6 py-3">
                 Plan
               </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                GUEST EMAIL
+              </th>
               <th scope="col" className="px-6 py-3">
                 Remarks
               </th>
-              <th scope="col" className="px-4 text-center py-3">
+              {/* <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
-              </th>
-              
-
+              </th> */}
             </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -150,6 +141,12 @@ const BookingTable = ({
                   bookingData?.map((booking: any, index: number) => {
                     return (
                       <tr
+                        title="Click to view"
+                        onClick={() => {
+                          // console.log(booking);
+                          getBooking(booking);
+                          setShowModal(true);
+                        }}
                         key={index}
                         className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${
                           booking?.status === "CANCELLED"
@@ -199,7 +196,7 @@ const BookingTable = ({
                         <td className="px-6 py-2">
                           {booking?.advanceAmount || ""}
                         </td>
-                        <td className="px-6 py-4">{booking.dueAmount || ""}</td>
+                        <td className="px-6 py-4">{booking.dueAmount || "PAID"}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {new Date(booking?.advanceDate).toDateString() || ""}
                         </td>
@@ -210,21 +207,19 @@ const BookingTable = ({
                           {booking.bookingSource || ""}
                         </td>
                         <td className="px-6 py-4">{booking.bookingBy || ""}</td>
-                        
+
                         <td className="px-6 py-2">
                           {booking?.status || "Created"}
                         </td>
-
-                        
-                        
-                       
-                       
-                        
-                        
                         <td className="px-6 py-4">{booking.plan || ""}</td>
-                        <td className="px-6 py-4">{booking.remarks || ""}</td>
-                       
-                        <td className="px-6 py-2">
+                        <td className="px-6 py-4">
+                          {booking.guestEmail || "No data"}
+                        </td>
+
+                        <td className="px-6 py-4">
+                          {booking.remarks || "No remarks"}
+                        </td>
+                        {/* <td className="px-6 py-4">
                           <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}
@@ -234,9 +229,10 @@ const BookingTable = ({
                                 getBooking(booking);
                                 setShowModal(true);
                               }}
-                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                              className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                             >
-                              <AiOutlineEye className="" />
+                              <AiOutlineEye size={20} className="" />
+                              <p>View</p>
                             </button>
                             <button
                               disabled={booking?.status === "CANCELLED"}
@@ -244,21 +240,24 @@ const BookingTable = ({
                               onClick={() => {
                                 setShowEditModal(true);
                                 setEditingBookingData(booking);
+                                setShowOptionPopup(false);
                               }}
-                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                              className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                             >
-                              <FiEdit className="" />
+                              <FiEdit className="" size={20} />
+                              <p>Edit</p>
                             </button>
 
                             <button
                               onClick={() => handleShowDeleteModal(booking._id)}
-                              className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-xs rounded-md mr-2 disabled:opacity-50 cursor-pointer`}
+                              className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-xs rounded-md mr-2 disabled:opacity-50 cursor-pointer`}
                               disabled={booking?.status === "CANCELLED"}
                             >
+                              <FaTimes size={20} className="" />
                               <span className="m-0 p-0">Cancel</span>
                             </button>
                           </div>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })
@@ -268,17 +267,7 @@ const BookingTable = ({
           </tbody>
         </table>
       </div>
-      {showEditModal && editingBookingData && (
-        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <EditBooking
-            onClose={(value) => setShowEditModal(value)}
-            setBookingData={setBookingData}
-            editingBookingDataProps={editingBookingData}
-            bookingData={bookingData}
-            owner={owner}
-          />
-        </div>
-      )}
+      
       {showDeletePopup && (
         <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">

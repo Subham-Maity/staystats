@@ -298,6 +298,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             GST Number
           </label>
           <input
+          title="GST Number should be 15 characters long"
             name="GSTNumber"
             type="text"
             id="visitors"
@@ -308,6 +309,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="GST Number"
             required
+            minLength={15}
             // autoCapitalize="on"
           />
         </div>
@@ -459,7 +461,10 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           </label>
           <textarea
             name="roomCategories"
-            
+            onChange={(e)=>{
+              e.target.value = e.target.value.toLocaleUpperCase();
+              e.target.value = e.target.value.replace(/[0-9]/g, '');
+            }}
             id="Other Documents"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="E.g. AC Deluxe, AC Standard"

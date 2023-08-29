@@ -46,20 +46,19 @@ const HotelTable = ({
   owner,
   loading,
 }: TableProps) => {
-  const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
-  const [editingHotelData, setEditingHotelData] = useState<object>({});
+ 
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [showStatusPopup, setShowStatusPopUp] = useState<boolean>(false);
 
   const [hotelId, setHotelId] = useState<string>("");
 
-  useEffect(() => {
-    if (showEditHotelModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [showEditHotelModal]);
+  // useEffect(() => {
+  //   if (showEditHotelModal) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "unset";
+  //   }
+  // }, [showEditHotelModal]);
 
   const handleShowDeleteModal = (id: string) => {
     setHotelId(id);
@@ -120,9 +119,9 @@ const HotelTable = ({
                 Trade License Number
               </th>
 
-              <th scope="col" className="px-6 py-3 text-center">
+              {/* <th scope="col" className="px-6 py-3 text-center">
                 Options
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -144,8 +143,14 @@ const HotelTable = ({
 
                     return (
                       <tr
+                      title="Click to view"
                         key={index}
-                        className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        onClick={() => {
+                          // console.log(hotel);
+                          getHotel(hotel);
+                          setShowModal(true);
+                        }}
+                        className="whitespace-nowrap light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
                         <th
                           scope="row"
@@ -159,7 +164,7 @@ const HotelTable = ({
                         >
                           {hotel.hotelName || ""}
                         </td>
-                        <td className="px-6 py-2 text-center">
+                        <td className="px-6 py-2 text-center whitespace-nowrap">
                           {hotel.ownerName || ""}
                         </td>
                         <td className="px-6 py-2 text-center">
@@ -197,7 +202,7 @@ const HotelTable = ({
                           {hotel.tradeLicense || ""}
                         </td>
 
-                        <td className="px-6 py-2 text-center">
+                        {/* <td className="px-6 py-2 text-center">
                           <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}
@@ -218,8 +223,8 @@ const HotelTable = ({
                               }
                               // data-tip={"Preview Link"}
                               onClick={() => {
-                                setShowEditHotelModal(true);
-                                setEditingHotelData(hotel);
+                                // setShowEditHotelModal(true);
+                                // setEditingHotelData(hotel);
                               }}
                               className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
                             >
@@ -248,7 +253,7 @@ const HotelTable = ({
                             {hotel.isActive ? "Deactivate" : "Activate"}
                           </button>
                           </div>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })
@@ -258,16 +263,7 @@ const HotelTable = ({
           </tbody>
         </table>
       </div>
-      {showEditHotelModal && editingHotelData && (
-        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <EditHotel
-            onClose={(value) => setShowEditHotelModal(value)}
-            setHotelData={setHotelData}
-            editingHotelDataProps={editingHotelData}
-            hotelData={hotelData}
-          />
-        </div>
-      )}
+      
       {showDeletePopup && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">

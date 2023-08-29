@@ -13,6 +13,7 @@ import WorksTable from "@/components/Table/WorksTable";
 import InputWork from "@/components/card/inputWork";
 import ViewWorks from "@/components/card/ViewWorks";
 import { FRONTEND_URL } from "@/constants/constant";
+import EditWorks from "@/components/card/EditWorks";
 
 const Works = () => {
   const router = useRouter();
@@ -28,7 +29,9 @@ const Works = () => {
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
-  console.log("workData is Here :)", workData);
+  const [showEditWorkModal, setShowEditWorkModal] = useState<boolean>(false);
+  const [editingWorkData, setEditingWorkData] = useState<object>({});
+  // console.log("workData is Here :)", workData);
   useEffect(() => {
     if (showModal || showViewModal) {
       document.body.style.overflow = "hidden";
@@ -271,13 +274,28 @@ const Works = () => {
       )}
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          {accountType === "ADMIN" && (
+          
             <ViewWorks
+            setEditingWorkData={(value) => setEditingWorkData(value)}
+              setShowEditWorkModal={(value) => setShowEditWorkModal(value)}
               // @ts-ignore`
               workData={work}
+              deleteWorkHandler={deleteWorkHandler}
+              statusUpdateHandler={workStatusUpdateHandler}
+              owner={user}
               onClose={(value) => setShowViewModal(value)}
             />
-          )}
+          
+        </div>
+      )}
+        {showEditWorkModal && editingWorkData && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <EditWorks
+            onClose={(value) => setShowEditWorkModal(value)}
+            setWorkData={setWorkData}
+            editingWorkDataProps={editingWorkData}
+            workData={workData}
+          />
         </div>
       )}
       <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">

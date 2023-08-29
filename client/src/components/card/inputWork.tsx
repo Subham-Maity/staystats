@@ -154,6 +154,7 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
           Work Details <span className="text-red-500">*</span>
         </label>
         <textarea
+        onChange={(e)=> e.target.value= e.target.value.toLocaleUpperCase()}
           rows={4}
           name="workDetails"
           id="workDetails"

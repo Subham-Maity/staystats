@@ -25,7 +25,7 @@ import { FaTimes } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from "react";
 
 const ViewLead = ({ lead, onClose }: Props) => {
-  // console.log( user, "userdata");
+  // console.log( lead, "userdata");
 
   return (
     <form className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full">
@@ -67,8 +67,8 @@ const ViewLead = ({ lead, onClose }: Props) => {
           <input
             id="check_in_date"
             name="check_in_date"
-            type="date"
-            value={new Date(lead?.checkInDate || "").toLocaleDateString()}
+            type="text"
+            value={new Date(lead?.checkInDate || "").toDateString()}
             disabled
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="08.08.2023"
@@ -85,9 +85,9 @@ const ViewLead = ({ lead, onClose }: Props) => {
             id="check_out_date"
             name="check_out_date"
             type="text"
-            value={new Date(lead?.checkOutDate || "").toLocaleDateString()}
+            value={new Date(lead?.checkOutDate || "").toDateString()}
             disabled
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="09.09.2023"
           />
         </div>
@@ -221,7 +221,7 @@ const ViewLead = ({ lead, onClose }: Props) => {
             name="approvedBy"
             id="approvedBy"
             disabled
-            value={lead?.approvedBy?.name || lead?.approvedBy?.username || ""}
+            value={lead?.approvedBy?.name || lead?.approvedBy?.username || "Not approved yet"}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
         </div>

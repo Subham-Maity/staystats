@@ -60,6 +60,7 @@ const getAllBookings = async (req, res) => {
       hotelName,
       status,
     } = req.query;
+    console.log(req.query)
     let { startDate, endDate } = req.body;
     // console.log("req.body: ", req.body);
     // console.log("req.query: ", req.query);
@@ -203,7 +204,8 @@ const getAllBookingsBySearch = async (req, res) => {
 
     const bookings = await Booking.find(filter)
       .or([
-        { guestName: regex }, // Search for bookings with guentName matching the provided regex
+        { guestName: regex },// Search for bookings with guentName matching the provided regex
+        {contactNumber:regex},
         {
           hotel: {
             $in: await Hotel.find({
@@ -257,6 +259,7 @@ const createBooking = async (req, res) => {
     contactNumber,
     accountType,
     remarks,
+    guestEmail
   } = req.body;
   try {
     const bookingsCount = await Booking.countDocuments();
@@ -278,6 +281,7 @@ const createBooking = async (req, res) => {
       contactNumber,
       accountType,
       remarks,
+      guestEmail,
       addedBy: req.user._id,
       serialNumber: bookingsCount + 1,
     });
@@ -319,6 +323,7 @@ const updateBooking = async (req, res) => {
     plan,
     contactNumber,
     remarks,
+    guestEmail,
     status,
   } = req.body;
   try {
@@ -342,6 +347,7 @@ const updateBooking = async (req, res) => {
         plan,
         contactNumber,
         remarks,
+        guestEmail,
         status,
       },
       { new: true } // This option returns the updated document after the update is applied

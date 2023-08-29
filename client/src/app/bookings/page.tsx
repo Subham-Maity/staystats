@@ -15,6 +15,7 @@ import Filter from "@/components/card/Filter";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { utils, writeFile } from "xlsx";
 import { FRONTEND_URL } from "@/constants/constant";
+import EditBooking from "@/components/card/EditBooking";
 
 const Bookings = () => {
   let router = useRouter();
@@ -31,17 +32,19 @@ const Bookings = () => {
   const [accountType, setAccountType] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [editingBookingData, setEditingBookingData] = useState<object>({});
 
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (showModal || showViewModal) {
+    if (showModal || showViewModal || showEditModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [showViewModal, showModal]);
+  }, [showViewModal, showModal,showEditModal]);
 
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
@@ -126,13 +129,17 @@ const Bookings = () => {
       if (!data.error) {
         toast.success(data.message);
         const { data: bookingData } = await axios.post(
-          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}`
+          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}&filterBy=${filterData?.filterBy}&hotelName=${filterData?.hotelName}&bookingSource=${filterData?.bookingSource}&guestName=${filterData?.guestName}&serialNumber=${filterData?.serialNumber}&status=${filterData?.status}&addedBy=${filterData?.addedBy}`,
+          {
+            startDate: filterData?.dateRange?.startDate ?? null,
+            endDate: filterData?.dateRange?.endDate ?? null,
+          }
         );
-        if (!data.error) {
+        if (!bookingData.error) {
           setBookingData(bookingData.bookings);
-          setBookingCounts(data.bookingsCount);
+          setBookingCounts(bookingData.bookingsCount);
         } else {
-          toast.error(data.error);
+          toast.error(bookingData.error);
         }
       } else {
         toast.error(data.error);
@@ -170,9 +177,11 @@ const Bookings = () => {
       return {
         "Reservation Number": booking.serialNumber,
         "Hotel Name": booking.hotel?.hotelName,
-        "Guest Number": booking.guestName,
-        "Check-In Data": new Date(booking.checkInDate).toDateString(),
-        "Check-Out Data": new Date(booking.checkOutDate).toDateString(),
+        "Guest Name": booking.guestName,
+        "Guest Contact": booking.contactNumber,
+        "Guest Email": booking.guestEmail ? booking.guestEmail : "No Data",
+        "Check-In Date": new Date(booking.checkInDate).toDateString(),
+        "Check-Out Date": new Date(booking.checkOutDate).toDateString(),
         "Number of Rooms": booking.numberOfRooms,
         "Number of Person": booking.numberOfPersons,
         "Room Category": booking.roomCategory,
@@ -340,8 +349,22 @@ const Bookings = () => {
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <ViewBooking
+          setShowEditModal={(value) => setShowEditModal(value)}
+          cancelBookingHandler={cancelBookingHandler}
             onClose={(value) => setShowViewModal(value)}
             booking={booking}
+            setEditingBookingData={(value) => setEditingBookingData(value)}
+          />
+        </div>
+      )}
+      {showEditModal && editingBookingData && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <EditBooking
+            onClose={(value) => setShowEditModal(value)}
+            setBookingData={setBookingData}
+            editingBookingDataProps={editingBookingData}
+            bookingData={bookingData}
+            owner={user}
           />
         </div>
       )}

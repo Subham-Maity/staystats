@@ -73,7 +73,9 @@ const EditUser = ({
     formData.forEach((value, key) => {
       formValues[key] = value as string;
       if (formValues[key].trim() === "") {
-        toast.error("Please fill all the fields");
+        if(key !== "password"){
+          toast.error("Please fill all the fields");
+        }
         return;
       }
     });
@@ -96,10 +98,6 @@ const EditUser = ({
       toast.error("Please enter a valid email");
       return;
     }
-    if(formValues.password.trim() == ""){
-      toast.error("Please enter a valid password");
-      return;
-    }
 
 
     try {
@@ -110,7 +108,7 @@ const EditUser = ({
         username: formValues.email,
         phoneNumber: formValues.phone,
         email: formValues.email,
-        password: formValues.password,
+        password: formValues.password !== "" ? formValues.password : null,
         hotel: selectedHotels.map((hotel: any) => hotel.value),
         // role: "SUBADMIN",
       });
@@ -258,7 +256,7 @@ const EditUser = ({
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Password <span className="text-red-500">*</span>
+            Password 
           </label>
           
           <div className="relative">
@@ -273,7 +271,7 @@ const EditUser = ({
                     });
                   }}
                   
-                  required
+                  
                 />
                 <div
                   className="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"

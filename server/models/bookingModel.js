@@ -12,6 +12,9 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  guestEmail:{
+    type: String
+  },
   checkInDate: {
     type: Date,
     required: true,
