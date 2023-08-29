@@ -91,9 +91,9 @@ const Table = ({
               {/* <th scope="col" className="px-4 py-3 text-center">
                 Role
               </th> */}
-              <th scope="col" className="px-4 py-3 text-center">
+              {/* <th scope="col" className="px-4 py-3 text-center">
                 Options
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -114,6 +114,13 @@ const Table = ({
 
                   return (
                     <tr
+                    title="Click to view user details"
+                    onClick= {()=>{
+                      // console.log(user)
+                      getUser(user);
+                      setShowModal(true);
+
+                  }}
                       key={index}
                       className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
@@ -134,7 +141,7 @@ const Table = ({
                       {/* <td className="px-6 py-4"></td> */}
                       {/* <td className="px-6 py-4">{user.hotel || ""}</td> */}
                       {/* <td className="px-4 py-4 text-center">{user.role || ""}</td> */}
-                      <td className="px-4 py-2 text-center">
+                      {/* <td className="px-4 py-2 text-center">
                         <div className="flex justify-center items-center">
                       <button
                             onClick= {()=>{
@@ -175,7 +182,7 @@ const Table = ({
                             {user.isActive ? "Deactivate" : "Activate"}
                           </button>
                         </div>
-                      </td>
+                      </td> */}
                     </tr>
                   );
                 }))}

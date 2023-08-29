@@ -150,7 +150,7 @@ const HotelTable = ({
                           getHotel(hotel);
                           setShowModal(true);
                         }}
-                        className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        className="whitespace-nowrap light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
                         <th
                           scope="row"
@@ -164,7 +164,7 @@ const HotelTable = ({
                         >
                           {hotel.hotelName || ""}
                         </td>
-                        <td className="px-6 py-2 text-center">
+                        <td className="px-6 py-2 text-center whitespace-nowrap">
                           {hotel.ownerName || ""}
                         </td>
                         <td className="px-6 py-2 text-center">
@@ -202,7 +202,7 @@ const HotelTable = ({
                           {hotel.tradeLicense || ""}
                         </td>
 
-                        <td className="px-6 py-2 text-center">
+                        {/* <td className="px-6 py-2 text-center">
                           <div className="flex justify-center items-center">
                             <button
                               // disabled={user.addedBy !== owner._id}
@@ -253,7 +253,7 @@ const HotelTable = ({
                             {hotel.isActive ? "Deactivate" : "Activate"}
                           </button>
                           </div>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })

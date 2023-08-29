@@ -16,6 +16,7 @@ import { CiSquareRemove } from "react-icons/ci";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { utils, writeFile } from "xlsx";
 import { FRONTEND_URL } from "@/constants/constant";
+import EditUser from "@/components/card/EditUser";
 
 const Users = () => {
   let router = useRouter();
@@ -33,6 +34,9 @@ const Users = () => {
   const [reloadData, setReloadData] = useState<boolean>(false);
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
+
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [editingUserData, setEditingUserData] = useState<any>({});
 
   useEffect(() => {
     if (showModal || showViewModal) {
@@ -109,7 +113,7 @@ const Users = () => {
     searchText.trim().length > 0 ? getUsersBySearch() : getUsers();
   }, [page, PAGE_LIMIT, reloadData]);
 
-  const deleteUserHandler = async (id: string) => {
+  const deleteUserHandler = async (id?: string) => {
     try {
       const { data } = await axios.post(`/user/delete-user`, {
         id,
@@ -134,7 +138,7 @@ const Users = () => {
     }
   };
 
-  const updateStatusHandler = async (id: string) => {
+  const updateStatusHandler = async (id?: string) => {
     try {
       const { data } = await axios.post(`/user/update-user-status`, {
         id,
@@ -328,7 +332,18 @@ const Users = () => {
       </div>
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <ViewUser onClose={(value) => setShowViewModal(value)} user={user} />
+          <ViewUser setShowEditModal={(value)=> setShowEditModal(value)} setEditingUserData={(value) => setEditingUserData(value)} deleteUserHandler={deleteUserHandler} updateStatusHandler={updateStatusHandler} owner={owner} onClose={(value) => setShowViewModal(value)} user={user} />
+        </div>
+      )}
+      {showEditModal && editingUserData && (
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <EditUser
+          
+            onClose={(value) => setShowEditModal(value)}
+            setUserData={setUserData}
+            editingUserDataProps={editingUserData}
+            userData={userData}
+          />
         </div>
       )}
       {showModal && (

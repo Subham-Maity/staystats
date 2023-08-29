@@ -144,7 +144,7 @@ const Hotels = () => {
     }
   };
 
-  const updateHotelStatushandler = async (id: string) =>{
+  const updateHotelStatushandler = async (id?: string) =>{
     try {
       const { data } = await axios.post(`/hotel/update-hotel-status`, {
         id,
@@ -346,6 +346,9 @@ const Hotels = () => {
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <ViewHotel
+            setEditingHotelData={(value) => setEditingHotelData(value)}
+            setShowEditHotelModal={(value) => setShowEditHotelModal(value)}
+            updateStatusHandler={updateHotelStatushandler}
             deleteHotelHandler={deleteHotelHandler}
             owner={user}
               hotel={hotel}

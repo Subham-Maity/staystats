@@ -45,25 +45,9 @@ const WorksTable = ({
   const [editingWorkData, setEditingWorkData] = useState<object>({});
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [showRemarksPopup, setShowRemarksPopup] = useState<boolean>(false);
-  const [showOptionTooltip, setShowOptionTooltip] = useState<boolean>(false);
-  const [tooltipPosition, setTooltipPosition] = useState<any>({top:0, left:0});
   const [action, setAction] = useState<string>("");
   const [workId, setWorkId] = useState<string>("");
   const [remarks, setRemarks] = useState<string>("");
-
-
-  const handleDocumentClick = (event: any) => {
-    if (!event.target.closest('#tooltip')) {
-      setShowOptionTooltip(false);
-    }
-  };
-
-  React.useEffect(() => {
-    document.addEventListener('click', handleDocumentClick);
-    return () => {
-      document.removeEventListener('click', handleDocumentClick);
-    };
-  }, []);
 
 
   useEffect(() => {
@@ -75,13 +59,6 @@ const WorksTable = ({
   }, [showEditWorkModal, showDeletePopup, showRemarksPopup]);
 
 
-  const handleRowClick = (event: any, rowNumber: any) => {
-    console.log("row clicked", event, rowNumber);
-    const rect = event?.target?.getBoundingClientRect();
-    console.log("rect", rect);
-    showOptionTooltip ? setShowOptionTooltip(false) : setShowOptionTooltip(true);
-    setTooltipPosition({ top: rect.bottom, left: rect.left });
-  };
   const handleShowDeleteModal = (id: string) => {
     setWorkId(id);
 
@@ -129,9 +106,9 @@ const WorksTable = ({
               <th scope="col" className="px-6 py-3 text-center">
                 Remarks
               </th>
-              <th scope="col" className="px-6 py-3 text-center">
+              {/* <th scope="col" className="px-6 py-3 text-center">
                 Options
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="rounded-xl">
@@ -156,9 +133,13 @@ const WorksTable = ({
                       
                       return (
                         <tr
+
                           key={index}
                           className={`bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
                         >
+                          <div>
+                            
+                          </div>
                           <th
                             scope="row"
                             className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
@@ -191,7 +172,7 @@ const WorksTable = ({
                                   // disabled={work.createdBy._id !== owner._id}
                                   data-tip={"Preview Link"}
                                   onClick={() => {
-                                    console.log("chal nubbb" + work);
+                                    // console.log("chal nubbb" + work);
                                     getWork(work);
                                     setShowModal(true);
                                   }}
@@ -252,8 +233,21 @@ const WorksTable = ({
                                   }
                                   {work.workConfirm === "CONFIRMED" ? "Accepted" : work.workConfirm === "REJECTED" ? "Rejected" : "Accept"}
                                 </button>
+                                <button
+                                  // disabled={work.createdBy._id !== owner._id}
+                                  data-tip={"Preview Link"}
+                                  onClick={() => {
+                                    // console.log("chal nubbb" + work);
+                                    getWork(work);
+                                    setShowModal(true);
+                                  }}
+                                  className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                                >
+                                  <AiOutlineEye className="" />
+                                </button>
                                 {
                                   work.workConfirm === "PENDING" && (
+                                    <>
                                     <button
                                 disabled={work.workConfirm === "CONFIRMED" || work.workConfirm === "REJECTED"}
                                 onClick={() => showRejectModal(work._id, "REJECTED")}
@@ -267,6 +261,20 @@ const WorksTable = ({
                                   />{" "}
                                   Reject
                                 </button>
+                                <button
+                                  // disabled={work.createdBy._id !== owner._id}
+                                  data-tip={"Preview Link"}
+                                  onClick={() => {
+                                    // console.log("chal nubbb" + work);
+                                    getWork(work);
+                                    setShowModal(true);
+                                  }}
+                                  className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+                                >
+                                  <AiOutlineEye className="" />
+                                </button>
+                                    </>
+                                
                                   )
                                 }
                               </div>
@@ -277,11 +285,19 @@ const WorksTable = ({
                     } else if (owner.role === "ADMIN") {
                       return (
                         <tr
+                        onClick={() => {
+                          // console.log( work);
+                          getWork(work);
+                          setShowModal(true);
+                        }}
                         // @ts-ignore
-                        onClick={handleRowClick}
+                        
                           key={index}
                           className={`bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
                         >
+                         
+
+                         
                           <th
                             scope="row"
                             className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
@@ -306,15 +322,16 @@ const WorksTable = ({
                           <td className="px-6 py-2 text-center">
                             {work.remarks?.length > 50 ? work.remarks?.substring(0,50) + "..." : work.remarks || "no remarks"}
                           </td>
+                         
   
-                          <td className="px-6 py-2 text-center">
+                          {/* <td className="px-6 py-2 text-center">
                             {owner.role !== "SUBADMIN" ? (
                               <div className="flex justify-center items-center">
                                 <button
                                   // disabled={work.createdBy._id !== owner._id}
                                   data-tip={"Preview Link"}
                                   onClick={() => {
-                                    console.log("chal nubbb" + work);
+                                    // console.log("chal nubbb" + work);
                                     getWork(work);
                                     setShowModal(true);
                                   }}
@@ -380,7 +397,7 @@ const WorksTable = ({
                                 </button>
                               </div>
                             )}
-                          </td>
+                          </td> */}
                         </tr>
                       );
 
@@ -392,24 +409,6 @@ const WorksTable = ({
             )}
           </tbody>
         </table>
-
-        {
-          showOptionTooltip && (
-            <div id="tooltip" style={{ top: tooltipPosition.top + "px", left: tooltipPosition.left + "px" }} className="absolute top-0 left-0 bg-white shadow-lg rounded-lg p-2">
-              <ul className="flex flex-col gap-2">
-                <li className="flex gap-2 items-center">
-                  <MdFileDownloadDone size={20} className="inline-block" />
-                  <span>Accept</span>
-                </li>
-                <li className="flex gap-2 items-center">
-                  <MdFileDownloadDone size={20} className="inline-block" />
-                  <span>Reject</span>
-                </li>
-              </ul>
-            </div>
-          )
-
-        }
       </div>
       {showEditWorkModal && editingWorkData && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">

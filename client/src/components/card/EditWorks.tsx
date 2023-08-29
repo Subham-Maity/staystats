@@ -25,19 +25,25 @@ const EditWork = ({
   const [editingWorkData, setEditingWorkData] =
     useState<any>(editingWorkDataProps);
   const [reactSelectOptions, setReactSelectOptions] = useState<any>([]);
-  console.log("editingWorkData :)", editingWorkDataProps);
+  // console.log("editingWorkData :)", editingWorkDataProps);
   useEffect(() => {
     const getUsers = async () => {
       setLoading(true);
       try {
         const { data } = await axios.get("/user/get-users");
-        console.log(data);
+        // console.log(data);
         if (!data.error) {
           setAvailableUsers(data.users);
           let options = data.users.map((user: any) => {
             return { value: user._id, label: user.name };
           });
           setReactSelectOptions(options);
+          setEditingWorkData(editingWorkDataProps);
+          setSelectedUser({
+            value: editingWorkDataProps.userName._id,
+            label: editingWorkDataProps.userName.name,
+          });
+
         } else {
           // toast.error(data.error);
         }
@@ -132,12 +138,20 @@ const EditWork = ({
             Finish Deadline <span className="text-red-500">*</span>
           </label>
           <input
+          value={editingWorkData.finishDeadline.split("T")[0]}
             type="date"
             name="finishDeadline"
             id="finishDeadline"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Ex: Digha Saikatabas"
             required
+            onChange={(e) => {
+              setEditingWorkData({
+                ...editingWorkData,
+                finishDeadline: e.target.value,
+              });
+            }
+            }
           />
         </div>
 
@@ -187,6 +201,14 @@ const EditWork = ({
           Work Details <span className="text-red-500">*</span>
         </label>
         <textarea
+        value={editingWorkData.workDetails}
+        onChange={(e) => {
+          setEditingWorkData({
+            ...editingWorkData,
+            workDetails: e.target.value.toLocaleUpperCase(),
+          });
+        }
+        }
           rows={4}
           name="workDetails"
           id="workDetails"
