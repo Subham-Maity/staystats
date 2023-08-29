@@ -7,6 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import EditBooking from "../card/EditBooking";
 import { InfinitySpin } from "react-loader-spinner";
 import { FaTimes } from "react-icons/fa";
+import{toast} from "react-toastify";
 interface TableProps {
   bookingData?: {
     hotelName?: string;
@@ -52,7 +53,9 @@ const BookingTable = ({
 
 
   useEffect(() => {
-    // console.log(bookingData);
+    if(bookingData?.length === 0){
+      toast.error("No bookings found")
+    }
   }, [bookingData]);
   return (
     <div className="w-full">

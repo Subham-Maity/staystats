@@ -178,6 +178,8 @@ const Bookings = () => {
         "Reservation Number": booking.serialNumber,
         "Hotel Name": booking.hotel?.hotelName,
         "Guest Name": booking.guestName,
+        "Guest Contact": booking.contactNumber,
+        "Guest Email": booking.guestEmail ? booking.guestEmail : "No Data",
         "Check-In Date": new Date(booking.checkInDate).toDateString(),
         "Check-Out Date": new Date(booking.checkOutDate).toDateString(),
         "Number of Rooms": booking.numberOfRooms,

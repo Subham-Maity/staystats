@@ -204,7 +204,8 @@ const getAllBookingsBySearch = async (req, res) => {
 
     const bookings = await Booking.find(filter)
       .or([
-        { guestName: regex }, // Search for bookings with guentName matching the provided regex
+        { guestName: regex },// Search for bookings with guentName matching the provided regex
+        {contactNumber:regex},
         {
           hotel: {
             $in: await Hotel.find({

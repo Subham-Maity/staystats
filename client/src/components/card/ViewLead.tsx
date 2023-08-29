@@ -68,7 +68,7 @@ const ViewLead = ({ lead, onClose }: Props) => {
             id="check_in_date"
             name="check_in_date"
             type="text"
-            value={new Date(lead?.checkInDate || "").toLocaleDateString()}
+            value={new Date(lead?.checkInDate || "").toDateString()}
             disabled
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="08.08.2023"
@@ -85,9 +85,9 @@ const ViewLead = ({ lead, onClose }: Props) => {
             id="check_out_date"
             name="check_out_date"
             type="text"
-            value={new Date(lead?.checkOutDate || "").toLocaleDateString()}
+            value={new Date(lead?.checkOutDate || "").toDateString()}
             disabled
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="09.09.2023"
           />
         </div>

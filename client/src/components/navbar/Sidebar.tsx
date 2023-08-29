@@ -202,7 +202,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               >
                 <MdWorkHistory size={20} />{" "}
                 <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
-                  Work Generate
+                  Log Book
                 </p>
               </li>
             </Link>

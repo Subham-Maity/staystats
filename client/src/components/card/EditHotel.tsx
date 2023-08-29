@@ -150,6 +150,7 @@ const EditHotel = ({
           ? newFile.public_id
           : formValues.documentId,
         frontOfficeContact: formValues.frontOfficeContact,
+        roomCategories: formValues.roomCategories,
       });
       if (!data.error) {
         // const { data } = await axios.post("/user/get-users");
@@ -324,7 +325,10 @@ const EditHotel = ({
             GST Number <span className="text-red-500">*</span>
           </label>
           <input
+          title="GST Number should be 15 characters long"
             name="GSTNumber"
+            minLength={15}
+            maxLength={15}
             type="text"
             id="visitors"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -527,7 +531,7 @@ const EditHotel = ({
             {uploadingDocument && <p>Uploading</p>}
           </div>
         </div>
-        <div className="mb-6">
+        <div className="">
           <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -550,6 +554,31 @@ const EditHotel = ({
                 };
               });
             }}
+          />
+        </div>
+        <div className="">
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Room categories
+          </label>
+          <textarea
+            name="roomCategories"
+            value={editingHotelData.roomCategories}
+            onChange={(e) => {
+              // e.target.value.replace(/[0-9]/g, '');
+              setEditingHotelData((prev: any) => {
+                return {
+                  ...prev,
+                  roomCategories: e.target.value.toLocaleUpperCase(),
+                };
+              });
+            }}
+            id="Other Documents"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="E.g. AC Deluxe, AC Standard"
+            required
           />
         </div>
       </div>

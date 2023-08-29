@@ -478,16 +478,21 @@ const EditBooking = ({
             <option value={editingBookingData.bookingSource}>
               {editingBookingData.bookingSource}
             </option>
+            <option value="Sayngo">SAYNGO</option>
             <option value="Booking.com">Booking.com</option>
             <option value="Agoda">Agoda</option>
             <option value="Cleartrip">Cleartrip</option>
             <option value="Yatra">Yatra</option>
-            <option value="Sayngo">Sayngo</option>
-            <option value="Offline">Offline</option>
             <option value="Travel Agent">Travel Agent</option>
             <option value="Via.com">Via.com</option>
             <option value="Paytm">Paytm</option>
             <option value="Lxiogo">Lxiogo</option>
+            <option value="GoMMT">GoMMT</option>
+            <option value="Expedia">Expedia</option>
+            <option value="Travelguru">Travelguru</option>
+            <option value="EaseMyTrip">EaseMyTrip</option>
+            <option value="Book on Google">Book on Google</option>
+            <option value="HappyEasyGo">HappyEasyGo</option>
           </select>
         </div>
         <div className="">

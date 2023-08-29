@@ -441,6 +441,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             Advance Date <span className="text-red-500">*</span>
           </label>
           <input
+          disabled={!checkInDate}
             id="Advancedate"
             name="Advancedate"
             type="date"
@@ -481,17 +482,22 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="paymentby"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option defaultValue="choose" disabled>Choose</option>
+            <option defaultValue="choose" selected disabled>--Choose--</option>
+            <option value="Sayngo">SAYNGO</option>
             <option value="Booking.com">Booking.com</option>
             <option value="Agoda">Agoda</option>
             <option value="Cleartrip">Cleartrip</option>
             <option value="Yatra">Yatra</option>
-            <option value="Sayngo">Sayngo</option>
-            <option value="Offline">Offline</option>
             <option value="Travel Agent">Travel Agent</option>
             <option value="Via.com">Via.com</option>
             <option value="Paytm">Paytm</option>
             <option value="Lxiogo">Lxiogo</option>
+            <option value="GoMMT">GoMMT</option>
+            <option value="Expedia">Expedia</option>
+            <option value="Travelguru">Travelguru</option>
+            <option value="EaseMyTrip">EaseMyTrip</option>
+            <option value="Book on Google">Book on Google</option>
+            <option value="HappyEasyGo">HappyEasyGo</option>
           </select>
         </div>
         
