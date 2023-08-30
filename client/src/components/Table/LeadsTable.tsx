@@ -61,35 +61,35 @@ const LeadsTable = ({
     }
   }, [showEditModal]);
 
-  const confirmLeadHandler = async (id: string) => {
-    try {
-      setUpdating(true);
-      const { data } = await axios.post("/leads/confirm-lead", {
-        leadId: id,
-      });
-      if (!data.error) {
-        // const { data } = await axios.post("/user/get-users");
-        const leadIndex = leadsData.findIndex((lead: any) => lead._id === id);
+  // const confirmLeadHandler = async (id: string) => {
+  //   try {
+  //     setUpdating(true);
+  //     const { data } = await axios.post("/leads/confirm-lead", {
+  //       leadId: id,
+  //     });
+  //     if (!data.error) {
+  //       // const { data } = await axios.post("/user/get-users");
+  //       const leadIndex = leadsData.findIndex((lead: any) => lead._id === id);
 
-        // If the user is found in the array, replace the data at that index
-        if (leadIndex !== -1) {
-          setLeadsData((prev: any) => {
-            const updatedLeadData = [...prev];
-            updatedLeadData[leadIndex] = data.lead;
-            return updatedLeadData;
-          });
-        }
-        toast.success(data.message);
-      } else {
-        toast.error(data.error);
-      }
-      setUpdating(false);
-    } catch (error: any) {
-      setUpdating(false);
-      console.log(error);
-      toast.error(error.message);
-    }
-  };
+  //       // If the user is found in the array, replace the data at that index
+  //       if (leadIndex !== -1) {
+  //         setLeadsData((prev: any) => {
+  //           const updatedLeadData = [...prev];
+  //           updatedLeadData[leadIndex] = data.lead;
+  //           return updatedLeadData;
+  //         });
+  //       }
+  //       toast.success(data.message);
+  //     } else {
+  //       toast.error(data.error);
+  //     }
+  //     setUpdating(false);
+  //   } catch (error: any) {
+  //     setUpdating(false);
+  //     console.log(error);
+  //     toast.error(error.message);
+  //   }
+  // };
 
   return (
     <div className="w-full">
@@ -183,6 +183,11 @@ const LeadsTable = ({
                     ) => {
                       return (
                         <tr
+                        data-tip={"View Lead"}
+                                onClick={() => {
+                                  getLeads(lead);
+                                  setShowModal(true);
+                                }}
                           key={index}
                           className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${
                             lead?.isCancelled ? "line-through text-red-400" : ""
@@ -241,7 +246,7 @@ const LeadsTable = ({
                           <td className="px-6 py-2 uppercase">
                             {lead?.status || "PENDING"}
                           </td>
-                          <td className="px-6 py-2 uppercase">
+                          {/* <td className="px-6 py-2 uppercase">
                             <div className="flex justify-center items-center">
                               <button
                                 // disabled={user.addedBy !== owner._id}
@@ -298,7 +303,7 @@ const LeadsTable = ({
                                   : "Confirm"}
                               </button>
                             </div>
-                          </td>
+                          </td> */}
                         </tr>
                       );
                     }

@@ -336,27 +336,15 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           >
             Room Category <span className="text-red-500">*</span>
           </label>
-          <select
-          disabled={!selectedHotel}
+          <input
+            type="text"
+            onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
+            id="nop"
             name="roomCategory"
-            id="paymentby"
-            // onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option selected disabled>--Choose--</option>
-
-            {
-              selectedHotel?.roomCategories.map((room: any, index: number) => {
-                return (
-                  <option key={index} value={room.trim()}>
-                    {room.trim() }
-                  </option>
-                );
-              })
-            }
-           
-            
-          </select>
+            placeholder="Enter room category"
+            required
+          />
         </div>
         <div>
           <label
@@ -565,6 +553,13 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         className="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Submit
+      </button>
+      <button
+      disabled={loading}
+        type="reset"
+        className="mt-2 ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Reset
       </button>
     </form>
   );

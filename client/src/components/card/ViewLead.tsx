@@ -11,23 +11,36 @@ interface Props {
     budget?: string;
     specialRequirements?: string;
     status?: string;
-    createdBy?: { name?: string; username?: string };
+    createdBy?: { name?: string; username?: string; _id?: string };
     approvedBy?: { name?: string; username?: string };
     isCancelled?: boolean;
     serialNumber?: string;
   };
   onClose: (value: boolean) => void;
+  confirmLeadHandler: (id?: string) => void;
+  setShowEditModal: (value: boolean) => void;
+  setEditingLeadsData: (value: any) => void;
+  owner?: any;
 }
 
 import Select from "react-select";
 
 import { FaTimes } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from "react";
+import { FiEdit } from "react-icons/fi";
+// import { AiOutlineEye } from "react-icons/ai";
+import { MdFileDownloadDone } from "react-icons/md";
 
-const ViewLead = ({ lead, onClose }: Props) => {
+const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,setShowEditModal }: Props) => {
+  const [updating, setUpdating] = useState<boolean>(false);
+  const [showStatusPopup, setShowStatusPopUp] = useState<boolean>(false);
+
   // console.log( lead, "userdata");
 
+  
+
   return (
+    <>
     <form className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full">
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Lead Details</p>
@@ -259,9 +272,91 @@ const ViewLead = ({ lead, onClose }: Props) => {
               required
             />
           </div> */}
+          <div className="flex">
+                              
+                              <button
+                                // disabled={user.addedBy !== owner._id}
+                                data-tip={"Edit Lead"}
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  setShowEditModal(true);
+                                  setEditingLeadsData(lead);
+                                  onClose(false)
+                                }}
+                                disabled={
+                                  updating ||
+                                  (lead?.createdBy?._id !== owner?._id &&
+                                    owner?.role !== "ADMIN") ||
+                                  lead?.status === "CONFIRMED"
+                                }
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 flex gap-2 items-center justify-center font-semibold`}
+                              >
+                                <FiEdit size={20} className="inline-block" />{" "}
+                                Edit
+                              </button>
+
+                              <button
+                                // disabled={user.addedBy !== owner._id}
+                                data-tip={"update Lead"}
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  setShowStatusPopUp(true);
+                                  
+                                }}
+                                disabled={
+                                  lead?.status === "CONFIRMED" || updating
+                                }
+                                className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50 flex gap-2 items-center justify-center font-semibold`}
+                              >
+                                <MdFileDownloadDone
+                                  size={20}
+                                  className="inline-block"
+                                />{" "}
+                                {lead?.status === "CONFIRMED"
+                                  ? "Confirmed"
+                                  : "Confirm"}
+                              </button>
+                            </div>
 
       </div>
     </form>
+    {showStatusPopup && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-1/3 bg-white rounded-lg p-6">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-bold">Confirm Lead</h1>
+              <button
+                onClick={() => setShowStatusPopUp(false)}
+                className="text-red-500 text-lg"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              Are you sure you want to confirm this lead?
+            </p>
+            <div className="flex justify-end items-center mt-6">
+              <button
+                onClick={() => setShowStatusPopUp(false)}
+                className="text-sm text-gray-500 mr-4"
+              >
+                No
+              </button>
+              <button
+                onClick={() => {
+                  confirmLeadHandler(lead?._id);
+                  setShowStatusPopUp(false);
+                  onClose(false)
+                }}
+                className="text-sm text-red-500"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -57,20 +57,31 @@ const EditLead = ({
         return;
       }
     });
+    const numberRegex = /^[0-9]+$/;
+    const nameRegex = /^[a-zA-Z ]+$/;
 
     if(formValues.cn && formValues.cn.length !== 10){
         toast.error("Please enter a valid phone number and don't include +91");
         return;
     }
 
+    if(formValues.guest_name && !nameRegex.test(formValues.guest_name)){
+        toast.error("Guest name should contain only alphabets");
+        return;
+    }
+
     console.log(formValues);
 
-    const numberRegex = /^[0-9]+$/;
-    const nameRegex = /^[a-zA-Z ]+$/;
+   
 
     if (!nameRegex.test(formValues.guest_name)) {
       toast.error("Guest name should contain only alphabets");
       return;
+    }
+
+    if(!nameRegex.test(formValues.area)){
+        toast.error("Area should contain only alphabets");
+        return;
     }
 
     try {
