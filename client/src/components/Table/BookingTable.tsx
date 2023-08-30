@@ -54,7 +54,7 @@ const BookingTable = ({
 
   useEffect(() => {
     if(bookingData?.length === 0){
-      toast.error("No bookings found")
+      // toast.error("No bookings found")
     }
   }, [bookingData]);
   return (
