@@ -17,6 +17,7 @@ import { FcNext, FcPrevious } from "react-icons/fc";
 import { CiSquareRemove } from "react-icons/ci";
 import ViewLead from "@/components/card/ViewLead";
 import { FRONTEND_URL } from "@/constants/constant";
+import EditLead from "@/components/card/EditLead";
 
 const Leads = () => {
   let router = useRouter();
@@ -32,6 +33,10 @@ const Leads = () => {
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [reloadData, setReloadData] = useState<boolean>(false);
+
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [editingLeadsData, setEditingLeadsData] = useState<object>({});
+ 
 
 
   useEffect(() => {
@@ -112,7 +117,35 @@ const Leads = () => {
     searchText.trim().length > 0 ? getLeadsBySearch() : getLeads();
   }, [page, PAGE_LIMIT, reloadData]);
 
+  const confirmLeadHandler = async (id?: string) => {
+    try {
+      // setUpdating(true);
+      const { data } = await axios.post("/leads/confirm-lead", {
+        leadId: id,
+      });
+      if (!data.error) {
+        // const { data } = await axios.post("/user/get-users");
+        const leadIndex = leadsData.findIndex((lead: any) => lead._id === id);
 
+        // If the user is found in the array, replace the data at that index
+        if (leadIndex !== -1) {
+          setLeadsData((prev: any) => {
+            const updatedLeadData = [...prev];
+            updatedLeadData[leadIndex] = data.lead;
+            return updatedLeadData;
+          });
+        }
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+      // setUpdating(false);
+    } catch (error: any) {
+      // setUpdating(false);
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <>
@@ -227,7 +260,18 @@ const Leads = () => {
       </div>
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <ViewLead onClose={(value) => setShowViewModal(value)} lead={lead} />
+          <ViewLead setShowEditModal={(value) => setShowEditModal(value)} setEditingLeadsData={(value)=> setEditingLeadsData(value)} confirmLeadHandler={confirmLeadHandler} owner={owner} onClose={(value) => setShowViewModal(value)} lead={lead} />
+        </div>
+      )}
+       {showEditModal && editingLeadsData && (
+        <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <EditLead
+            onClose={(value) => setShowEditModal(value)}
+            setLeadData={setLeadsData}
+            editingLeadDataProps={editingLeadsData}
+            leadData={leadsData}
+            owner={owner}
+          />
         </div>
       )}
       {showModal && (
