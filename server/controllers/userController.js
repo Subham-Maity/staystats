@@ -12,6 +12,12 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
+// console.log("CLIENT_ID: ", CLIENT_ID);
+// console.log("REDIRECT_URI: ", REDIRECT_URI);
+// console.log("REFRESH_TOKEN: ", REFRESH_TOKEN);
+// console.log("CLIENT_SECRET: ", CLIENT_SECRET);
+// console.log("FRONTEND_URL: ", FRONTEND_URL);
+
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
@@ -108,16 +114,16 @@ const getUsers = async (req, res) => {
 
     let skipIndex = (query_page - 1) * query_limit;
     let users;
-    if(page && limit){
+    if (page && limit) {
       users = await User.find({ role: "SUBADMIN" })
-      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
-      .skip(skipIndex)
-      .limit(query_limit)
-      .populate({ path: "hotel", model: Hotel });
-    }else{
+        .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+        .skip(skipIndex)
+        .limit(query_limit)
+        .populate({ path: "hotel", model: Hotel });
+    } else {
       users = await User.find({ role: "SUBADMIN" })
-      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
-      .populate({ path: "hotel", model: Hotel });
+        .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+        .populate({ path: "hotel", model: Hotel });
     }
 
     let usersCount = await User.countDocuments({ role: "SUBADMIN" });
@@ -203,15 +209,18 @@ const createUser = async (req, res) => {
     // Send email to the user
     const subject = "STAY STATS ADMIN PANEL - Account Created";
 
-    const bodyTemplateText = `Hello ${name},\n\nYour account has been created successfully.\n\nYour username is: ${username}\nYour password is: ${password}\n\nPlease login to your account at: ${FRONTEND_URL+'/login'}\n\nRegards,\nSTATYSTATS ADMIN PANEL`;
+    const bodyTemplateText = `Hello ${name},\n\nYour account has been created successfully.\n\nYour username is: ${username}\nYour password is: ${password}\n\nPlease login to your account at: ${
+      FRONTEND_URL + "/login"
+    }\n\nRegards,\nSTATYSTATS ADMIN PANEL`;
 
     const bodyTemplateHtml = `<p>Hello ${name},</p><p>Your account has been created successfully.</p><p>Your username is: ${username}</p><p>Your password is: ${password}</p><p>Please login to your account <a href="${FRONTEND_URL}/login">here</a>.</p><p>Regards,</p><p>STAY STATS ADMIN PANEL</p>`;
 
-    
-    let emailResponse =  await sendEmail(email, subject, bodyTemplateText, bodyTemplateHtml);
-
-
-
+    let emailResponse = await sendEmail(
+      email,
+      subject,
+      bodyTemplateText,
+      bodyTemplateHtml
+    );
 
     res
       .status(200)
@@ -227,16 +236,16 @@ const createUser = async (req, res) => {
 };
 
 const activateDeactiveUser = async (req, res) => {
-  try { 
+  try {
     const { id } = req.body;
     const user = await User.findById(id);
     if (!user) {
       res.status(200).json({ error: "No user found" });
       return;
     } else {
-      if(user.isActive){
+      if (user.isActive) {
         user.isActive = false;
-      }else{
+      } else {
         user.isActive = true;
       }
       await user.save();
@@ -249,30 +258,43 @@ const activateDeactiveUser = async (req, res) => {
   }
 };
 
-
 const updateUser = async (req, res) => {
   const { id, phoneNumber, hotel, username, name, email, password } = req.body;
   try {
-    console.log("[updateuser controller]")
-    if(password === null || password === undefined || password === ''){
+    console.log("[updateuser controller]");
+    if (password === null || password === undefined || password === "") {
       const updatedUser = await User.findByIdAndUpdate(
         id,
         { phoneNumber, hotel, name, username, email },
         { new: true } // This option returns the updated document after the update is applied
       );
-      
-    const populatedUser = await User.findById(updatedUser._id).populate({
-      path: "hotel",
-      model: Hotel,
-    });
 
-    if (!updatedUser) {
-      return res.status(404).json({ error: "User not found" });
-    }
+      const populatedUser = await User.findById(updatedUser._id).populate({
+        path: "hotel",
+        model: Hotel,
+      });
 
-    res
-      .status(200)
-      .json({ message: "User updated successfully", user: populatedUser });
+      if (!updatedUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const subject = "STAY STATS ADMIN PANEL - Account Updated";
+
+      const updatedBodyTemplateText = `Hello ${name},\n\nYour account information has been updated successfully.\n\nHere are your updated details:\n\nName: ${name}\nUsername: ${username}\nEmail: ${email}\nPhone Number: ${phoneNumber}\n\nPlease review your updated information. If you have any concerns, please contact admin.\n\nRegards,\nSTATYSTATS ADMIN PANEL`;
+
+      const updatedBodyTemplateHtml = `<p>Hello ${name},</p><p>Your account information has been updated successfully.</p><p>Here are your updated details:</p><ul><li>Name: ${name}</li><li>Username: ${username}</li><li>Email: ${email}</li><li>Phone Number: ${phoneNumber}</li></ul><p>Please review your updated information. If you have any concerns, please contact admin</a>.</p><p>Regards,</p><p>STAY STATS ADMIN PANEL</p>`;
+
+      let emailResponse = await sendEmail(
+        email,
+        subject,
+        updatedBodyTemplateText,
+        updatedBodyTemplateHtml
+      );
+
+
+      res
+        .status(200)
+        .json({ message: "User updated successfully", user: populatedUser });
     } else {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -286,18 +308,28 @@ const updateUser = async (req, res) => {
         path: "hotel",
         model: Hotel,
       });
-  
+
       if (!updatedUser) {
         return res.status(404).json({ error: "User not found" });
       }
-  
+      const subject = "STAY STATS ADMIN PANEL - Account Updated";
+
+      const updatedBodyTemplateText = `Hello ${name},\n\nYour account information has been updated successfully.\n\nHere are your updated details:\n\nName: ${name}\nUsername: ${username}\nEmail: ${email}\nPhone Number: ${phoneNumber}\n\nPlease review your updated information. If you have any concerns, please contact admin.\n\nUse this email and password: ${password} to login next time.\n\nRegards,\nSTATYSTATS ADMIN PANEL`;
+
+      const updatedBodyTemplateHtml = `<p>Hello ${name},</p><p>Your account information has been updated successfully.</p><p>Here are your updated details:</p><ul><li>Name: ${name}</li><li>Username: ${username}</li><li>Email: ${email}</li><li>Phone Number: ${phoneNumber}</li></ul><p>Please review your updated information. If you have any concerns, please contact admin</a>.</p><p>Use this email and password: <strong>${password}</strong> to login next time.</p><p>Regards,</p><p>STAY STATS ADMIN PANEL</p>`;
+
+      let emailResponse = await sendEmail(
+        email,
+        subject,
+        updatedBodyTemplateText,
+        updatedBodyTemplateHtml
+      );
+
+
       res
         .status(200)
         .json({ message: "User updated successfully", user: populatedUser });
-
     }
-    
-
   } catch (error) {
     console.log("[user controller update error:]", error);
     res.status(201).json({ error: error.message });
@@ -331,5 +363,5 @@ module.exports = {
   updateUser,
   deleteUser,
   sendEmail,
-  activateDeactiveUser
+  activateDeactiveUser,
 };

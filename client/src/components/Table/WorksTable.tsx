@@ -126,10 +126,10 @@ const WorksTable = ({
                   </div>
                 ) : (
                   workData.map((work: any, index: number) => {
-                    //   console.log(hotel.hotelName);
+                      // console.log(work);
 
 
-                    if(owner.role !== "ADMIN" && work.userName._id === owner._id){
+                    if(owner.role !== "ADMIN" && work?.userName?._id === owner?._id){
                       
                       return (
                         <tr

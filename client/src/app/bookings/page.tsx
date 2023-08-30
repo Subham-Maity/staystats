@@ -82,6 +82,7 @@ const Bookings = () => {
         if (!data.error) {
           // setSearchResults(data);
           setBookingData(data.bookings);
+          data.message && toast.info(data.message);
         } else {
           toast.error(data.error);
         }
@@ -106,6 +107,7 @@ const Bookings = () => {
         if (!data.error) {
           setBookingData(data.bookings);
           setBookingCounts(data.bookingsCount);
+          data.message && toast.info(data.message);
         } else {
           toast.error(data.error);
         }
