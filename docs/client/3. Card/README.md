@@ -1,6 +1,6 @@
 1. **Component Props (`Props` interface):**
 - `setBookingData`: A function to update the booking data 
-   > `Type: (data: BookingData[]) => void`
+   > `Type: (data: StateData{}) => void`
 - `onClose`: A function to close the edit booking modal.
    > `Type: () => void`
 - `editingBookingDataProps`: The data of the booking being edited.
@@ -8,7 +8,7 @@
    > - `Optional` 
       
 - `bookingData`: An array of booking data.
-   > `Type: BookingData[]
+   > `Type: BookingData{}`
    > - `Optional`
    > - `No Usecase Now`
 - `owner`: Owner information.
@@ -33,7 +33,7 @@
     - Makes an API call to update the booking data using `axios.post`.
     - If the update is successful, it updates the booking data in the state and displays a success toast message.
     - If there's an error, it displays an error toast message.
-4. Axios -> `src/utils/axios.ts`
+4.
 ```ts
 const { data } = await axios.post("/booking/update-booking", {
           id: editingBookingData._id,
