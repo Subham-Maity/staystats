@@ -75,7 +75,7 @@ const EditUser = ({
     formData.forEach((value, key) => {
       formValues[key] = value as string;
       if (formValues[key].trim() === "") {
-        if(key !== "password"){
+        if (key !== "password") {
           toast.error("Please fill all the fields");
         }
         return;
@@ -86,21 +86,23 @@ const EditUser = ({
     const nameRegex = /^[a-zA-Z ]+$/;
     const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
 
-    if(formValues.phone.length !== 10 ){
+    if (formValues.phone.length !== 10) {
       toast.error("Please enter a valid phone number and don't include +91");
       return;
     }
 
-    if(formValues.first_name.trim() =="" && !nameRegex.test(formValues.first_name)){
+    if (
+      formValues.first_name.trim() == "" &&
+      !nameRegex.test(formValues.first_name)
+    ) {
       toast.error("Please enter a valid name");
       return;
     }
 
-    if(formValues.email.trim() == "" && !emailRegex.test(formValues.email)){
+    if (formValues.email.trim() == "" && !emailRegex.test(formValues.email)) {
       toast.error("Please enter a valid email");
       return;
     }
-
 
     try {
       setLoading(true);
@@ -158,7 +160,6 @@ const EditUser = ({
     toast.success(`Password generated automatically`);
   };
 
-
   return (
     <form
       ref={formRef}
@@ -173,7 +174,7 @@ const EditUser = ({
         >
           &times;
         </span>
-        </div>
+      </div>
       <div className="grid gap-4 grid-cols-3 md:grid-cols-3">
         <div>
           <label
@@ -190,7 +191,7 @@ const EditUser = ({
             placeholder="Ex: Digha Saikatabas"
             value={!loading ? editingUserData.name : "fetching.."}
             required
-            onChange={(e)=>{
+            onChange={(e) => {
               setEditingUserData((prev: any) => {
                 return { ...prev, name: e.target.value.toLocaleUpperCase() };
               });
@@ -229,7 +230,7 @@ const EditUser = ({
             htmlFor="email"
             className="block mb-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address  <span className="text-red-500">*</span>
+            Email address <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -243,7 +244,6 @@ const EditUser = ({
               setEditingUserData((prev: any) => {
                 return { ...prev, email: e.target.value };
               });
-
             }}
           />
         </div>
@@ -301,7 +301,7 @@ const EditUser = ({
             </div>
           </div>
         </div>
-<br />
+        <br />
         <div className="w-[340px]">
           <label
             htmlFor="hotel"
@@ -334,7 +334,7 @@ const EditUser = ({
           loading || availableHotels.length === 0 || selectedHotels.length === 0
         }
       >
-        Update
+        {loading ? 'Please wait...' : 'Update'}
       </button>
     </form>
   );
