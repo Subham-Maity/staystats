@@ -94,7 +94,7 @@ const Filter = ({ setFilterData }: Props) => {
               </label>
               <select
                 onChange={(e) => {
-                  setFilter({ ...filter, hotelName: e.target.value.toLocaleUpperCase() });
+                  setFilter({ ...filter, hotelName: e.target.value });
                 }}
                 name=""
                 id="hotel-drop-down"

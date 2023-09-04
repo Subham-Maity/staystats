@@ -152,7 +152,7 @@ const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,s
         <div></div>
         <div className=" flex">
           <button
-            disabled={user?.addedBy !== owner._id}
+            disabled={owner?.role !== "ADMIN" }
             data-tip={"Edit User"}
             onClick={(e) => {
               e.preventDefault()
@@ -166,7 +166,7 @@ const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,s
             <p>Edit</p>
           </button>
           <button
-            disabled={user?.addedBy !== owner._id}
+            disabled={owner?.role !== "ADMIN"}
             data-tip={"Delete User"}
             onClick={(event) => handleShowDeleteModal(event)}
             className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
@@ -175,7 +175,7 @@ const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,s
             <p>Delete</p>
           </button>
           <button
-            disabled={user?.addedBy !== owner._id}
+            disabled={owner?.role !== "ADMIN"}
             data-tip={"Delete User"}
             onClick={(event) => handleShowStatusModal(event)}
             className={`w-fit text-center p-2 ml-2 shadow border bg-gray-100 ${

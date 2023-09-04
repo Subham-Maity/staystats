@@ -192,9 +192,7 @@ const createHotel = async (req, res) => {
       res.status(201).json({ message: "Hotel not created", hotel: {} });
       return;
     }
-    await User.findByIdAndUpdate(req.user._id, {
-      $push: { hotel: newHotel._id },
-    });
+    await User.updateMany({ role: "ADMIN" }, { $push: { hotel: newHotel._id } });
     res
       .status(200)
       .json({ message: "Hotel created successfully", hotel: newHotel });
