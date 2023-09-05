@@ -286,8 +286,8 @@ const deleteHotel = async (req, res) => {
       res.status(200).json({ error: "No hotel found" });
       return;
     } else {
-      let updatedUser = await User.findByIdAndUpdate(
-        hotelAddedBy,
+      let updatedUser = await User.updateMany(
+        {role: "ADMIN"},
         {
           $pull: { hotel: id },
         },

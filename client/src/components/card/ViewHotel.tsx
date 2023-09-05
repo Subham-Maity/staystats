@@ -430,6 +430,7 @@ const ViewHotel = ({ hotel, onClose, owner, deleteHotelHandler,updateStatusHandl
                 onClick={() => {
                   deleteHotelHandler(hotel?._id);
                   setShowDeletePopUp(false);
+                  onClose(false)
                 }}
                 className="text-sm text-red-500"
               >
