@@ -116,12 +116,12 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
           </ThemeProvider>
         </div>
         <div className="flex items-center justify-around gap-6">
-          <BsHouseCheck size={18} />
+          {/* <BsHouseCheck size={18} />
           <BsBarChart size={18} />
           <div className="relative">
             <span className="absolute rounded-full h-3 w-3 bg-blue-500 border-2 border-white -top-2 -right-1"></span>
             <BsBell size={18} />
-          </div>
+          </div> */}
           <div className="relative" ref={profileDropdownRef}>
             <span className="absolute rounded-full h-3 w-3 bg-green-500 border-2 border-white right-0 bottom-0"></span>
             <Image
