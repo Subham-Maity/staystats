@@ -6,7 +6,7 @@ import { FaHome, FaRocket, FaBars } from "react-icons/fa";
 import { HiUserGroup } from "react-icons/hi";
 import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
-import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
+import { FaRegCircle, FaRegDotCircle, FaAddressBook } from "react-icons/fa";
 import { MdDashboard, MdLeaderboard, MdWorkOutline, MdWorkHistory } from "react-icons/md";
 import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
@@ -203,6 +203,22 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 <MdWorkHistory size={20} />{" "}
                 <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                   Log Book
+                </p>
+              </li>
+            </Link>
+            <Link href="/users-ip">
+              <li
+                className={`${
+                  accountType === "SUBADMIN" && "hidden"
+                } flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
+                  pathname === "/users-ip"
+                    ? "bg-slate-300 text-primary"
+                    : "hover:bg-slate-300"
+                } rounded-xl`}
+              >
+                <FaAddressBook size={20} />{" "}
+                <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
+                  Users Ip
                 </p>
               </li>
             </Link>

@@ -11,6 +11,7 @@ import { ThemeProvider } from "next-themes";
 // import Breadcrumbs from "./Breadcrumbs";
 import profileImage from "../../../public/assets/avatar01.png";
 import axios from "@/utils/axios";
+import axios_ from "axios";
 
 interface NavbarProps {
   isSidebarOpen: boolean;
@@ -40,7 +41,14 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
     setIsProfileDropDownOpen(!isProfileDropDownOpen);
   };
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
+    let { data: ipData } = await axios_.get("https://ipapi.co/json/");
+    let ip = ipData.ip;
+    await axios.post("/api/logout", {
+      id: user._id,
+      ip,
+      action: "MANNUAL LOGOUT",
+    });
     localStorage.removeItem("user");
     localStorage.removeItem("authToken");
     window.location.reload();
@@ -84,7 +92,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
         window.removeEventListener(item, resetTimer);
       });
       // logs out user
-      logoutAction();
+      logoutAction("INACTIVITY LOGOUT");
     }, 500000); // 10000ms = 10secs.
   };
   useEffect(() => {
@@ -95,7 +103,15 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
       });
     });
   }, []);
-  const logoutAction = () => {
+
+  const logoutAction = async (action: string) => {
+    let { data: ipData } = await axios_.get("https://ipapi.co/json/");
+    let ip = ipData.ip;
+    await axios.post("/api/logout", {
+      id: user._id,
+      ip,
+      action,
+    });
     localStorage.clear();
     window.location.pathname = "/";
   };

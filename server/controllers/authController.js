@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { User } = require("../models/userModel");
+const { Activity } = require("../models/activityModel");
 const generateJWT = require("../config/generateToken");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
@@ -31,7 +32,7 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, ip } = req.body;
 
   try {
     const user = await User.findOne({ username: username });
@@ -39,10 +40,11 @@ const login = async (req, res) => {
     if (!user) {
       res.status(201).json({ message: "User not found" });
       return;
-    } else if(user.isActive === false){
-      res.status(201).json({ message: "Your account has been deactivated by admin" });
-      return
-      
+    } else if (user.isActive === false) {
+      res
+        .status(201)
+        .json({ message: "Your account has been deactivated by admin" });
+      return;
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -53,6 +55,13 @@ const login = async (req, res) => {
     }
 
     const jwt = generateJWT(user._id);
+
+    const newActivity = await Activity.create({
+      user: user._id,
+      ipAddress: ip,
+      loginTime: new Date(),
+      action: "LOGIN",
+    });
 
     res.status(200).json({ message: "Login successful", user: user, jwt: jwt });
   } catch (error) {
@@ -100,7 +109,7 @@ const forgotPasswordGenerateLink = async (req, res) => {
       bodyTemplateHtml
     );
 
-    if (emailResponse.accepted.length > 0) {
+    if (emailResponse?.accepted.length > 0) {
       res
         .status(200)
         .json({ message: "Password reset link sent to your email" });
@@ -175,10 +184,46 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  let { id, ip, action } = req.body;
+
+  try {
+    let newActivity = await Activity.create({
+      user: id,
+      ipAddress: ip,
+      logoutTime: new Date(),
+      action: action,
+    });
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log("logout error ===> ", error);
+    res.status(500).json({ error: error.message });
+    return;
+  }
+};
+
+const getAllActivities = async (req, res) => {
+  console.log("getAllActivities req.body ===> ");
+  try {
+    let activities = await Activity.find({}).populate({
+      path: "user",
+      select: "name username role",
+      model: User,
+    });
+    res.status(200).json({ activities: activities, message: "Success" });
+  } catch (error) {
+    console.log("getAllActivities error ===> ", error);
+    res.status(500).json({ error: error.message });
+    return;
+  }
+};
+
 module.exports = {
   signup,
   login,
   forgotPasswordGenerateLink,
   resetPasswordLinkValidation,
   resetPassword,
+  logout,
+  getAllActivities,
 };
