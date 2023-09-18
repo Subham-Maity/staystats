@@ -62,3 +62,7 @@
 | Arian |
 
 ---
+
+###### 2023-09-18
+- Added user activity log and page to see the logs
+| Arian |
