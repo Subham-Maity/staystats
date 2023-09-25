@@ -40,6 +40,9 @@ const ActivityTable = ({ activityData, owner, loading }: TableProps) => {
               <th scope="col" className="px-4 py-2 text-center">
                 Role
               </th>
+              <th scope="col" className="px-4 py-2 text-center">
+                Ip
+              </th>
               <th scope="col" className="px-4 py-3 text-center">
                 Action
               </th>
@@ -82,6 +85,12 @@ const ActivityTable = ({ activityData, owner, loading }: TableProps) => {
                           className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                         >
                           {activity?.user?.role || ""}
+                        </td>
+                        <td
+                          scope="row"
+                          className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                          {activity?.ipAddress || ""}
                         </td>
                         <td className="px-4 py-2 text-center">
                           {activity.action || ""}

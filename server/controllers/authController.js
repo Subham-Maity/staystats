@@ -187,6 +187,7 @@ const resetPassword = async (req, res) => {
 const logout = async (req, res) => {
   let { id, ip, action } = req.body;
 
+  console.log("logout req.body ===> ", req.body);
   try {
     let newActivity = await Activity.create({
       user: id,
