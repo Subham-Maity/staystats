@@ -167,15 +167,19 @@ const Works = () => {
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center">
       <div className="flex w-full justify-between mt-6">
-        <h1 className="text-2xl font-bold">Work Generate</h1>
-        <button
+        <h1 className="text-2xl font-bold">Log Book</h1>
+        {
+          accountType === "ADMIN" && (
+            <button
           onClick={() => setShowModal(true)}
           type="submit"
           className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           <FaPlus size={20} />
-          <p>Work Generate</p>
+          <p>Add Work</p>
         </button>
+          )
+        }
       </div>
       <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
