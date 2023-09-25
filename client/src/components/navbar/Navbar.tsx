@@ -107,8 +107,9 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const logoutAction = async (action: string) => {
     let { data: ipData } = await axios_.get("https://ipapi.co/json/");
     let ip = ipData.ip;
+    let userId = JSON.parse(localStorage.getItem("user") || "")?._id
     await axios.post("/api/logout", {
-      id: user._id,
+      id: userId,
       ip,
       action,
     });
