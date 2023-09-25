@@ -12,11 +12,6 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
-// console.log("CLIENT_ID: ", CLIENT_ID);
-// console.log("REDIRECT_URI: ", REDIRECT_URI);
-// console.log("REFRESH_TOKEN: ", REFRESH_TOKEN);
-// console.log("CLIENT_SECRET: ", CLIENT_SECRET);
-// console.log("FRONTEND_URL: ", FRONTEND_URL);
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,

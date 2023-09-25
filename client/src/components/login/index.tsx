@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import axios from "@/utils/axios";
+import axios_ from "axios";
 import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -54,9 +55,14 @@ const LoginForm = () => {
 
     try {
       setLoading(true);
+
+      let {data: ipData} = await axios_.get("https://ipapi.co/json/");
+      let ip = ipData.ip;
+
       const { data: response } = await axios.post(url, {
         username,
         password,
+        ip,
       });
       setLoading(false);
       if (response && response.user && response.user?._id) {
