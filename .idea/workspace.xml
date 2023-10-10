@@ -5,18 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Components/TailwindWrapper.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Components/chartBox.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/data.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/utils/Tailwind.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/dash/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/dash/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/app/defaultLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/defaultLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pnpm-lock.yaml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Components/ChartBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Components/ChartBox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Components/chartBox.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Components/chartBox.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/tailwind.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/data.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +64,7 @@
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\maity\\AppData\\Roaming\\npm\\node_modules\\prettier",
     "rearrange.code.on.save": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "D:\\Project\\React\\stay-stats\\client\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\maity\\OneDrive\\Github\\F\\SubhamDa\\Data Register\\stay-stats\\client\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -113,6 +107,7 @@
       <workItem from="1692299087206" duration="2301000" />
       <workItem from="1692349961348" duration="1521000" />
       <workItem from="1696932975625" duration="12391000" />
+      <workItem from="1696951980436" duration="12234000" />
     </task>
     <servers />
   </component>
