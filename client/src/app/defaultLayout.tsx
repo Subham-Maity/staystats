@@ -63,7 +63,7 @@ const DefaultLayout = ({ children }: any) => {
               isSidebarOpen={isSidebarOpen}
               toggleSidebar={toggleSidebar}
             />
-            <div className="lg:w-[90%] w-[90%] 2xl:w-[65%]">{children}</div>
+            <div className="w-full">{children}</div>
           </div>
         </div>
       ) : pathName === "/forgot-password" ? (

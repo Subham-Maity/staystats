@@ -136,22 +136,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 </p>
               </li>
             </Link>
-            <Link href="/dash">
-              <li
-                className={`${
-                  accountType === "SUBADMIN" && "hidden"
-                } flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                  pathname === "/users"
-                    ? "bg-slate-300 text-primary"
-                    : "hover:bg-slate-300"
-                } rounded-xl`}
-              >
-                <HiUserGroup size={20} />{" "}
-                <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
-                  Users
-                </p>
-              </li>
-            </Link>
+
             <Link href="/users">
               <li
                 className={`${
