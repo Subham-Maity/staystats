@@ -21,7 +21,7 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
     const getUsers = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/user/get-users");
+        const { data } = await axios.get("/user/get-all-users");
         console.log(data);
         if (!data.error) {
           setAvailableUsers(data.users);
@@ -154,7 +154,9 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
           Work Details <span className="text-red-500">*</span>
         </label>
         <textarea
-        onChange={(e)=> e.target.value= e.target.value.toLocaleUpperCase()}
+          onChange={(e) =>
+            (e.target.value = e.target.value.toLocaleUpperCase())
+          }
           rows={4}
           name="workDetails"
           id="workDetails"

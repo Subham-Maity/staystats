@@ -12,7 +12,6 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
-
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
@@ -54,6 +53,25 @@ const sendEmail = async (
     return result;
   } catch (error) {
     console.log("Error in sendEmail ===> ", error);
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    console.log("getAllUsers");
+    const users = await User.find();
+    if (!users) {
+      res.status(200).json({ error: "No users found", users: [] });
+      return;
+    } else {
+      res.status(200).json({ users });
+      return;
+    }
+  } catch (error) {
+    console.log("Error: ", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
   }
 };
 
@@ -286,7 +304,6 @@ const updateUser = async (req, res) => {
         updatedBodyTemplateHtml
       );
 
-
       res
         .status(200)
         .json({ message: "User updated successfully", user: populatedUser });
@@ -319,7 +336,6 @@ const updateUser = async (req, res) => {
         updatedBodyTemplateText,
         updatedBodyTemplateHtml
       );
-
 
       res
         .status(200)
@@ -359,4 +375,5 @@ module.exports = {
   deleteUser,
   sendEmail,
   activateDeactiveUser,
+  getAllUsers,
 };

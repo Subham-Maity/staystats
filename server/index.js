@@ -34,7 +34,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-
 (async () =>
   await connectDB()
     .then(() => {

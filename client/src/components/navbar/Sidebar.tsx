@@ -7,7 +7,12 @@ import { HiUserGroup } from "react-icons/hi";
 import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { FaRegCircle, FaRegDotCircle, FaAddressBook } from "react-icons/fa";
-import { MdDashboard, MdLeaderboard, MdWorkOutline, MdWorkHistory } from "react-icons/md";
+import {
+  MdDashboard,
+  MdLeaderboard,
+  MdWorkOutline,
+  MdWorkHistory,
+} from "react-icons/md";
 import { fetchOwner } from "@/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -40,8 +45,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
         localStorage.removeItem("user");
         localStorage.removeItem("authToken");
 
-        window.open(`${FRONTEND_URL}/login`,"_self")
-
+        window.open(`${FRONTEND_URL}/login`, "_self");
       }
     };
     updateUser();
@@ -129,6 +133,22 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 <MdDashboard size={20} />{" "}
                 <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
                   Dashboard
+                </p>
+              </li>
+            </Link>
+            <Link href="/dash">
+              <li
+                className={`${
+                  accountType === "SUBADMIN" && "hidden"
+                } flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
+                  pathname === "/users"
+                    ? "bg-slate-300 text-primary"
+                    : "hover:bg-slate-300"
+                } rounded-xl`}
+              >
+                <HiUserGroup size={20} />{" "}
+                <p className={`text-sm ${!isNavOpen && !hover && "hidden"}`}>
+                  Users
                 </p>
               </li>
             </Link>
