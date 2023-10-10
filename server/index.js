@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
-dotenv.config({ path: "prod.env" });
-// dotenv.config({ path: "dev.env" });
+// dotenv.config({ path: "prod.env" });
+dotenv.config({ path: "dev.env" });
 console.log("ENV : ", process.env.NODE_ENV);
 
 const express = require("express");
@@ -33,7 +33,6 @@ app.use("/", workRoutes);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
 
 (async () =>
   await connectDB()
