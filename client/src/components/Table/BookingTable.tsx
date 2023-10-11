@@ -7,7 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import EditBooking from "../card/EditBooking";
 import { InfinitySpin } from "react-loader-spinner";
 import { FaTimes } from "react-icons/fa";
-import{toast} from "react-toastify";
+import { toast } from "react-toastify";
 interface TableProps {
   bookingData?: {
     hotelName?: string;
@@ -49,11 +49,8 @@ const BookingTable = ({
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
 
-
-
-
   useEffect(() => {
-    if(bookingData?.length === 0){
+    if (bookingData?.length === 0) {
       // toast.error("No bookings found")
     }
   }, [bookingData]);
@@ -196,7 +193,9 @@ const BookingTable = ({
                         <td className="px-6 py-2">
                           {booking?.advanceAmount || ""}
                         </td>
-                        <td className="px-6 py-4">{booking.dueAmount || "PAID"}</td>
+                        <td className="px-6 py-4">
+                          {booking.dueAmount || "PAID"}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {new Date(booking?.advanceDate).toDateString() || ""}
                         </td>
@@ -267,7 +266,7 @@ const BookingTable = ({
           </tbody>
         </table>
       </div>
-      
+
       {showDeletePopup && (
         <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">

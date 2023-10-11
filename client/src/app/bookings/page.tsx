@@ -44,7 +44,7 @@ const Bookings = () => {
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [showViewModal, showModal,showEditModal]);
+  }, [showViewModal, showModal, showEditModal]);
 
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
@@ -60,7 +60,7 @@ const Bookings = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("authToken");
 
-        window.open(`${FRONTEND_URL}/login`,"_self")
+        window.open(`${FRONTEND_URL}/login`, "_self");
       }
     };
     updateUser();
@@ -210,19 +210,23 @@ const Bookings = () => {
   };
 
   return (
-    <div className="flex w-full flex-col justify-center gap-4 items-center">
-      <div className="flex w-full justify-between mt-6">
-        <h1 className="text-2xl font-bold">Booking Details</h1>
+    <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
+      <div className="flex w-full justify-between px-2 items-center gap-4 lg:gap-0 mt-6">
+        <h1 className="lg:text-2xl text-lg whitespace-nowrap font-bold">
+          Booking Details
+        </h1>
         <div className="flex gap-2">
           {user.role === "ADMIN" && (
             <button
               onClick={() => {
                 setShowDownloadPopUp(true);
               }}
-              className="flex gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
+              className="flex justify-center  items-center gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
             >
               <SiMicrosoftexcel size={20} />
-              <p>Download Excel</p>
+              <p className="whitespace-nowrap text-sm hidden lg:block">
+                Download Excel
+              </p>
             </button>
           )}
           <button
@@ -231,7 +235,9 @@ const Bookings = () => {
             className="flex gap-2 text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800"
           >
             <FaPlus size={20} />
-            <p>Add Booking</p>
+            <p className="whitespace-nowrap text-sm hidden lg:block">
+              Add Booking
+            </p>
           </button>
         </div>
       </div>
@@ -351,8 +357,8 @@ const Bookings = () => {
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <ViewBooking
-          setShowEditModal={(value) => setShowEditModal(value)}
-          cancelBookingHandler={cancelBookingHandler}
+            setShowEditModal={(value) => setShowEditModal(value)}
+            cancelBookingHandler={cancelBookingHandler}
             onClose={(value) => setShowViewModal(value)}
             booking={booking}
             setEditingBookingData={(value) => setEditingBookingData(value)}

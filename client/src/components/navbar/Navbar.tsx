@@ -107,7 +107,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const logoutAction = async (action: string) => {
     let { data: ipData } = await axios_.get("https://ipapi.co/json/");
     let ip = ipData.ip;
-    let userId = JSON.parse(localStorage.getItem("user") || "")?._id
+    let userId = JSON.parse(localStorage.getItem("user") || "")?._id;
     await axios.post("/api/logout", {
       id: userId,
       ip,
@@ -118,7 +118,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   };
 
   return (
-    <div className="flex  flex-col gap-2 cursor-pointer mt-4 text-gray-600 lg:w-[65%] w-[90%]">
+    <div className="flex w-full flex-col gap-2 cursor-pointer mt-4 text-gray-600 ">
       <div className="navbar flex justify-between items-center px-4 py-2 dark:bg-blue-950 light:bg-slate-300 border border-sm rounded-lg">
         <div className="flex items-center justify-around gap-6">
           <RiMenuUnfoldFill

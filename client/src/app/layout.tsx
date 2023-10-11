@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="class">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,7 +31,9 @@ export default function RootLayout({
         {/* <link rel="icon" href="/sayngo.png"/> */}
       </head>
       <Providers>
-        <body className={`${inter.className} dark:bg-[#25293c]`}>
+        <body
+          className={`${inter.className} overflow-hidden dark:bg-[#25293c]`}
+        >
           <DefaultLayout>{children}</DefaultLayout>
         </body>
       </Providers>

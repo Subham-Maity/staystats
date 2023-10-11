@@ -61,8 +61,7 @@ const Users = () => {
       } else {
         toast.error("You are not authorized to view this page");
         localStorage.removeItem("user");
-        window.open(`${FRONTEND_URL}/login`,"_self")
-
+        window.open(`${FRONTEND_URL}/login`, "_self");
       }
     };
     updateUser();
@@ -161,20 +160,18 @@ const Users = () => {
       toast.error(error.message);
       console.log(error);
     }
-  }
+  };
 
-  const handleDownload = async() => {
+  const handleDownload = async () => {
     const getUsersForDownload = async () => {
       try {
-        const { data } = await axios.get(
-          `/user/get-users`
-        );
+        const { data } = await axios.get(`/user/get-users`);
         // console.log(data);
         if (!data.error) {
           return data.users;
         } else {
           toast.error(data.error);
-          return
+          return;
         }
       } catch (error: any) {
         toast.error(error.message);
@@ -191,7 +188,7 @@ const Users = () => {
         "Phone Number": user?.phoneNumber,
         Role: user?.role,
         Hotels: user?.hotel?.map((hotel: any) => hotel?.hotelName).join(", "),
-        Status: user?.isActive ? 'active' : 'inactive',
+        Status: user?.isActive ? "active" : "inactive",
       };
     });
 
@@ -216,18 +213,22 @@ const Users = () => {
               onClick={() => {
                 setShowDownloadPopUp(true);
               }}
-              className="flex gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
+              className="flex gap-2 whitespace-nowrap text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
             >
               <SiMicrosoftexcel size={20} />
-              <p>Download Excel</p>
+              <p className="whitespace-nowrap text-sm hidden lg:block">
+                Download Excel
+              </p>
             </button>
             <button
               onClick={() => setShowModal(true)}
               type="submit"
-              className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className=" flex whitespace-nowrap gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               <FaPlus size={20} />
-              <p>Add User</p>
+              <p className="whitespace-nowrap text-sm hidden lg:block">
+                Add User
+              </p>
             </button>
           </div>
         </div>
@@ -332,13 +333,20 @@ const Users = () => {
       </div>
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          <ViewUser setShowEditModal={(value)=> setShowEditModal(value)} setEditingUserData={(value) => setEditingUserData(value)} deleteUserHandler={deleteUserHandler} updateStatusHandler={updateStatusHandler} owner={owner} onClose={(value) => setShowViewModal(value)} user={user} />
+          <ViewUser
+            setShowEditModal={(value) => setShowEditModal(value)}
+            setEditingUserData={(value) => setEditingUserData(value)}
+            deleteUserHandler={deleteUserHandler}
+            updateStatusHandler={updateStatusHandler}
+            owner={owner}
+            onClose={(value) => setShowViewModal(value)}
+            user={user}
+          />
         </div>
       )}
       {showEditModal && editingUserData && (
         <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <EditUser
-          
             onClose={(value) => setShowEditModal(value)}
             setUserData={setUserData}
             editingUserDataProps={editingUserData}
@@ -408,7 +416,7 @@ const Users = () => {
                 Cancel
               </button>
               <button
-                onClick={async() => {
+                onClick={async () => {
                   setDownloading(true);
                   await handleDownload();
                   setDownloading(false);
