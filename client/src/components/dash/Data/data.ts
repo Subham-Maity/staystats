@@ -1,3 +1,9 @@
+import {
+  BookingData,
+  HotelData,
+  UserData,
+} from "@/components/dash/Types/types";
+
 const bookingData = [
   {
     _id: {
@@ -4019,17 +4025,17 @@ const hotels = [
 //🚀 Check-in bookingData
 
 //✅ Step-1 -> Calculate the number of check-ins for today
-function calculateTodaysCheckIns(bookingData: any[]) {
-  const currentDate = new Date().toISOString().split("T")[0];
-  const todaysCheckIns = bookingData.filter((record) => {
-    const checkInDate = new Date(record.checkInDate.$date)
+function calculateTodaysCheckIns(bookingData: BookingData[]) {
+  const currentDate: string = new Date().toISOString().split("T")[0];
+  const todaysCheckIns: BookingData[] = bookingData.filter((record) => {
+    const checkInDate: string = new Date(record.checkInDate.$date)
       .toISOString()
       .split("T")[0];
     return checkInDate === currentDate;
   });
   return todaysCheckIns.length;
 }
-const todaysCheckIns = calculateTodaysCheckIns(bookingData);
+const todaysCheckIns: number = calculateTodaysCheckIns(bookingData);
 
 export const Checkin = {
   color: "#8884d8",
@@ -4053,10 +4059,10 @@ export const Checkin = {
 //🚀 Check-in bookingData
 
 //✅ Step-1 -> Calculate the number of check-ins for today
-function calculateTodaysCheckOut(bookingData: any[]) {
-  const currentDate = new Date().toISOString().split("T")[0];
-  const todaysCheckOut = bookingData.filter((record) => {
-    const checkOutDate = new Date(record.checkOutDate.$date)
+function calculateTodaysCheckOut(bookingData: BookingData[]): number {
+  const currentDate: string = new Date().toISOString().split("T")[0];
+  const todaysCheckOut: BookingData[] = bookingData.filter((record) => {
+    const checkOutDate: string = new Date(record.checkOutDate.$date)
       .toISOString()
       .split("T")[0];
     return checkOutDate === currentDate;
@@ -4087,17 +4093,17 @@ export const Checkout = {
 //🚀 Today's Booking bookingData
 
 //✅ Step-1 -> Calculate the number of check-ins for today
-function calculateTodaysBooking(bookingData: any[]) {
-  const currentDate = new Date().toISOString().split("T")[0];
-  const todaysBooking = bookingData.filter((record) => {
-    const TodaysDate = new Date(record.createdAt.$date)
+function calculateTodaysBooking(bookingData: BookingData[]) {
+  const currentDate: string = new Date().toISOString().split("T")[0];
+  const todaysBooking: BookingData[] = bookingData.filter((record) => {
+    const TodaysDate: string = new Date(record.createdAt.$date)
       .toISOString()
       .split("T")[0];
     return TodaysDate === currentDate;
   });
   return todaysBooking.length;
 }
-const todaysBooking = calculateTodaysBooking(bookingData);
+const todaysBooking: number = calculateTodaysBooking(bookingData);
 
 export const TodaysBooking = {
   color: "#8884d8",
@@ -4121,17 +4127,17 @@ export const TodaysBooking = {
 //🚀 Today's Modified Booking bookingData
 
 //✅ Step-1 -> Calculate the number of check-ins for today
-function calculateTodaysModifiedBooking(bookingData: any[]) {
-  const currentDate = new Date().toISOString().split("T")[0];
-  const todaysModification = bookingData.filter((record) => {
-    const ModifiedDate = new Date(record.updatedAt.$date)
+function calculateTodaysModifiedBooking(bookingData: BookingData[]) {
+  const currentDate: string = new Date().toISOString().split("T")[0];
+  const todaysModification: BookingData[] = bookingData.filter((record) => {
+    const ModifiedDate: string = new Date(record.updatedAt.$date)
       .toISOString()
       .split("T")[0];
     return ModifiedDate === currentDate;
   });
   return todaysModification.length;
 }
-const todaysModification = calculateTodaysModifiedBooking(bookingData);
+const todaysModification: number = calculateTodaysModifiedBooking(bookingData);
 
 export const TodaysModifiedBooking = {
   color: "#8884d8",
@@ -4155,14 +4161,15 @@ export const TodaysModifiedBooking = {
 //🚀 Today's Cancelled Booking bookingData
 
 //✅ Step-1 -> Calculate the number of cancelled booking for today
-function calculateTodaysCancelledBooking(bookingData: any[]) {
+function calculateTodaysCancelledBooking(bookingData: BookingData[]) {
   const CancelledString = "CANCELLED";
-  const todaysCancelledBooking = bookingData.filter((record) => {
+  const todaysCancelledBooking: BookingData[] = bookingData.filter((record) => {
     return record.status === CancelledString;
   });
   return todaysCancelledBooking.length;
 }
-const todaysCancelledBooking = calculateTodaysCancelledBooking(bookingData);
+const todaysCancelledBooking: number =
+  calculateTodaysCancelledBooking(bookingData);
 
 export const TodaysCancelledBooking = {
   color: "#8884d8",
@@ -4186,10 +4193,10 @@ export const TodaysCancelledBooking = {
 //🚀 Total User Count
 
 //✅ Step-1 -> Calculate the number of users
-function calculateTotalUsers(bookingData: any[]) {
-  return bookingData.length;
+function calculateTotalUsers(userData: UserData[]) {
+  return userData.length;
 }
-const totalUsers = calculateTotalUsers(users);
+const totalUsers: number = calculateTotalUsers(users);
 
 export const TotalUsers = {
   color: "#8884d8",
@@ -4214,16 +4221,16 @@ export const TotalUsers = {
 //✅ Step-1 -> Filter confirmed hotels
 
 const confirmedBookings = bookingData.filter(
-  (record) => record.status === "CONFIRMED",
+  (record): boolean => record.status === "CONFIRMED",
 );
 
-const currentDate = new Date().toISOString();
+const currentDate: string = new Date().toISOString();
 const futureBookings = confirmedBookings.filter((record) => {
-  const checkInDate = new Date(record.checkInDate.$date).toISOString();
+  const checkInDate: string = new Date(record.checkInDate.$date).toISOString();
   return checkInDate > currentDate;
 });
 
-const totalRevenue = futureBookings.reduce((total, booking) => {
+const totalRevenue: number = futureBookings.reduce((total, booking) => {
   return total + booking.bookingAmount;
 }, 0);
 
@@ -4250,16 +4257,20 @@ export const TotalRevenue = {
 //✅ Step-1 -> Filter Upcoming Total Due
 
 const confirmedBookingsForDue = bookingData.filter(
-  (record) => record.status === "CONFIRMED",
+  (record): boolean => record.status === "CONFIRMED",
 );
 
-const currentDateForDue = new Date().toISOString();
-const futureBookingsForDue = confirmedBookingsForDue.filter((record) => {
-  const checkInDateForDue = new Date(record.checkInDate.$date).toISOString();
-  return checkInDateForDue > currentDateForDue;
-});
+const currentDateForDue: string = new Date().toISOString();
+const futureBookingsForDue = confirmedBookingsForDue.filter(
+  (record): boolean => {
+    const checkInDateForDue: string = new Date(
+      record.checkInDate.$date,
+    ).toISOString();
+    return checkInDateForDue > currentDateForDue;
+  },
+);
 
-const totalDueAmount = futureBookingsForDue.reduce((total, booking) => {
+const totalDueAmount: number = futureBookingsForDue.reduce((total, booking) => {
   return total + booking.dueAmount;
 }, 0);
 
@@ -4286,10 +4297,10 @@ export const TotalDue = {
 
 //✅ Step-1 -> Calculate the number of hotels
 
-function calculateTotalHotels(bookingData: any[]) {
-  return bookingData.length;
+function calculateTotalHotels(hotelData: HotelData[]) {
+  return hotelData.length;
 }
-const totalHotels = calculateTotalHotels(hotels);
+const totalHotels: number = calculateTotalHotels(hotels);
 
 export const TotalHotels = {
   color: "#8884d8",

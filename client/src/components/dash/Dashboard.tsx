@@ -1,4 +1,4 @@
-import ChartBox from "@/components/dash/Components/ChartBox";
+import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 import {
   Checkin,
   Checkout,
@@ -9,8 +9,8 @@ import {
   TotalRevenue,
   TotalDue,
   TotalHotels,
-} from "./data";
-import TailwindWrapper from "@/components/dash/Components/TailwindWrapper";
+} from "./Data/data";
+import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
 
 const Dashboard = () => {
   return (
