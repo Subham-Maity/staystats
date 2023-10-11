@@ -1,8 +1,4 @@
-import {
-  BookingData,
-  HotelData,
-  UserData,
-} from "@/components/dash/Types/types";
+import { BookingData, HotelData, UserData } from "@/lib/Types/Dashboard/types";
 
 const bookingData = [
   {

@@ -6,6 +6,7 @@ import DefaultLayout from "@/app/defaultLayout";
 import Footer from "@/components/footer/Footer";
 import Providers from "@/app/providers";
 import ThemeSwitcher from "@/components/mode/Switcher";
+import { ReduxProviders } from "@/lib/provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -34,7 +35,9 @@ export default function RootLayout({
         <body
           className={`${inter.className} overflow-hidden dark:bg-[#25293c]`}
         >
-          <DefaultLayout>{children}</DefaultLayout>
+          <ReduxProviders>
+            <DefaultLayout>{children}</DefaultLayout>
+          </ReduxProviders>
         </body>
       </Providers>
     </html>

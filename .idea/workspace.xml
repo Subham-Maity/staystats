@@ -5,14 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Types/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/API/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/api/bookingApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/api/hotelApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/features/bookingSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/features/hotelSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/features/userSlice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/redux/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/redux/hook.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/redux/store.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/lib/utils/utils.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Components/ChartBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Components/ChartBox/ChartBox.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Components/TailwindWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Components/Wrapper/TailwindWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Components/chartBox.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Components/ChartBox/chartBox.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Data/data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/constants/constant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/constants/constant.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Data/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Data/data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Types/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/Types/Dashboard/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +69,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;nodenext&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Project/React/stay-stats/client/src/utils&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/maity/OneDrive/Github/F/SubhamDa/Data Register/stay-stats/client/src&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -73,14 +84,16 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src" />
       <recent name="D:\Project\React\stay-stats\client\src\utils" />
       <recent name="D:\Project\React\stay-stats\client\src\components\dash\Components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\lib\Types\Dashboard" />
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\lib" />
       <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\components\dash\Data" />
       <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\components\dash\Components\Wrapper" />
       <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\components\dash\Components\ChartBox" />
-      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -116,6 +129,7 @@
       <workItem from="1696951980436" duration="13568000" />
       <workItem from="1696997002293" duration="1432000" />
       <workItem from="1696998520822" duration="1340000" />
+      <workItem from="1697043372923" duration="1276000" />
     </task>
     <servers />
   </component>
