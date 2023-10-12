@@ -27,54 +27,54 @@ const ChartBox = (props: Props) => {
   };
 
   return (
-    <div className="chartBox">
-      <div className="boxInfo">
-        <div className="title">
-          {props.reactIcon && getReactIcon(props.reactIcon)}
-          {props.icon && <img src={props.icon} alt="" />}
-          <span>{props.title}</span>
+      <div className="chartBox">
+        <div className="boxInfo">
+          <div className="title">
+            {props.reactIcon && getReactIcon(props.reactIcon)}
+            {props.icon && <img src={props.icon} alt="" />}
+            <span>{props.title}</span>
+          </div>
+          <h1>{props.number}</h1>
+          <Link href="/" style={{ color: props.color }}>
+            View all
+          </Link>
         </div>
-        <h1>{props.number}</h1>
-        <Link href="/" style={{ color: props.color }}>
-          View all
-        </Link>
-      </div>
-      <div className="chartInfo">
-        <div className="chart">
-          <ResponsiveContainer width="99%" height="100%">
-            <LineChart data={props.chartData}>
-              <Tooltip
-                contentStyle={{ background: "transparent", border: "none" }}
-                labelStyle={{ display: "none" }}
-                position={{ x: 10, y: -40 }}
-                formatter={(value, name, props) => {
-                  // Display the exact date as a tooltip
-                  return props.payload && props.payload.name
-                    ? new Date(props.payload.name).toLocaleDateString()
-                    : value;
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey={props.dataKey}
-                stroke={props.color}
-                strokeWidth={2}
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="texts">
+        <div className="chartInfo">
+          <div className="chart">
+            <ResponsiveContainer width="99%" height="100%">
+              <LineChart data={props.chartData}>
+                <Tooltip
+                    contentStyle={{ background: "transparent", border: "none" }}
+                    labelStyle={{ display: "none" }}
+                    position={{ x: 10, y: -40 }}
+                    formatter={(value, name, props) => {
+                      // Display the exact date as a tooltip
+                      return props.payload && props.payload.name
+                          ? new Date(props.payload.name).toLocaleDateString()
+                          : value;
+                    }}
+                />
+                <Line
+                    type="monotone"
+                    dataKey={props.dataKey}
+                    stroke={props.color}
+                    strokeWidth={2}
+                    dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="texts">
           <span
-            className="percentage"
-            style={{ color: props.percentage < 0 ? "tomato" : "limegreen" }}
+              className="percentage"
+              style={{ color: props.percentage < 0 ? "tomato" : "limegreen" }}
           >
             {props.percentage}%
           </span>
-          <span className="duration">{props.titleOfPercentage}</span>
+            <span className="duration">{props.titleOfPercentage}</span>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

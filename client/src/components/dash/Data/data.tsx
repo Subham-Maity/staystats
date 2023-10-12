@@ -1,4 +1,5 @@
 import { BookingData, HotelData, UserData } from "@/lib/Types/Dashboard/types";
+import axios from "@/utils/axios";
 
 const bookingData = [
   {
@@ -11,7 +12,7 @@ const bookingData = [
     serialNumber: "1",
     guestName: "ARADHYA SAHOO",
     checkInDate: {
-      $date: "2023-09-21T00:00:00.000Z",
+      $date: "2023-10-11T00:00:00.000Z",
     },
     checkOutDate: {
       $date: "2023-09-22T00:00:00.000Z",
@@ -53,7 +54,7 @@ const bookingData = [
     serialNumber: "2",
     guestName: "ATANU DAS",
     checkInDate: {
-      $date: "2023-10-10T07:53:22.270Z",
+      $date: "2023-10-11T07:53:22.270Z",
     },
     checkOutDate: {
       $date: "2023-10-22T00:00:00.000Z",
@@ -4018,7 +4019,15 @@ const hotels = [
   },
 ];
 
-//🚀 Check-in bookingData
+let data= async ()=>{
+    return await axios.get("/data/bookings");
+}
+let temp = async()=>{
+    return await data();
+}
+
+
+console.log(bookingData,"this is data")
 
 //✅ Step-1 -> Calculate the number of check-ins for today
 function calculateTodaysCheckIns(bookingData: BookingData[]) {
@@ -4033,13 +4042,35 @@ function calculateTodaysCheckIns(bookingData: BookingData[]) {
 }
 const todaysCheckIns: number = calculateTodaysCheckIns(bookingData);
 
+
+//✅ Step-2 -> Calculate the number of check-ins for this Week
+function calculateThisWeekCheckIns(bookingData: BookingData[]) {
+  const currentDate = new Date();
+  const startOfWeek = new Date(currentDate);
+  startOfWeek.setHours(0, 0, 0, 0);
+  startOfWeek.setDate(currentDate.getDate() - currentDate.getDay()); // Assuming Sunday is the first day of the week
+
+  const endOfWeek = new Date(currentDate);
+  endOfWeek.setHours(23, 59, 59, 999);
+  endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+
+  const thisWeekCheckIns = bookingData.filter((record) => {
+    const checkInDate = new Date(record.checkInDate.$date);
+    return checkInDate >= startOfWeek && checkInDate <= endOfWeek;
+  });
+
+  return thisWeekCheckIns.length;
+}
+const ThisWeekCheckIns: number = calculateThisWeekCheckIns(bookingData);
+
+
 export const Checkin = {
   color: "#8884d8",
   icon: "/userIcon.svg",
   title: "Today's Check-Ins",
   number: todaysCheckIns,
   dataKey: "users",
-  percentage: 45,
+  percentage: ThisWeekCheckIns,
   reactIcon: "BsCalendar2Date",
   chartData: [
     { name: "Sun", users: 400 },
@@ -4066,6 +4097,7 @@ function calculateTodaysCheckOut(bookingData: BookingData[]): number {
   return todaysCheckOut.length;
 }
 const todaysCheckOut = calculateTodaysCheckOut(bookingData);
+
 
 export const Checkout = {
   color: "#8884d8",

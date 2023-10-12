@@ -1,9 +1,9 @@
 import axios from "@/utils/axios";
 import { BookingData } from "@/lib/Types/Dashboard/types";
-export function fetchBookingData(): Promise<{ data: BookingData }> {
+export function bookingApi(): Promise<{ data: BookingData }> {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await axios.get(`/booking`);
+      const response = await axios.get("http://localhost:5000/data/bookings");
       const data = await response.data;
       resolve({ data });
     } catch (error) {

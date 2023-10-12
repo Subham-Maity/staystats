@@ -1,3 +1,4 @@
+"use client";
 import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 import {
   Checkin,
@@ -10,9 +11,33 @@ import {
   TotalDue,
   TotalHotels,
 } from "./Data/data";
+
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {selectAllbookings,fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
+import {selectAllhotels} from "@/lib/features/hotelSlice";
+import {selectAllUsers} from "@/lib/features/userSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const bookingData = useSelector(selectAllbookings);
+  const hotels = useSelector(selectAllhotels);
+  const users = useSelector(selectAllUsers);
+
+  useEffect(() => {
+    // @ts-ignore
+    dispatch(fetchAllBookingsAsync())
+        .then(() => {
+          console.log("fetchAllProductsAsync dispatched successfully");
+        })
+        .catch((error:any) => {
+          console.error("Error dispatching fetchAllProductsAsync:", error);
+        });
+  }, []);
+
+  console.log(bookingData,"booking data is here");
+
   return (
     <>
       <div>
