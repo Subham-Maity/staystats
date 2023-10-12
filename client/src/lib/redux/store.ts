@@ -4,10 +4,8 @@ import storage from "redux-persist/lib/storage";
 import bookingsReducer from "@/lib/features/bookingSlice";
 import hotelsReducer from "@/lib/features/hotelSlice";
 import usersReducer from "@/lib/features/userSlice";
-
-
+import { getDefaultMiddleware } from "@reduxjs/toolkit";
 const rootReducer = combineReducers({
-  // Define a top-level state field named `todos`, handled by `todosReducer`
   booking: bookingsReducer,
 });
 
@@ -18,13 +16,11 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
-  // reducer: persistedReducer,
-  reducer: {
-    booking: bookingsReducer,
-    hotels: hotelsReducer,
-    userReducer: usersReducer,
-  }
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

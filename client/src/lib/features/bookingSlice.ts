@@ -1,45 +1,43 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bookingApi } from "@/lib/api/bookingApi";
+import { BookingData } from "@/lib/Types/Dashboard/types";
 interface ProductState {
-    status: "idle" | "loading";
-    bookings: any[];
+  status: "idle" | "loading";
+  bookings: BookingData | any[];
 }
 
 const initialState: ProductState = {
-    status: "idle",
-    bookings: [],
-}
+  status: "idle",
+  bookings: [],
+};
 
 export const fetchAllBookingsAsync = createAsyncThunk(
-    "bookingsSlice/fetchAllBookings",
-    async () => {
-        try {
-            const response = await bookingApi();
-            return response.data;
-        } catch (error) {
-            console.error("Error fetching bookings:", error);
-            throw error; // Rethrow the error for the component to handle
-        }
+  "bookingsSlice/fetchAllBookings",
+  async () => {
+    try {
+      const response = await bookingApi();
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      throw error;
     }
+  },
 );
 
-
 export const bookingSlice = createSlice({
-    name: "bookingsSlice",
-    initialState,
-    reducers: {
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchAllBookingsAsync.pending, (state) => {
-                state.status = "loading";
-            })
-            .addCase(fetchAllBookingsAsync.fulfilled, (state, action) => {
-                state.status = "idle";
-                //@ts-ignore
-                state.bookings = action.payload;
-            })
-    },
+  name: "bookingsSlice",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllBookingsAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAllBookingsAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.bookings = action.payload;
+      });
+  },
 });
 
 export const selectAllbookings = (state: any) => state.booking.bookings;
