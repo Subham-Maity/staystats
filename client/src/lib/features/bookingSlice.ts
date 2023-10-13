@@ -28,12 +28,12 @@ export const bookingSlice = createSlice({
   name: "bookingsSlice",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: (builder:any) => {
     builder
-      .addCase(fetchAllBookingsAsync.pending, (state) => {
+      .addCase(fetchAllBookingsAsync.pending, (state:any) => {
         state.status = "loading";
       })
-      .addCase(fetchAllBookingsAsync.fulfilled, (state, action) => {
+      .addCase(fetchAllBookingsAsync.fulfilled, (state:any, action:any) => {
         state.status = "idle";
         state.bookings = action.payload;
       });

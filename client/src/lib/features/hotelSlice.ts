@@ -29,12 +29,12 @@ export const hotelSlice = createSlice({
     initialState,
     reducers: {
     },
-    extraReducers: (builder) => {
+    extraReducers: (builder:any) => {
         builder
-            .addCase(fetchAllHotelsAsync.pending, (state) => {
+            .addCase(fetchAllHotelsAsync.pending, (state:any) => {
                 state.status = "loading";
             })
-            .addCase(fetchAllHotelsAsync.fulfilled, (state, action) => {
+            .addCase(fetchAllHotelsAsync.fulfilled, (state:any, action:any) => {
                 state.status = "idle";
                 //@ts-ignore
                 state.bookings = action.payload;

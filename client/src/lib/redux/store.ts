@@ -1,26 +1,15 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import { configureStore } from "@reduxjs/toolkit";
 import bookingsReducer from "@/lib/features/bookingSlice";
 import hotelsReducer from "@/lib/features/hotelSlice";
 import usersReducer from "@/lib/features/userSlice";
-import { getDefaultMiddleware } from "@reduxjs/toolkit";
-const rootReducer = combineReducers({
-  booking: bookingsReducer,
-});
 
-const persistConfig = {
-  key: "root",
-  storage,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+export const store = configureStore({
+  // reducer: persistedReducer,
+  reducer: {
+    booking: bookingsReducer,
+    hotels: hotelsReducer,
+    userReducer: usersReducer,
+  }
 });
 
 export type RootState = ReturnType<typeof store.getState>;

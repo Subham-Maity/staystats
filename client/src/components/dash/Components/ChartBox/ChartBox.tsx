@@ -69,7 +69,7 @@ const ChartBox = (props: Props) => {
               className="percentage"
               style={{ color: props.percentage < 0 ? "tomato" : "limegreen" }}
           >
-            {props.percentage}%
+            {props.percentage}
           </span>
             <span className="duration">{props.titleOfPercentage}</span>
           </div>
