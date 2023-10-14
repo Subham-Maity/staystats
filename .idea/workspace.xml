@@ -5,15 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/Checkin.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/Checkout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TodaysBooking.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TodaysCancelledBooking.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TodaysModifiedBooking.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TotalDue.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TotalHotels.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TotalRevenue.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TotalUsers.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/constants/constant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/constants/constant.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/app/dash/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/dash/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Components/ChartBox/ChartBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Components/ChartBox/ChartBox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Data/data.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/extraStep/CheckInCalculator.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/features/bookingSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/features/bookingSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/features/hotelSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/features/hotelSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/features/userSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/features/userSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/redux/hook.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/redux/hook.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/redux/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -24,6 +49,31 @@
     &quot;assignee&quot;: &quot;Subham-Maity&quot;
   }
 }</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="nodenext" />
+                    <option name="lastUsedInstant" value="1697217862" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1697217861" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -53,7 +103,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "nodenext",
-    "last_opened_file_path": "D:/Project/React/stay-stats/client/src/utils",
+    "last_opened_file_path": "D:/Project/React/stay-stats/server",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -62,17 +112,23 @@
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\maity\\AppData\\Roaming\\npm\\node_modules\\prettier",
     "rearrange.code.on.save": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\maity\\OneDrive\\Github\\F\\SubhamDa\\Data Register\\stay-stats\\client\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "D:\\Project\\React\\stay-stats\\client\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Project\React\stay-stats\server" />
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src" />
       <recent name="D:\Project\React\stay-stats\client\src\utils" />
       <recent name="D:\Project\React\stay-stats\client\src\components\dash\Components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats" />
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\lib\Types\Dashboard" />
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\lib" />
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\components\dash\Data" />
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\components\dash\Components\Wrapper" />
+      <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\components\dash\Components\ChartBox" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -105,7 +161,12 @@
       <workItem from="1692299087206" duration="2301000" />
       <workItem from="1692349961348" duration="1521000" />
       <workItem from="1696932975625" duration="12391000" />
-      <workItem from="1696951980436" duration="12538000" />
+      <workItem from="1696951980436" duration="13568000" />
+      <workItem from="1696997002293" duration="1432000" />
+      <workItem from="1696998520822" duration="1340000" />
+      <workItem from="1697043372923" duration="1276000" />
+      <workItem from="1697220205306" duration="1203000" />
+      <workItem from="1697221450409" duration="1412000" />
     </task>
     <servers />
   </component>

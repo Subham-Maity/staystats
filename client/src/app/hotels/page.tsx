@@ -39,7 +39,7 @@ const Hotels = () => {
   const [reloadData, setReloadData] = useState<boolean>(false);
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
- const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
+  const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
   const [editingHotelData, setEditingHotelData] = useState<object>({});
   useEffect(() => {
     if (showModal || showViewModal) {
@@ -64,8 +64,7 @@ const Hotels = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("authToken");
 
-        window.open(`${FRONTEND_URL}/login`,"_self")
-
+        window.open(`${FRONTEND_URL}/login`, "_self");
       }
     };
     updateUser();
@@ -144,7 +143,7 @@ const Hotels = () => {
     }
   };
 
-  const updateHotelStatushandler = async (id?: string) =>{
+  const updateHotelStatushandler = async (id?: string) => {
     try {
       const { data } = await axios.post(`/hotel/update-hotel-status`, {
         id,
@@ -171,7 +170,7 @@ const Hotels = () => {
       toast.error(error.message);
       console.log(error);
     }
-  }
+  };
 
   const handleDownload = async () => {
     const getHotelsForDownload = async () => {
@@ -235,7 +234,9 @@ const Hotels = () => {
             className="flex gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
           >
             <SiMicrosoftexcel size={20} />
-            <p>Download Excel</p>
+            <p className="whitespace-nowrap text-sm hidden lg:block">
+              Download Excel
+            </p>
           </button>
           <button
             onClick={() => setShowModal(true)}
@@ -243,7 +244,9 @@ const Hotels = () => {
             className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <FaPlus size={20} />
-            <p>Add Hotel</p>
+            <p className="whitespace-nowrap text-sm hidden lg:block">
+              Add Hotel
+            </p>
           </button>
         </div>
       </div>
@@ -346,11 +349,11 @@ const Hotels = () => {
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <ViewHotel
-            setEditingHotelData={(value) => setEditingHotelData(value)}
-            setShowEditHotelModal={(value) => setShowEditHotelModal(value)}
-            updateStatusHandler={updateHotelStatushandler}
-            deleteHotelHandler={deleteHotelHandler}
-            owner={user}
+              setEditingHotelData={(value) => setEditingHotelData(value)}
+              setShowEditHotelModal={(value) => setShowEditHotelModal(value)}
+              updateStatusHandler={updateHotelStatushandler}
+              deleteHotelHandler={deleteHotelHandler}
+              owner={user}
               hotel={hotel}
               onClose={(value) => setShowViewModal(value)}
             />

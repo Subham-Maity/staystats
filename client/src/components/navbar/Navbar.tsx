@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { RiMenuUnfoldFill } from "react-icons/ri";
 import { BsBell, BsBarChart, BsDot, BsHouseCheck } from "react-icons/bs";
 import { MdOutlineTipsAndUpdates, MdLogout } from "react-icons/md";
+import { FaBars } from "react-icons/fa";
+import { RiMenu2Fill } from "react-icons/ri";
+import { BiMenuAltLeft } from "react-icons/bi";
 import Image from "next/image";
 import Switcher from "../mode/Switcher";
 import { ThemeProvider } from "next-themes";
@@ -107,7 +110,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const logoutAction = async (action: string) => {
     let { data: ipData } = await axios_.get("https://ipapi.co/json/");
     let ip = ipData.ip;
-    let userId = JSON.parse(localStorage.getItem("user") || "")?._id
+    let userId = JSON.parse(localStorage.getItem("user") || "")?._id;
     await axios.post("/api/logout", {
       id: userId,
       ip,
@@ -118,21 +121,47 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   };
 
   return (
-    <div className="flex  flex-col gap-2 cursor-pointer mt-4 text-gray-600 lg:w-[65%] w-[90%]">
-      <div className="navbar flex justify-between items-center px-4 py-2 dark:bg-blue-950 light:bg-slate-300 border border-sm rounded-lg">
-        <div className="flex items-center justify-around gap-6">
-          <RiMenuUnfoldFill
-            size={18}
-            onClick={() => {
-              toggleSidebar();
-            }}
-            className={`block lg:hidden`}
-          />
-          <ThemeProvider>
-            <Switcher />
-          </ThemeProvider>
+    <div className="flex w-full bg-slate-100 flex-col gap-2 cursor-pointer text-gray-600 border-sm border-b-2 border">
+      <div className="navbar flex justify-between items-center px-4 py-4 dark:bg-blue-950 light:bg-slate-300 rounded-lg">
+        <div className="flex items-center justify-center gap-6">
+          <div className="w-full flex items-center justify-between gap-2 font-semibold text-blue-500 ">
+            <div className="flex gap-2 items-center justify-center">
+              <div>
+                <RiMenu2Fill
+                  size={25}
+                  className={`hover:cursor-pointer`}
+                  onClick={() => {
+                    toggleSidebar();
+                  }}
+                />
+              </div>
+              <Image
+                src="/assets/sayngo.png"
+                width={30}
+                height={20}
+                alt=""
+              ></Image>
+
+              <span className={` lg:text-xl lg:block hidden lg:font-bold`}>
+                SAYNGO
+              </span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center justify-around gap-6">
+
+        <div className="flex items-center justify-center gap-6">
+          <div className="mt-2">
+            <RiMenuUnfoldFill
+              size={18}
+              onClick={() => {
+                toggleSidebar();
+              }}
+              className={`block lg:hidden`}
+            />
+            <ThemeProvider>
+              <Switcher />
+            </ThemeProvider>
+          </div>
           {/* <BsHouseCheck size={18} />
           <BsBarChart size={18} />
           <div className="relative">
@@ -151,6 +180,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
                 toggleDropdown();
               }}
             />
+
             {isProfileDropDownOpen && (
               <motion.div
                 initial={{ x: 20, y: -10, scale: 0.8 }}

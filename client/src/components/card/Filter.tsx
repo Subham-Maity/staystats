@@ -68,12 +68,12 @@ const Filter = ({ setFilterData }: Props) => {
     setFilterData(filter);
   };
   return (
-    <div className="rounded-md shadow-lg w-full flex justify-start items-start p-4 flex-col">
-      <h1 className="font-bold text-xl mb-2">Filter</h1>
+    <div className="rounded-md shadow-lg w-full flex-wrap flex justify-start items-start p-4 flex-col">
+      <h1 className="font-bold text-sm lg:text-xl mb-2">Filter</h1>
 
-      <div className="flex justify-between w-full">
+      <div className="flex  justify-between w-full lg:flex-row flex-col gap-4">
         <div className="flex flex-col gap-4 justify-start items-start">
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex lg:justify-center lg:items-center gap-2 flex-wrap">
             <div className="">
               <label htmlFor="" className="whitespace-nowrap">
                 Guest name
@@ -81,7 +81,10 @@ const Filter = ({ setFilterData }: Props) => {
               <input
                 value={filter.guestName}
                 onChange={(e) => {
-                  setFilter({ ...filter, guestName: e.target.value.toLocaleUpperCase() });
+                  setFilter({
+                    ...filter,
+                    guestName: e.target.value.toLocaleUpperCase(),
+                  });
                 }}
                 placeholder="Enter guest name"
                 type="text"
@@ -147,7 +150,7 @@ const Filter = ({ setFilterData }: Props) => {
               </select>
             </div>
           </div>
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex lg:justify-center lg:items-center gap-2 flex-wrap">
             <div>
               <label htmlFor="" className="whitespace-nowrap">
                 Sl. no
@@ -234,9 +237,10 @@ const Filter = ({ setFilterData }: Props) => {
           </div>
         </div>
         {isFilterOptionSelected && (
-          <div className="flex flex-col">
+          <div className="flex overflow-y-scroll no-scrollbar flex-col gap-2">
             <h1 className="mb-2 font-bold">Select date range</h1>
             <DateRangePicker
+              className=""
               showMonthAndYearPickers={true}
               ranges={[selectionRange]}
               onChange={handleSelect}
