@@ -54,9 +54,9 @@ const DefaultLayout = ({ children }: any) => {
     <div className="overflow-hidden">
       {/* @ts-ignore */}
       {user && user._id && user.isActive ? (
-        <div className="flex w-full overflow-hidden max-h-screen">
+        <div className="overflow-hidden max-h-screen ">
           <div className="hidden lg:block">
-            <Sidebar
+            <Navbar
               isSidebarOpen={isSidebarOpen}
               toggleSidebar={toggleSidebar}
             />
@@ -64,12 +64,16 @@ const DefaultLayout = ({ children }: any) => {
           <div className="lg:hidden">
             <MobileBottomNavbar />
           </div>
-          <div className="flex flex-col items-center w-full lg:m-8 px-2 lg:overflow-hidden max-h-screen">
-            <Navbar
-              isSidebarOpen={isSidebarOpen}
-              toggleSidebar={toggleSidebar}
-            />
-            <div className="w-full overflow-y-scroll ">{children}</div>
+          <div className="flex">
+            <div className="lg:flex hidden">
+              <Sidebar
+                isSidebarOpen={isSidebarOpen}
+                toggleSidebar={toggleSidebar}
+              />
+            </div>
+            <div className="m-6 px-4 max-h-[90vh] w-full overflow-y-scroll">
+              {children}
+            </div>
           </div>
         </div>
       ) : pathName === "/forgot-password" ? (

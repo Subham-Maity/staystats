@@ -23,12 +23,14 @@ const MobileBottomNavbar = () => {
   };
 
   return (
-    <div className="z-50 fixed bottom-0 left-0 right-0 flex justify-around items-center bg-white border-t border-gray-300 h-16 px-4">
+    <div className="z-50 fixed bottom-0 left-0 right-0 flex justify-around items-center bg-white border-t border-gray-300 h-16 px-4 gap-2">
       <Link
         href="/"
         onClick={() => handleTabChange("/")}
         className={`flex flex-col items-center text-sm ${
-          activeTab === "/" ? "text-blue-500" : "text-gray-500"
+          activeTab === "/"
+            ? "text-blue-500 bg-gray-200 p-1 rounded-lg"
+            : "text-gray-500"
         }`}
       >
         <MdDashboard className="text-xl" />
@@ -38,7 +40,9 @@ const MobileBottomNavbar = () => {
         href="/users"
         onClick={() => handleTabChange("users")}
         className={`flex flex-col items-center text-sm ${
-          activeTab === "users" ? "text-blue-500" : "text-gray-500"
+          activeTab === "users"
+            ? "text-blue-500 bg-gray-200 p-1 rounded-lg"
+            : "text-gray-500"
         }`}
       >
         <FaUser className="text-xl" />
@@ -48,7 +52,9 @@ const MobileBottomNavbar = () => {
         href="/hotels"
         onClick={() => handleTabChange("hotels")}
         className={`flex flex-col items-center text-sm ${
-          activeTab === "hotels" ? "text-blue-500" : "text-gray-500"
+          activeTab === "hotels"
+            ? "text-blue-500 bg-gray-200 p-1 rounded-lg"
+            : "text-gray-500"
         }`}
       >
         <FaHome className="text-xl" />
@@ -58,7 +64,9 @@ const MobileBottomNavbar = () => {
         href="/bookings"
         onClick={() => handleTabChange("bookings")}
         className={`flex flex-col items-center text-sm ${
-          activeTab === "bookings" ? "text-blue-500" : "text-gray-500"
+          activeTab === "bookings"
+            ? "text-blue-500 bg-gray-200 p-1 rounded-lg"
+            : "text-gray-500"
         }`}
       >
         <RiMailFill className="text-xl" />
@@ -68,7 +76,9 @@ const MobileBottomNavbar = () => {
         href="/leads"
         onClick={() => handleTabChange("leads")}
         className={`flex flex-col items-center text-sm ${
-          activeTab === "leads" ? "text-blue-500" : "text-gray-500"
+          activeTab === "leads"
+            ? "text-blue-500 bg-gray-200 p-1 rounded-lg"
+            : "text-gray-500"
         }`}
       >
         <MdLeaderboard className="text-xl" />
@@ -78,7 +88,9 @@ const MobileBottomNavbar = () => {
         href="/works"
         onClick={() => handleTabChange("works")}
         className={`flex flex-col items-center text-sm ${
-          activeTab === "works" ? "text-blue-500" : "text-gray-500"
+          activeTab === "works"
+            ? "text-blue-500 bg-gray-200 p-1 rounded-lg"
+            : "text-gray-500"
         }`}
       >
         <MdWorkHistory className="text-xl" />
@@ -88,7 +100,9 @@ const MobileBottomNavbar = () => {
         href="/users-ip"
         onClick={() => handleTabChange("IP")}
         className={`flex flex-col items-center text-sm ${
-          activeTab === "IP" ? "text-blue-500" : "text-gray-500"
+          activeTab === "IP"
+            ? "text-blue-500 bg-gray-200 p-1 rounded-lg"
+            : "text-gray-500"
         }`}
       >
         <FaAddressBook className="text-xl" />

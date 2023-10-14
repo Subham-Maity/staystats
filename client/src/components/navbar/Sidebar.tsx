@@ -31,6 +31,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   const pathname = usePathname();
   const [isNavOpen, setIsNavOpen] = useState(isSidebarOpen);
   const [hover, setHover] = useState(false);
+  console.log(isNavOpen);
 
   useEffect(() => {
     let userId = JSON.parse(localStorage.getItem("user") || "{}")?._id;
@@ -51,9 +52,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     updateUser();
   }, []);
 
-  // useEffect(() => {
-  //   setIsNavOpen(isSidebarOpen);
-  // }, [isSidebarOpen]);
+  useEffect(() => {
+    setIsNavOpen(isSidebarOpen);
+  }, [isSidebarOpen]);
 
   const navHoverEffectEnter = () => {
     if (isSidebarOpen) {
@@ -70,17 +71,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
     <nav
       // onMouseEnter={navHoverEffectEnter}
       // onMouseLeave={navHoverEffectOut}
-      className={`overflow-hiden h-screen lg:w-[300px] dark:bg-blue-950 bg-slate-100 z-50`}
+      className={`overflow-hiden h-screen ${
+        isNavOpen ? "w-auto" : "w-[200px]"
+      } dark:bg-blue-950 bg-slate-100 z-50 border-sm border-r-2 pt-4`}
     >
-      <div className="w-full flex items-center justify-between mb-4 p-4 gap-2 font-semibold h-16 text-blue-500 ">
-        <div className="flex gap-2 items-center justify-center">
-          <Image src="/assets/sayngo.png" width={30} height={20} alt=""></Image>
-
-          <span className={` lg:text-xl lg:block hidden lg:font-bold`}>
-            SAYNGO
-          </span>
-        </div>
-      </div>
       <div className="flex flex-col items-center justify-between h-screen w-full">
         <ul className=" w-full px-2 flex flex-col gap-4 font-semibold">
           <Link href="/">
@@ -94,7 +88,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <MdDashboard size={20} />{" "}
-              <p className={`hidden lg:block text-sm`}>Dashboard</p>
+              <p className={` text-sm ${isNavOpen && "hidden"}`}>Dashboard</p>
             </li>
           </Link>
 
@@ -109,7 +103,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <HiUserGroup size={20} />{" "}
-              <p className={`text-sm hidden lg:block`}>Users</p>
+              <p className={` text-sm ${isNavOpen && "hidden"}`}>Users</p>
             </li>
           </Link>
           <Link href="/hotels">
@@ -123,7 +117,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <FaHome size={20} />
-              <p className={`text-sm hidden lg:block`}>Hotels</p>
+              <p className={` text-sm ${isNavOpen && "hidden"}`}>Hotels</p>
             </li>
           </Link>
           <Link href="/bookings">
@@ -135,7 +129,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <RiMailFill size={20} />{" "}
-              <p className={`text-sm hidden lg:block`}>Bookings</p>
+              <p className={` text-sm ${isNavOpen && "hidden"}`}>Bookings</p>
             </li>
           </Link>
           <Link href="/leads">
@@ -147,7 +141,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <MdLeaderboard size={20} />{" "}
-              <p className={`text-sm hidden lg:block`}>Lead Generator</p>
+              <p className={` text-sm ${isNavOpen && "hidden"}`}>
+                Lead Generator
+              </p>
             </li>
           </Link>
           <Link href="/works">
@@ -159,7 +155,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <MdWorkHistory size={20} />{" "}
-              <p className={`text-sm hidden lg:block`}>Log Book</p>
+              <p className={` text-sm ${isNavOpen && "hidden"}`}>Log Book</p>
             </li>
           </Link>
           <Link href="/users-ip">
@@ -173,7 +169,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <FaAddressBook size={20} />{" "}
-              <p className={`text-sm hidden lg:block`}>Users Ip</p>
+              <p className={` text-sm ${isNavOpen && "hidden"}`}>Users Ip</p>
             </li>
           </Link>
         </ul>
