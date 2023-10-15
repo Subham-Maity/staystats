@@ -28,3 +28,17 @@ input[type="number"] {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+
+::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3b3b3b;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
