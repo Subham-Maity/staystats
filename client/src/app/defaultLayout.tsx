@@ -55,23 +55,23 @@ const DefaultLayout = ({ children }: any) => {
       {/* @ts-ignore */}
       {user && user._id && user.isActive ? (
         <div className="overflow-hidden max-h-screen ">
-          <div className="hidden lg:block">
+          <div className=" lg:block">
             <Navbar
               isSidebarOpen={isSidebarOpen}
               toggleSidebar={toggleSidebar}
             />
           </div>
-          <div className="lg:hidden">
+          {/* <div className="lg:hidden">
             <MobileBottomNavbar />
-          </div>
+          </div> */}
           <div className="flex">
-            <div className="lg:flex hidden">
+            <div className="lg:flex z-50">
               <Sidebar
                 isSidebarOpen={isSidebarOpen}
                 toggleSidebar={toggleSidebar}
               />
             </div>
-            <div className="m-6 px-4 max-h-[90vh] w-full overflow-y-scroll">
+            <div className="lg:m-6 lg:px-4 max-h-[90vh] lg:max-h-[90vh] w-full overflow-y-scroll">
               {children}
             </div>
           </div>
