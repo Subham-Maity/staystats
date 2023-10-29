@@ -7,6 +7,7 @@ import Footer from "@/components/footer/Footer";
 import Providers from "@/app/providers";
 import ThemeSwitcher from "@/components/mode/Switcher";
 import { ReduxProviders } from "@/lib/provider";
+import BookingProvider from "@/components/dash/Provider/Booking/BookingProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -36,7 +37,9 @@ export default function RootLayout({
           className={`${inter.className} overflow-hidden dark:bg-[#25293c]`}
         >
           <ReduxProviders>
-            <DefaultLayout>{children}</DefaultLayout>
+            <DefaultLayout>
+              <BookingProvider>{children}</BookingProvider>
+            </DefaultLayout>
           </ReduxProviders>
         </body>
       </Providers>
