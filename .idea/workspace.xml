@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Components/SimpleAreaChart/AreaChart.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Components/Wrapper/SimpleAreaChartWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/AreaChart.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TodaysBooking.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TodaysBooking.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TodaysModifiedBooking.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TodaysModifiedBooking.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/constants/constant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/constants/constant.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/Types/Dashboard/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/Types/Dashboard/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +158,13 @@
       <workItem from="1697351388810" duration="910000" />
       <workItem from="1697442357105" duration="995000" />
       <workItem from="1697468322410" duration="2441000" />
+      <workItem from="1698385935970" duration="1182000" />
+      <workItem from="1698419155636" duration="77000" />
+      <workItem from="1698423433399" duration="602000" />
+      <workItem from="1698440598431" duration="55000" />
+      <workItem from="1698485825168" duration="186000" />
+      <workItem from="1698488172147" duration="613000" />
+      <workItem from="1698571490573" duration="4488000" />
     </task>
     <servers />
   </component>

@@ -32,12 +32,8 @@ export interface BookingData {
   };
   status: string;
   accountType: string;
-  createdAt: {
-    $date: string;
-  };
-  updatedAt: {
-    $date: string;
-  };
+  createdAt: string;
+  updatedAt: string;
   __v: number;
 }
 
