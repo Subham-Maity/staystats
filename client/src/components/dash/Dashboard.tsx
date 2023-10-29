@@ -9,24 +9,29 @@ import {
 import { fetchAllUsersAsync } from "@/lib/features/userSlice";
 import { fetchAllHotelsAsync } from "@/lib/features/hotelSlice";
 
-import Checkin from "@/components/dash/Templates/Checkin";
-import Checkout from "@/components/dash/Templates/Checkout";
-import TodaysBooking from "@/components/dash/Templates/TodaysBooking";
-import TodaysModifiedBooking from "@/components/dash/Templates/TodaysModifiedBooking";
-import TodaysCancelledBooking from "@/components/dash/Templates/TodaysCancelledBooking";
-import TotalUsers from "@/components/dash/Templates/TotalUsers";
-import TotalRevenue from "@/components/dash/Templates/TotalRevenue";
-import TotalDue from "@/components/dash/Templates/TotalDue";
-import TotalHotels from "@/components/dash/Templates/TotalHotels";
-import SimpleAreaChartWrapper from "@/components/dash/Components/Wrapper/SimpleAreaChartWrapper";
+import Checkin from "@/components/dash/Templates/TopBox/Checkin";
+import Checkout from "@/components/dash/Templates/TopBox/Checkout";
+import TodaysBooking from "@/components/dash/Templates/TopBox/TodaysBooking";
+import TodaysModifiedBooking from "@/components/dash/Templates/TopBox/TodaysModifiedBooking";
+import TodaysCancelledBooking from "@/components/dash/Templates/TopBox/TodaysCancelledBooking";
+import TotalUsers from "@/components/dash/Templates/TopBox/TotalUsers";
+import TotalRevenue from "@/components/dash/Templates/TopBox/TotalRevenue";
+import TotalDue from "@/components/dash/Templates/TopBox/TotalDue";
+import TotalHotels from "@/components/dash/Templates/TopBox/TotalHotels";
 
-import RevenueChart from "@/components/dash/Templates/AreaChart";
+import RevenueChart from "@/components/dash/Templates/MiddleBox/AreaChartRevBookDate";
 import { BookingData } from "@/lib/Types/Dashboard/types";
+import RevenueCheckinAreaChart from "@/components/dash/Templates/MiddleBox/AreaChartRevCheckinDate";
+import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
+import AreaChartBookingBookingDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingBookingDate";
+import AreaChartBookingCheckinDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingCheckinDate";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const totalRevenue = 26206;
   const AverageRevenue = 845;
   const [area, setArea] = useState("Revenue");
+  const [date, setDate] = useState("byBookingDate");
+
   useEffect(() => {
     // @ts-ignore
     dispatch(fetchAllBookingsAsync())
@@ -38,15 +43,43 @@ const Dashboard = () => {
       });
   }, []);
   const bookingData: BookingData[] = useSelector(selectAllbookings);
+  //Revenue and Booking
   const createdAt = bookingData.map((item: any) => item.createdAt);
   const advanceAmount = bookingData.map((item: any) => item.advanceAmount);
-  const merged = createdAt.map((item: any, i: any) => ({
+  //Revenue and Checkin
+  const checkInDate = bookingData.map((item: any) => item.checkInDate);
+  const bookingAmount = bookingData.map((item: any) => item.bookingAmount);
+  //Booking and Booking
+  const bookingCount = bookingData.map(
+    (item: any) => item.bookingAmount.length,
+  );
+  const bookingDate = bookingData.map((item: any) => item.createdAt);
+  const revenueAndBooking = createdAt.map((item: any, i: any) => ({
     createdAt: createdAt[i],
     advanceAmount: advanceAmount[i],
   }));
 
-  const handleAreaDataChange = (newChart: any) => {
-    setArea(newChart);
+  const revenueAndCheckin = advanceAmount.map((item: any, i: any) => ({
+    checkInDate: checkInDate[i],
+    bookingAmount: bookingAmount[i],
+  }));
+
+  const bookingAndBooking = bookingCount.map((item: any, i: any) => ({
+    createdAt: bookingDate[i],
+    bookingAmount: bookingCount[i],
+  }));
+
+  const bookingAndCheckin = bookingCount.map((item: any, i: any) => ({
+    checkInDate: checkInDate[i],
+    bookingAmount: bookingCount[i],
+  }));
+
+  const handleAreaChange = (newArea: any) => {
+    setArea(newArea);
+  };
+
+  const handleDateChange = (newDate: any) => {
+    setDate(newDate);
   };
 
   return (
@@ -64,29 +97,31 @@ const Dashboard = () => {
           {/*<TotalHotels/>*/}
         </div>
 
-        <SimpleAreaChartWrapper className="h-50">
+        <TailwindWrapper className="h-50">
           {/*// Select // Arachart //calculation*/}
           <h1 className="text-4xl font-semibold mb-4">Last 30 days</h1>
           <div className="flex gap-5 justify-start">
             <select
-              id="countries"
+              id="booking"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange={(e) => handleAreaChange(e.target.value)}
+              value={area}
             >
-              <option selected>Choose a country</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
+              <option selected={true} value="Revenue">
+                Revenue
+              </option>
+              <option value="Booking">Booking</option>
             </select>
             <select
-              id="countries"
+              id="date"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange={(e) => handleDateChange(e.target.value)}
+              value={date}
             >
-              <option selected>Choose a country</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
+              <option selected={true} value="byBookingDate">
+                By Booking Date
+              </option>
+              <option value="byCheckinDate">By Checkin Date</option>
             </select>
           </div>
           <div className="flex justify-end w-50">
@@ -99,9 +134,29 @@ const Dashboard = () => {
               <span>Last Year</span>
             </p>
           </div>
-          <>
-            <RevenueChart data={merged} />
-          </>
+          {area === "Revenue" && date === "byBookingDate" && (
+            <>
+              <RevenueChart data={revenueAndBooking} />
+            </>
+          )}
+          {area === "Revenue" && date === "byCheckinDate" && (
+            <>
+              <RevenueCheckinAreaChart data={revenueAndCheckin} />
+            </>
+          )}
+
+          {area === "Booking" && date === "byBookingDate" && (
+            <>
+              <AreaChartBookingBookingDate data={bookingAndBooking} />
+            </>
+          )}
+
+          {area === "Booking" && date === "byCheckinDate" && (
+            <>
+              <AreaChartBookingCheckinDate data={bookingAndCheckin} />
+            </>
+          )}
+
           <div className="flex justify-evenly">
             <div>
               <h1 className="text-4xl font-semibold mb-2">
@@ -117,7 +172,7 @@ const Dashboard = () => {
               Average Revenue Per Day
             </div>
           </div>
-        </SimpleAreaChartWrapper>
+        </TailwindWrapper>
       </div>
     </>
   );
