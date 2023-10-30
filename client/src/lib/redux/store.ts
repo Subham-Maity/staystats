@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     booking: bookingsReducer,
     hotels: hotelsReducer,
-    userReducer: usersReducer,
+    users: usersReducer,
   }
 });
 

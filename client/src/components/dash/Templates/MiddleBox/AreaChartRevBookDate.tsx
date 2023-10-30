@@ -61,8 +61,9 @@ const RevenueAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
           <Area
             type="monotone"
             dataKey="revenue"
-            stroke="#8884d8"
-            fill="url(#colorUv)"
+            stroke="rgb(59 130 246)"
+            fill="#8884d8"
+            strokeWidth={3}
           />
         </AreaChart>
       </ResponsiveContainer>

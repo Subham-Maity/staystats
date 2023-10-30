@@ -1,29 +1,25 @@
 import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
-import {BookingData} from "@/lib/Types/Dashboard/types";
+import {UserData} from "@/lib/Types/Dashboard/types";
 import {useSelector} from "react-redux";
-import {selectAllbookings} from "@/lib/features/bookingSlice";
+import {selectAllUsers} from "@/lib/features/userSlice";
 
-function TodaysCancelledBooking() {
-    const bookingData = useSelector(selectAllbookings);
 
-    //🚀 Today's Cancelled Booking bookingData
-    //✅ Step-1 -> Calculate the number of cancelled booking for today
-    function calculateTodaysCancelledBooking(bookingData: BookingData[]) {
-        const CancelledString = "CANCELLED";
-        const todaysCancelledBooking: BookingData[] = bookingData.filter((record) => {
-            return record.status === CancelledString;
-        });
-        return todaysCancelledBooking.length;
+function TotalUsers() {
+    const users = useSelector(selectAllUsers)
+
+    //🚀 Total User Count
+    //✅ Step-1 -> Calculate the number of users
+    function calculateTotalUsers(userData: UserData[]) {
+        return userData.length;
     }
-    const todaysCancelledBooking: number =
-        calculateTodaysCancelledBooking(bookingData);
+    const totalUsers: number = calculateTotalUsers(users);
 
-    const TodaysCancelledBooking = {
+    const TotalUsers = {
         color: "#8884d8",
         icon: "/userIcon.svg",
-        title: "Today's Cancelled Booking",
-        number: todaysCancelledBooking,
+        title: "Total Users",
+        number: totalUsers,
         dataKey: "users",
         percentage: 45,
         reactIcon: "BsCalendar2Date",
@@ -40,12 +36,11 @@ function TodaysCancelledBooking() {
 
     return (
         <TailwindWrapper className={"mt-5 justify-self-center"}>
-            <ChartBox
-                titleOfPercentage="This Week"
-                {...TodaysCancelledBooking}
-            />
+            <div className="box box2">
+                <ChartBox titleOfPercentage="This Week" {...TotalUsers} />
+            </div>
         </TailwindWrapper>
     );
 }
 
-export default TodaysCancelledBooking;
+export default TotalUsers;

@@ -17,7 +17,7 @@ function TotalDue() {
     const futureBookingsForDue = confirmedBookingsForDue.filter(
         (record:any): boolean => {
             const checkInDateForDue: string = new Date(
-                record.checkInDate.$date,
+                record.checkInDate,
             ).toISOString();
             return checkInDateForDue > currentDateForDue;
         },

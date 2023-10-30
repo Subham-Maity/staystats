@@ -13,7 +13,9 @@ function TotalUsers() {
     function calculateTotalUsers(userData: UserData[]) {
         return userData.length;
     }
+
     const totalUsers: number = calculateTotalUsers(users);
+    console.log(users, "total users");
 
     const TotalUsers = {
         color: "#8884d8",
