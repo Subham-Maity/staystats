@@ -7,14 +7,12 @@
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartBookingBookingDate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartBookingBookingDate.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartBookingCheckinDate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartBookingCheckinDate.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartRevBookDate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartRevBookDate.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartRevCheckinDate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/MiddleBox/AreaChartRevCheckinDate.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/Checkin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/Checkin.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysCancelledBooking.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysCancelledBooking.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysModifiedBooking.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysModifiedBooking.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalDue.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalDue.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/features/hotelSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/features/hotelSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/features/userSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/features/userSlice.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/lib/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/redux/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -172,11 +170,23 @@
       <workItem from="1698662168608" duration="74000" />
       <workItem from="1698662253136" duration="8902000" />
       <workItem from="1698680351158" duration="3773000" />
-      <workItem from="1698686862759" duration="4068000" />
+      <workItem from="1698686862759" duration="4160000" />
+      <workItem from="1698764165440" duration="7909000" />
+      <workItem from="1698775592918" duration="2397000" />
+      <workItem from="1698778367386" duration="1534000" />
+      <workItem from="1698780389706" duration="318000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:next" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
   </component>
 </project>

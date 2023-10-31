@@ -11,7 +11,7 @@ const initialState: ProductState = {
 }
 
 export const fetchAllHotelsAsync = createAsyncThunk(
-    "bookingsSlice/fetchAllBookings",
+    "hotel/fetchAllhotelss",
     async () => {
         try {
             const response = await hotelApi();
@@ -25,7 +25,7 @@ export const fetchAllHotelsAsync = createAsyncThunk(
 
 
 export const hotelSlice = createSlice({
-    name: "bookingsSlice",
+    name: "hotel",
     initialState,
     reducers: {
     },
@@ -36,11 +36,10 @@ export const hotelSlice = createSlice({
             })
             .addCase(fetchAllHotelsAsync.fulfilled, (state:any, action:any) => {
                 state.status = "idle";
-                //@ts-ignore
-                state.bookings = action.payload;
+                state.hotels = action.payload;
             })
     },
 });
-export const selectAllhotels = (state: any) => state.booking.bookings;
+export const selectAllhotels = (state: any) => state.hotel.hotels;
 
 export default hotelSlice.reducer;

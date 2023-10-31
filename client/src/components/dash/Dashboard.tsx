@@ -107,8 +107,8 @@ const Dashboard = () => {
           <Checkout />
           <TodaysBooking />
           <TodaysModifiedBooking />
-          <TodaysCancelledBooking/>
           <TotalUsers/>
+          {/*<TodaysCancelledBooking/>*/}
           {/*<TotalRevenue/>*/}
           <TotalDue/>
           <TotalHotels/>

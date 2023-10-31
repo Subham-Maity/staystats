@@ -1,23 +1,33 @@
+import React, {useEffect} from "react";
 import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
-import {UserData} from "@/lib/Types/Dashboard/types";
-import {useSelector} from "react-redux";
-import {selectAllUsers} from "@/lib/features/userSlice";
-
+import {useDispatch, useSelector} from "react-redux";
+import {fetchAllUsersAsync, selectAllUsers} from "@/lib/features/userSlice";
+import {AppDispatch} from "@/lib/redux/store";
 
 function TotalUsers() {
-    const users = useSelector(selectAllUsers)
+    const dispatch:AppDispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchAllUsersAsync())
+        .then(() => {
+            console.log("fetchAllProductsAsync dispatched successfully");
+        })
+        .catch((error: any) => {
+            console.error("Error dispatching fetchAllProductsAsync:", error);
+        });
+    }, [dispatch]);
 
-    //🚀 Total User Count
-    //✅ Step-1 -> Calculate the number of users
-    function calculateTotalUsers(userData: UserData[]) {
+    // Use the `useSelector` hook to select user data from the Redux store
+    const users = useSelector(selectAllUsers);
+    console.log(users, "users");
+    // Calculate the total number of users
+    function calculateTotalUsers(userData:any[]) {
         return userData.length;
     }
 
-    const totalUsers: number = calculateTotalUsers(users);
-    console.log(users, "total users");
+    const totalUsers = calculateTotalUsers(users);
 
-    const TotalUsers = {
+    const TotalUsersData = {
         color: "#8884d8",
         icon: "/userIcon.svg",
         title: "Total Users",
@@ -39,7 +49,7 @@ function TotalUsers() {
     return (
         <TailwindWrapper className={"mt-5 justify-self-center"}>
             <div className="box box2">
-                <ChartBox titleOfPercentage="This Week" {...TotalUsers} />
+                <ChartBox titleOfPercentage="This Week" {...TotalUsersData} />
             </div>
         </TailwindWrapper>
     );

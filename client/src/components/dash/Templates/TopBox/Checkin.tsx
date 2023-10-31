@@ -3,8 +3,17 @@ import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 import {useSelector} from "react-redux";
 import {selectAllbookings} from "@/lib/features/bookingSlice";
 import {BookingData} from "@/lib/Types/Dashboard/types";
+import {useEffect} from "react";
+import {AppDispatch} from "@/lib/redux/store";
+import {useDispatch} from "react-redux";
+import {fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
 
 export const Checkin=() => {
+    const dispatch:AppDispatch = useDispatch();
+    useEffect(() => {
+
+        dispatch(fetchAllBookingsAsync());
+    }, []);
     const bookingData:BookingData[] = useSelector(selectAllbookings);
 
 

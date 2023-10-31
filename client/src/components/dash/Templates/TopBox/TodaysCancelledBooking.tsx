@@ -7,7 +7,7 @@ import {selectAllUsers} from "@/lib/features/userSlice";
 
 function TotalUsers() {
     const users = useSelector(selectAllUsers)
-
+    console.log(users, "total users");
     //🚀 Total User Count
     //✅ Step-1 -> Calculate the number of users
     function calculateTotalUsers(userData: UserData[]) {
@@ -18,7 +18,7 @@ function TotalUsers() {
     const TotalUsers = {
         color: "#8884d8",
         icon: "/userIcon.svg",
-        title: "Total Users",
+        title: "Total Cancelation",
         number: totalUsers,
         dataKey: "users",
         percentage: 45,
