@@ -25,42 +25,54 @@ import RevenueCheckinAreaChart from "@/components/dash/Templates/MiddleBox/AreaC
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
 import AreaChartBookingBookingDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingBookingDate";
 import AreaChartBookingCheckinDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingCheckinDate";
-import {eachDayOfInterval, endOfDay, format, startOfDay, subDays} from "date-fns";
+import {
+  eachDayOfInterval,
+  endOfDay,
+  format,
+  startOfDay,
+  subDays,
+} from "date-fns";
+import RevenueBarChart from "@/components/dash/Templates/BottomBox/BarChart";
+import { AppDispatch } from "@/lib/redux/store";
 const Dashboard = () => {
-  const dispatch = useDispatch();
-  const [totalRevenue,setTotalRevenue] = useState(0);
+  const dispatch: AppDispatch = useDispatch();
+  const [totalRevenue, setTotalRevenue] = useState(0);
   const [area, setArea] = useState("Revenue");
   const [date, setDate] = useState("byBookingDate");
+  const [day, setDay] = useState(7);
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(fetchAllBookingsAsync())
-        .then(() => {
-          console.log("fetchAllProductsAsync dispatched successfully");
-        })
-        .catch((error: any) => {
-          console.error("Error dispatching fetchAllProductsAsync:", error);
-        });
+      .then(() => {
+        console.log("fetchAllProductsAsync dispatched successfully");
+      })
+      .catch((error: any) => {
+        console.error("Error dispatching fetchAllProductsAsync:", error);
+      });
   }, []);
   const bookingData: BookingData[] = useSelector(selectAllbookings);
   //Revenue and Booking
   const createdAt = bookingData.map((item: any) => item.createdAt);
   const advanceAmount = bookingData.map((item: any) => item.advanceAmount);
 
-
   //Revenue and Checkin
   const checkInDate = bookingData.map((item: any) => item.checkInDate);
   const bookingAmount = bookingData.map((item: any) => item.bookingAmount);
   //Booking and Booking
   const bookingCount = bookingData.map(
-      (item: any) => item.bookingAmount.length,
+    (item: any) => item.bookingAmount.length,
   );
   const bookingDate = bookingData.map((item: any) => item.createdAt);
   const revenueAndBooking = createdAt.map((item: any, i: any) => ({
     createdAt: createdAt[i],
     advanceAmount: advanceAmount[i],
   }));
-  // console.log(revenueAndBooking, "advanceAmount");
+  //Bottom Bar Chart
+  const bookingSource = bookingData.map((item: any) => item.bookingSource);
+
+  const bookingAmountBar = bookingData.map((item: any) => item.bookingAmount);
+
+  const createdDate = bookingData.map((item: any) => item.createdAt);
 
   const revenueAndCheckin = advanceAmount.map((item: any, i: any) => ({
     checkInDate: checkInDate[i],
@@ -85,19 +97,27 @@ const Dashboard = () => {
     setDate(newDate);
   };
 
+  const handleDayChange = (newDay: any) => {
+    setDay(newDay);
+  };
+
   useEffect(() => {
     const thirtyDaysAgo = subDays(new Date(), 30);
-    const last30DaysRevenueData = revenueAndBooking.filter((dataPoint) =>
-        new Date(dataPoint.createdAt) >= thirtyDaysAgo
+    const last30DaysRevenueData = revenueAndBooking.filter(
+      (dataPoint) => new Date(dataPoint.createdAt) >= thirtyDaysAgo,
     );
-    const totalRevenueLast30Days: number = last30DaysRevenueData.reduce((total, dataPoint) => {
-      return total + parseFloat(dataPoint.advanceAmount);
-    }, 0);
+    const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
+      (total, dataPoint) => {
+        return total + parseFloat(dataPoint.advanceAmount);
+      },
+      0,
+    );
 
-    const averageRevenue = totalRevenueLast30Days / last30DaysRevenueData.length;
+    const averageRevenue =
+      totalRevenueLast30Days / last30DaysRevenueData.length;
 
     setTotalRevenue(totalRevenueLast30Days);
-  })
+  });
 
   return (
     <>
@@ -107,16 +127,18 @@ const Dashboard = () => {
           <Checkout />
           <TodaysBooking />
           <TodaysModifiedBooking />
-          <TotalUsers/>
+          <TotalUsers />
           {/*<TodaysCancelledBooking/>*/}
           {/*<TotalRevenue/>*/}
-          <TotalDue/>
-          <TotalHotels/>
+          <TotalDue />
+          <TotalHotels />
         </div>
 
         <TailwindWrapper className="h-50 mt-5">
           {/*// Select // Arachart //calculation*/}
-          <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">Last 30 days</h1>
+          <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
+            Last 30 days
+          </h1>
           <div className="flex gap-5 justify-center sm:justify-start">
             <select
               id="booking"
@@ -184,35 +206,45 @@ const Dashboard = () => {
 
             <div className="text-center">
               <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                ₹{(totalRevenue/30).toFixed(2)}
+                ₹{(totalRevenue / 30).toFixed(2)}
               </h1>
               Average Revenue Per Day
             </div>
           </div>
         </TailwindWrapper>
         <TailwindWrapper className="h-50 mt-5">
-
           <div className="flex justify-between">
-          <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">OTA Performance</h1>
+            <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
+              OTA Performance
+            </h1>
             <div className="flex gap-5 justify-center sm:justify-start">
               <select
-                  id="booking"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  onChange={(e) => handleAreaChange(e.target.value)}
-                  value={area}
+                id="booking"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                onChange={(e) => handleDayChange(e.target.value)}
+                value={day}
               >
                 <option selected={true} value="Revenue">
                   Today
                 </option>
-                <option value="Booking">Last 7 Days</option>
-                <option value="Booking">This Month</option>
-                <option value="Booking">Last Month</option>
-                <option value="Booking">This Year</option>
-                <option value="Booking">Last Year</option>
+                {/*//7 = This Week //-7 = Last Week //30 = This Month //-30 = Last Month //365 = This Year //-365 = Last Year*/}
+                <option value={7}>This Week</option>
+                <option value={-7}>Last Week</option>
+                <option value={30}>This Month</option>
+                <option value={-30}>Last Month</option>
+                <option value={365}>This Year</option>
+                <option value={-365}>Last Year</option>
               </select>
-
             </div>
           </div>
+          <RevenueBarChart
+            bookingSource={bookingSource}
+            bookingAmount={bookingAmountBar}
+            //@ts-ignore
+            compareDate={createdDate}
+            day={day}
+          />
+          {day}
         </TailwindWrapper>
       </div>
     </>
