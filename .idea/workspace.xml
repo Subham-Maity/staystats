@@ -7,13 +7,6 @@
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/Checkin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/Checkin.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysCancelledBooking.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysCancelledBooking.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/features/hotelSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/features/hotelSlice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/features/userSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/features/userSlice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/redux/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +167,7 @@
       <workItem from="1698764165440" duration="7909000" />
       <workItem from="1698775592918" duration="2397000" />
       <workItem from="1698778367386" duration="1534000" />
-      <workItem from="1698780389706" duration="318000" />
+      <workItem from="1698780389706" duration="2073000" />
     </task>
     <servers />
   </component>

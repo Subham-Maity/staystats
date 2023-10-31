@@ -102,7 +102,7 @@ const Dashboard = () => {
   return (
     <>
       <div>
-        <div className="grid p-2 gap-2 space-x-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+        <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
           <Checkin />
           <Checkout />
           <TodaysBooking />
@@ -114,7 +114,7 @@ const Dashboard = () => {
           <TotalHotels/>
         </div>
 
-        <TailwindWrapper className="h-50">
+        <TailwindWrapper className="h-50 mt-5">
           {/*// Select // Arachart //calculation*/}
           <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">Last 30 days</h1>
           <div className="flex gap-5 justify-center sm:justify-start">
@@ -187,6 +187,30 @@ const Dashboard = () => {
                 ₹{(totalRevenue/30).toFixed(2)}
               </h1>
               Average Revenue Per Day
+            </div>
+          </div>
+        </TailwindWrapper>
+        <TailwindWrapper className="h-50 mt-5">
+
+          <div className="flex justify-between">
+          <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">OTA Performance</h1>
+            <div className="flex gap-5 justify-center sm:justify-start">
+              <select
+                  id="booking"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  onChange={(e) => handleAreaChange(e.target.value)}
+                  value={area}
+              >
+                <option selected={true} value="Revenue">
+                  Today
+                </option>
+                <option value="Booking">Last 7 Days</option>
+                <option value="Booking">This Month</option>
+                <option value="Booking">Last Month</option>
+                <option value="Booking">This Year</option>
+                <option value="Booking">Last Year</option>
+              </select>
+
             </div>
           </div>
         </TailwindWrapper>
