@@ -53,7 +53,7 @@ const RevenueBarChartRBT: React.FC<RevenueBarChartProps> = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="revenue" fill="#8884d8" />
+        <Bar dataKey="revenue" fill="#8884d8" stroke="#8884d8" strokeWidth={3} />
       </BarChart>
     </ResponsiveContainer>
   );

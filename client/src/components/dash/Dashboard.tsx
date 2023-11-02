@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { AppDispatch } from "@/lib/redux/store";
 import {
   fetchAllBookingsAsync,
   selectAllbookings,
@@ -33,19 +33,28 @@ import {
   subDays,
 } from "date-fns";
 
-import { AppDispatch } from "@/lib/redux/store";
-import RevenueBarChartRBT from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBAT";
-import RevenueBarChartBATW from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATW";
-import RevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLW";
-import RevenueBarChartBATM from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATM";
-import RevenueBarChartBATY from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATY";
-import RevenueBarChartBATLY from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLY";
+import RevenueBarChartRBT from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT";
+import RevenueBarChartBATW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW";
+import RevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW";
+import RevenueBarChartBATM from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM";
+import RevenueBarChartBATY from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY";
+import RevenueBarChartBATLY from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY";
+import BookingCountBarChartBCT from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT";
+import BookingCountBarChartBCTW from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW";
+import BookingCountBarChartBCTLW from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW";
+import BookingCountBarChartBCTM from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM";
+import BookingCountBarChartBCTLM from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM";
+import BookingCountBarChartBCTLY from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY";
+import BookingCountBarChartBCTY from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY";
+import RevenueBarChartBATLM from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM";
+
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [area, setArea] = useState("Revenue");
   const [date, setDate] = useState("byBookingDate");
-  const [day, setDay] = useState(7);
+  const [BookingOrRevenue, setBookingOrRevenue] = useState("Revenue");
+  const [day, setDay] = useState("0");
 
   useEffect(() => {
     dispatch(fetchAllBookingsAsync())
@@ -261,8 +270,8 @@ const Dashboard = () => {
               <select
                 id="booking"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                onChange={(e) => handleDayChange(e.target.value)}
-                value={day}
+                onChange={(e) => setBookingOrRevenue(e.target.value)}
+                value={BookingOrRevenue}
               >
                 <option selected={true} value={"Booking"}>
                   Booking
@@ -272,35 +281,37 @@ const Dashboard = () => {
               <select
                 id="date"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                onChange={(e) => handleDayChange(e.target.value)}
+                onChange={(e) => setDay(e.target.value)}
                 value={day}
               >
-                <option selected={true} value="Revenue">
-                  Today
-                </option>
-                <option value={7}>This Week</option>
-                <option value={-7}>Last Week</option>
-                <option value={30}>This Month</option>
-                <option value={-30}>Last Month</option>
-                <option value={365}>This Year</option>
-                <option value={-365}>Last Year</option>
+                <option selected={true} value="0">Today</option>
+                <option value="7">This Week</option>
+                <option value="-7">Last Week</option>
+                <option value="30">This Month</option>
+                <option value="-30">Last Month</option>
+                <option value="365">This Year</option>
+                <option value="-365">Last Year</option>
               </select>
             </div>
           </div>
-          //Today - Revenue
-          <RevenueBarChartRBT data={bookingAndAmountToday} />
-          //This Week - Revenue
-          <RevenueBarChartBATW data={bookingAndAmountToday} />
-          //Last Week - Revenue
-          <RevenueBarChartBATLW data={bookingAndAmountToday} />
-          //This Month - Revenue
-          <RevenueBarChartBATM data={bookingAndAmountToday} />
-          //Last Month - Revenue
-          <RevenueBarChartBATLW data={bookingAndAmountToday} />
-          //This Year - Revenue
-          <RevenueBarChartBATY data={bookingAndAmountToday} />
-          //Last Year - Revenue
-          <RevenueBarChartBATLY data={bookingAndAmountToday} />
+              <>
+                {BookingOrRevenue === "Revenue" && day === "0" && <RevenueBarChartRBT data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Revenue" && day === "7" && <RevenueBarChartBATW data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Revenue" && day === "-7" && <RevenueBarChartBATLW data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Revenue" && day === "30" && <RevenueBarChartBATM data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Revenue" && day === "-30" && <RevenueBarChartBATLM data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Revenue" && day === "365" && <RevenueBarChartBATY data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Revenue" && day === "-365" && <RevenueBarChartBATLY data={bookingAndAmountToday} />}
+
+                {BookingOrRevenue === "Booking" && day === "0" && <BookingCountBarChartBCT data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Booking" && day === "7" && <BookingCountBarChartBCTW data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Booking" && day === "-7" && <BookingCountBarChartBCTLW data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Booking" && day === "30" && <BookingCountBarChartBCTM data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Booking" && day === "-30" && <BookingCountBarChartBCTLM data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Booking" && day === "365" && <BookingCountBarChartBCTY data={bookingAndAmountToday} />}
+                {BookingOrRevenue === "Booking" && day === "-365" && <BookingCountBarChartBCTLY data={bookingAndAmountToday} />}
+                </>
+
         </TailwindWrapper>
       </div>
     </>
