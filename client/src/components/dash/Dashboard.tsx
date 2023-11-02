@@ -32,8 +32,14 @@ import {
   startOfDay,
   subDays,
 } from "date-fns";
-import RevenueBarChart from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChart";
+
 import { AppDispatch } from "@/lib/redux/store";
+import RevenueBarChartRBT from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBAT";
+import RevenueBarChartBATW from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATW";
+import RevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLW";
+import RevenueBarChartBATM from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATM";
+import RevenueBarChartBATY from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATY";
+import RevenueBarChartBATLY from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLY";
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [totalRevenue, setTotalRevenue] = useState(0);
@@ -67,12 +73,6 @@ const Dashboard = () => {
     createdAt: createdAt[i],
     advanceAmount: advanceAmount[i],
   }));
-  //Bottom Bar Chart
-  const bookingSource = bookingData.map((item: any) => item.bookingSource);
-
-  const bookingAmountBar = bookingData.map((item: any) => item.bookingAmount);
-
-  const createdDate = bookingData.map((item: any) => item.createdAt);
 
   const revenueAndCheckin = advanceAmount.map((item: any, i: any) => ({
     checkInDate: checkInDate[i],
@@ -89,6 +89,25 @@ const Dashboard = () => {
     bookingAmount: bookingCount[i],
   }));
 
+  //✅ Bottom-> Ota Performance
+  //❗Booking , Amount -> (Today , This Week , Previous Week , This Month , Previous Month , This Year , Previous Year)
+  const bookingSource = bookingData.map((item: any) => item.bookingSource);
+
+  const bookingAmountBar = bookingData.map((item: any) => item.bookingAmount);
+
+  const createdDate = bookingData.map((item: any) => item.createdAt);
+
+  //✔️ Combine
+
+  //❗Booking , Amount , This Week
+
+  const bookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
+    bookingSource: bookingSource[i],
+    bookingAmount: bookingAmountBar[i],
+    createdAt: createdDate[i],
+  }));
+
+  console.log("bookingAndAmountToday", bookingAndAmountToday);
   const handleAreaChange = (newArea: any) => {
     setArea(newArea);
   };
@@ -120,17 +139,17 @@ const Dashboard = () => {
   });
   const dummyData = [
     {
-      bookingSource: "Source D",
+      bookingSource: "Source A",
       bookingAmount: 100,
       createdAt: "2023-08-27T00:00:00.000Z",
     },
     {
-      bookingSource: "Source C",
+      bookingSource: "Source B",
       bookingAmount: 150,
-      createdAt: "2023-11-02T00:00:00.000+00:00",
+      createdAt: "2023-08-27T00:00:00.000Z",
     },
     {
-      bookingSource: "Source A",
+      bookingSource: "Source B",
       bookingAmount: 120,
       createdAt: "2023-11-02T00:00:00.000+00:00",
     },
@@ -139,7 +158,6 @@ const Dashboard = () => {
       bookingAmount: 130,
       createdAt: "2023-11-02T00:00:00.000+00:00",
     },
-    // Add more data for testing
   ];
   return (
     <>
@@ -269,8 +287,20 @@ const Dashboard = () => {
               </select>
             </div>
           </div>
-          <RevenueBarChart data={dummyData} />
-          {day}
+          //Today - Revenue
+          <RevenueBarChartRBT data={bookingAndAmountToday} />
+          //This Week - Revenue
+          <RevenueBarChartBATW data={bookingAndAmountToday} />
+          //Last Week - Revenue
+          <RevenueBarChartBATLW data={bookingAndAmountToday} />
+          //This Month - Revenue
+          <RevenueBarChartBATM data={bookingAndAmountToday} />
+          //Last Month - Revenue
+          <RevenueBarChartBATLW data={bookingAndAmountToday} />
+          //This Year - Revenue
+          <RevenueBarChartBATY data={bookingAndAmountToday} />
+          //Last Year - Revenue
+          <RevenueBarChartBATLY data={bookingAndAmountToday} />
         </TailwindWrapper>
       </div>
     </>

@@ -5,8 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBAT.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLM.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLW.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLY.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATM.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATW.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATY.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/BarChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChart.tsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
