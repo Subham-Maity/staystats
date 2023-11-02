@@ -6,16 +6,12 @@ import {
   fetchAllBookingsAsync,
   selectAllbookings,
 } from "@/lib/features/bookingSlice";
-import { fetchAllUsersAsync } from "@/lib/features/userSlice";
-import { fetchAllHotelsAsync } from "@/lib/features/hotelSlice";
 
 import Checkin from "@/components/dash/Templates/TopBox/Checkin";
 import Checkout from "@/components/dash/Templates/TopBox/Checkout";
 import TodaysBooking from "@/components/dash/Templates/TopBox/TodaysBooking";
 import TodaysModifiedBooking from "@/components/dash/Templates/TopBox/TodaysModifiedBooking";
-import TodaysCancelledBooking from "@/components/dash/Templates/TopBox/TodaysCancelledBooking";
 import TotalUsers from "@/components/dash/Templates/TopBox/TotalUsers";
-import TotalRevenue from "@/components/dash/Templates/TopBox/TotalRevenue";
 import TotalDue from "@/components/dash/Templates/TopBox/TotalDue";
 import TotalHotels from "@/components/dash/Templates/TopBox/TotalHotels";
 
@@ -25,21 +21,22 @@ import RevenueCheckinAreaChart from "@/components/dash/Templates/MiddleBox/AreaC
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
 import AreaChartBookingBookingDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingBookingDate";
 import AreaChartBookingCheckinDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingCheckinDate";
-import {
-  eachDayOfInterval,
-  endOfDay,
-  format,
-  startOfDay,
-  subDays,
-} from "date-fns";
+import { subDays } from "date-fns";
 
 import { AppDispatch } from "@/lib/redux/store";
-import RevenueBarChartRBT from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBAT";
-import RevenueBarChartBATW from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATW";
-import RevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLW";
-import RevenueBarChartBATM from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATM";
-import RevenueBarChartBATY from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATY";
-import RevenueBarChartBATLY from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLY";
+import RevenueBarChartRBT from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT";
+import RevenueBarChartBATW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW";
+import RevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW";
+import RevenueBarChartBATM from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM";
+import RevenueBarChartBATY from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY";
+import RevenueBarChartBATLY from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY";
+import BookingCountBarChartBCT from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT";
+import BookingCountBarChartBCTW from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW";
+import BookingCountBarChartBCTLW from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW";
+import BookingCountBarChartBCTM from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM";
+import BookingCountBarChartBCTLM from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM";
+import BookingCountBarChartBCTY from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY";
+import BookingCountBarChartBCTLY from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY";
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
   const [totalRevenue, setTotalRevenue] = useState(0);
@@ -90,16 +87,19 @@ const Dashboard = () => {
   }));
 
   //✅ Bottom-> Ota Performance
-  //❗Booking , Amount -> (Today , This Week , Previous Week , This Month , Previous Month , This Year , Previous Year)
+  //❗Booking , Booking Count, Amount -> (Today , This Week , Previous Week , This Month , Previous Month , This Year , Previous Year)
   const bookingSource = bookingData.map((item: any) => item.bookingSource);
 
   const bookingAmountBar = bookingData.map((item: any) => item.bookingAmount);
 
   const createdDate = bookingData.map((item: any) => item.createdAt);
 
-  //✔️ Combine
+  const totalBookingCount = bookingAmountBar.reduce(
+    (a: any, b: any) => a + b,
+    0,
+  );
 
-  //❗Booking , Amount , This Week
+  //✔️ Combine
 
   const bookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
     bookingSource: bookingSource[i],
@@ -107,7 +107,8 @@ const Dashboard = () => {
     createdAt: createdDate[i],
   }));
 
-  console.log("bookingAndAmountToday", bookingAndAmountToday);
+  //❗Booking , Amount , This Week
+
   const handleAreaChange = (newArea: any) => {
     setArea(newArea);
   };
@@ -301,6 +302,20 @@ const Dashboard = () => {
           <RevenueBarChartBATY data={bookingAndAmountToday} />
           //Last Year - Revenue
           <RevenueBarChartBATLY data={bookingAndAmountToday} />
+          //Today - Booking
+          <BookingCountBarChartBCT data={bookingAndAmountToday} />
+          //This Week - Booking
+          <BookingCountBarChartBCTW data={bookingAndAmountToday} />
+          //Last Week - Booking
+          <BookingCountBarChartBCTLW data={bookingAndAmountToday} />
+          //This Month - Booking
+          <BookingCountBarChartBCTM data={bookingAndAmountToday} />
+          //Last Month - Booking
+          <BookingCountBarChartBCTLM data={bookingAndAmountToday} />
+          //This Year - Booking
+          <BookingCountBarChartBCTY data={bookingAndAmountToday} />
+          //Last Year - Booking
+          <BookingCountBarChartBCTLY data={bookingAndAmountToday} />
         </TailwindWrapper>
       </div>
     </>
