@@ -32,7 +32,7 @@ import {
   startOfDay,
   subDays,
 } from "date-fns";
-import RevenueBarChart from "@/components/dash/Templates/BottomBox/BarChart";
+import RevenueBarChart from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChart";
 import { AppDispatch } from "@/lib/redux/store";
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
