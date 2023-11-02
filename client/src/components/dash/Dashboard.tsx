@@ -118,7 +118,29 @@ const Dashboard = () => {
 
     setTotalRevenue(totalRevenueLast30Days);
   });
-
+  const dummyData = [
+    {
+      bookingSource: "Source D",
+      bookingAmount: 100,
+      createdAt: "2023-08-27T00:00:00.000Z",
+    },
+    {
+      bookingSource: "Source C",
+      bookingAmount: 150,
+      createdAt: "2023-11-02T00:00:00.000+00:00",
+    },
+    {
+      bookingSource: "Source A",
+      bookingAmount: 120,
+      createdAt: "2023-11-02T00:00:00.000+00:00",
+    },
+    {
+      bookingSource: "Source B",
+      bookingAmount: 130,
+      createdAt: "2023-11-02T00:00:00.000+00:00",
+    },
+    // Add more data for testing
+  ];
   return (
     <>
       <div>
@@ -224,10 +246,20 @@ const Dashboard = () => {
                 onChange={(e) => handleDayChange(e.target.value)}
                 value={day}
               >
+                <option selected={true} value={"Booking"}>
+                  Booking
+                </option>
+                <option value={"Revenue"}>Revenue</option>
+              </select>
+              <select
+                id="date"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                onChange={(e) => handleDayChange(e.target.value)}
+                value={day}
+              >
                 <option selected={true} value="Revenue">
                   Today
                 </option>
-                {/*//7 = This Week //-7 = Last Week //30 = This Month //-30 = Last Month //365 = This Year //-365 = Last Year*/}
                 <option value={7}>This Week</option>
                 <option value={-7}>Last Week</option>
                 <option value={30}>This Month</option>
@@ -237,13 +269,7 @@ const Dashboard = () => {
               </select>
             </div>
           </div>
-          <RevenueBarChart
-            bookingSource={bookingSource}
-            bookingAmount={bookingAmountBar}
-            //@ts-ignore
-            compareDate={createdDate}
-            day={day}
-          />
+          <RevenueBarChart data={dummyData} />
           {day}
         </TailwindWrapper>
       </div>

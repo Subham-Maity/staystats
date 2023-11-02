@@ -9,47 +9,47 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { format, isBefore } from "date-fns";
+import { format, isSameDay } from "date-fns";
 
 interface RevenueBarChartProps {
-  bookingSource: string[];
-  bookingAmount: number[];
-  compareDate: Date;
-  day: number;
+  data: {
+    bookingSource: string;
+    bookingAmount: number;
+    createdAt: string;
+  }[];
 }
 
-const RevenueBarChart: React.FC<RevenueBarChartProps> = ({
-  bookingSource,
-  bookingAmount,
-  compareDate,
-  day,
-}) => {
-  // Filter the data for the specified time period
+const RevenueBarChart: React.FC<RevenueBarChartProps> = ({ data }) => {
+  // Get the current date as a Date object
   const currentDate = new Date();
-  const startDate = isBefore(compareDate, currentDate)
-    ? new Date(compareDate)
-    : new Date(currentDate);
-  const endDate = isBefore(compareDate, currentDate)
-    ? new Date(compareDate)
-    : new Date(currentDate);
-  startDate.setDate(startDate.getDate() - day + 1);
 
-  const filteredData = bookingSource.map((source, index) => ({
-    source,
-    revenue: bookingAmount[index],
-  }));
+  // Filter the data for items with a matching createdAt date
+  const filteredData = data
+    .filter((item) => isSameDay(new Date(item.createdAt), currentDate))
+    .map((item) => ({
+      source: item.bookingSource,
+      revenue: item.bookingAmount,
+    }));
 
-  // Create a BarChart data array with bookingSource and total revenue
-  const chartData = filteredData.map((data) => ({
-    bookingSource: data.source,
-    revenue: data.revenue,
-  }));
+  // Get a list of all unique booking sources
+  const bookingSources = Array.from(
+    new Set(data.map((item) => item.bookingSource)),
+  );
+
+  // Create a BarChart data array with all booking sources and revenue for today
+  const chartData = bookingSources.map((source) => {
+    const revenue = filteredData.find((item) => item.source === source);
+    return {
+      source,
+      revenue: revenue ? revenue.revenue : 0,
+    };
+  });
 
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="bookingSource" />
+        <XAxis dataKey="source" />
         <YAxis />
         <Tooltip />
         <Legend />
