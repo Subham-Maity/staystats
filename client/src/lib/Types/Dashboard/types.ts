@@ -7,12 +7,8 @@ export interface BookingData {
   };
   serialNumber: string;
   guestName: string;
-  checkInDate: {
-    $date: string;
-  };
-  checkOutDate: {
-    $date: string;
-  };
+  checkInDate: string;
+  checkOutDate: string;
   roomCategory: string;
   numberOfRooms: number;
   numberOfPersons: number;

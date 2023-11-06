@@ -5,23 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/Types/Dashboard/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/Types/Dashboard/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,10 +90,10 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\maity\\AppData\\Roaming\\npm\\node_modules\\prettier&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/usr/local/lib/node_modules/prettier&quot;,
     &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Project\\React\\stay-stats2\\client\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/subham/Documents/GitHub/stay-stats/client/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -190,6 +176,7 @@
       <workItem from="1699121945057" duration="9893000" />
       <workItem from="1699166148076" duration="705000" />
       <workItem from="1699278453150" duration="723000" />
+      <workItem from="1699283843186" duration="246000" />
     </task>
     <servers />
   </component>
