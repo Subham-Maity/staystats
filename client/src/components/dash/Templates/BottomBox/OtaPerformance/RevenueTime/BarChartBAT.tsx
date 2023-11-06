@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { format, isSameDay } from "date-fns";
+import BarChartComponent from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartComponent";
 
 interface RevenueBarChartProps {
   data: {
@@ -46,16 +47,7 @@ const RevenueBarChartRBT: React.FC<RevenueBarChartProps> = ({ data }) => {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="source" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="revenue" fill="#8884d8" stroke="#8884d8" strokeWidth={3} />
-      </BarChart>
-    </ResponsiveContainer>
+      <BarChartComponent chartData={chartData} type={"revenue"} />
   );
 };
 

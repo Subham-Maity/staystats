@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { format, isWithinInterval, subDays } from "date-fns";
+import BarChartComponent from "@/components/dash/Templates/BottomBox/OtaPerformance/BarChartComponent";
 
 interface BookingCountBarChartProps {
   data: {
@@ -51,18 +52,10 @@ const BookingCountBarChartBCTW: React.FC<BookingCountBarChartProps> = ({
     source,
     bookingCount: bookingCounts[source] || 0,
   }));
-
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="source" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="bookingCount" fill="#8884d8" />
-      </BarChart>
-    </ResponsiveContainer>
+      <>
+        <BarChartComponent chartData={chartData} type={"bookingCount"} />
+      </>
   );
 };
 

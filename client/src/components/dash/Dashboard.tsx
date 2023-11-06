@@ -14,7 +14,6 @@ import TodaysModifiedBooking from "@/components/dash/Templates/TopBox/TodaysModi
 import TotalUsers from "@/components/dash/Templates/TopBox/TotalUsers";
 import TotalDue from "@/components/dash/Templates/TopBox/TotalDue";
 import TotalHotels from "@/components/dash/Templates/TopBox/TotalHotels";
-
 import RevenueChart from "@/components/dash/Templates/MiddleBox/AreaChartRevBookDate";
 import { BookingData } from "@/lib/Types/Dashboard/types";
 import RevenueCheckinAreaChart from "@/components/dash/Templates/MiddleBox/AreaChartRevCheckinDate";
@@ -22,7 +21,6 @@ import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrappe
 import AreaChartBookingBookingDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingBookingDate";
 import AreaChartBookingCheckinDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingCheckinDate";
 import { subDays } from "date-fns";
-
 import RevenueBarChartRBT from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT";
 import RevenueBarChartBATW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW";
 import RevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW";
@@ -40,7 +38,13 @@ import RevenueBarChartBATLM from "@/components/dash/Templates/BottomBox/OtaPerfo
 
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalRevenuerbcd, setTotalRevenuerbcd] = useState(0);
+  const [totalRevenuerbdb, setTotalRevenuerbdb] = useState(0);
+  const [totalRevenuebbbd, setTotalRevenuebbbd] = useState(0);
+  const [totalRevenuebbcd, setTotalRevenuebbcd] = useState(0);
+
+
+
   const [area, setArea] = useState("Revenue");
   const [date, setDate] = useState("byBookingDate");
   const [BookingOrRevenue, setBookingOrRevenue] = useState("Revenue");
@@ -56,6 +60,7 @@ const Dashboard = () => {
       });
   }, []);
   const bookingData: BookingData[] = useSelector(selectAllbookings);
+
   //Revenue and Booking
   const createdAt = bookingData.map((item: any) => item.createdAt);
   const advanceAmount = bookingData.map((item: any) => item.advanceAmount);
@@ -138,8 +143,69 @@ const Dashboard = () => {
     const averageRevenue =
       totalRevenueLast30Days / last30DaysRevenueData.length;
 
-    setTotalRevenue(totalRevenueLast30Days);
+    setTotalRevenuerbcd(totalRevenueLast30Days);
   });
+
+  useEffect(() => {
+    const thirtyDaysAgo = subDays(new Date(), 30);
+
+    const revenueAndBooking= bookingData.map((item: any, i: any) => ({checkInDate:item.checkInDate,advanceAmount:item.advanceAmount}));
+    console.log(revenueAndBooking,"revenueAndBooking");
+    const last30DaysRevenueData = revenueAndBooking.filter(
+        (dataPoint) => new Date(dataPoint.checkInDate) >= thirtyDaysAgo,
+    );
+    console.log(last30DaysRevenueData,"last30DaysRevenueData");
+
+    const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
+        (total, dataPoint) => {
+          return total + parseFloat(dataPoint.advanceAmount);
+        },
+        0,
+    );
+
+    const averageRevenue =
+        totalRevenueLast30Days / last30DaysRevenueData.length;
+
+    setTotalRevenuerbdb(totalRevenueLast30Days);
+  });
+
+  useEffect(() => {
+    const thirtyDaysAgo = subDays(new Date(), 30);
+
+    // Filter bookings based on check-in date (checkInDate)
+    const last30DaysRevenueDataBBBD = bookingData.filter((booking) =>
+        new Date(booking.checkInDate) >= thirtyDaysAgo
+    );
+
+    // Calculate total revenue based on booking amount
+    const totalRevenuebbbd = last30DaysRevenueDataBBBD.reduce(
+        (total, booking) => total + booking.bookingAmount,
+        0
+    );
+
+    setTotalRevenuebbbd(totalRevenuebbbd);
+  }, [bookingData]);
+
+  useEffect(() => {
+    const thirtyDaysAgo = subDays(new Date(), 30);
+
+    // Filter bookings based on booking date (createdAt)
+    const last30DaysRevenueDataBBCD = bookingData.filter((booking) =>
+        new Date(booking.createdAt) >= thirtyDaysAgo
+    );
+
+    // Calculate total revenue based on booking amount
+    const totalRevenuebbcd = last30DaysRevenueDataBBCD.reduce(
+        (total, booking) => total + booking.bookingAmount,
+        0
+    );
+
+    setTotalRevenuebbcd(totalRevenuebbcd);
+  }, [bookingData]);
+
+
+
+
   const dummyData = [
     {
       bookingSource: "Source A",
@@ -162,6 +228,7 @@ const Dashboard = () => {
       createdAt: "2023-11-02T00:00:00.000+00:00",
     },
   ];
+
   return (
     <>
       <div>
@@ -216,45 +283,95 @@ const Dashboard = () => {
               <span>Last Year</span>
             </p>
           </div>
+
+
+          {area === "Revenue" && date === "byCheckinDate" && (
+              <>
+                <RevenueCheckinAreaChart data={revenueAndCheckin} />
+                <div className="flex justify-evenly">
+                  <div className="text-center">
+                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                      ₹{totalRevenuerbcd.toFixed(2)}
+                    </h1>
+                    Total Revenue
+                  </div>
+
+                  <div className="text-center">
+                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                      ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                    </h1>
+                    Average Revenue Per Day
+                  </div>
+                </div>
+              </>
+          )}
           {area === "Revenue" && date === "byBookingDate" && (
             <>
               <RevenueChart data={revenueAndBooking} />
+              <div className="flex justify-evenly">
+                <div className="text-center">
+                  <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                    ₹{totalRevenuerbdb.toFixed(2)}
+                  </h1>
+                  Total Revenue
+                </div>
+
+                <div className="text-center">
+                  <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                    ₹{(totalRevenuerbdb / 30).toFixed(2)}
+                  </h1>
+                  Average Revenue Per Day
+                </div>
+              </div>
             </>
           )}
-          {area === "Revenue" && date === "byCheckinDate" && (
-            <>
-              <RevenueCheckinAreaChart data={revenueAndCheckin} />
-            </>
-          )}
+
+
 
           {area === "Booking" && date === "byBookingDate" && (
             <>
               <AreaChartBookingBookingDate data={bookingAndBooking} />
+              <div className="flex justify-evenly">
+                <div className="text-center">
+                  <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                    ₹{totalRevenuebbbd.toFixed(2)}
+                  </h1>
+                  Total Booking
+                </div>
+
+                <div className="text-center">
+                  <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                    ₹{(totalRevenuebbbd / 30).toFixed(2)}
+                  </h1>
+                  Average Booking Per Day
+                </div>
+              </div>
             </>
           )}
 
           {area === "Booking" && date === "byCheckinDate" && (
             <>
               <AreaChartBookingCheckinDate data={bookingAndCheckin} />
+              <div className="flex justify-evenly">
+                <div className="text-center">
+                  <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                    ₹{totalRevenuebbcd.toFixed(2)}
+                  </h1>
+                  Total Booking
+                </div>
+
+                <div className="text-center">
+                  <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                    ₹{(totalRevenuebbcd / 30).toFixed(2)}
+                  </h1>
+                  Average Booking Per Day
+                </div>
+              </div>
             </>
           )}
-
-          <div className="flex justify-evenly">
-            <div className="text-center">
-              <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                ₹{totalRevenue.toFixed(2)}
-              </h1>
-              Total Revenue
-            </div>
-
-            <div className="text-center">
-              <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                ₹{(totalRevenue / 30).toFixed(2)}
-              </h1>
-              Average Revenue Per Day
-            </div>
-          </div>
         </TailwindWrapper>
+
+
         <TailwindWrapper className="h-50 mt-5">
           <div className="flex justify-between">
             <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
@@ -304,7 +421,7 @@ const Dashboard = () => {
                 {BookingOrRevenue === "Booking" && day === "-30" && <BookingCountBarChartBCTLM data={bookingAndAmountToday} />}
                 {BookingOrRevenue === "Booking" && day === "365" && <BookingCountBarChartBCTY data={bookingAndAmountToday} />}
                 {BookingOrRevenue === "Booking" && day === "-365" && <BookingCountBarChartBCTLY data={bookingAndAmountToday} />}
-                </>
+              </>
         </TailwindWrapper>
       </div>
     </>

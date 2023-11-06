@@ -5,22 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBAT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATLY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartBATY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +107,7 @@
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\maity\\AppData\\Roaming\\npm\\node_modules\\prettier&quot;,
     &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\maity\\OneDrive\\Github\\F\\SubhamDa\\Data Register\\stay-stats\\client\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Project\\React\\stay-stats2\\client\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -182,6 +183,13 @@
       <workItem from="1698775592918" duration="2397000" />
       <workItem from="1698778367386" duration="1534000" />
       <workItem from="1698780389706" duration="2073000" />
+      <workItem from="1698949924532" duration="6240000" />
+      <workItem from="1698980794717" duration="1142000" />
+      <workItem from="1699014866892" duration="35000" />
+      <workItem from="1699024138990" duration="14000" />
+      <workItem from="1699121945057" duration="9893000" />
+      <workItem from="1699166148076" duration="705000" />
+      <workItem from="1699278453150" duration="723000" />
     </task>
     <servers />
   </component>
