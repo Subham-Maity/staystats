@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   AreaChart,
   Area,
@@ -15,6 +15,12 @@ import {
   endOfDay,
   startOfDay,
 } from "date-fns";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchAllBookingsAsync, selectAllbookings} from "@/lib/features/bookingSlice";
+import {AppDispatch} from "@/lib/redux/store";
+import {BookingData} from "@/lib/Types/Dashboard/types";
+import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
+import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 
 interface DataPoint {
   createdAt: string;
@@ -25,49 +31,56 @@ interface RevenueAreaChartProps {
   data: DataPoint[];
 }
 
-const generateYearlyDateData = () => {
-  const startDate = startOfDay(new Date());
-  const endDate = endOfDay(subDays(startDate, 30));
+const TotalRevenue: React.FC = () => {
+  const dispatch:AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAllBookingsAsync());
+  }, [dispatch]);
 
-  const dateInterval = eachDayOfInterval({
-    start: endDate,
-    end: startDate,
+
+  const data  = useSelector(selectAllbookings)
+  console.log(data,"data");
+  const todaysRevenueItems = data.filter((item:any) => {
+    return item.createdAt === new Date().toISOString().split("T")[0];
   });
+  let todaysRevenue = 0;
+  if (todaysRevenueItems.length > 0) {
+    todaysRevenue = todaysRevenueItems
+        .map((item:any) => item.advanceAmount)
+        .reduce((total:any, amount:any) => total + amount, 0);
+  }
+  console.log(todaysRevenue);
 
-  return dateInterval.map((date) => format(date, "MMM dd"));
-};
+  let thisWeekRevenue=0;
 
-const RevenueAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
-  const yearlyDateData = generateYearlyDateData();
+  const chartData = [
+    { name: "Sun", users: 0 },
+    { name: "Mon", users: 0 },
+    { name: "Tue", users: 0 },
+    { name: "Wed", users: 0 },
+    { name: "Thu", users: 0 },
+    { name: "Fri", users: 0 },
+    { name: "Sat", users: 0 },
+  ];
 
-  const chartData = yearlyDateData.map((date) => {
-    const matchingDataItem = data.find(
-      (item) => format(new Date(item.createdAt), "MMM dd") === date,
-    );
-    return {
-      date: date,
-      revenue: matchingDataItem ? matchingDataItem.advanceAmount / 1000 : 0,
-    };
-  });
+  const TodaysBooking:any = {
+    color: "#8884d8",
+    icon: "/userIcon.svg",
+    title: "Today's Revenue",
+    number: todaysRevenue,
+    dataKey: "users",
+    percentage: thisWeekRevenue,
+    reactIcon: "BsCalendar2Date",
+    chartData: chartData,
+  };
 
   return (
-    <div className="w-full h-64">
-      <ResponsiveContainer>
-        <AreaChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" interval={0} minTickGap={6} />
-          <YAxis tickFormatter={(tick) => `${tick}k`} />
-          <Tooltip />
-          <Area
-            type="monotone"
-            dataKey="revenue"
-            stroke="#8884d8"
-            fill="url(#colorUv)"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+      <TailwindWrapper className="mt-5 justify-self-center">
+        <div className="box box2">
+          <ChartBox titleOfPercentage="This Week" {...TodaysBooking} />
+        </div>
+      </TailwindWrapper>
   );
 };
 
-export default RevenueAreaChart;
+export default TotalRevenue;

@@ -5,23 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d80a35d-27bc-410d-af71-d14d75389e06" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BarChartComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pnpm-lock.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLY.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATM.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATY.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysCancelledBooking.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TodaysCancelledBooking.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalRevenue.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalRevenue.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,25 +83,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;nodenext&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/maity/OneDrive/Github/F/SubhamDa/Data Register/stay-stats/client/src/components/dash/Templates/MiddleBox&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\maity\\AppData\\Roaming\\npm\\node_modules\\prettier&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Project\\React\\stay-stats2\\client\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "nodenext",
+    "last_opened_file_path": "C:/Users/maity/OneDrive/Github/F/SubhamDa/Data Register/stay-stats/client/src/components/dash/Templates/MiddleBox",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\maity\\AppData\\Roaming\\npm\\node_modules\\prettier",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "D:\\Project\\React\\stay-stats2\\client\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\maity\OneDrive\Github\F\SubhamDa\Data Register\stay-stats\client\src\components\dash\Templates\MiddleBox" />
@@ -190,6 +183,7 @@
       <workItem from="1699121945057" duration="9893000" />
       <workItem from="1699166148076" duration="705000" />
       <workItem from="1699278453150" duration="723000" />
+      <workItem from="1699381323746" duration="1885000" />
     </task>
     <servers />
   </component>

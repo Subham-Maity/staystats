@@ -19,7 +19,6 @@ function TotalUsers() {
 
     // Use the `useSelector` hook to select user data from the Redux store
     const users = useSelector(selectAllUsers);
-    console.log(users, "users");
     // Calculate the total number of users
     function calculateTotalUsers(userData:any[]) {
         return userData.length;
