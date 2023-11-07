@@ -184,6 +184,7 @@ const Dashboard = () => {
     // Calculate total revenue based on booking amount
     const totalRevenuebbbd = last30DaysRevenueDataBBBD.length;
 
+
     setTotalRevenuebbbd(totalRevenuebbbd);
   }, [bookingData]);
 
@@ -197,6 +198,7 @@ const Dashboard = () => {
 
     // Calculate total revenue based on booking amount
     const totalRevenuebbcd = last30DaysRevenueDataBBCD.length;
+
 
     setTotalRevenuebbcd(totalRevenuebbcd);
   }, [bookingData]);

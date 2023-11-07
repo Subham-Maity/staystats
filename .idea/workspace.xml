@@ -13,6 +13,7 @@
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalRevenue.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalRevenue.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dash/Templates/TopBox/TotalUsers.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/api/userApi.ts" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
