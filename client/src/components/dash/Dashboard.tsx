@@ -113,6 +113,35 @@ import UserWiseBookingCountBarChartBCTLY
 import UserWiseBookingCountBarChartBCTY
     from "@/components/dash/Templates/BottomBox/UserPerformance/BookingTime/BarChartBCTY";
 
+//❗ Location Wise
+import LocationWiseRevenueBarChartRBT
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/RevenueTime/BarChartBAT";
+import LocationWiseRevenueBarChartBATW
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/RevenueTime/BarChartBATW";
+import LocationWiseRevenueBarChartBATLW
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/RevenueTime/BarChartBATLW";
+import LocationWiseRevenueBarChartBATM
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/RevenueTime/BarChartBATM";
+import LocationWiseRevenueBarChartBATY
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/RevenueTime/BarChartBATY";
+import LocationWiseRevenueBarChartBATLY
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/RevenueTime/BarChartBATLY";
+import LocationWiseBookingCountBarChartBCT
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCT";
+import LocationWiseRevenueBarChartBATLM
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/RevenueTime/BarChartBATLM";
+import LocationWiseBookingCountBarChartBCTW
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTW";
+import LocationWiseBookingCountBarChartBCTLW
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTLW";
+import LocationWiseBookingCountBarChartBCTM
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTM";
+import LocationWiseBookingCountBarChartBCTLM
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTLM";
+import LocationWiseBookingCountBarChartBCTLY
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTLY";
+import LocationWiseBookingCountBarChartBCTY
+    from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTY";
 
 const Dashboard = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -182,6 +211,9 @@ const Dashboard = () => {
     const createdDate: string[] = bookingData.map((item: any) => item.createdAt);
     const hotelNames: string[] = bookingData.map((item: any) => item?.hotel?.hotelName);
     const userName: string[] = bookingData.map((item: any) => item?.guestName);
+    const locationName: string[] = bookingData.map((item: any) => item?.hotel?.location);
+
+    console.log(locationName, "bookingSource");
 
     const bookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
         bookingSource: bookingSource[i],
@@ -197,6 +229,12 @@ const Dashboard = () => {
 
     const userWiseBookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
         userName: userName[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+
+    const locationWiseBookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
+        locationName: locationName[i],
         bookingAmount: bookingAmountBar[i],
         createdAt: createdDate[i],
     }));
@@ -601,7 +639,7 @@ const Dashboard = () => {
                                 id="booking"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 onChange={(e) => setUserBookingOrRevenue(e.target.value)}
-                                value={ userBookingOrRevenue}
+                                value={userBookingOrRevenue}
                             >
                                 <option selected={true} value={"Booking"}>
                                     Booking
@@ -611,8 +649,8 @@ const Dashboard = () => {
                             <select
                                 id="date"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                onChange={(e) =>  setUserDay(e.target.value)}
-                                value={ UserDay}
+                                onChange={(e) => setUserDay(e.target.value)}
+                                value={UserDay}
                             >
                                 <option selected={true} value="0">
                                     Today
@@ -672,6 +710,88 @@ const Dashboard = () => {
                         )}
                     </>
                 </TailwindWrapper>
+                <TailwindWrapper className="h-50 mt-5">
+                    <div className="flex justify-between">
+                        <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
+                            Location Wise
+                        </h1>
+                        <div className="flex gap-5 justify-center sm:justify-start">
+                            <select
+                                id="booking"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                onChange={(e) => setUserBookingOrRevenue(e.target.value)}
+                                value={userBookingOrRevenue}
+                            >
+                                <option selected={true} value={"Booking"}>
+                                    Booking
+                                </option>
+                                <option value={"Revenue"}>Revenue</option>
+                            </select>
+                            <select
+                                id="date"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                onChange={(e) => setUserDay(e.target.value)}
+                                value={UserDay}
+                            >
+                                <option selected={true} value="0">
+                                    Today
+                                </option>
+                                <option value="7">This Week</option>
+                                <option value="-7">Last Week</option>
+                                <option value="30">This Month</option>
+                                <option value="-30">Last Month</option>
+                                <option value="365">This Year</option>
+                                <option value="-365">Last Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <>
+                        {userBookingOrRevenue === "Revenue" && UserDay === "0" && (
+                            <LocationWiseRevenueBarChartRBT data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Revenue" && UserDay === "7" && (
+                            <LocationWiseRevenueBarChartBATW data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Revenue" && UserDay === "-7" && (
+                            <LocationWiseRevenueBarChartBATLW data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Revenue" && UserDay === "30" && (
+                            <LocationWiseRevenueBarChartBATM data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Revenue" && UserDay === "-30" && (
+                            <LocationWiseRevenueBarChartBATLM data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Revenue" && UserDay === "365" && (
+                            <LocationWiseRevenueBarChartBATY data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Revenue" && UserDay === "-365" && (
+                            <LocationWiseRevenueBarChartBATLY data={locationWiseBookingAndAmountToday}/>
+                        )}
+
+                        {userBookingOrRevenue === "Booking" && UserDay === "0" && (
+                            <LocationWiseBookingCountBarChartBCT data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Booking" && UserDay === "7" && (
+                            <LocationWiseBookingCountBarChartBCTW data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Booking" && UserDay === "-7" && (
+                            <LocationWiseBookingCountBarChartBCTLW data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Booking" && UserDay === "30" && (
+                            <LocationWiseBookingCountBarChartBCTM data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Booking" && UserDay === "-30" && (
+                            <LocationWiseBookingCountBarChartBCTLM data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Booking" && UserDay === "365" && (
+                            <LocationWiseBookingCountBarChartBCTY data={locationWiseBookingAndAmountToday}/>
+                        )}
+                        {userBookingOrRevenue === "Booking" && UserDay === "-365" && (
+                            <LocationWiseBookingCountBarChartBCTLY data={locationWiseBookingAndAmountToday}/>
+                        )}
+                    </>
+                </TailwindWrapper>
+                <div className="mb-20"></div>
             </div>
         </>
     );
