@@ -154,9 +154,11 @@ const Dashboard = () => {
     const [BookingOrRevenue, setBookingOrRevenue] = useState("Revenue");
     const [hotelBookingOrRevenue, setHotelBookingOrRevenue] = useState("Revenue");
     const [userBookingOrRevenue, setUserBookingOrRevenue] = useState("Revenue");
+    const [locationBookingOrRevenue, setLocationBookingOrRevenue] = useState("Revenue");
     const [day, setDay] = useState("0");
     const [HotelDay, setHotelDay] = useState("0");
     const [UserDay, setUserDay] = useState("0");
+    const [LocationDay, setLocationDay] = useState("0");
 
 
     //✅ Fetch All Bookings Data
@@ -719,8 +721,8 @@ const Dashboard = () => {
                             <select
                                 id="booking"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                onChange={(e) => setUserBookingOrRevenue(e.target.value)}
-                                value={userBookingOrRevenue}
+                                onChange={(e) =>  setLocationBookingOrRevenue(e.target.value)}
+                                value={locationBookingOrRevenue}
                             >
                                 <option selected={true} value={"Booking"}>
                                     Booking
@@ -730,8 +732,8 @@ const Dashboard = () => {
                             <select
                                 id="date"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                onChange={(e) => setUserDay(e.target.value)}
-                                value={UserDay}
+                                onChange={(e) => setLocationDay(e.target.value)}
+                                value={LocationDay}
                             >
                                 <option selected={true} value="0">
                                     Today
@@ -746,47 +748,47 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <>
-                        {userBookingOrRevenue === "Revenue" && UserDay === "0" && (
+                        {locationBookingOrRevenue === "Revenue" && LocationDay === "0" && (
                             <LocationWiseRevenueBarChartRBT data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Revenue" && UserDay === "7" && (
+                        {locationBookingOrRevenue === "Revenue" && LocationDay === "7" && (
                             <LocationWiseRevenueBarChartBATW data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Revenue" && UserDay === "-7" && (
+                        {locationBookingOrRevenue === "Revenue" && LocationDay === "-7" && (
                             <LocationWiseRevenueBarChartBATLW data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Revenue" && UserDay === "30" && (
+                        {locationBookingOrRevenue === "Revenue" && LocationDay === "30" && (
                             <LocationWiseRevenueBarChartBATM data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Revenue" && UserDay === "-30" && (
+                        {locationBookingOrRevenue === "Revenue" && LocationDay === "-30" && (
                             <LocationWiseRevenueBarChartBATLM data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Revenue" && UserDay === "365" && (
+                        {locationBookingOrRevenue === "Revenue" && LocationDay === "365" && (
                             <LocationWiseRevenueBarChartBATY data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Revenue" && UserDay === "-365" && (
+                        {locationBookingOrRevenue === "Revenue" && LocationDay === "-365" && (
                             <LocationWiseRevenueBarChartBATLY data={locationWiseBookingAndAmountToday}/>
                         )}
 
-                        {userBookingOrRevenue === "Booking" && UserDay === "0" && (
+                        {locationBookingOrRevenue === "Booking" && LocationDay === "0" && (
                             <LocationWiseBookingCountBarChartBCT data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Booking" && UserDay === "7" && (
+                        {locationBookingOrRevenue === "Booking" && LocationDay === "7" && (
                             <LocationWiseBookingCountBarChartBCTW data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Booking" && UserDay === "-7" && (
+                        {locationBookingOrRevenue === "Booking" && LocationDay === "-7" && (
                             <LocationWiseBookingCountBarChartBCTLW data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Booking" && UserDay === "30" && (
+                        {locationBookingOrRevenue === "Booking" && LocationDay === "30" && (
                             <LocationWiseBookingCountBarChartBCTM data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Booking" && UserDay === "-30" && (
+                        {locationBookingOrRevenue === "Booking" && LocationDay === "-30" && (
                             <LocationWiseBookingCountBarChartBCTLM data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Booking" && UserDay === "365" && (
+                        {locationBookingOrRevenue === "Booking" && LocationDay === "365" && (
                             <LocationWiseBookingCountBarChartBCTY data={locationWiseBookingAndAmountToday}/>
                         )}
-                        {userBookingOrRevenue === "Booking" && UserDay === "-365" && (
+                        {locationBookingOrRevenue === "Booking" && LocationDay === "-365" && (
                             <LocationWiseBookingCountBarChartBCTLY data={locationWiseBookingAndAmountToday}/>
                         )}
                     </>
