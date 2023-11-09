@@ -4,11 +4,10 @@ import hotelsReducer from "@/lib/features/hotelSlice";
 import usersReducer from "@/lib/features/userSlice";
 
 export const store = configureStore({
-  // reducer: persistedReducer,
   reducer: {
     booking: bookingsReducer,
-    hotels: hotelsReducer,
-    userReducer: usersReducer,
+    hotel: hotelsReducer,
+    user: usersReducer,
   }
 });
 

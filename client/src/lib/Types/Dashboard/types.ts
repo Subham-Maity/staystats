@@ -3,16 +3,12 @@ export interface BookingData {
     $oid: string;
   };
   hotel: {
-    $oid: string;
+    hotelName: string;
   };
   serialNumber: string;
   guestName: string;
-  checkInDate: {
-    $date: string;
-  };
-  checkOutDate: {
-    $date: string;
-  };
+  checkInDate: string;
+  checkOutDate: string;
   roomCategory: string;
   numberOfRooms: number;
   numberOfPersons: number;
@@ -32,12 +28,8 @@ export interface BookingData {
   };
   status: string;
   accountType: string;
-  createdAt: {
-    $date: string;
-  };
-  updatedAt: {
-    $date: string;
-  };
+  createdAt: string;
+  updatedAt: string;
   __v: number;
 }
 

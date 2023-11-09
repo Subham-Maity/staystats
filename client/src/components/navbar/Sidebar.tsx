@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useDeferredValue, useEffect } from "react";
 import { useState } from "react";
 import { FaHome, FaRocket, FaBars } from "react-icons/fa";
+import { motion } from "framer-motion";
 import { HiUserGroup } from "react-icons/hi";
 import { RiMailFill, RiSettings5Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
@@ -68,15 +69,22 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   };
 
   return (
-    <nav
+    <motion.nav
+      initial={{ width: 0 }}
+      animate={{ width: !isNavOpen ? "200px" : "auto" }}
+      transition={{ duration: 0.3 }}
       // onMouseEnter={navHoverEffectEnter}
       // onMouseLeave={navHoverEffectOut}
       className={`overflow-hiden h-screen ${
-        isNavOpen ? "w-auto" : "w-[200px]"
+        isNavOpen ? "w-auto fixed lg:relative" : "w-[200px] fixed lg:relative"
       } dark:bg-blue-950 bg-slate-100 z-50 border-sm border-r-2 pt-4`}
     >
       <div className="flex flex-col items-center justify-between h-screen w-full">
-        <ul className=" w-full px-2 flex flex-col gap-4 font-semibold">
+        <ul
+          className={`${
+            !isNavOpen ? "flex" : "hidden"
+          } w-full px-2 lg:flex flex-col gap-4 font-semibold`}
+        >
           <Link href="/">
             <li
               className={`${
@@ -141,7 +149,11 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               } rounded-xl`}
             >
               <MdLeaderboard size={20} />{" "}
-              <p className={` text-sm ${isNavOpen && "hidden"}`}>
+              <p
+                className={` text-sm whitespace-nowrap ${
+                  isNavOpen && "hidden"
+                }`}
+              >
                 Lead Generator
               </p>
             </li>
@@ -174,7 +186,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
           </Link>
         </ul>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

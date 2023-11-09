@@ -151,13 +151,15 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
 
         <div className="flex items-center justify-center gap-6">
           <div className="mt-2">
-            <RiMenuUnfoldFill
-              size={18}
-              onClick={() => {
-                toggleSidebar();
-              }}
-              className={`block lg:hidden`}
-            />
+            <div className="hidden lg:block">
+              <RiMenuUnfoldFill
+                size={18}
+                onClick={() => {
+                  toggleSidebar();
+                }}
+                className={`block lg:hidden`}
+              />
+            </div>
             <ThemeProvider>
               <Switcher />
             </ThemeProvider>
