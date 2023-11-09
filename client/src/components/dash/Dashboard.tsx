@@ -209,8 +209,6 @@ const Dashboard = () => {
 
     //✅ Bottom Box
     const bookingSource: string[] = bookingData.map((item: any) => item.bookingSource);
-
-    console.log(bookingSource, "bookingSource");
     const bookingAmountBar: number[] = bookingData.map((item: any) => item.bookingAmount);
     const createdDate: string[] = bookingData.map((item: any) => item.createdAt);
     const hotelNames: string[] = bookingData.map((item: any) => item?.hotel?.hotelName);
