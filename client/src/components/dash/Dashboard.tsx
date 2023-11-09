@@ -1,5 +1,9 @@
 "use client";
+
+//✅ React Imports
 import React, { useEffect, useState } from "react";
+
+//✅ Redux Imports
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/lib/redux/store";
 import {
@@ -7,6 +11,17 @@ import {
   selectAllbookings,
 } from "@/lib/features/bookingSlice";
 
+//✅ Widget
+import { subDays } from "date-fns";
+
+//✅ Wrapper
+import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
+
+//✅ Types
+import { BookingData } from "@/lib/Types/Dashboard/types";
+//✅ Top Box Import
+import TodaysCancelledBooking from "@/components/dash/Templates/TopBox/TodaysCancelledBooking";
+import TotalRevenue from "@/components/dash/Templates/TopBox/TotalRevenue";
 import Checkin from "@/components/dash/Templates/TopBox/Checkin";
 import Checkout from "@/components/dash/Templates/TopBox/Checkout";
 import TodaysBooking from "@/components/dash/Templates/TopBox/TodaysBooking";
@@ -14,13 +29,15 @@ import TodaysModifiedBooking from "@/components/dash/Templates/TopBox/TodaysModi
 import TotalUsers from "@/components/dash/Templates/TopBox/TotalUsers";
 import TotalDue from "@/components/dash/Templates/TopBox/TotalDue";
 import TotalHotels from "@/components/dash/Templates/TopBox/TotalHotels";
+
+//✅ Middle Box Import
 import RevenueChart from "@/components/dash/Templates/MiddleBox/AreaChartRevBookDate";
-import { BookingData } from "@/lib/Types/Dashboard/types";
 import RevenueCheckinAreaChart from "@/components/dash/Templates/MiddleBox/AreaChartRevCheckinDate";
-import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
 import AreaChartBookingBookingDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingBookingDate";
 import AreaChartBookingCheckinDate from "@/components/dash/Templates/MiddleBox/AreaChartBookingCheckinDate";
-import { subDays } from "date-fns";
+
+//✅ Bottom Box Import
+//❗ OTT Performance
 import RevenueBarChartRBT from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBAT";
 import RevenueBarChartBATW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATW";
 import RevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLW";
@@ -35,8 +52,25 @@ import BookingCountBarChartBCTLM from "@/components/dash/Templates/BottomBox/Ota
 import BookingCountBarChartBCTLY from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTLY";
 import BookingCountBarChartBCTY from "@/components/dash/Templates/BottomBox/OtaPerformance/BookingTime/BarChartBCTY";
 import RevenueBarChartBATLM from "@/components/dash/Templates/BottomBox/OtaPerformance/RevenueTime/BarChartBATLM";
-import TodaysCancelledBooking from "@/components/dash/Templates/TopBox/TodaysCancelledBooking";
-import TotalRevenue from "@/components/dash/Templates/TopBox/TotalRevenue";
+
+//❗ Hotel Performance
+import HotelWiseRevenueBarChartRBT from "@/components/dash/Templates/BottomBox/HotelPerformance/RevenueTime/BarChartBAT";
+import HotelWiseRevenueBarChartBATW from "@/components/dash/Templates/BottomBox/HotelPerformance/RevenueTime/BarChartBATW";
+import HotelWiseRevenueBarChartBATLW from "@/components/dash/Templates/BottomBox/HotelPerformance/RevenueTime/BarChartBATLW";
+import HotelWiseRevenueBarChartBATM from "@/components/dash/Templates/BottomBox/HotelPerformance/RevenueTime/BarChartBATM";
+import HotelWiseRevenueBarChartBATY from "@/components/dash/Templates/BottomBox/HotelPerformance/RevenueTime/BarChartBATY";
+import HotelWiseRevenueBarChartBATLY from "@/components/dash/Templates/BottomBox/HotelPerformance/RevenueTime/BarChartBATLY";
+import HotelWiseBookingCountBarChartBCT from "@/components/dash/Templates/BottomBox/HotelPerformance/BookingTime/BarChartBCT";
+import HotelWiseBookingCountBarChartBCTW from "@/components/dash/Templates/BottomBox/HotelPerformance/BookingTime/BarChartBCTW";
+import HotelWiseBookingCountBarChartBCTLW from "@/components/dash/Templates/BottomBox/HotelPerformance/BookingTime/BarChartBCTLW";
+import HotelWiseBookingCountBarChartBCTM from "@/components/dash/Templates/BottomBox/HotelPerformance/BookingTime/BarChartBCTM";
+import HotelWiseBookingCountBarChartBCTLM from "@/components/dash/Templates/BottomBox/HotelPerformance/BookingTime/BarChartBCTLM";
+import HotelWiseBookingCountBarChartBCTLY from "@/components/dash/Templates/BottomBox/HotelPerformance/BookingTime/BarChartBCTLY";
+import HotelWiseBookingCountBarChartBCTY from "@/components/dash/Templates/BottomBox/HotelPerformance/BookingTime/BarChartBCTY";
+import HotelWiseRevenueBarChartBATLM from "@/components/dash/Templates/BottomBox/HotelPerformance/RevenueTime/BarChartBATLM";
+
+
+
 
 const Dashboard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -60,6 +94,9 @@ const Dashboard = () => {
       });
   }, []);
   const bookingData: BookingData[] = useSelector(selectAllbookings);
+
+  const hotelName = bookingData.map((item: any) => item.hotel.hotelName);
+  console.log(hotelName, "hotelName");
 
   //Revenue and Booking
   const createdAt = bookingData.map((item: any) => item.createdAt);
@@ -105,6 +142,7 @@ const Dashboard = () => {
     (a: any, b: any) => a + b,
     0,
   );
+  const hotelNames = bookingData.map((item: any) => item?.hotel?.hotelName);
 
   //✔️ Combine
 
@@ -113,6 +151,15 @@ const Dashboard = () => {
     bookingAmount: bookingAmountBar[i],
     createdAt: createdDate[i],
   }));
+
+  const HotelWiseBookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
+    hotelName: hotelNames[i],
+    bookingAmount: bookingAmountBar[i],
+    createdAt: createdDate[i],
+  }));
+
+  //typeof
+  console.log(HotelWiseBookingAndAmountToday.map((item: any) => typeof item.hotelName), "HotelWiseBookingAndAmountToday");
 
   //❗Booking , Amount , This Week
 
@@ -443,6 +490,87 @@ const Dashboard = () => {
             )}
             {BookingOrRevenue === "Booking" && day === "-365" && (
               <BookingCountBarChartBCTLY data={bookingAndAmountToday} />
+            )}
+          </>
+        </TailwindWrapper>
+        <TailwindWrapper className="h-50 mt-5">
+          <div className="flex justify-between">
+            <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
+              Hotel Wise
+            </h1>
+            <div className="flex gap-5 justify-center sm:justify-start">
+              <select
+                  id="booking"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  onChange={(e) => setBookingOrRevenue(e.target.value)}
+                  value={BookingOrRevenue}
+              >
+                <option selected={true} value={"Booking"}>
+                  Booking
+                </option>
+                <option value={"Revenue"}>Revenue</option>
+              </select>
+              <select
+                  id="date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  onChange={(e) => setDay(e.target.value)}
+                  value={day}
+              >
+                <option selected={true} value="0">
+                  Today
+                </option>
+                <option value="7">This Week</option>
+                <option value="-7">Last Week</option>
+                <option value="30">This Month</option>
+                <option value="-30">Last Month</option>
+                <option value="365">This Year</option>
+                <option value="-365">Last Year</option>
+              </select>
+            </div>
+          </div>
+          <>
+            {BookingOrRevenue === "Revenue" && day === "0" && (
+                <HotelWiseRevenueBarChartRBT data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Revenue" && day === "7" && (
+                <HotelWiseRevenueBarChartBATW data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Revenue" && day === "-7" && (
+                <HotelWiseRevenueBarChartBATLW data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Revenue" && day === "30" && (
+                <HotelWiseRevenueBarChartBATM data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Revenue" && day === "-30" && (
+                <HotelWiseRevenueBarChartBATLM data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Revenue" && day === "365" && (
+                <HotelWiseRevenueBarChartBATY data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Revenue" && day === "-365" && (
+                <HotelWiseRevenueBarChartBATLY data={HotelWiseBookingAndAmountToday} />
+            )}
+
+            {BookingOrRevenue === "Booking" && day === "0" && (
+                <HotelWiseBookingCountBarChartBCT data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Booking" && day === "7" && (
+                <HotelWiseBookingCountBarChartBCTW data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Booking" && day === "-7" && (
+                <HotelWiseBookingCountBarChartBCTLW data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Booking" && day === "30" && (
+                <HotelWiseBookingCountBarChartBCTM data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Booking" && day === "-30" && (
+                <HotelWiseBookingCountBarChartBCTLM data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Booking" && day === "365" && (
+                <HotelWiseBookingCountBarChartBCTY data={HotelWiseBookingAndAmountToday} />
+            )}
+            {BookingOrRevenue === "Booking" && day === "-365" && (
+                <HotelWiseBookingCountBarChartBCTLY data={HotelWiseBookingAndAmountToday} />
             )}
           </>
         </TailwindWrapper>

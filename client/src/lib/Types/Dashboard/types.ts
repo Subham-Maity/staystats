@@ -3,7 +3,7 @@ export interface BookingData {
     $oid: string;
   };
   hotel: {
-    $oid: string;
+    hotelName: string;
   };
   serialNumber: string;
   guestName: string;
