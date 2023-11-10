@@ -38,36 +38,38 @@ const generateYearlyDateData = () => {
 };
 
 const RevenueAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
+  // Group data by createdAt date and sum up advanceAmount
+  const groupedData: Record<string, number> = data.reduce((acc: Record<string, number>, item) => {
+  const formattedDate = format(new Date(item.createdAt), "MMM dd");
+    acc[formattedDate] = (acc[formattedDate] || 0) + item.advanceAmount;
+    return acc;
+  }, {});
+
   const yearlyDateData = generateYearlyDateData();
 
-  const chartData = yearlyDateData.map((date) => {
-    const matchingDataItem = data.find(
-      (item) => format(new Date(item.createdAt), "MMM dd") === date,
-    );
-    return {
-      date: date,
-      revenue: matchingDataItem ? matchingDataItem.advanceAmount / 1000 : 0,
-    };
-  });
+  const chartData = yearlyDateData.map((date) => ({
+    date,
+    revenue: groupedData[date] || 0,
+  }));
 
   return (
-    <div className="w-full h-64">
-      <ResponsiveContainer>
-        <AreaChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis tickFormatter={(tick) => `${tick}k`} />
-          <Tooltip />
-          <Area
-            type="monotone"
-            dataKey="revenue"
-            stroke="rgb(59 130 246)"
-            fill="#8884d8"
-            strokeWidth={3}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+      <div className="w-full h-64">
+        <ResponsiveContainer>
+          <AreaChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis tickFormatter={(tick) => `₹${tick}`} />
+            <Tooltip />
+            <Area
+                type="monotone"
+                dataKey="revenue"
+                stroke="rgb(59 130 246)"
+                fill="#8884d8"
+                strokeWidth={3}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
   );
 };
 

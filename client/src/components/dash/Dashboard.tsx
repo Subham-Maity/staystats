@@ -179,6 +179,8 @@ const Dashboard = () => {
     const createdAt = bookingData.map((item: any) => item.createdAt);
     const advanceAmount = bookingData.map((item: any) => item.advanceAmount);
 
+    console.log(advanceAmount, "advanceAmount");
+
     //Revenue and Checkin
     const checkInDate = bookingData.map((item: any) => item.checkInDate);
     const bookingAmount = bookingData.map((item: any) => item.bookingAmount);
@@ -189,7 +191,7 @@ const Dashboard = () => {
     const bookingDate = bookingData.map((item: any) => item.createdAt);
     const revenueAndBooking = createdAt.map((item: any, i: any) => ({
         createdAt: createdAt[i],
-        advanceAmount: advanceAmount[i],
+        advanceAmount: bookingAmount[i],
     }));
 
     const revenueAndCheckin = advanceAmount.map((item: any, i: any) => ({
@@ -215,7 +217,6 @@ const Dashboard = () => {
     const userName: string[] = bookingData.map((item: any) => item?.bookingBy);
     const locationName: string[] = bookingData.map((item: any) => item?.hotel?.location);
 
-    console.log(locationName, "bookingSource");
 
     const bookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
         bookingSource: bookingSource[i],
@@ -333,7 +334,6 @@ const Dashboard = () => {
                 </div>
 
                 <TailwindWrapper className="h-50 mt-5">
-                    {/*// Select // Arachart //calculation*/}
                     <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
                         Last 30 days
                     </h1>
@@ -419,27 +419,6 @@ const Dashboard = () => {
                             <div className="flex justify-evenly">
                                 <div className="text-center">
                                     <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                        {totalRevenuebbbd}
-                                    </h1>
-                                    Total Booking
-                                </div>
-
-                                <div className="text-center">
-                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                        {(totalRevenuebbbd / 30).toFixed(2)}
-                                    </h1>
-                                    Average Bookings Per Day
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {area === "Booking" && date === "byCheckinDate" && (
-                        <>
-                            <AreaChartBookingCheckinDate data={bookingAndCheckin}/>
-                            <div className="flex justify-evenly">
-                                <div className="text-center">
-                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                         {totalRevenuebbcd}
                                     </h1>
                                     Total Bookings
@@ -450,6 +429,28 @@ const Dashboard = () => {
                                         {(totalRevenuebbcd / 30).toFixed(2)}
                                     </h1>
                                     Average Booking Per Day
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    {area === "Booking" && date === "byCheckinDate" && (
+                        <>
+                            <AreaChartBookingCheckinDate data={bookingAndCheckin}/>
+
+                            <div className="flex justify-evenly">
+                                <div className="text-center">
+                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                        {totalRevenuebbbd}
+                                    </h1>
+                                    Total Booking
+                                </div>
+
+                                <div className="text-center">
+                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                        {(totalRevenuebbbd / 30).toFixed(2)}
+                                    </h1>
+                                    Average Bookings Per Day
                                 </div>
                             </div>
                         </>
