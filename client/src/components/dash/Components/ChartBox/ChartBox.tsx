@@ -47,15 +47,15 @@ const ChartBox = (props: Props) => {
                     contentStyle={{ background: "transparent", border: "none" }}
                     labelStyle={{ display: "none" }}
                     position={{ x: 10, y: -40 }}
-                    formatter={(value, name, props) => {
+                    formatter={(dataKey) => {
                       // Display the exact date as a tooltip
-                      return props.payload && props.payload.name
-                          ? new Date(props.payload.name).toLocaleDateString()
-                          : value;
+                      return dataKey;
+                      // return 1;
                     }}
                 />
                 <Line
                     type="monotone"
+                    // dataKey={props.dataKey}
                     dataKey={props.dataKey}
                     stroke={props.color}
                     strokeWidth={2}

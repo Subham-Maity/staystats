@@ -43,13 +43,13 @@ export const Checkin=() => {
 
 // Initialize an array to represent the desired format for chartData
     const chartData = [
-        { name: "Sun", users: 0 },
-        { name: "Mon", users: 0 },
-        { name: "Tue", users: 0 },
-        { name: "Wed", users: 0 },
-        { name: "Thu", users: 0 },
-        { name: "Fri", users: 0 },
-        { name: "Sat", users: 0 },
+        { name: "Sun", checkIns: 0 },
+        { name: "Mon", checkIns: 0 },
+        { name: "Tue", checkIns: 0 },
+        { name: "Wed", checkIns: 0 },
+        { name: "Thu", checkIns: 0 },
+        { name: "Fri", checkIns: 0 },
+        { name: "Sat", checkIns: 0 },
     ];
 
     // Calculate the total number of users for each day of the current week
@@ -58,7 +58,7 @@ export const Checkin=() => {
         const dayOfWeek = checkInDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
 
         // Increment the users count for the corresponding day in chartData
-        chartData[dayOfWeek].users++;
+        chartData[dayOfWeek].checkIns++;
     });
 
 
@@ -67,7 +67,7 @@ export const Checkin=() => {
         icon: "/userIcon.svg",
         title: "Today's Check-Ins",
         number: todaysCheckIns,
-        dataKey: "users",
+        dataKey: "checkIns",
         percentage: thisWeekCheckIns.length,
         reactIcon: "BsCalendar2Date",
         chartData: chartData
