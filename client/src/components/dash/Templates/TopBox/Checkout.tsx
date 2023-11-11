@@ -43,11 +43,11 @@ function Checkout() {
     ];
 
     // Calculate the total number of users for each day of the current week
-    thisWeekCheckOuts.forEach((record:any) => {
-        const checkInDate = new Date(record.checkInDate);
-        const dayOfWeek = checkInDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
+    thisWeekCheckOuts.forEach((record) => {
+        const checkOutDate = new Date(record.checkOutDate);
+        const dayOfWeek = checkOutDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
 
-        // Increment the users count for the corresponding day in chartData
+        // Increment the check-outs count for the corresponding day in chartData
         chartData[dayOfWeek].users++;
     });
 
@@ -59,15 +59,7 @@ function Checkout() {
         dataKey: "users",
         percentage: thisWeekCheckOuts.length,
         reactIcon: "BsCalendar2Date",
-        chartData: [
-            { name: "Sun", users: 400 },
-            { name: "Mon", users: 600 },
-            { name: "Tue", users: 500 },
-            { name: "Wed", users: 700 },
-            { name: "Thu", users: 400 },
-            { name: "Fri", users: 500 },
-            { name: "Sat", users: 450 },
-        ],
+        chartData: chartData
     };
 
     return (

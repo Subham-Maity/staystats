@@ -3,13 +3,14 @@ import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrappe
 import {UserData} from "@/lib/Types/Dashboard/types";
 import {useSelector} from "react-redux";
 import {selectAllUsers} from "@/lib/features/userSlice";
+import {fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
 
 
 function TotalUsers() {
-    const users = useSelector(selectAllUsers)
+    const users = useSelector(fetchAllBookingsAsync);
     //🚀 Total User Count
     //✅ Step-1 -> Calculate the number of users
-    function calculateTotalUsers(userData: UserData[]) {
+    function calculateTotalUsers(userData: any) {
         return userData.length;
     }
     const totalUsers: number = calculateTotalUsers(users);
@@ -23,13 +24,13 @@ function TotalUsers() {
         percentage: 45,
         reactIcon: "BsCalendar2Date",
         chartData: [
-            { name: "Sun", users: 400 },
-            { name: "Mon", users: 600 },
-            { name: "Tue", users: 500 },
-            { name: "Wed", users: 700 },
-            { name: "Thu", users: 400 },
-            { name: "Fri", users: 500 },
-            { name: "Sat", users: 450 },
+            { name: "Sun", users: 0 },
+            { name: "Mon", users: 0 },
+            { name: "Tue", users: 0 },
+            { name: "Wed", users: 0 },
+            { name: "Thu", users: 0 },
+            { name: "Fri", users: 0 },
+            { name: "Sat", users: 0 },
         ],
     };
 
