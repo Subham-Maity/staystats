@@ -1,20 +1,9 @@
 import React from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  format,
   isWithinInterval,
-  subDays,
   startOfMonth,
   endOfMonth,
+  subDays,
 } from "date-fns";
 import BarChartComponent from "@/components/dash/Templates/BottomBox/HotelPerformance/BarChartComponent";
 
@@ -26,12 +15,12 @@ interface BookingCountBarChartProps {
 }
 
 const BookingCountBarChartBCTM: React.FC<BookingCountBarChartProps> = ({
-  data,
-}) => {
-  // Calculate the start and end dates for the current month (previous 30 days from the current date)
+                                                                         data,
+                                                                       }) => {
+  // Calculate the start and end dates for the current month
   const currentDate = new Date();
-  const endDate = subDays(currentDate, 1); // Set the end date as yesterday
-  const startDate = subDays(currentDate, 30);
+  const startDate = startOfMonth(currentDate);
+  const endDate = endOfMonth(currentDate);
 
   // Create a dictionary to count the number of bookings for each source within the month
   const bookingCounts: { [key: string]: number } = {};
@@ -50,7 +39,7 @@ const BookingCountBarChartBCTM: React.FC<BookingCountBarChartProps> = ({
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.hotelName)),
+      new Set(data.map((item) => item.hotelName)),
   );
 
   // Create a chartData array with all unique sources and their booking counts for the current month

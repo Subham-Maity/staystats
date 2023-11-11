@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { format, isSameDay } from "date-fns";
 import BarChartComponent from "@/components/dash/Templates/BottomBox/UserPerformance/BarChartComponent";
+
 interface RevenueBarChartProps {
   data: {
     userName: string;
@@ -36,7 +37,7 @@ const RevenueBarChartRBT: React.FC<RevenueBarChartProps> = ({ data }) => {
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-      new Set(data.map((item) => item.userName)),
+    new Set(data.map((item) => item.userName)),
   );
 
   // Create a chartData array with all unique sources and their aggregated revenue for today

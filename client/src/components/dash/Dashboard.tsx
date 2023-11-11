@@ -13,7 +13,6 @@ import {
 
 //✅ Widget
 import {
-    addDays,
     endOfMonth,
     endOfWeek, endOfYear,
     isSameDay,
@@ -201,22 +200,18 @@ const Dashboard = () => {
     //❗Today-Revenue-Ota-Total
     const [todayRevenueOtaTotal, setTodayRevenueOtaTotal] = useState<number>(0);
     useEffect(() => {
-        const thirtyDaysAgo = subDays(new Date(), 1);
-        const last30DaysRevenueData = revenueAndBooking.filter(
-            (dataPoint) => new Date(dataPoint.createdAt) >= thirtyDaysAgo,
-        );
-        const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
-            (total, dataPoint) => {
-                return total + parseFloat(dataPoint.advanceAmount);
-            },
-            0,
+        const today = new Date();
+        const todayRevenueData = revenueAndBooking.filter(
+            (dataPoint) => isSameDay(new Date(dataPoint.createdAt), today)
         );
 
-        const averageRevenue =
-            totalRevenueLast30Days / last30DaysRevenueData.length;
+        const totalRevenueToday: number = todayRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
 
-        setTodayRevenueOtaTotal(totalRevenueLast30Days);
-    });
+        setTodayRevenueOtaTotal(totalRevenueToday);
+    }, [bookingData]);
 
     // ❗Week-Booking-Ota-Total
     const [weekBookingTotal, setWeekBookingTotal] = useState<number>(0);
@@ -818,7 +813,7 @@ const Dashboard = () => {
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                            ₹{isNaN(todayRevenueOtaTotal / todayRevenueOtaTotal) ? 0 : (todayRevenueOtaTotal / todayRevenueOtaTotal).toFixed(2)}
                                         </h1>
                                         Average Revenue(Today)
                                     </div>
@@ -1137,7 +1132,7 @@ const Dashboard = () => {
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                            ₹{isNaN(todayRevenueOtaTotal / todayRevenueOtaTotal) ? 0 : (todayRevenueOtaTotal / todayRevenueOtaTotal).toFixed(2)}
                                         </h1>
                                         Average Revenue(Today)
                                     </div>
@@ -1473,7 +1468,7 @@ const Dashboard = () => {
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                            ₹{isNaN(todayRevenueOtaTotal / todayRevenueOtaTotal) ? 0 : (todayRevenueOtaTotal / todayRevenueOtaTotal).toFixed(2)}
                                         </h1>
                                         Average Revenue(Today)
                                     </div>
@@ -1803,7 +1798,7 @@ const Dashboard = () => {
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                            ₹{isNaN(todayRevenueOtaTotal / todayRevenueOtaTotal) ? 0 : (todayRevenueOtaTotal / todayRevenueOtaTotal).toFixed(2)}
                                         </h1>
                                         Average Revenue(Today)
                                     </div>
@@ -1975,6 +1970,7 @@ const Dashboard = () => {
                             </>
 
                         )}
+
                         {locationBookingOrRevenue === "Booking" && LocationDay === "-7" && (
                             <>
                                 <LocationWiseBookingCountBarChartBCTLW data={locationWiseBookingAndAmountToday}/>

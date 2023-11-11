@@ -12,7 +12,7 @@ import {
 import {
   format,
   isWithinInterval,
-  subDays,
+  subMonths,
   startOfMonth,
   endOfMonth,
 } from "date-fns";
@@ -25,20 +25,20 @@ interface BookingCountBarChartProps {
   }[];
 }
 
-const BookingCountBarChartBCTLM: React.FC<BookingCountBarChartProps> = ({
-  data,
-}) => {
-  // Calculate the start and end dates for the last month (previous 30 days from the current month)
+const BookingCountBarChartBCTM: React.FC<BookingCountBarChartProps> = ({
+                                                                         data,
+                                                                       }) => {
+  // Calculate the start and end dates for the previous month
   const currentDate = new Date();
-  const endDate = endOfMonth(subDays(currentDate, 1)); // Set the end date as the last day of the previous month
-  const startDate = startOfMonth(subDays(currentDate, 30));
+  const startOfPreviousMonth = startOfMonth(subMonths(currentDate, 1));
+  const endOfPreviousMonth = endOfMonth(subMonths(currentDate, 1));
 
-  // Create a dictionary to count the number of bookings for each source within the last month
+  // Create a dictionary to count the number of bookings for each source within the previous month
   const bookingCounts: { [key: string]: number } = {};
 
   data.forEach((item) => {
     const itemDate = new Date(item.createdAt);
-    if (isWithinInterval(itemDate, { start: startDate, end: endDate })) {
+    if (isWithinInterval(itemDate, { start: startOfPreviousMonth, end: endOfPreviousMonth })) {
       const source = item.locationName;
       if (bookingCounts[source]) {
         bookingCounts[source]++;
@@ -50,10 +50,10 @@ const BookingCountBarChartBCTLM: React.FC<BookingCountBarChartProps> = ({
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.locationName)),
+      new Set(data.map((item) => item.locationName)),
   );
 
-  // Create a chartData array with all unique sources and their booking counts for the last month
+  // Create a chartData array with all unique sources and their booking counts for the previous month
   const chartData = uniqueSources.map((source) => ({
     source,
     bookingCount: bookingCounts[source] || 0,
@@ -64,4 +64,4 @@ const BookingCountBarChartBCTLM: React.FC<BookingCountBarChartProps> = ({
   );
 };
 
-export default BookingCountBarChartBCTLM;
+export default BookingCountBarChartBCTM;

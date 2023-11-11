@@ -26,19 +26,20 @@ interface BookingCountBarChartProps {
 }
 
 const BookingCountBarChartBCTY: React.FC<BookingCountBarChartProps> = ({
-  data,
-}) => {
-  // Calculate the start and end dates for the current year (365 days from the current date)
+                                                                         data,
+                                                                       }) => {
+  // Calculate the start and end dates for the current year
   const currentDate = new Date();
-  const endDate = endOfYear(subDays(currentDate, 1)); // Set the end date as the last day of the current year
-  const startDate = startOfYear(subDays(currentDate, 365));
+  const startOfCurrentYear = startOfYear(currentDate);
+  const endOfCurrentYear = endOfYear(currentDate);
 
-  // Create a dictionary to count the number of bookings for each source within the year
+  // Create a dictionary to count the number of bookings for each source within the current year
   const bookingCounts: { [key: string]: number } = {};
 
   data.forEach((item) => {
     const itemDate = new Date(item.createdAt);
-    if (isWithinInterval(itemDate, { start: startDate, end: endDate })) {
+    // Check if the date is within the interval of the current year
+    if (isWithinInterval(itemDate, { start: startOfCurrentYear, end: endOfCurrentYear })) {
       const source = item.locationName;
       if (bookingCounts[source]) {
         bookingCounts[source]++;
@@ -50,7 +51,7 @@ const BookingCountBarChartBCTY: React.FC<BookingCountBarChartProps> = ({
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.locationName)),
+      new Set(data.map((item) => item.locationName)),
   );
 
   // Create a chartData array with all unique sources and their booking counts for the current year

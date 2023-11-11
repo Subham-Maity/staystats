@@ -1,16 +1,5 @@
 import React from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  format,
   isWithinInterval,
   subDays,
   startOfYear,
@@ -27,17 +16,17 @@ interface RevenueBarChartProps {
 }
 
 const RevenueBarChartBATY: React.FC<RevenueBarChartProps> = ({ data }) => {
-  // Calculate the start and end dates for the current year (365 days from the current date)
+  // Calculate the start and end dates for the current year
   const currentDate = new Date();
-  const endDate = endOfYear(subDays(currentDate, 1)); // Set the end date as the last day of the current year
-  const startDate = startOfYear(subDays(currentDate, 365));
+  const startOfCurrentYear = startOfYear(currentDate);
+  const endOfCurrentYear = endOfYear(currentDate);
 
   // Create a dictionary to aggregate booking amounts for each source within the current year
   const aggregateData: { [key: string]: number } = {};
 
   data.forEach((item) => {
     const itemDate = new Date(item.createdAt);
-    if (isWithinInterval(itemDate, { start: startDate, end: endDate })) {
+    if (isWithinInterval(itemDate, { start: startOfCurrentYear, end: endOfCurrentYear })) {
       const source = item.hotelName;
       if (aggregateData[source]) {
         aggregateData[source] += item.bookingAmount;
@@ -49,7 +38,7 @@ const RevenueBarChartBATY: React.FC<RevenueBarChartProps> = ({ data }) => {
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.hotelName)),
+      new Set(data.map((item) => item.hotelName)),
   );
 
   // Create a chartData array with all unique sources and their aggregated revenue for the current year

@@ -10,7 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import {
-  format,
   isWithinInterval,
   subDays,
   startOfYear,
@@ -27,18 +26,18 @@ interface RevenueBarChartProps {
   }[];
 }
 
-const RevenueBarChartBATLY: React.FC<RevenueBarChartProps> = ({ data }) => {
-  // Calculate the start and end dates for the last year (365 days from the previous year)
+const RevenueBarChartPreviousYear: React.FC<RevenueBarChartProps> = ({ data }) => {
+  // Calculate the start and end dates for the previous year
   const currentDate = new Date();
-  const endDate = endOfYear(subYears(currentDate, 1)); // Set the end date as the last day of the previous year
-  const startDate = startOfYear(subYears(currentDate, 1));
+  const startOfPreviousYear = startOfYear(subYears(currentDate, 1));
+  const endOfPreviousYear = endOfYear(subYears(currentDate, 1));
 
-  // Create a dictionary to aggregate booking amounts for each source within the last year
+  // Create a dictionary to aggregate booking amounts for each source within the previous year
   const aggregateData: { [key: string]: number } = {};
 
   data.forEach((item) => {
     const itemDate = new Date(item.createdAt);
-    if (isWithinInterval(itemDate, { start: startDate, end: endDate })) {
+    if (isWithinInterval(itemDate, { start: startOfPreviousYear, end: endOfPreviousYear })) {
       const source = item.userName;
       if (aggregateData[source]) {
         aggregateData[source] += item.bookingAmount;
@@ -50,10 +49,10 @@ const RevenueBarChartBATLY: React.FC<RevenueBarChartProps> = ({ data }) => {
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.userName)),
+      new Set(data.map((item) => item.userName)),
   );
 
-  // Create a chartData array with all unique sources and their aggregated revenue for the last year
+  // Create a chartData array with all unique sources and their aggregated revenue for the previous year
   const chartData = uniqueSources.map((source) => ({
     source,
     revenue: aggregateData[source] || 0,
@@ -64,4 +63,4 @@ const RevenueBarChartBATLY: React.FC<RevenueBarChartProps> = ({ data }) => {
   );
 };
 
-export default RevenueBarChartBATLY;
+export default RevenueBarChartPreviousYear;

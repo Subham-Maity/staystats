@@ -1,16 +1,5 @@
 import React from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  format,
   isWithinInterval,
   subWeeks,
   startOfWeek,
@@ -27,9 +16,9 @@ interface RevenueBarChartProps {
 }
 
 const RevenueBarChartBATLW: React.FC<RevenueBarChartProps> = ({ data }) => {
-  // Calculate the start and end dates for the last week (previous 7 days from the previous week)
+  // Calculate the start and end dates for the last week (previous 7 days excluding the current week)
   const currentDate = new Date();
-  const endDate = endOfWeek(subWeeks(currentDate, 1));
+  const endDate = startOfWeek(currentDate);
   const startDate = startOfWeek(subWeeks(currentDate, 1));
 
   // Create a dictionary to aggregate booking amounts for each source within the last week
@@ -49,7 +38,7 @@ const RevenueBarChartBATLW: React.FC<RevenueBarChartProps> = ({ data }) => {
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.hotelName)),
+      new Set(data.map((item) => item.hotelName)),
   );
 
   // Create a chartData array with all unique sources and their aggregated revenue for the last week
@@ -59,9 +48,9 @@ const RevenueBarChartBATLW: React.FC<RevenueBarChartProps> = ({ data }) => {
   }));
 
   return (
-     <>
-       <BarChartComponent chartData={chartData} type={"revenue"} />
-       </>
+      <>
+        <BarChartComponent chartData={chartData} type={"revenue"} />
+      </>
   );
 };
 
