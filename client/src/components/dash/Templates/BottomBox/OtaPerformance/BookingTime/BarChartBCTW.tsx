@@ -24,8 +24,8 @@ const BookingCountBarChartBCTW: React.FC<BookingCountBarChartProps> = ({
 }) => {
   // Calculate the start and end dates for the previous 7 days (this week)
   const currentDate = new Date();
-  const endDate = subDays(currentDate, 1); // Set the end date as yesterday
-  const startDate = subDays(currentDate, 7);
+  const endDate = subDays(currentDate, 0);
+  const startDate = subDays(currentDate, 6);
 
   // Create a dictionary to count the number of bookings for each source within the week
   const bookingCounts: { [key: string]: number } = {};
