@@ -828,14 +828,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{weekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(weekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Week)
                                     </div>
                                 </div>
                             </>
@@ -848,14 +848,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousWeekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -868,14 +868,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Month)
                                     </div>
                                 </div>
                             </>
@@ -888,14 +888,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -908,14 +908,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Year)
                                     </div>
                                 </div>
                             </>
@@ -928,14 +928,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -956,7 +956,7 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day(Today)
+                                        Average Booking(Today)
                                     </div>
                                 </div>
                             </>
@@ -969,14 +969,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {weekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(weekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Week)
                                     </div>
                                 </div>
                             </>
@@ -989,14 +989,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousWeekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousWeekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -1009,14 +1009,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Month)
                                     </div>
                                 </div>
                             </>
@@ -1029,14 +1029,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -1049,14 +1049,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Year)
                                     </div>
                                 </div>
                             </>
@@ -1069,14 +1069,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -1148,14 +1148,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{weekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(weekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Week)
                                     </div>
                                 </div>
                             </>
@@ -1169,14 +1169,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousWeekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -1190,14 +1190,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Month)
                                     </div>
                                 </div>
                             </>
@@ -1211,14 +1211,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -1231,14 +1231,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Year)
                                     </div>
                                 </div>
                             </>
@@ -1253,14 +1253,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -1282,7 +1282,7 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day(Today)
+                                        Average Booking(Today)
                                     </div>
                                 </div>
                             </>
@@ -1295,14 +1295,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {weekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(weekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Week)
                                     </div>
                                 </div>
                             </>
@@ -1317,14 +1317,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousWeekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousWeekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -1340,14 +1340,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Month)
                                     </div>
                                 </div>
                             </>
@@ -1361,14 +1361,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -1383,14 +1383,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Year)
                                     </div>
                                 </div>
                             </>
@@ -1405,14 +1405,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -1483,14 +1483,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{weekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(weekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Week)
                                     </div>
                                 </div>
                             </>
@@ -1505,14 +1505,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousWeekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -1527,14 +1527,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Month)
                                     </div>
                                 </div>
                             </>
@@ -1548,14 +1548,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -1570,14 +1570,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Year)
                                     </div>
                                 </div>
                             </>
@@ -1593,14 +1593,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -1621,7 +1621,7 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day(Today)
+                                        Average Booking(Today)
                                     </div>
                                 </div>
                             </>
@@ -1635,14 +1635,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {weekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(weekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Week)
                                     </div>
                                 </div>
                             </>
@@ -1655,14 +1655,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousWeekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousWeekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -1675,14 +1675,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Month)
                                     </div>
                                 </div>
                             </>
@@ -1695,14 +1695,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -1715,14 +1715,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Year)
                                     </div>
                                 </div>
                             </>
@@ -1735,14 +1735,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -1813,14 +1813,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{weekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(weekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Week)
                                     </div>
                                 </div>
                             </>
@@ -1833,14 +1833,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousWeekRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -1854,14 +1854,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(This Month)
                                     </div>
                                 </div>
                             </>
@@ -1874,14 +1874,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousMonthRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -1894,14 +1894,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -1916,14 +1916,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{previousYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(previousYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Last Year)
                                     </div>
                                 </div>
                             </>
@@ -1944,7 +1944,7 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day(Today)
+                                        Average Booking(Today)
                                     </div>
                                 </div>
                             </>
@@ -1957,14 +1957,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {weekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(weekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Week)
                                     </div>
                                 </div>
                             </>
@@ -1979,14 +1979,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousWeekBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Booking(Last Week)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousWeekBookingTotal / 7).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Week)
                                     </div>
                                 </div>
                             </>
@@ -2001,14 +2001,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Month)
                                     </div>
                                 </div>
                             </>
@@ -2022,14 +2022,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousMonthBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Month)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Month)
                                     </div>
                                 </div>
                             </>
@@ -2044,14 +2044,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {thisYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(thisYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(This Year)
                                     </div>
                                 </div>
                             </>
@@ -2066,14 +2066,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {previousYearBookingTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Last Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             {(previousYearBookingTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking(Last Year)
                                     </div>
                                 </div>
                             </>
