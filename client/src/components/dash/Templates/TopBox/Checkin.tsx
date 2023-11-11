@@ -29,7 +29,7 @@ export const Checkin=() => {
     const currentDate2 = new Date();
     const startOfWeek = new Date(currentDate2);
     startOfWeek.setHours(0, 0, 0, 0);
-    startOfWeek.setDate(currentDate2.getDate() - currentDate2.getDay()); // Assuming Sunday is the first day of the week
+    startOfWeek.setDate(0); // Assuming Sunday is the first day of the week
 
     const endOfWeek = new Date(currentDate2);
     endOfWeek.setHours(23, 59, 59, 999);
@@ -51,6 +51,7 @@ export const Checkin=() => {
         { name: "Fri", checkIns: 0 },
         { name: "Sat", checkIns: 0 },
     ];
+
 
     // Calculate the total number of users for each day of the current week
     thisWeekCheckIns.forEach((record:any) => {

@@ -28,12 +28,6 @@ function TotalUsers() {
     const dispatch:AppDispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchAllBookingsAsync())
-        .then(() => {
-            console.log("fetchAllProductsAsync dispatched successfully");
-        })
-        .catch((error: any) => {
-            console.error("Error dispatching fetchAllProductsAsync:", error);
-        });
     }, [dispatch]);
 
     // Use the `useSelector` hook to select user data from the Redux store
