@@ -56,6 +56,19 @@ function TodaysModifiedBooking() {
     { name: "Sat", users: 0 },
   ];
 
+  const thisWeekModifiedBookings = bookingData.filter((record) => {
+    const ModifiedDate: Date = new Date(record.updatedAt);
+    return ModifiedDate >= startOfWeek && ModifiedDate <= endOfWeek;
+  });
+
+  thisWeekModifiedBookings.forEach((record) => {
+    const ModifiedDate = new Date(record.updatedAt);
+    const dayOfWeek = ModifiedDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
+
+    // Increment the modified bookings count for the corresponding day in chartData
+    chartData[dayOfWeek].users++;
+  });
+
   const TodaysModifiedBooking = {
     color: "#8884d8",
     icon: "/userIcon.svg",

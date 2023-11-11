@@ -36,13 +36,13 @@ function TotalDue() {
         percentage: 45,
         reactIcon: "BsCalendar2Date",
         chartData: [
-            { name: "Sun", users: 400 },
-            { name: "Mon", users: 600 },
-            { name: "Tue", users: 500 },
-            { name: "Wed", users: 700 },
-            { name: "Thu", users: 400 },
-            { name: "Fri", users: 500 },
-            { name: "Sat", users: 450 },
+            { name: "Sun", users: 0 },
+            { name: "Mon", users: 0 },
+            { name: "Tue", users: 0 },
+            { name: "Wed", users: 0 },
+            { name: "Thu", users: 0 },
+            { name: "Fri", users: 0 },
+            { name: "Sat", users: 0 },
         ],
     };
 

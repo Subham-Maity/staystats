@@ -12,7 +12,16 @@ import {
 } from "@/lib/features/bookingSlice";
 
 //✅ Widget
-import {subDays} from "date-fns";
+import {
+    addDays,
+    endOfMonth,
+    endOfWeek, endOfYear,
+    isSameDay,
+    isWithinInterval,
+    startOfMonth,
+    startOfWeek, startOfYear,
+    subDays, subMonths, subYears
+} from "date-fns";
 
 //✅ Wrapper
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
@@ -175,9 +184,313 @@ const Dashboard = () => {
 
     const bookingData: BookingData[] = useSelector(selectAllbookings);
 
+
+    //✅ Bottom Chart - OTA Performance - Calculation
+
+    //❗Today-Booking-Ota-Total
+    const [todayBookingOtaTotal, setTodayBookingOtaTotal] = useState<number>(0);
+    useEffect(() => {
+        const today = new Date();
+        const todayBookings = bookingData.filter(
+            (booking) => isSameDay(new Date(booking.createdAt), today)
+        );
+        const totalBookingsToday = todayBookings.length;
+        setTodayBookingOtaTotal(totalBookingsToday);
+    }, [bookingData]);
+
+    //❗Today-Revenue-Ota-Total
+    const [todayRevenueOtaTotal, setTodayRevenueOtaTotal] = useState<number>(0);
+    useEffect(() => {
+        const thirtyDaysAgo = subDays(new Date(), 1);
+        const last30DaysRevenueData = revenueAndBooking.filter(
+            (dataPoint) => new Date(dataPoint.createdAt) >= thirtyDaysAgo,
+        );
+        const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
+            (total, dataPoint) => {
+                return total + parseFloat(dataPoint.advanceAmount);
+            },
+            0,
+        );
+
+        const averageRevenue =
+            totalRevenueLast30Days / last30DaysRevenueData.length;
+
+        setTodayRevenueOtaTotal(totalRevenueLast30Days);
+    });
+
+    // ❗Week-Booking-Ota-Total
+    const [weekBookingTotal, setWeekBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const today: Date = new Date();
+        const startOfCurrentWeek: Date = startOfWeek(today);
+        const endOfCurrentWeek: Date = endOfWeek(today);
+
+        const bookingsForWeek = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfCurrentWeek,
+                    end: endOfCurrentWeek,
+                })
+        );
+
+        const totalBookingsWeek = bookingsForWeek.length;
+
+        setWeekBookingTotal(totalBookingsWeek);
+    }, [bookingData]);
+
+    // ❗Week-Revenue-Ota-Total
+    const [weekRevenueTotal, setWeekRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const startOfCurrentWeek: Date = startOfWeek(new Date());
+        const endOfCurrentWeek: Date = endOfWeek(new Date());
+
+        const revenueDataForWeek = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfCurrentWeek,
+                    end: endOfCurrentWeek,
+                })
+        );
+
+        const totalRevenueForWeek: number = revenueDataForWeek.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
+
+        setWeekRevenueTotal(totalRevenueForWeek);
+    }, [bookingData]);
+
+    // ❗Previous-Week-Booking-Ota-Total
+    const [previousWeekBookingTotal, setPreviousWeekBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const today: Date = new Date();
+        const endOfPreviousWeek: Date = endOfWeek(subDays(today, 7));
+        const startOfPreviousWeek: Date = startOfWeek(subDays(endOfPreviousWeek, 6));
+
+        const bookingsForPreviousWeek = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfPreviousWeek,
+                    end: endOfPreviousWeek,
+                })
+        );
+
+        const totalBookingsPreviousWeek = bookingsForPreviousWeek.length;
+
+        setPreviousWeekBookingTotal(totalBookingsPreviousWeek);
+    }, [bookingData]);
+
+    // ❗Previous-Week-Revenue-Ota-Total
+    const [previousWeekRevenueTotal, setPreviousWeekRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const endOfPreviousWeek: Date = endOfWeek(subDays(new Date(), 7));
+        const startOfPreviousWeek: Date = startOfWeek(subDays(endOfPreviousWeek, 6));
+
+        const previousWeekRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfPreviousWeek,
+                    end: endOfPreviousWeek,
+                })
+        );
+
+        const totalRevenuePreviousWeek: number = previousWeekRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
+
+        setPreviousWeekRevenueTotal(totalRevenuePreviousWeek);
+    }, [bookingData]);
+
+    // ❗This-Month-Booking-Ota-Total
+
+    const [thisMonthBookingTotal, setThisMonthBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisMonth: Date = startOfMonth(currentDate);
+        const endOfThisMonth: Date = endOfMonth(currentDate);
+
+        const bookingsForThisMonth = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfThisMonth,
+                    end: endOfThisMonth,
+                })
+        );
+
+        const totalBookingsThisMonth = bookingsForThisMonth.length;
+
+        setThisMonthBookingTotal(totalBookingsThisMonth);
+    }, [bookingData]);
+
+    // ❗This-Month-Revenue-Ota-Total
+    const [thisMonthRevenueTotal, setThisMonthRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisMonth: Date = startOfMonth(currentDate);
+        const endOfThisMonth: Date = endOfMonth(currentDate);
+
+        const thisMonthRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfThisMonth,
+                    end: endOfThisMonth,
+                })
+        );
+
+        const totalRevenueThisMonth: number = thisMonthRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
+
+        setThisMonthRevenueTotal(totalRevenueThisMonth);
+    }, [bookingData]);
+    // ❗Previous-Month-Booking-Ota-Total
+
+    const [previousMonthBookingTotal, setPreviousMonthBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousMonth: Date = startOfMonth(subMonths(currentDate, 1));
+        const endOfPreviousMonth: Date = endOfMonth(subMonths(currentDate, 1));
+
+        const bookingsForPreviousMonth = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfPreviousMonth,
+                    end: endOfPreviousMonth,
+                })
+        );
+
+        const totalBookingsPreviousMonth = bookingsForPreviousMonth.length;
+
+        setPreviousMonthBookingTotal(totalBookingsPreviousMonth);
+    }, [bookingData]);
+
+    // ❗Previous-Month-Revenue-Ota-Total
+    const [previousMonthRevenueTotal, setPreviousMonthRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousMonth: Date = startOfMonth(subMonths(currentDate, 1));
+        const endOfPreviousMonth: Date = endOfMonth(subMonths(currentDate, 1));
+
+        const previousMonthRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfPreviousMonth,
+                    end: endOfPreviousMonth,
+                })
+        );
+
+        const totalRevenuePreviousMonth: number = previousMonthRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
+
+        setPreviousMonthRevenueTotal(totalRevenuePreviousMonth);
+    }, [bookingData]);
+    // ❗This-Year-Booking-Ota-Total
+
+    const [thisYearBookingTotal, setThisYearBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisYear: Date = startOfYear(currentDate);
+        const endOfThisYear: Date = endOfYear(currentDate);
+
+        const bookingsForThisYear = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfThisYear,
+                    end: endOfThisYear,
+                })
+        );
+
+        const totalBookingsThisYear = bookingsForThisYear.length;
+
+        setThisYearBookingTotal(totalBookingsThisYear);
+    }, [bookingData]);
+
+    // ❗This-Year-Revenue-Ota-Total
+    const [thisYearRevenueTotal, setThisYearRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisYear: Date = startOfYear(currentDate);
+        const endOfThisYear: Date = endOfYear(currentDate);
+
+        const thisYearRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfThisYear,
+                    end: endOfThisYear,
+                })
+        );
+
+        const totalRevenueThisYear: number = thisYearRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount || 0),
+            0
+        );
+
+        setThisYearRevenueTotal(totalRevenueThisYear);
+    }, [bookingData]);
+
+    // ❗Previous-Year-Booking-Ota-Total
+    const [previousYearBookingTotal, setPreviousYearBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousYear: Date = startOfYear(subYears(currentDate, 1));
+        const endOfPreviousYear: Date = endOfYear(subYears(currentDate, 1));
+
+        const bookingsForPreviousYear = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfPreviousYear,
+                    end: endOfPreviousYear,
+                })
+        );
+
+        const totalBookingsPreviousYear = bookingsForPreviousYear.length;
+
+        setPreviousYearBookingTotal(totalBookingsPreviousYear);
+    }, [bookingData]);
+
+    // ❗Previous-Year-Revenue-Ota-Total
+    const [previousYearRevenueTotal, setPreviousYearRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousYear: Date = startOfYear(subYears(currentDate, 1));
+        const endOfPreviousYear: Date = endOfYear(subYears(currentDate, 1));
+
+        const previousYearRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfPreviousYear,
+                    end: endOfPreviousYear,
+                })
+        );
+
+        const totalRevenuePreviousYear: number = previousYearRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount || 0),
+            0
+        );
+
+        setPreviousYearRevenueTotal(totalRevenuePreviousYear);
+    }, [bookingData]);
+
     //Revenue and Booking
     const createdAt = bookingData.map((item: any) => item.createdAt);
     const advanceAmount = bookingData.map((item: any) => item.advanceAmount);
+
 
     //Revenue and Checkin
     const checkInDate = bookingData.map((item: any) => item.checkInDate);
@@ -189,8 +502,9 @@ const Dashboard = () => {
     const bookingDate = bookingData.map((item: any) => item.createdAt);
     const revenueAndBooking = createdAt.map((item: any, i: any) => ({
         createdAt: createdAt[i],
-        advanceAmount: advanceAmount[i],
+        advanceAmount: bookingAmount[i],
     }));
+
 
     const revenueAndCheckin = advanceAmount.map((item: any, i: any) => ({
         checkInDate: checkInDate[i],
@@ -209,15 +523,12 @@ const Dashboard = () => {
 
     //✅ Bottom Box
     const bookingSource: string[] = bookingData.map((item: any) => item.bookingSource);
-
-    console.log(bookingSource, "bookingSource");
     const bookingAmountBar: number[] = bookingData.map((item: any) => item.bookingAmount);
     const createdDate: string[] = bookingData.map((item: any) => item.createdAt);
     const hotelNames: string[] = bookingData.map((item: any) => item?.hotel?.hotelName);
     const userName: string[] = bookingData.map((item: any) => item?.bookingBy);
     const locationName: string[] = bookingData.map((item: any) => item?.hotel?.location);
 
-    console.log(locationName, "bookingSource");
 
     const bookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
         bookingSource: bookingSource[i],
@@ -280,7 +591,7 @@ const Dashboard = () => {
 
         const revenueAndBooking = bookingData.map((item: any, i: any) => ({
             checkInDate: item.checkInDate,
-            advanceAmount: item.advanceAmount,
+            bookingAmount: item.bookingAmount,
         }));
         console.log(revenueAndBooking, "revenueAndBooking");
         const last30DaysRevenueData = revenueAndBooking.filter(
@@ -289,7 +600,7 @@ const Dashboard = () => {
 
         const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
             (total, dataPoint) => {
-                return total + parseFloat(dataPoint.advanceAmount);
+                return total + parseFloat(dataPoint.bookingAmount);
             },
             0,
         );
@@ -335,7 +646,6 @@ const Dashboard = () => {
                 </div>
 
                 <TailwindWrapper className="h-50 mt-5">
-                    {/*// Select // Arachart //calculation*/}
                     <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
                         Last 30 days
                     </h1>
@@ -421,27 +731,6 @@ const Dashboard = () => {
                             <div className="flex justify-evenly">
                                 <div className="text-center">
                                     <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                        {totalRevenuebbbd}
-                                    </h1>
-                                    Total Booking
-                                </div>
-
-                                <div className="text-center">
-                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                        {(totalRevenuebbbd / 30).toFixed(2)}
-                                    </h1>
-                                    Average Bookings Per Day
-                                </div>
-                            </div>
-                        </>
-                    )}
-
-                    {area === "Booking" && date === "byCheckinDate" && (
-                        <>
-                            <AreaChartBookingCheckinDate data={bookingAndCheckin}/>
-                            <div className="flex justify-evenly">
-                                <div className="text-center">
-                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                         {totalRevenuebbcd}
                                     </h1>
                                     Total Bookings
@@ -456,8 +745,30 @@ const Dashboard = () => {
                             </div>
                         </>
                     )}
-                </TailwindWrapper>
 
+                    {area === "Booking" && date === "byCheckinDate" && (
+                        <>
+                            <AreaChartBookingCheckinDate data={bookingAndCheckin}/>
+
+                            <div className="flex justify-evenly">
+                                <div className="text-center">
+                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                        {totalRevenuebbbd}
+                                    </h1>
+                                    Total Booking
+                                </div>
+
+                                <div className="text-center">
+                                    <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                        {(totalRevenuebbbd / 30).toFixed(2)}
+                                    </h1>
+                                    Average Bookings Per Day
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </TailwindWrapper>
+                {/*Ott Performance*/}
                 <TailwindWrapper className="h-50 mt-5">
                     <div className="flex justify-between">
                         <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
@@ -496,63 +807,284 @@ const Dashboard = () => {
                     <>
                         {BookingOrRevenue === "Revenue" && HotelDay === "0" && (
                             <>
-                            <RevenueBarChartRBT data={bookingAndAmountToday}/>
+                                <RevenueBarChartRBT data={bookingAndAmountToday}/>
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Average Revenue(Today)
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        {BookingOrRevenue === "Revenue" && HotelDay === "7" && (
+                            <>
+                                <RevenueBarChartBATW data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{weekRevenueTotal.toFixed(2)}
                                         </h1>
                                         Total Revenue
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{(weekRevenueTotal / 7).toFixed(2)}
                                         </h1>
                                         Average Revenue Per Day
                                     </div>
                                 </div>
                             </>
                         )}
-                        {BookingOrRevenue === "Revenue" && HotelDay === "7" && (
-                            <RevenueBarChartBATW data={bookingAndAmountToday}/>
-                        )}
                         {BookingOrRevenue === "Revenue" && HotelDay === "-7" && (
-                            <RevenueBarChartBATLW data={bookingAndAmountToday}/>
+                            <>
+                                <RevenueBarChartBATLW data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousWeekRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Revenue" && HotelDay === "30" && (
-                            <RevenueBarChartBATM data={bookingAndAmountToday}/>
+                            <>
+                                <RevenueBarChartBATM data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Revenue" && HotelDay === "-30" && (
-                            <RevenueBarChartBATLM data={bookingAndAmountToday}/>
+                            <>
+                                <RevenueBarChartBATLM data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Revenue" && HotelDay === "365" && (
-                            <RevenueBarChartBATY data={bookingAndAmountToday}/>
+                            <>
+                                <RevenueBarChartBATY data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Revenue" && HotelDay === "-365" && (
-                            <RevenueBarChartBATLY data={bookingAndAmountToday}/>
+                            <>
+                                <RevenueBarChartBATLY data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
 
                         {BookingOrRevenue === "Booking" && HotelDay === "0" && (
-                            <BookingCountBarChartBCT data={bookingAndAmountToday}/>
+                            <>
+                                <BookingCountBarChartBCT data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {todayBookingOtaTotal}
+                                        </h1>
+                                        Total Bookings(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day(Today)
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Booking" && HotelDay === "7" && (
-                            <BookingCountBarChartBCTW data={bookingAndAmountToday}/>
+                            <>
+                                <BookingCountBarChartBCTW data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {weekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(weekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Booking" && HotelDay === "-7" && (
-                            <BookingCountBarChartBCTLW data={bookingAndAmountToday}/>
+                            <>
+                                <BookingCountBarChartBCTLW data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousWeekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousWeekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Booking" && HotelDay === "30" && (
-                            <BookingCountBarChartBCTM data={bookingAndAmountToday}/>
+                            <>
+                                <BookingCountBarChartBCTM data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Booking" && HotelDay === "-30" && (
-                            <BookingCountBarChartBCTLM data={bookingAndAmountToday}/>
+                            <>
+                                <BookingCountBarChartBCTLM data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Booking" && HotelDay === "365" && (
-                            <BookingCountBarChartBCTY data={bookingAndAmountToday}/>
+                            <>
+                                <BookingCountBarChartBCTY data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {BookingOrRevenue === "Booking" && HotelDay === "-365" && (
-                            <BookingCountBarChartBCTLY data={bookingAndAmountToday}/>
+                            <>
+                                <BookingCountBarChartBCTLY data={bookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                     </>
                 </TailwindWrapper>
@@ -593,47 +1125,302 @@ const Dashboard = () => {
                     </div>
                     <>
                         {hotelBookingOrRevenue === "Revenue" && day === "0" && (
-                            <HotelWiseRevenueBarChartRBT data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseRevenueBarChartRBT data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Average Revenue(Today)
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {hotelBookingOrRevenue === "Revenue" && day === "7" && (
-                            <HotelWiseRevenueBarChartBATW data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseRevenueBarChartBATW data={HotelWiseBookingAndAmountToday}/>
+
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{weekRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(weekRevenueTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {hotelBookingOrRevenue === "Revenue" && day === "-7" && (
-                            <HotelWiseRevenueBarChartBATLW data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseRevenueBarChartBATLW data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousWeekRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {hotelBookingOrRevenue === "Revenue" && day === "30" && (
-                            <HotelWiseRevenueBarChartBATM data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseRevenueBarChartBATM data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {hotelBookingOrRevenue === "Revenue" && day === "-30" && (
-                            <HotelWiseRevenueBarChartBATLM data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseRevenueBarChartBATLM data={HotelWiseBookingAndAmountToday}/>
+
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {hotelBookingOrRevenue === "Revenue" && day === "365" && (
-                            <HotelWiseRevenueBarChartBATY data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseRevenueBarChartBATY data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {hotelBookingOrRevenue === "Revenue" && day === "-365" && (
-                            <HotelWiseRevenueBarChartBATLY data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseRevenueBarChartBATLY data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
 
                         {hotelBookingOrRevenue === "Booking" && day === "0" && (
-                            <HotelWiseBookingCountBarChartBCT data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseBookingCountBarChartBCT data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {todayBookingOtaTotal}
+                                        </h1>
+                                        Total Bookings(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day(Today)
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {hotelBookingOrRevenue === "Booking" && day === "7" && (
-                            <HotelWiseBookingCountBarChartBCTW data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseBookingCountBarChartBCTW data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {weekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(weekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {hotelBookingOrRevenue === "Booking" && day === "-7" && (
-                            <HotelWiseBookingCountBarChartBCTLW data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseBookingCountBarChartBCTLW data={HotelWiseBookingAndAmountToday}/>
+
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousWeekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousWeekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {hotelBookingOrRevenue === "Booking" && day === "30" && (
-                            <HotelWiseBookingCountBarChartBCTM data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseBookingCountBarChartBCTM data={HotelWiseBookingAndAmountToday}/>
+
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {hotelBookingOrRevenue === "Booking" && day === "-30" && (
-                            <HotelWiseBookingCountBarChartBCTLM data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseBookingCountBarChartBCTLM data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {hotelBookingOrRevenue === "Booking" && day === "365" && (
-                            <HotelWiseBookingCountBarChartBCTY data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseBookingCountBarChartBCTY data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {hotelBookingOrRevenue === "Booking" && day === "-365" && (
-                            <HotelWiseBookingCountBarChartBCTLY data={HotelWiseBookingAndAmountToday}/>
+                            <>
+                                <HotelWiseBookingCountBarChartBCTLY data={HotelWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                     </>
                 </TailwindWrapper>
@@ -674,47 +1461,296 @@ const Dashboard = () => {
                     </div>
                     <>
                         {userBookingOrRevenue === "Revenue" && UserDay === "0" && (
-                            <UserWiseRevenueBarChartRBT data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseRevenueBarChartRBT data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Average Revenue(Today)
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {userBookingOrRevenue === "Revenue" && UserDay === "7" && (
-                            <UserWiseRevenueBarChartBATW data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseRevenueBarChartBATW data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{weekRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(weekRevenueTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {userBookingOrRevenue === "Revenue" && UserDay === "-7" && (
-                            <UserWiseRevenueBarChartBATLW data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseRevenueBarChartBATLW data={userWiseBookingAndAmountToday}/>
+
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousWeekRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {userBookingOrRevenue === "Revenue" && UserDay === "30" && (
-                            <UserWiseRevenueBarChartBATM data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseRevenueBarChartBATM data={userWiseBookingAndAmountToday}/>
+
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {userBookingOrRevenue === "Revenue" && UserDay === "-30" && (
-                            <UserWiseRevenueBarChartBATLM data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseRevenueBarChartBATLM data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {userBookingOrRevenue === "Revenue" && UserDay === "365" && (
-                            <UserWiseRevenueBarChartBATY data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseRevenueBarChartBATY data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {userBookingOrRevenue === "Revenue" && UserDay === "-365" && (
-                            <UserWiseRevenueBarChartBATLY data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseRevenueBarChartBATLY data={userWiseBookingAndAmountToday}/>
+
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
 
                         {userBookingOrRevenue === "Booking" && UserDay === "0" && (
-                            <UserWiseBookingCountBarChartBCT data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseBookingCountBarChartBCT data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {todayBookingOtaTotal}
+                                        </h1>
+                                        Total Bookings(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day(Today)
+                                    </div>
+                                </div>
+                            </>
                         )}
+
                         {userBookingOrRevenue === "Booking" && UserDay === "7" && (
-                            <UserWiseBookingCountBarChartBCTW data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseBookingCountBarChartBCTW data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {weekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(weekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {userBookingOrRevenue === "Booking" && UserDay === "-7" && (
-                            <UserWiseBookingCountBarChartBCTLW data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseBookingCountBarChartBCTLW data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousWeekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousWeekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {userBookingOrRevenue === "Booking" && UserDay === "30" && (
-                            <UserWiseBookingCountBarChartBCTM data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseBookingCountBarChartBCTM data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {userBookingOrRevenue === "Booking" && UserDay === "-30" && (
-                            <UserWiseBookingCountBarChartBCTLM data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseBookingCountBarChartBCTLM data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {userBookingOrRevenue === "Booking" && UserDay === "365" && (
-                            <UserWiseBookingCountBarChartBCTY data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseBookingCountBarChartBCTY data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {userBookingOrRevenue === "Booking" && UserDay === "-365" && (
-                            <UserWiseBookingCountBarChartBCTLY data={userWiseBookingAndAmountToday}/>
+                            <>
+                                <UserWiseBookingCountBarChartBCTLY data={userWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                     </>
                 </TailwindWrapper>
@@ -727,7 +1763,7 @@ const Dashboard = () => {
                             <select
                                 id="booking"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                onChange={(e) =>  setLocationBookingOrRevenue(e.target.value)}
+                                onChange={(e) => setLocationBookingOrRevenue(e.target.value)}
                                 value={locationBookingOrRevenue}
                             >
                                 <option selected={true} value={"Booking"}>
@@ -755,47 +1791,296 @@ const Dashboard = () => {
                     </div>
                     <>
                         {locationBookingOrRevenue === "Revenue" && LocationDay === "0" && (
-                            <LocationWiseRevenueBarChartRBT data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseRevenueBarChartRBT data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
+                                        </h1>
+                                        Average Revenue(Today)
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {locationBookingOrRevenue === "Revenue" && LocationDay === "7" && (
-                            <LocationWiseRevenueBarChartBATW data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseRevenueBarChartBATW data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{weekRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(weekRevenueTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {locationBookingOrRevenue === "Revenue" && LocationDay === "-7" && (
-                            <LocationWiseRevenueBarChartBATLW data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseRevenueBarChartBATLW data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousWeekRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {locationBookingOrRevenue === "Revenue" && LocationDay === "30" && (
-                            <LocationWiseRevenueBarChartBATM data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseRevenueBarChartBATM data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {locationBookingOrRevenue === "Revenue" && LocationDay === "-30" && (
-                            <LocationWiseRevenueBarChartBATLM data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseRevenueBarChartBATLM data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousMonthRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousMonthRevenueTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {locationBookingOrRevenue === "Revenue" && LocationDay === "365" && (
-                            <LocationWiseRevenueBarChartBATY data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseRevenueBarChartBATY data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{thisYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(thisYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {locationBookingOrRevenue === "Revenue" && LocationDay === "-365" && (
-                            <LocationWiseRevenueBarChartBATLY data={locationWiseBookingAndAmountToday}/>
-                        )}
+                            <>
+                                <LocationWiseRevenueBarChartBATLY data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{previousYearRevenueTotal.toFixed(2)}
+                                        </h1>
+                                        Total Revenue
+                                    </div>
 
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            ₹{(previousYearRevenueTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Revenue Per Day
+                                    </div>
+                                </div>
+                            </>
+
+                        )}
                         {locationBookingOrRevenue === "Booking" && LocationDay === "0" && (
-                            <LocationWiseBookingCountBarChartBCT data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseBookingCountBarChartBCT data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {todayBookingOtaTotal}
+                                        </h1>
+                                        Total Bookings(Today)
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {isNaN(todayBookingOtaTotal / todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal / todayBookingOtaTotal).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day(Today)
+                                    </div>
+                                </div>
+                            </>
                         )}
                         {locationBookingOrRevenue === "Booking" && LocationDay === "7" && (
-                            <LocationWiseBookingCountBarChartBCTW data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseBookingCountBarChartBCTW data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {weekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(weekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {locationBookingOrRevenue === "Booking" && LocationDay === "-7" && (
-                            <LocationWiseBookingCountBarChartBCTLW data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseBookingCountBarChartBCTLW data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousWeekBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousWeekBookingTotal / 7).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {locationBookingOrRevenue === "Booking" && LocationDay === "30" && (
-                            <LocationWiseBookingCountBarChartBCTM data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseBookingCountBarChartBCTM data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
                         )}
                         {locationBookingOrRevenue === "Booking" && LocationDay === "-30" && (
-                            <LocationWiseBookingCountBarChartBCTLM data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseBookingCountBarChartBCTLM data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousMonthBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousMonthBookingTotal / 30).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {locationBookingOrRevenue === "Booking" && LocationDay === "365" && (
-                            <LocationWiseBookingCountBarChartBCTY data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseBookingCountBarChartBCTY data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {thisYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(thisYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
+
+
                         )}
                         {locationBookingOrRevenue === "Booking" && LocationDay === "-365" && (
-                            <LocationWiseBookingCountBarChartBCTLY data={locationWiseBookingAndAmountToday}/>
+                            <>
+                                <LocationWiseBookingCountBarChartBCTLY data={locationWiseBookingAndAmountToday}/>
+                                <div className="flex justify-evenly">
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {previousYearBookingTotal}
+                                        </h1>
+                                        Total Bookings
+                                    </div>
+
+                                    <div className="text-center">
+                                        <h1 className="text-2xl md:text-4xl font-semibold mb-2">
+                                            {(previousYearBookingTotal / 365).toFixed(2)}
+                                        </h1>
+                                        Average Booking Per Day
+                                    </div>
+                                </div>
+                            </>
                         )}
                     </>
                 </TailwindWrapper>
