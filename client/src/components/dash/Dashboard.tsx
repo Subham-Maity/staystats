@@ -15,12 +15,12 @@ import {
 import {
     addDays,
     endOfMonth,
-    endOfWeek,
+    endOfWeek, endOfYear,
     isSameDay,
     isWithinInterval,
     startOfMonth,
-    startOfWeek,
-    subDays, subMonths
+    startOfWeek, startOfYear,
+    subDays, subMonths, subYears
 } from "date-fns";
 
 //✅ Wrapper
@@ -396,7 +396,96 @@ const Dashboard = () => {
 
         setPreviousMonthRevenueTotal(totalRevenuePreviousMonth);
     }, [bookingData]);
+    // ❗This-Year-Booking-Ota-Total
 
+    const [thisYearBookingTotal, setThisYearBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisYear: Date = startOfYear(currentDate);
+        const endOfThisYear: Date = endOfYear(currentDate);
+
+        const bookingsForThisYear = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfThisYear,
+                    end: endOfThisYear,
+                })
+        );
+
+        const totalBookingsThisYear = bookingsForThisYear.length;
+
+        setThisYearBookingTotal(totalBookingsThisYear);
+    }, [bookingData]);
+
+    // ❗This-Year-Revenue-Ota-Total
+    const [thisYearRevenueTotal, setThisYearRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisYear: Date = startOfYear(currentDate);
+        const endOfThisYear: Date = endOfYear(currentDate);
+
+        const thisYearRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfThisYear,
+                    end: endOfThisYear,
+                })
+        );
+
+        const totalRevenueThisYear: number = thisYearRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount || 0),
+            0
+        );
+
+        setThisYearRevenueTotal(totalRevenueThisYear);
+    }, [bookingData]);
+
+    // ❗Previous-Year-Booking-Ota-Total
+    const [previousYearBookingTotal, setPreviousYearBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousYear: Date = startOfYear(subYears(currentDate, 1));
+        const endOfPreviousYear: Date = endOfYear(subYears(currentDate, 1));
+
+        const bookingsForPreviousYear = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfPreviousYear,
+                    end: endOfPreviousYear,
+                })
+        );
+
+        const totalBookingsPreviousYear = bookingsForPreviousYear.length;
+
+        setPreviousYearBookingTotal(totalBookingsPreviousYear);
+    }, [bookingData]);
+
+    // ❗Previous-Year-Revenue-Ota-Total
+    const [previousYearRevenueTotal, setPreviousYearRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousYear: Date = startOfYear(subYears(currentDate, 1));
+        const endOfPreviousYear: Date = endOfYear(subYears(currentDate, 1));
+
+        const previousYearRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfPreviousYear,
+                    end: endOfPreviousYear,
+                })
+        );
+
+        const totalRevenuePreviousYear: number = previousYearRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount || 0),
+            0
+        );
+
+        setPreviousYearRevenueTotal(totalRevenuePreviousYear);
+    }, [bookingData]);
 
     //Revenue and Booking
     const createdAt = bookingData.map((item: any) => item.createdAt);
@@ -822,14 +911,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{thisYearRevenueTotal.toFixed(2)}
                                         </h1>
                                         Total Revenue
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{(thisYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
                                         Average Revenue Per Day
                                     </div>
@@ -842,14 +931,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{previousYearRevenueTotal.toFixed(2)}
                                         </h1>
                                         Total Revenue
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{(previousYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
                                         Average Revenue Per Day
                                     </div>
@@ -963,14 +1052,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {totalRevenuebbcd}
+                                            {thisYearBookingTotal}
                                         </h1>
                                         Total Bookings
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {(totalRevenuebbcd / 30).toFixed(2)}
+                                            {(thisYearBookingTotal / 365).toFixed(2)}
                                         </h1>
                                         Average Booking Per Day
                                     </div>
@@ -983,14 +1072,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {totalRevenuebbcd}
+                                            {previousYearBookingTotal}
                                         </h1>
                                         Total Bookings
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {(totalRevenuebbcd / 30).toFixed(2)}
+                                            {(previousYearBookingTotal / 365).toFixed(2)}
                                         </h1>
                                         Average Booking Per Day
                                     </div>
