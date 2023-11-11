@@ -12,7 +12,16 @@ import {
 } from "@/lib/features/bookingSlice";
 
 //✅ Widget
-import {addDays, isSameDay, isWithinInterval, startOfWeek, subDays} from "date-fns";
+import {
+    addDays,
+    endOfMonth,
+    endOfWeek,
+    isSameDay,
+    isWithinInterval,
+    startOfMonth,
+    startOfWeek,
+    subDays, subMonths
+} from "date-fns";
 
 //✅ Wrapper
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
@@ -209,24 +218,20 @@ const Dashboard = () => {
         setTodayRevenueOtaTotal(totalRevenueLast30Days);
     });
 
-
-
-
-
-
-
-
-
-
-    //❗Week-Booking-Ota-Total
-    const [weekBookingTotal , setWeekBookingTotal] = useState<number>(0);
+    // ❗Week-Booking-Ota-Total
+    const [weekBookingTotal, setWeekBookingTotal] = useState<number>(0);
 
     useEffect(() => {
         const today: Date = new Date();
-        const sevenDaysAgo: Date = subDays(today, 6);
+        const startOfCurrentWeek: Date = startOfWeek(today);
+        const endOfCurrentWeek: Date = endOfWeek(today);
 
         const bookingsForWeek = bookingData.filter(
-            (booking) => isWithinInterval(new Date(booking.createdAt), { start: sevenDaysAgo, end: today })
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfCurrentWeek,
+                    end: endOfCurrentWeek,
+                })
         );
 
         const totalBookingsWeek = bookingsForWeek.length;
@@ -234,37 +239,43 @@ const Dashboard = () => {
         setWeekBookingTotal(totalBookingsWeek);
     }, [bookingData]);
 
-    //❗Week-Revenue-Ota-Total
-    const [weekRevenueTotal , setWeekRevenueTotal] = useState<number>(0);
+    // ❗Week-Revenue-Ota-Total
+    const [weekRevenueTotal, setWeekRevenueTotal] = useState<number>(0);
 
     useEffect(() => {
-        const thirtyDaysAgo = subDays(new Date(), 7);
-        const last30DaysRevenueData = revenueAndBooking.filter(
-            (dataPoint) => new Date(dataPoint.createdAt) >= thirtyDaysAgo,
+        const startOfCurrentWeek: Date = startOfWeek(new Date());
+        const endOfCurrentWeek: Date = endOfWeek(new Date());
+
+        const revenueDataForWeek = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfCurrentWeek,
+                    end: endOfCurrentWeek,
+                })
         );
-        const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
-            (total, dataPoint) => {
-                return total + parseFloat(dataPoint.advanceAmount);
-            },
-            0,
+
+        const totalRevenueForWeek: number = revenueDataForWeek.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
         );
 
-        const averageRevenue =
-            totalRevenueLast30Days / last30DaysRevenueData.length;
+        setWeekRevenueTotal(totalRevenueForWeek);
+    }, [bookingData]);
 
-        setWeekRevenueTotal(totalRevenueLast30Days);
-    });
-
-
-    //❗Previous-Booking-Revenue-Ota-Total
+    // ❗Previous-Week-Booking-Ota-Total
     const [previousWeekBookingTotal, setPreviousWeekBookingTotal] = useState<number>(0);
 
     useEffect(() => {
         const today: Date = new Date();
-        const sevenDaysAgo: Date = subDays(today, 6);
+        const endOfPreviousWeek: Date = endOfWeek(subDays(today, 7));
+        const startOfPreviousWeek: Date = startOfWeek(subDays(endOfPreviousWeek, 6));
 
         const bookingsForPreviousWeek = bookingData.filter(
-            (booking) => isWithinInterval(new Date(booking.createdAt), { start: subDays(sevenDaysAgo, 7), end: sevenDaysAgo })
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfPreviousWeek,
+                    end: endOfPreviousWeek,
+                })
         );
 
         const totalBookingsPreviousWeek = bookingsForPreviousWeek.length;
@@ -272,20 +283,125 @@ const Dashboard = () => {
         setPreviousWeekBookingTotal(totalBookingsPreviousWeek);
     }, [bookingData]);
 
+    // ❗Previous-Week-Revenue-Ota-Total
+    const [previousWeekRevenueTotal, setPreviousWeekRevenueTotal] = useState<number>(0);
 
+    useEffect(() => {
+        const endOfPreviousWeek: Date = endOfWeek(subDays(new Date(), 7));
+        const startOfPreviousWeek: Date = startOfWeek(subDays(endOfPreviousWeek, 6));
 
+        const previousWeekRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfPreviousWeek,
+                    end: endOfPreviousWeek,
+                })
+        );
 
+        const totalRevenuePreviousWeek: number = previousWeekRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
 
+        setPreviousWeekRevenueTotal(totalRevenuePreviousWeek);
+    }, [bookingData]);
 
+    // ❗This-Month-Booking-Ota-Total
 
+    const [thisMonthBookingTotal, setThisMonthBookingTotal] = useState<number>(0);
 
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisMonth: Date = startOfMonth(currentDate);
+        const endOfThisMonth: Date = endOfMonth(currentDate);
+
+        const bookingsForThisMonth = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfThisMonth,
+                    end: endOfThisMonth,
+                })
+        );
+
+        const totalBookingsThisMonth = bookingsForThisMonth.length;
+
+        setThisMonthBookingTotal(totalBookingsThisMonth);
+    }, [bookingData]);
+
+    // ❗This-Month-Revenue-Ota-Total
+    const [thisMonthRevenueTotal, setThisMonthRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfThisMonth: Date = startOfMonth(currentDate);
+        const endOfThisMonth: Date = endOfMonth(currentDate);
+
+        const thisMonthRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfThisMonth,
+                    end: endOfThisMonth,
+                })
+        );
+
+        const totalRevenueThisMonth: number = thisMonthRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
+
+        setThisMonthRevenueTotal(totalRevenueThisMonth);
+    }, [bookingData]);
+    // ❗Previous-Month-Booking-Ota-Total
+
+    const [previousMonthBookingTotal, setPreviousMonthBookingTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousMonth: Date = startOfMonth(subMonths(currentDate, 1));
+        const endOfPreviousMonth: Date = endOfMonth(subMonths(currentDate, 1));
+
+        const bookingsForPreviousMonth = bookingData.filter(
+            (booking) =>
+                isWithinInterval(new Date(booking.createdAt), {
+                    start: startOfPreviousMonth,
+                    end: endOfPreviousMonth,
+                })
+        );
+
+        const totalBookingsPreviousMonth = bookingsForPreviousMonth.length;
+
+        setPreviousMonthBookingTotal(totalBookingsPreviousMonth);
+    }, [bookingData]);
+
+    // ❗Previous-Month-Revenue-Ota-Total
+    const [previousMonthRevenueTotal, setPreviousMonthRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        const startOfPreviousMonth: Date = startOfMonth(subMonths(currentDate, 1));
+        const endOfPreviousMonth: Date = endOfMonth(subMonths(currentDate, 1));
+
+        const previousMonthRevenueData = revenueAndBooking.filter(
+            (dataPoint) =>
+                isWithinInterval(new Date(dataPoint.createdAt), {
+                    start: startOfPreviousMonth,
+                    end: endOfPreviousMonth,
+                })
+        );
+
+        const totalRevenuePreviousMonth: number = previousMonthRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
+            0
+        );
+
+        setPreviousMonthRevenueTotal(totalRevenuePreviousMonth);
+    }, [bookingData]);
 
 
     //Revenue and Booking
     const createdAt = bookingData.map((item: any) => item.createdAt);
     const advanceAmount = bookingData.map((item: any) => item.advanceAmount);
 
-    console.log(advanceAmount, "advanceAmount");
 
     //Revenue and Checkin
     const checkInDate = bookingData.map((item: any) => item.checkInDate);
@@ -563,7 +679,7 @@ const Dashboard = () => {
                         </>
                     )}
                 </TailwindWrapper>
-
+                {/*Ott Performance*/}
                 <TailwindWrapper className="h-50 mt-5">
                     <div className="flex justify-between">
                         <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
@@ -646,14 +762,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{previousWeekRevenueTotal.toFixed(2)}
                                         </h1>
                                         Total Revenue
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{(previousWeekRevenueTotal / 7).toFixed(2)}
                                         </h1>
                                         Average Revenue Per Day
                                     </div>
@@ -666,14 +782,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{thisMonthRevenueTotal.toFixed(2)}
                                         </h1>
                                         Total Revenue
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{(thisMonthRevenueTotal / 30).toFixed(2)}
                                         </h1>
                                         Average Revenue Per Day
                                     </div>
@@ -686,14 +802,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{previousMonthRevenueTotal.toFixed(2)}
                                         </h1>
                                         Total Revenue
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{(previousMonthRevenueTotal/ 30).toFixed(2)}
                                         </h1>
                                         Average Revenue Per Day
                                     </div>
@@ -754,7 +870,7 @@ const Dashboard = () => {
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            1
+                                            {isNaN(todayBookingOtaTotal/todayBookingOtaTotal) ? 0 : (todayBookingOtaTotal/todayBookingOtaTotal).toFixed(2)}
                                         </h1>
                                         Average Booking Per Day(Today)
                                     </div>
@@ -807,14 +923,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {totalRevenuebbcd}
+                                            {thisMonthBookingTotal}
                                         </h1>
                                         Total Bookings
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {(totalRevenuebbcd / 30).toFixed(2)}
+                                            {(thisMonthBookingTotal/ 30).toFixed(2)}
                                         </h1>
                                         Average Booking Per Day
                                     </div>
@@ -827,14 +943,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {totalRevenuebbcd}
+                                            {previousMonthBookingTotal}
                                         </h1>
                                         Total Bookings
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {(totalRevenuebbcd / 30).toFixed(2)}
+                                            {(previousMonthBookingTotal / 30).toFixed(2)}
                                         </h1>
                                         Average Booking Per Day
                                     </div>

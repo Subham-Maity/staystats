@@ -12,7 +12,7 @@ import {
 import {
   format,
   isWithinInterval,
-  subDays,
+  subMonths,
   startOfMonth,
   endOfMonth,
 } from "date-fns";
@@ -27,17 +27,17 @@ interface RevenueBarChartProps {
 }
 
 const RevenueBarChartBATLM: React.FC<RevenueBarChartProps> = ({ data }) => {
-  // Calculate the start and end dates for the last month (previous 30 days from the current month)
+  // Calculate the start and end dates for the last month
   const currentDate = new Date();
-  const endDate = endOfMonth(subDays(currentDate, 1)); // Set the end date as the last day of the previous month
-  const startDate = startOfMonth(subDays(currentDate, 30));
+  const startOfLastMonth = startOfMonth(subMonths(currentDate, 1));
+  const endOfLastMonth = endOfMonth(subMonths(currentDate, 1));
 
   // Create a dictionary to aggregate booking amounts for each source within the last month
   const aggregateData: { [key: string]: number } = {};
 
   data.forEach((item) => {
     const itemDate = new Date(item.createdAt);
-    if (isWithinInterval(itemDate, { start: startDate, end: endDate })) {
+    if (isWithinInterval(itemDate, { start: startOfLastMonth, end: endOfLastMonth })) {
       const source = item.bookingSource;
       if (aggregateData[source]) {
         aggregateData[source] += item.bookingAmount;
@@ -49,7 +49,7 @@ const RevenueBarChartBATLM: React.FC<RevenueBarChartProps> = ({ data }) => {
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.bookingSource)),
+      new Set(data.map((item) => item.bookingSource)),
   );
 
   // Create a chartData array with all unique sources and their aggregated revenue for the last month

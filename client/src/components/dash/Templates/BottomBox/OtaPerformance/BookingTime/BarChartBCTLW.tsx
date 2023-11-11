@@ -26,11 +26,11 @@ interface BookingCountBarChartProps {
 }
 
 const BookingCountBarChartBCTLW: React.FC<BookingCountBarChartProps> = ({
-  data,
-}) => {
-  // Calculate the start and end dates for the last week (previous 7 days from the previous week)
+                                                                          data,
+                                                                        }) => {
+  // Calculate the start and end dates for the last week (previous 7 days excluding the current week)
   const currentDate = new Date();
-  const endDate = endOfWeek(subWeeks(currentDate, 1)); // Set the end date as the last day of the previous week
+  const endDate = startOfWeek(currentDate);
   const startDate = startOfWeek(subWeeks(currentDate, 1));
 
   // Create a dictionary to count the number of bookings for each source within the last week
@@ -50,7 +50,7 @@ const BookingCountBarChartBCTLW: React.FC<BookingCountBarChartProps> = ({
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.bookingSource)),
+      new Set(data.map((item) => item.bookingSource)),
   );
 
   // Create a chartData array with all unique sources and their booking counts for the last week
@@ -61,7 +61,6 @@ const BookingCountBarChartBCTLW: React.FC<BookingCountBarChartProps> = ({
 
   return (
       <BarChartComponent chartData={chartData} type={"bookingCount"} />
-
   );
 };
 

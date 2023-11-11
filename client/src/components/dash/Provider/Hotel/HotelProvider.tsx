@@ -1,7 +1,24 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/lib/redux/store";
+import {HotelData, UserData} from "@/lib/Types/Dashboard/types";
+import {
+  fetchAllBookingsAsync,
+} from "@/lib/features/bookingSlice";
 
-const HotelProvider = () => {
-  return <div>HotelProvider</div>;
+import {selectAllhotels} from "@/lib/features/hotelSlice";
+
+const HotelProvider = ({ children }: { children: React.ReactNode }) => {
+  const dispatch: AppDispatch = useDispatch();
+  const HotelData: HotelData[] = useSelector(selectAllhotels);
+  useEffect(() => {
+    if (HotelData) {
+      dispatch(fetchAllBookingsAsync());
+    }
+  }, [dispatch, HotelData]);
+
+  return <>{children}</>;
 };
 
 export default HotelProvider;
