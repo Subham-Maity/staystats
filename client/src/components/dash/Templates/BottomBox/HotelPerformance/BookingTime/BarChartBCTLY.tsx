@@ -1,18 +1,6 @@
 import React from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  format,
   isWithinInterval,
-  subDays,
   startOfYear,
   endOfYear,
   subYears,
@@ -26,20 +14,20 @@ interface BookingCountBarChartProps {
   }[];
 }
 
-const BookingCountBarChartBCTLY: React.FC<BookingCountBarChartProps> = ({
-  data,
-}) => {
-  // Calculate the start and end dates for the last year (365 days from the previous year)
+const BookingCountBarChartPreviousYear: React.FC<BookingCountBarChartProps> = ({
+                                                                                 data,
+                                                                               }) => {
+  // Calculate the start and end dates for the previous year
   const currentDate = new Date();
-  const endDate = endOfYear(subYears(currentDate, 1)); // Set the end date as the last day of the previous year
-  const startDate = startOfYear(subYears(currentDate, 1));
+  const startOfPreviousYear = startOfYear(subYears(currentDate, 1));
+  const endOfPreviousYear = endOfYear(subYears(currentDate, 1));
 
-  // Create a dictionary to count the number of bookings for each source within the last year
+  // Create a dictionary to count the number of bookings for each source within the previous year
   const bookingCounts: { [key: string]: number } = {};
 
   data.forEach((item) => {
     const itemDate = new Date(item.createdAt);
-    if (isWithinInterval(itemDate, { start: startDate, end: endDate })) {
+    if (isWithinInterval(itemDate, { start: startOfPreviousYear, end: endOfPreviousYear })) {
       const source = item.hotelName;
       if (bookingCounts[source]) {
         bookingCounts[source]++;
@@ -51,10 +39,10 @@ const BookingCountBarChartBCTLY: React.FC<BookingCountBarChartProps> = ({
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.hotelName)),
+      new Set(data.map((item) => item.hotelName)),
   );
 
-  // Create a chartData array with all unique sources and their booking counts for the last year
+  // Create a chartData array with all unique sources and their booking counts for the previous year
   const chartData = uniqueSources.map((source) => ({
     source,
     bookingCount: bookingCounts[source] || 0,
@@ -65,4 +53,4 @@ const BookingCountBarChartBCTLY: React.FC<BookingCountBarChartProps> = ({
   );
 };
 
-export default BookingCountBarChartBCTLY;
+export default BookingCountBarChartPreviousYear;

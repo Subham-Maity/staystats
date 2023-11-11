@@ -37,7 +37,7 @@ const RevenueBarChartRBT: React.FC<RevenueBarChartProps> = ({ data }) => {
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-      new Set(data.map((item) => item.hotelName)),
+    new Set(data.map((item) => item.hotelName)),
   );
 
   // Create a chartData array with all unique sources and their aggregated revenue for today

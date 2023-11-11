@@ -1,20 +1,9 @@
 import React from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  format,
   isWithinInterval,
-  subDays,
   startOfMonth,
   endOfMonth,
+  subDays,
 } from "date-fns";
 import BarChartComponent from "@/components/dash/Templates/BottomBox/HotelPerformance/BarChartComponent";
 
@@ -27,10 +16,10 @@ interface RevenueBarChartProps {
 }
 
 const RevenueBarChartBATM: React.FC<RevenueBarChartProps> = ({ data }) => {
-  // Calculate the start and end dates for the current month (previous 30 days from the current date)
+  // Calculate the start and end dates for the current month
   const currentDate = new Date();
-  const endDate = subDays(currentDate, 1); // Set the end date as yesterday
-  const startDate = subDays(currentDate, 30);
+  const startDate = startOfMonth(currentDate);
+  const endDate = endOfMonth(currentDate);
 
   // Create a dictionary to aggregate booking amounts for each source within the current month
   const aggregateData: { [key: string]: number } = {};
@@ -49,7 +38,7 @@ const RevenueBarChartBATM: React.FC<RevenueBarChartProps> = ({ data }) => {
 
   // Create an array with unique booking sources
   const uniqueSources = Array.from(
-    new Set(data.map((item) => item.hotelName)),
+      new Set(data.map((item) => item.hotelName)),
   );
 
   // Create a chartData array with all unique sources and their aggregated revenue for the current month
