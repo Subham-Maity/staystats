@@ -25,7 +25,7 @@ const RevenueBarChartBATW: React.FC<RevenueBarChartProps> = ({ data }) => {
   const currentDate = new Date();
   const endDate = new Date(currentDate);
   const startDate = new Date(currentDate);
-  startDate.setDate(currentDate.getDate() - 6); // Subtract 6 to get 7 days in total
+  startDate.setDate(currentDate.getDate() - 7); // Subtract 6 to get 7 days in total
 
   // Create a dictionary to aggregate booking amounts for each source within the week
   const aggregateData: { [key: string]: number } = {};

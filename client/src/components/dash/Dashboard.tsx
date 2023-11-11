@@ -178,22 +178,48 @@ const Dashboard = () => {
 
     //✅ Bottom Chart - OTA Performance - Calculation
 
-    //❗Today-Revenue-Ota-Total
-    const [todayRevenueOtaTotal , setTodayRevenueOtaTotal] = useState<number>(0);
+    //❗Today-Booking-Ota-Total
+    const [todayBookingOtaTotal , setTodayBookingOtaTotal] = useState<number>(0);
     useEffect(() => {
         const today = new Date();
         const todayBookings = bookingData.filter(
             (booking) => isSameDay(new Date(booking.createdAt), today)
         );
         const totalBookingsToday = todayBookings.length;
-        setTodayRevenueOtaTotal(totalBookingsToday);
+        setTodayBookingOtaTotal(totalBookingsToday);
     }, [bookingData]);
 
+    //❗Today-Revenue-Ota-Total
+    const [todayRevenueOtaTotal , setTodayRevenueOtaTotal] = useState<number>(0);
+    useEffect(() => {
+        const thirtyDaysAgo = subDays(new Date(), 1);
+        const last30DaysRevenueData = revenueAndBooking.filter(
+            (dataPoint) => new Date(dataPoint.createdAt) >= thirtyDaysAgo,
+        );
+        const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
+            (total, dataPoint) => {
+                return total + parseFloat(dataPoint.advanceAmount);
+            },
+            0,
+        );
+
+        const averageRevenue =
+            totalRevenueLast30Days / last30DaysRevenueData.length;
+
+        setTodayRevenueOtaTotal(totalRevenueLast30Days);
+    });
 
 
 
-    //❗Week-Revenue-Ota-Total
-    const [weekRevenueTotal , setWeekRevenueTotal] = useState<number>(0);
+
+
+
+
+
+
+
+    //❗Week-Booking-Ota-Total
+    const [weekBookingTotal , setWeekBookingTotal] = useState<number>(0);
 
     useEffect(() => {
         const today: Date = new Date();
@@ -205,13 +231,33 @@ const Dashboard = () => {
 
         const totalBookingsWeek = bookingsForWeek.length;
 
-        setWeekRevenueTotal(totalBookingsWeek);
+        setWeekBookingTotal(totalBookingsWeek);
     }, [bookingData]);
 
+    //❗Week-Revenue-Ota-Total
+    const [weekRevenueTotal , setWeekRevenueTotal] = useState<number>(0);
+
+    useEffect(() => {
+        const thirtyDaysAgo = subDays(new Date(), 7);
+        const last30DaysRevenueData = revenueAndBooking.filter(
+            (dataPoint) => new Date(dataPoint.createdAt) >= thirtyDaysAgo,
+        );
+        const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
+            (total, dataPoint) => {
+                return total + parseFloat(dataPoint.advanceAmount);
+            },
+            0,
+        );
+
+        const averageRevenue =
+            totalRevenueLast30Days / last30DaysRevenueData.length;
+
+        setWeekRevenueTotal(totalRevenueLast30Days);
+    });
 
 
-    //❗Previous-Week-Revenue-Ota-Total
-    const [previousWeekRevenueTotal, setPreviousWeekRevenueTotal] = useState<number>(0);
+    //❗Previous-Booking-Revenue-Ota-Total
+    const [previousWeekBookingTotal, setPreviousWeekBookingTotal] = useState<number>(0);
 
     useEffect(() => {
         const today: Date = new Date();
@@ -223,7 +269,7 @@ const Dashboard = () => {
 
         const totalBookingsPreviousWeek = bookingsForPreviousWeek.length;
 
-        setPreviousWeekRevenueTotal(totalBookingsPreviousWeek);
+        setPreviousWeekBookingTotal(totalBookingsPreviousWeek);
     }, [bookingData]);
 
 
@@ -560,16 +606,16 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue
+                                        Total Revenue(Today)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{todayRevenueOtaTotal.toFixed(2)}
                                         </h1>
-                                        Average Revenue Per Day
+                                        Average Revenue(Today)
                                     </div>
                                 </div>
                             </>
@@ -580,14 +626,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{totalRevenuerbcd.toFixed(2)}
+                                            ₹{weekRevenueTotal.toFixed(2)}
                                         </h1>
                                         Total Revenue
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            ₹{(totalRevenuerbcd / 30).toFixed(2)}
+                                            ₹{(weekRevenueTotal / 7).toFixed(2)}
                                         </h1>
                                         Average Revenue Per Day
                                     </div>
@@ -701,16 +747,16 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {todayRevenueOtaTotal}
+                                            {todayBookingOtaTotal}
                                         </h1>
-                                        Total Bookings
+                                        Total Bookings(Today)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             1
                                         </h1>
-                                        Average Booking Per Day
+                                        Average Booking Per Day(Today)
                                     </div>
                                 </div>
                             </>
@@ -721,14 +767,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {weekRevenueTotal}
+                                            {weekBookingTotal}
                                         </h1>
                                         Total Bookings
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {(weekRevenueTotal / 7).toFixed(2)}
+                                            {(weekBookingTotal / 7).toFixed(2)}
                                         </h1>
                                         Average Booking Per Day
                                     </div>
@@ -741,14 +787,14 @@ const Dashboard = () => {
                                 <div className="flex justify-evenly">
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {previousWeekRevenueTotal}
+                                            {previousWeekBookingTotal}
                                         </h1>
                                         Total Bookings
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
-                                            {(previousWeekRevenueTotal / 7).toFixed(2)}
+                                            {(previousWeekBookingTotal / 7).toFixed(2)}
                                         </h1>
                                         Average Booking Per Day
                                     </div>
