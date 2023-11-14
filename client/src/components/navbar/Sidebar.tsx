@@ -85,12 +85,12 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             !isNavOpen ? "flex" : "hidden"
           } w-full px-2 lg:flex flex-col gap-4 font-semibold`}
         >
-          <Link href="/">
+          <Link href="/dash">
             <li
               className={`${
                 accountType === "SUBADMIN" && "hidden"
               } flex items-center justify-start gap-2 p-2 hover:cursor-pointer  ${
-                pathname === "/"
+                pathname === "/dash"
                   ? "bg-slate-300 text-primary hover:none"
                   : "hover:bg-slate-300"
               } rounded-xl`}
@@ -99,6 +99,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
               <p className={` text-sm ${isNavOpen && "hidden"}`}>Dashboard</p>
             </li>
           </Link>
+
 
           <Link href="/users">
             <li
