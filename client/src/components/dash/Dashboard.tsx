@@ -173,12 +173,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(fetchAllBookingsAsync())
-            .then(() => {
-                console.log("fetchAllProductsAsync dispatched successfully");
-            })
-            .catch((error: any) => {
-                console.error("Error dispatching fetchAllProductsAsync:", error);
-            });
     }, []);
 
     const bookingData: BookingData[] = useSelector(selectAllbookings);
@@ -549,10 +543,7 @@ const Dashboard = () => {
         createdAt: createdDate[i],
     }));
 
-    //typeof
-    console.log(HotelWiseBookingAndAmountToday.map((item: any) => typeof item.hotelName), "HotelWiseBookingAndAmountToday");
 
-    //❗Booking , Amount , This Week
 
     const handleAreaChange = (newArea: any) => {
         setArea(newArea);
@@ -588,7 +579,6 @@ const Dashboard = () => {
             checkInDate: item.checkInDate,
             bookingAmount: item.bookingAmount,
         }));
-        console.log(revenueAndBooking, "revenueAndBooking");
         const last30DaysRevenueData = revenueAndBooking.filter(
             (dataPoint) => new Date(dataPoint.checkInDate) >= thirtyDaysAgo,
         );
@@ -765,7 +755,7 @@ const Dashboard = () => {
                 </TailwindWrapper>
                 {/*Ott Performance*/}
                 <TailwindWrapper className="h-50 mt-5">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between sm:justify-start">
                         <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
                             OTA Performance
                         </h1>

@@ -7,14 +7,14 @@ import {
   fetchAllBookingsAsync,
   selectAllbookings,
 } from "@/lib/features/bookingSlice";
-import {selectAllUsers} from "@/lib/features/userSlice";
+import {fetchAllUsersAsync, selectAllUsers} from "@/lib/features/userSlice";
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch: AppDispatch = useDispatch();
   const UserData: UserData[] = useSelector(selectAllUsers);
   useEffect(() => {
     if (UserData) {
-      dispatch(fetchAllBookingsAsync());
+      dispatch(fetchAllUsersAsync());
     }
   }, [dispatch, UserData]);
 

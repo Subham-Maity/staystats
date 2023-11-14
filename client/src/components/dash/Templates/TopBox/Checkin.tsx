@@ -9,37 +9,33 @@ import {useDispatch} from "react-redux";
 import {fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
 
 export const Checkin=() => {
-    const dispatch:AppDispatch = useDispatch();
-    useEffect(() => {
 
-        dispatch(fetchAllBookingsAsync());
-    }, []);
     const bookingData:BookingData[] = useSelector(selectAllbookings);
 
 
-    const currentDate: string = new Date().toISOString().split("T")[0];
+    const currentDate = new Date();
     //✅ Step-1 -> Calculate the number of check-ins for today
     const numberOfTodaysCheckIns = bookingData.filter((record:any) => {
         const checkInDate: string = record.checkInDate.split("T")[0];
-        return checkInDate === currentDate;
+        return new Date(checkInDate).toISOString().split("T")[0] ===
+            new Date(currentDate).toISOString().split("T")[0];
     });
     const todaysCheckIns = numberOfTodaysCheckIns.length;
 
     //✅ Step-2 -> Calculate the number of check-ins for this Week
     const currentDate2 = new Date();
-    const startOfWeek = new Date(currentDate2);
-    startOfWeek.setHours(0, 0, 0, 0);
-    startOfWeek.setDate(0); // Assuming Sunday is the first day of the week
+ // Assuming Sunday is the first day of the week
 
-    const endOfWeek = new Date(currentDate2);
+    const endOfWeek = new Date();
     endOfWeek.setHours(23, 59, 59, 999);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+    endOfWeek.setDate(currentDate2.getDate() - 6); // End of the week
 
 // Filter the original data for this week's check-ins
     const thisWeekCheckIns = bookingData.filter((record:any) => {
         const checkInDate = new Date(record.checkInDate);
-        return checkInDate >= startOfWeek && checkInDate <= endOfWeek;
+        return checkInDate <= currentDate2 && checkInDate >= endOfWeek;
     });
+
 
 // Initialize an array to represent the desired format for chartData
     const chartData = [

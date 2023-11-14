@@ -1,55 +1,38 @@
-import React, {useEffect} from "react";
+import React from "react";
 import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrapper";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAllUsersAsync, selectAllUsers} from "@/lib/features/userSlice";
-import {AppDispatch} from "@/lib/redux/store";
-import {fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
+import {useSelector} from "react-redux";
+import {selectAllUsers} from "@/lib/features/userSlice";
 
 function calculateThisWeekTotalUsers(
     userData: any[],
     startOfWeek: Date,
     endOfWeek: Date
-): number {
-    let totalUsersThisWeek = 0;
-
-    userData.forEach((user) => {
+): any[] {
+    const usersThisWeek = userData.filter(user => {
         const userDate = new Date(user.updatedAt);
-
-        if (userDate >= startOfWeek && userDate <= endOfWeek) {
-            totalUsersThisWeek++;
-        }
+        return userDate >= startOfWeek && userDate <= endOfWeek;
     });
 
-    return totalUsersThisWeek;
+    return usersThisWeek;
 }
 
 function TotalUsers() {
-    const dispatch:AppDispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchAllBookingsAsync())
-    }, [dispatch]);
-
     // Use the `useSelector` hook to select user data from the Redux store
     const users = useSelector(selectAllUsers);
-
     // Calculate the total number of users
     function calculateTotalUsers(userData:any[]) {
+        // console.log(userData.length,"userData.length");
         return userData.length;
     }
 
     const currentDate = new Date();
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setHours(0, 0, 0, 0);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
-    const endOfWeek = new Date(currentDate);
+    const endOfWeek = new Date();
     endOfWeek.setHours(23, 59, 59, 999);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setDate(currentDate.getDate() - 6);
     const totalUsers = calculateTotalUsers(users);
-
-
-    const totalUsersThisWeek = calculateThisWeekTotalUsers(users, startOfWeek, endOfWeek);
+    const totalUsersThisWeek = calculateThisWeekTotalUsers(users, endOfWeek,currentDate);
 
     const chartData = [
         { name: "Sun", users: 0 },
@@ -61,7 +44,7 @@ function TotalUsers() {
         { name: "Sat", users: 0 },
     ];
 
-    users.forEach((user:any) => {
+    totalUsersThisWeek.forEach((user:any) => {
         const userDate = new Date(user.updatedAt);
         const dayOfWeek = userDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
 
@@ -69,31 +52,13 @@ function TotalUsers() {
         chartData[dayOfWeek].users++;
     });
 
-    // let totalUsersThisWeek = 0;
-    // const currentDate = new Date();
-    // const startOfWeek = new Date(currentDate);
-    // startOfWeek.setHours(0, 0, 0, 0);
-    // startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-    //
-    // const endOfWeek = new Date(currentDate);
-    // endOfWeek.setHours(23, 59, 59, 999);
-    // endOfWeek.setDate(startOfWeek.getDate() + 6);
-    //
-    // users.forEach((user:any) => {
-    //     const userDate = new Date(user.createdAt);
-    //
-    //     if (userDate >= startOfWeek && userDate <= endOfWeek) {
-    //         totalUsersThisWeek++;
-    //     }
-    // });
-
     const TotalUsersData = {
         color: "#8884d8",
         icon: "/userIcon.svg",
         title: "Total Users",
         number: totalUsers,
         dataKey: "users",
-        percentage: totalUsersThisWeek,
+        percentage: totalUsersThisWeek.length,
         reactIcon: "BsCalendar2Date",
         chartData: chartData
     };

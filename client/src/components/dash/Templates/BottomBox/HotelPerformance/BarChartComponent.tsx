@@ -14,11 +14,10 @@ import {
 
 function BarChartComponent(props: any) {
     return (
-        <div style={{ height: '590px', overflow: 'auto' }}>
-        <ResponsiveContainer width="100%" height={550}>
+        <div style={{ height: '350px', overflow: 'auto' }}>
+        <ResponsiveContainer width="100%" height={1500}>
             <ComposedChart data={props.chartData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" />
-                {/* Swap XAxis and YAxis positions */}
                 <YAxis dataKey="source" type="category" />
                 <XAxis type="number" />
                 <Tooltip />

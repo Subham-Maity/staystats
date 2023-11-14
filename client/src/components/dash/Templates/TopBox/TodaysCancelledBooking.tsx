@@ -13,13 +13,10 @@ function TotalUsers() {
     }
 
     const currentDate2 = new Date();
-    const startOfWeek = new Date(currentDate2);
-    startOfWeek.setHours(0, 0, 0, 0);
-    startOfWeek.setDate(0); // Assuming Sunday is the first day of the week
 
     const endOfWeek = new Date(currentDate2);
     endOfWeek.setHours(23, 59, 59, 999);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+    endOfWeek.setDate(currentDate2.getDate() - 6); // End of the week
 
     // Filter bookings for today and this week
     //@ts-ignore
@@ -39,11 +36,13 @@ function TotalUsers() {
     //@ts-ignore
     const weekCancellations = cancelledBookings.filter(item => {
         const cancelDate = new Date(item.createdAt);
-        return cancelDate >= startOfWeek && cancelDate <= endOfWeek;
+        return cancelDate <= currentDate2 && cancelDate >= endOfWeek;
     });
 
     let todaysCancellation = todayCancellations.length;
     let thisweekCancellation= weekCancellations.length;
+    console.log("start",endOfWeek,"end",currentDate2);
+    console.log("thisWeekCheckIns",weekCancellations);
 
     let chartData = [
         { name: "Sun", users: 0 },

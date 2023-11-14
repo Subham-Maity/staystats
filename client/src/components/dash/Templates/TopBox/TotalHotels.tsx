@@ -13,13 +13,10 @@ function TotalHotels() {
     }
 
     const currentDate2 = new Date();
-    const startOfWeek = new Date(currentDate2);
-    startOfWeek.setHours(0, 0, 0, 0);
-    startOfWeek.setDate(0); // Assuming Sunday is the first day of the week
 
-    const endOfWeek = new Date(currentDate2);
+    const endOfWeek = new Date();
     endOfWeek.setHours(23, 59, 59, 999);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+    endOfWeek.setDate(currentDate2.getDate() - 6); // End of the week
 
     // Filter bookings for today and this week
     //@ts-ignore
@@ -29,7 +26,7 @@ function TotalHotels() {
     //@ts-ignore
     const newHotels = totalHotels.filter(item => {
         const createdDate = new Date(item.createdAt);
-        return createdDate >= startOfWeek && createdDate <= endOfWeek;
+        return createdDate <= currentDate2 && createdDate >= endOfWeek;
     });
 
     let thisWeeknewHotels= newHotels.length;
@@ -44,7 +41,7 @@ function TotalHotels() {
         { name: "Sat", hotels: 0 },
     ];
 
-    totalHotels.forEach((record:any) => {
+    newHotels.forEach((record:any) => {
         const cancelDate = new Date(record.createdAt);
         const dayOfWeek = cancelDate.getDay(); // 0 for Sunday, 1 for Monday, and so on// Increment the cancellations count for the corresponding day in chartData
         chartData[dayOfWeek].hotels++;

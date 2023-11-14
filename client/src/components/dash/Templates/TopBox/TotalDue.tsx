@@ -10,15 +10,14 @@ function TotalDue() {
     //🚀 Upcoming Total Due
     //✅ Step-1 -> Filter Upcoming Total Due
     const confirmedBookingsForDue = bookingData.filter(
-        (record:any): boolean => record.status === "CONFIRMED",
+        (record:any): boolean => record.status == "CONFIRMED",
     );
 
     const currentDateForDue: string = new Date().toISOString();
     const futureBookingsForDue = confirmedBookingsForDue.filter(
         (record:any): boolean => {
-            const checkInDateForDue: string = new Date(
-                record.checkInDate,
-            ).toISOString();
+            const checkInDateForDue: string =
+                new Date(record.checkInDate).toISOString();
             return checkInDateForDue > currentDateForDue;
         },
     );
