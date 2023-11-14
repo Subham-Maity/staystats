@@ -17,18 +17,15 @@ function Checkout() {
 
     //✅ Step-2 -> Calculate the number of check-ins for this Week
     const currentDate2 = new Date();
-    const startOfWeek = new Date(currentDate2);
-    startOfWeek.setHours(0, 0, 0, 0);
-    startOfWeek.setDate(currentDate2.getDate() - currentDate2.getDay()); // Assuming Sunday is the first day of the week
 
-    const endOfWeek = new Date(currentDate2);
+    const endOfWeek = new Date();
     endOfWeek.setHours(23, 59, 59, 999);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+    endOfWeek.setDate(currentDate2.getDate() - 6); // End of the week
 
     // Filter the original data for this week's check-ins
     const thisWeekCheckOuts = bookingData.filter((record:any) => {
         const checkOutDate = new Date(record.checkOutDate);
-        return checkOutDate >= startOfWeek && checkOutDate <= endOfWeek;
+        return checkOutDate <= currentDate2 && checkOutDate >= endOfWeek;
     });
 
     // Initialize an array to represent the desired format for chartData

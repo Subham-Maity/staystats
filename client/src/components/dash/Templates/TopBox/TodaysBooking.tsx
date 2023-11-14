@@ -32,18 +32,13 @@ function TodaysBooking() {
   const todaysBooking: number = calculateTodaysBooking(bookingData);
 
   const currentDate = new Date();
-  const startOfWeek = new Date(currentDate);
-  startOfWeek.setHours(0, 0, 0, 0);
-  startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
   const endOfWeek = new Date(currentDate);
   endOfWeek.setHours(23, 59, 59, 999);
-  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setDate(currentDate.getDate() - 6);
 
   const thisWeekBookings: BookingData[] = calculateThisWeekBookings(
-    bookingData,
-    startOfWeek,
-    endOfWeek,
+    bookingData,endOfWeek,currentDate,
   );
   const thisWeekBooking: number = thisWeekBookings.length;
 
@@ -62,6 +57,7 @@ function TodaysBooking() {
     const dayOfWeek = createdAtDate.getDay();
     chartData[dayOfWeek].users++;
   });
+
 
   const TodaysBooking = {
     color: "#8884d8",

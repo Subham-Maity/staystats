@@ -15,20 +15,20 @@ const TotalRevenue= () => {
     return total + item.bookingAmount; // Use 'item.bookingAmount' instead of 'total.bookingAmount'
   }, 0);
 
-  const startOfWeek = new Date(new Date());
-  startOfWeek.setHours(0, 0, 0, 0);
-  startOfWeek.setDate(0); // Assuming Sunday is the first day of the week
+  const currentDate = new Date();
 
-  const endOfWeek = new Date(new Date());
+
+  const endOfWeek = new Date();
   endOfWeek.setHours(23, 59, 59, 999);
-  endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+  endOfWeek.setDate(currentDate.getDate() - 6); // End of the week
 
 
   //@ts-ignore
   const thisWeekItems = data.filter(item => {
-    const cancelDate = new Date(item.createdAt);
-    return cancelDate >= startOfWeek && cancelDate <= endOfWeek;
+    const Dates:Date = new Date(item.createdAt);
+    return Dates <= currentDate && Dates >= endOfWeek;
   });
+
 
   const thisWeekRevenue = thisWeekItems.reduce((total: any, item: any) => {
     return total + item.bookingAmount; // Use 'item.bookingAmount' instead of 'total.bookingAmount'
@@ -45,13 +45,7 @@ const TotalRevenue= () => {
     { name: "Sat", revenue: 0 },
   ];
 
-  //@ts-ignore
-  const weekCancellations = data.filter(item => {
-    const cancelDate = new Date(item.createdAt);
-    return cancelDate >= startOfWeek && cancelDate <= endOfWeek;
-  });
-
-  weekCancellations.forEach((record:any) => {
+  thisWeekItems.forEach((record:any) => {
     const cancelDate = new Date(record.createdAt);
     const dayOfWeek = cancelDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
     // Increment the revenue for the corresponding day in chartData

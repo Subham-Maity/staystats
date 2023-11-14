@@ -15,36 +15,17 @@ function calculateTodaysModifiedBooking(bookingData: BookingData[]): number {
   return todaysModification.length;
 }
 
-function calculateThisWeekModification(
-    bookingData: BookingData[],
-    startOfWeek: Date,
-    endOfWeek: Date
-): number {
-  return bookingData.filter((record) => {
-    const ModifiedDate: Date = new Date(record.updatedAt);
-    return ModifiedDate >= startOfWeek && ModifiedDate <= endOfWeek;
-  }).length;
-}
-
 function TodaysModifiedBooking() {
   const bookingData: BookingData[] = useSelector(selectAllbookings);
   const todaysModification: number =
       calculateTodaysModifiedBooking(bookingData);
 
   const currentDate = new Date();
-  const startOfWeek = new Date(currentDate);
-  startOfWeek.setHours(0, 0, 0, 0);
-  startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
   const endOfWeek = new Date(currentDate);
   endOfWeek.setHours(23, 59, 59, 999);
-  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setDate(currentDate.getDate() - 6);
 
-  const thisWeekModification: number = calculateThisWeekModification(
-      bookingData,
-      startOfWeek,
-      endOfWeek
-  );
 
   const chartData = [
     { name: "Sun", users: 0 },
@@ -58,7 +39,7 @@ function TodaysModifiedBooking() {
 
   const thisWeekModifiedBookings = bookingData.filter((record) => {
     const ModifiedDate: Date = new Date(record.updatedAt);
-    return ModifiedDate >= startOfWeek && ModifiedDate <= endOfWeek;
+    return ModifiedDate <= currentDate && ModifiedDate >= endOfWeek;
   });
 
   thisWeekModifiedBookings.forEach((record) => {
@@ -75,7 +56,7 @@ function TodaysModifiedBooking() {
     title: "Today's Modification",
     number: todaysModification,
     dataKey: "users",
-    percentage: thisWeekModification, // Update to use thisWeekModification
+    percentage: thisWeekModifiedBookings.length, // Update to use thisWeekModification
     reactIcon: "BsCalendar2Date",
     chartData: chartData,
   };

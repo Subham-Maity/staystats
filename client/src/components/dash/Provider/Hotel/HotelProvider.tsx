@@ -7,14 +7,14 @@ import {
   fetchAllBookingsAsync,
 } from "@/lib/features/bookingSlice";
 
-import {selectAllhotels} from "@/lib/features/hotelSlice";
+import {fetchAllHotelsAsync, selectAllhotels} from "@/lib/features/hotelSlice";
 
 const HotelProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch: AppDispatch = useDispatch();
   const HotelData: HotelData[] = useSelector(selectAllhotels);
   useEffect(() => {
     if (HotelData) {
-      dispatch(fetchAllBookingsAsync());
+      dispatch(fetchAllHotelsAsync());
     }
   }, [dispatch, HotelData]);
 
