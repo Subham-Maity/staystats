@@ -10,7 +10,7 @@ function calculateTodaysModifiedBooking(bookingData: BookingData[]): number {
     const ModifiedDate: string = new Date(record.updatedAt)
         .toISOString()
         .split("T")[0];
-    return ModifiedDate === currentDate;
+    return ModifiedDate > currentDate;
   });
   return todaysModification.length;
 }
