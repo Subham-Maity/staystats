@@ -62,6 +62,7 @@ function TotalUsers() {
         reactIcon: "BsCalendar2Date",
         chartData: chartData
     };
+    console.log(totalUsers,"totalUsers")
 
 
     return (
