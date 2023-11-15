@@ -150,6 +150,7 @@ import LocationWiseBookingCountBarChartBCTLY
     from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTLY";
 import LocationWiseBookingCountBarChartBCTY
     from "@/components/dash/Templates/BottomBox/LocationPerformance/BookingTime/BarChartBCTY";
+import UpcomingTotalRevenue from "@/components/dash/Templates/TopBox/UpcomingTotalRevenue";
 
 const Dashboard = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -626,6 +627,7 @@ const Dashboard = () => {
                     <TotalUsers/>
                     <TodaysCancelledBooking/>
                     <TotalRevenue/>
+                    <UpcomingTotalRevenue/>
                     <TotalDue/>
                     <TotalHotels/>
                 </div>
