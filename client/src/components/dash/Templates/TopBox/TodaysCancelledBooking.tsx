@@ -41,8 +41,7 @@ function TotalUsers() {
 
     let todaysCancellation = todayCancellations.length;
     let thisweekCancellation= weekCancellations.length;
-    console.log("start",endOfWeek,"end",currentDate2);
-    console.log("thisWeekCheckIns",weekCancellations);
+
 
     let chartData = [
         { name: "Sun", users: 0 },

@@ -62,8 +62,6 @@ function TotalUsers() {
         reactIcon: "BsCalendar2Date",
         chartData: chartData
     };
-    console.log(totalUsers,"totalUsers")
-
 
     return (
         <TailwindWrapper className={"mt-5 justify-self-center"}>
