@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
     ComposedChart,
     Bar,
@@ -8,18 +8,26 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
+import Context from "@/context/Context";
+
+
 
 function BarChartComponent(props:any) {
+    const { isDarkTheme } = useContext(Context);
     const customTooltipStyle = {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: isDarkTheme ? '#000' : '#fff',
         border: 'none',
-        color: '#fff',
+        color: isDarkTheme ? '#fff' : '#000',
         fontSize: '10px',
     };
 
     const yAxisTextStyle = {
-        fill: '#fff',
+        fill: isDarkTheme ? '#fff' : '#000',
         fontSize: '10px', // Adjust font size as needed
+    };
+    const xAxisTextStyle = {
+        fill: isDarkTheme ? '#fff' : '#000',
+        fontSize: '15px', // Adjust font size as needed
     };
 
     return (
@@ -28,7 +36,7 @@ function BarChartComponent(props:any) {
                 <ComposedChart data={props.chartData} layout="vertical">
                     {/* Remove CartesianGrid to remove the grid */}
                     <YAxis dataKey="source" type="category" tick={yAxisTextStyle} />
-                    <XAxis type="number" />
+                    <XAxis type="number" tick={xAxisTextStyle} />
                     <Tooltip contentStyle={customTooltipStyle} />
                     <Legend />
                     <Bar

@@ -24,7 +24,6 @@ const Switcher = () => {
     }
     return (
         <div>
-            {/* The current theme is: {theme} */}
             <motion.button
                 id="theme-btn"
                 aria-label="Toggle Dark Mode"
