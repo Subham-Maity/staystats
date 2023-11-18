@@ -4,20 +4,21 @@ import { BookingData } from "@/lib/Types/Dashboard/types";
 import { useSelector } from "react-redux";
 import { selectAllbookings } from "@/lib/features/bookingSlice";
 
-function calculateTodaysModifiedBooking(bookingData: BookingData[]): number {
-  const currentDate: string = new Date().toISOString().split("T")[0];
+function calculateTodaysModifiedBooking(bookingData: BookingData[]):any {
+
   const todaysModification: BookingData[] = bookingData.filter((record) => {
-    const ModifiedDate: string = new Date(record.updatedAt)
-        .toISOString()
-        .split("T")[0];
+    const currentDate: string = new Date(record.createdAt).toISOString()
+    const ModifiedDate: string = new Date(record.updatedAt).toISOString()
+    console.log(ModifiedDate,"modifiedDate",currentDate,"currentDate");
     return ModifiedDate > currentDate;
   });
-  return todaysModification.length;
+
+  return todaysModification;
 }
 
 function TodaysModifiedBooking() {
   const bookingData: BookingData[] = useSelector(selectAllbookings);
-  const todaysModification: number =
+  const todaysModification:any =
       calculateTodaysModifiedBooking(bookingData);
 
   const currentDate = new Date();
@@ -37,12 +38,13 @@ function TodaysModifiedBooking() {
     { name: "Sat", users: 0 },
   ];
 
-  const thisWeekModifiedBookings = bookingData.filter((record) => {
-    const ModifiedDate: Date = new Date(record.updatedAt);
-    return ModifiedDate <= currentDate && ModifiedDate >= endOfWeek;
+  const thisWeekModifiedBookings = bookingData.filter((record:any) => {
+    const currentDate2 = new Date(record.createdAt);
+    const ModifiedDate = new Date(record.updatedAt);
+    return ModifiedDate.toISOString() <= currentDate2.toISOString() && ModifiedDate.toISOString() >= endOfWeek.toISOString();
   });
 
-  thisWeekModifiedBookings.forEach((record) => {
+  thisWeekModifiedBookings.forEach((record:any) => {
     const ModifiedDate = new Date(record.updatedAt);
     const dayOfWeek = ModifiedDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
 
@@ -54,7 +56,7 @@ function TodaysModifiedBooking() {
     color: "#8884d8",
     icon: "/userIcon.svg",
     title: "Today's Modification",
-    number: todaysModification,
+    number: todaysModification.length,
     dataKey: "users",
     percentage: thisWeekModifiedBookings.length, // Update to use thisWeekModification
     reactIcon: "BsCalendar2Date",

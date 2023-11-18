@@ -7,7 +7,7 @@ const UpcomingTotalRevenue= () => {
 
     const data  = useSelector(selectAllbookings)
     const todaysItems = data.filter((item:any) => {
-        return item.checkInDate > new Date().toISOString().split("T")[0];
+        return item.checkInDate > new Date().toISOString();
     });
 
     //if there is no booking today
