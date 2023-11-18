@@ -17,6 +17,10 @@ const ifUser = [
     "Serial No.","User Name", "Phone Number",'Hotels Name','Email Address'
 ]
 
+const ifHotels = [
+    "Serial No.","Hotel Name", "Location",'Owner Name','Phone Number'
+]
+
   import { isSameDay } from "date-fns";
 
   
@@ -26,6 +30,8 @@ const ifUser = [
     import { selectAllbookings } from "@/lib/features/bookingSlice";
     import { selectAllUsers } from "@/lib/features/userSlice";
     import { BookingData } from "@/lib/Types/Dashboard/types";
+    import { HotelData } from "@/lib/Types/Dashboard/types";
+    import { selectAllhotels } from "@/lib/features/hotelSlice";
   
   import { FaTimes } from "react-icons/fa";
   import React, { useState, useEffect, useRef } from "react";
@@ -36,6 +42,8 @@ const ifUser = [
 
       const bookingData:BookingData[] = useSelector(selectAllbookings);
       const users = useSelector(selectAllUsers);
+    const hotels: HotelData[] = useSelector(selectAllhotels);
+
 
    
 
@@ -45,6 +53,9 @@ const ifUser = [
     const [todaysBookings, setTodaysBookings] = useState<BookingData[]>();
     const [todaysModificationBooking, setTodaysModification] = useState<BookingData[]>();
     const [todaysUser, setTodaysUser] = useState<any[]>();
+    const [todaysCancellation, setTodaysCancellation] = useState<any[]>();
+    const [totalHotels, setTotalHotels] = useState<HotelData[]>();
+
 
 
 
@@ -81,6 +92,12 @@ const ifUser = [
     return ModifiedDate > currentDate;
   });
 
+  const totalCancellation = bookingData.filter((record:any) => {
+    return record.status === "CANCELLED";
+}
+);
+
+
 
     useEffect(() => {
         // @ts-ignore
@@ -89,9 +106,11 @@ const ifUser = [
         setTodaysBookings(todaysBooking);
         setTodaysModification(todaysModification);
         setTodaysUser(users);
-        console.log(users,"users")
+        setTodaysCancellation(totalCancellation);
+        setTotalHotels(hotels);
+        // console.log(users,"users")
         }
-    , [numberOfTodaysCheckIns]);
+    , [numberOfTodaysCheckIns,numberOfTodaysCheckOuts,todaysBooking,todaysModification,users,totalCancellation,hotels]);
     
   
     return (
@@ -136,6 +155,21 @@ const ifUser = [
               }
               {
                 variable === "Total Users" && ifUser.map((_, i) => (
+                    <th key={i} scope="col" className="px-4 py-2 text-center">
+                {_}
+                </th>
+                    ))
+              }
+              {
+                variable === "Total Cancellation" && ifBookingToday.map((_, i) => (
+                    <th key={i} scope="col" className="px-4 py-2 text-center">
+                {_}
+                </th>
+                    ))
+              }
+
+{
+                variable === "Total Hotels" && ifHotels.map((_, i) => (
                     <th key={i} scope="col" className="px-4 py-2 text-center">
                 {_}
                 </th>
@@ -379,6 +413,91 @@ const ifUser = [
                         </td>
                         <td className="px-4 py-2 text-center">
                             {_.email}
+                        </td>
+                        </tr>
+                        ))}
+
+{
+                        variable === "Total Cancellation" && 
+                        todaysCancellation?.map((_, i) => (
+                            <tr
+                        title="Click to view user details"
+                        key={i}
+                        
+                        className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
+                        <th
+                          scope="row"
+                          className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                         {i+1}
+                        </th>
+                        <td
+                          
+                          className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                         {_.hotel.hotelName}
+                        </td>
+                        <td
+                          
+                          className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                          {_.guestName}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.contactNumber}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.bookingAmount}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.numberOfPersons}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.numberOfRooms}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.checkInDate.split("T")[0]}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.checkOutDate.split("T")[0]}
+                        </td>
+                        
+                        
+                       
+                      </tr>
+                        ))
+                      }
+
+{
+                        variable === "Total Hotels" && 
+                        totalHotels?.map((_, i) => (
+                            <tr
+                        title="Click to view user details"
+                        key={i}
+                        
+                        className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        >
+                        <th
+                          scope="row"
+                          className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                            {i+1}
+                        </th>
+                        <td
+                          
+                          className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                        >
+                            {_.hotelName}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.location}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.ownerName}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                            {_.frontOfficeContact}
                         </td>
                         </tr>
                         ))}
