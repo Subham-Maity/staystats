@@ -10,6 +10,7 @@ import {ReduxProviders} from "@/lib/provider";
 import BookingProvider from "@/components/dash/Provider/Booking/BookingProvider";
 import UserProvider from "@/components/dash/Provider/User/UserProvider";
 import HotelProvider from "@/components/dash/Provider/Hotel/HotelProvider";
+import ContextProvider from "@/context/ContextProvider";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -36,6 +37,7 @@ export default function RootLayout({
                 className={`${inter.className} overflow-hidden dark:bg-[#25293c]`}
             >
             <ReduxProviders>
+                <ContextProvider>
                 <DefaultLayout>
                     <HotelProvider>
                         <UserProvider>
@@ -45,6 +47,7 @@ export default function RootLayout({
                         </UserProvider>
                     </HotelProvider>
                 </DefaultLayout>
+                </ContextProvider>
             </ReduxProviders>
             </body>
         </Providers>

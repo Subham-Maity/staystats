@@ -57,11 +57,11 @@ const BookingCountBarChartBCTY: React.FC<BookingCountBarChartProps> = ({
   // Create a chartData array with all unique sources and their booking counts for the current year
   const chartData = uniqueSources.map((source) => ({
     source,
-    bookingCount: bookingCounts[source] || 0,
+    BookingCount: bookingCounts[source] || 0,
   }));
 
   return (
-      <BarChartComponent chartData={chartData} type={"bookingCount"} />
+      <BarChartComponent chartData={chartData} type={"BookingCount"} />
   );
 };
 

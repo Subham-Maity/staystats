@@ -43,11 +43,11 @@ const RevenueBarChartRBT: React.FC<RevenueBarChartProps> = ({ data }) => {
   // Create a chartData array with all unique sources and their aggregated revenue for today
   const chartData = uniqueSources.map((source) => ({
     source,
-    revenue: aggregateData[source] || 0,
+    Revenue: aggregateData[source] || 0,
   }));
 
   return (
-      <BarChartComponent chartData={chartData} type={"revenue"} />
+      <BarChartComponent chartData={chartData} type={"Revenue"} />
   );
 };
 

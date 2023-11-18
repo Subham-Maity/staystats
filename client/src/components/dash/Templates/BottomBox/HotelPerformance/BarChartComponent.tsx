@@ -1,30 +1,51 @@
 import React from 'react';
 import {
     ComposedChart,
-    Line,
     Bar,
     XAxis,
     YAxis,
-    CartesianGrid,
     Tooltip,
     Legend,
-    Area,
     ResponsiveContainer,
 } from 'recharts';
 
-function BarChartComponent(props: any) {
+function BarChartComponent(props:any) {
+    const customTooltipStyle = {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        border: 'none',
+        color: '#fff',
+        fontSize: '10px',
+    };
+
+    const yAxisTextStyle = {
+        fill: '#fff',
+        fontSize: '10px', // Adjust font size as needed
+    };
+
     return (
-        <div style={{ height: '350px', overflow: 'auto' }}>
-        <ResponsiveContainer width="100%" height={1500}>
-            <ComposedChart data={props.chartData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <YAxis dataKey="source" type="category" />
-                <XAxis type="number" />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey={props.type} fill="#8884d8" stroke="#006ef5" strokeWidth={3} barSize={60} />
-            </ComposedChart>
-        </ResponsiveContainer>
+        <div style={{ height: '350px', overflow: 'auto'}}>
+            <ResponsiveContainer width="100%" height={400}>
+                <ComposedChart data={props.chartData} layout="vertical">
+                    {/* Remove CartesianGrid to remove the grid */}
+                    <YAxis dataKey="source" type="category" tick={yAxisTextStyle} />
+                    <XAxis type="number" />
+                    <Tooltip contentStyle={customTooltipStyle} />
+                    <Legend />
+                    <Bar
+                        dataKey={props.type}
+                        fill="url(#colorGradient)"
+                        stroke="#006ef5"
+                        strokeWidth={1}
+                        barSize={20}
+                    />
+                    <defs>
+                        <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#8884d8" stopOpacity={1} />
+                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0.1} />
+                        </linearGradient>
+                    </defs>
+                </ComposedChart>
+            </ResponsiveContainer>
         </div>
     );
 }

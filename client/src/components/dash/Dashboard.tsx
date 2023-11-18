@@ -633,6 +633,7 @@ const Dashboard = () => {
                 </div>
 
                 <TailwindWrapper className="h-50 mt-5">
+                    <div className="flex justify-between">
                     <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
                         Last 30 days
                     </h1>
@@ -659,17 +660,9 @@ const Dashboard = () => {
                             </option>
                             <option value="byCheckinDate">By Checkin Date</option>
                         </select>
+                      </div>
                     </div>
-                    <div className="flex justify-center sm:justify-end w-50">
-                        <p className="flex items-center mb-2 mr-4">
-                            <span className="w-2 h-2 mr-2 bg-blue-500 rounded-full"></span>
-                            <span>Last 30 days</span>
-                        </p>
-                        <p className="flex items-center mb-2">
-                            <span className="w-2 h-2 mr-2 bg-red-500 rounded-full"></span>
-                            <span>Last Year</span>
-                        </p>
-                    </div>
+
 
                     {area === "Revenue" && date === "byCheckinDate" && (
                         <>
@@ -757,9 +750,9 @@ const Dashboard = () => {
                 </TailwindWrapper>
                 {/*Ott Performance*/}
                 <TailwindWrapper className="h-50 mt-5">
-                    <div className="flex justify-between sm:justify-start">
+                    <div className="flex lg:justify-between justify-start">
                         <h1 className="text-3xl md:text-4xl font-semibold mb-4 md:text-left text-center">
-                            OTA Performance
+                            Booking Source
                         </h1>
                         <div className="flex gap-5 justify-center sm:justify-start">
                             <select
