@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Table from "@/components/Table/Table";
+import Dashboard from "@/components/dash/Dashboard";
+import React from "react";
+import AdminProtector from "@/Protector/Admin";
 
 export default function Home() {
     const userData = [
@@ -17,20 +20,11 @@ export default function Home() {
         },
         // Add more data items as needed
     ];
-  return (
-    <div className="dark:text-red-900 mx-auto flex gap-4 flex-col">
-      <div className="flex w-full flex-col justify-center gap-4 items-center">
-        <h1 className="text-2xl font-bold">User Details</h1>
-        <div className="flex w-full">
-         {/* <Table userData={userData}   /> */}
+    return (
+        <div>
+            <AdminProtector>
+                <Dashboard/>
+            </AdminProtector>
         </div>
-      </div>
-      <div className="flex w-full flex-col justify-center gap-4 items-center">
-        <h1 className="text-2xl font-bold">Booking Details</h1>
-        <div className="flex w-full">
-            {/* <Table userData={userData} /> */}
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

@@ -11,6 +11,7 @@ import BookingProvider from "@/components/dash/Provider/Booking/BookingProvider"
 import UserProvider from "@/components/dash/Provider/User/UserProvider";
 import HotelProvider from "@/components/dash/Provider/Hotel/HotelProvider";
 import ContextProvider from "@/context/ContextProvider";
+import AdminProtector from "@/Protector/Admin";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -38,15 +39,15 @@ export default function RootLayout({
             >
             <ReduxProviders>
                 <ContextProvider>
-                <DefaultLayout>
-                    <HotelProvider>
-                        <UserProvider>
-                            <BookingProvider>
-                                {children}
-                            </BookingProvider>
-                        </UserProvider>
-                    </HotelProvider>
-                </DefaultLayout>
+                    <DefaultLayout>
+                            <HotelProvider>
+                                <UserProvider>
+                                    <BookingProvider>
+                                        {children}
+                                    </BookingProvider>
+                                </UserProvider>
+                            </HotelProvider>
+                        </DefaultLayout>
                 </ContextProvider>
             </ReduxProviders>
             </body>
