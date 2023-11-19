@@ -137,6 +137,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
                 />
               </div>
               <Image
+
                 src="/assets/sayngo.png"
                 width={30}
                 height={20}
@@ -178,7 +179,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
               height={35}
               width={35}
               alt="Image"
-              className="rounded-full cursor-pointer"
+              className="border-gray-300 rounded-full border-2"
               onClick={() => {
                 toggleDropdown();
               }}

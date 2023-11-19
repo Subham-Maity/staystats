@@ -29,13 +29,13 @@ function TodaysModifiedBooking() {
 
 
   const chartData = [
-    { name: "Sun", users: 0 },
-    { name: "Mon", users: 0 },
-    { name: "Tue", users: 0 },
-    { name: "Wed", users: 0 },
-    { name: "Thu", users: 0 },
-    { name: "Fri", users: 0 },
-    { name: "Sat", users: 0 },
+    { name: "Sun", Bookings: 0 },
+    { name: "Mon", Bookings: 0 },
+    { name: "Tue", Bookings: 0 },
+    { name: "Wed", Bookings: 0 },
+    { name: "Thu", Bookings: 0 },
+    { name: "Fri", Bookings: 0 },
+    { name: "Sat", Bookings: 0 },
   ];
 
   const thisWeekModifiedBookings = bookingData.filter((record:any) => {
@@ -49,7 +49,7 @@ function TodaysModifiedBooking() {
     const dayOfWeek = ModifiedDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
 
     // Increment the modified bookings count for the corresponding day in chartData
-    chartData[dayOfWeek].users++;
+    chartData[dayOfWeek].Bookings++;
   });
 
   const TodaysModifiedBooking = {
@@ -57,7 +57,7 @@ function TodaysModifiedBooking() {
     icon: "/userIcon.svg",
     title: "Today's Modification",
     number: todaysModification.length,
-    dataKey: "users",
+    dataKey: "Bookings",
     percentage: thisWeekModifiedBookings.length, // Update to use thisWeekModification
     reactIcon: "BsCalendar2Date",
     chartData: chartData,
