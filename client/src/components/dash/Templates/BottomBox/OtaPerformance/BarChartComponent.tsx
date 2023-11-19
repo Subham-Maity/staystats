@@ -26,7 +26,7 @@ function BarChartComponent(props: any) {
 
     const yAxisTextStyle = {
         fill: isDarkTheme ? '#fff' : '#000',
-        fontSize: '10px',
+        fontSize: '15px',
     };
 
     const xAxisTextStyle = {
