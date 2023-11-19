@@ -122,8 +122,8 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   };
 
   return (
-    <div className="flex w-full bg-slate-100 flex-col gap-2 cursor-pointer text-gray-600 border-sm border-b-2 border">
-      <div className="navbar flex justify-between items-center px-4 py-4 dark:bg-blue-950 light:bg-slate-300 rounded-lg">
+    <div className="flex w-full bg-white dark:bg-[#282f46] flex-col gap-2 cursor-pointer text-gray-600 border-sm border border-b border-gray-300/25 ">
+      <div className="navbar flex justify-between items-center px-4 py-4 bg-white dark:bg-[#282f46] rounded-lg">
         <div className="flex items-center justify-center gap-6">
           <div className="w-full flex items-center justify-between gap-2 font-semibold text-blue-500 ">
             <div className="flex gap-2 items-center justify-center">
