@@ -71,12 +71,12 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
   return (
     <motion.nav
       initial={{ width: 0 }}
-      animate={{ width: !isNavOpen ? "200px" : "auto" }}
+      animate={{ width: !isNavOpen ? "220px" : "auto" }}
       transition={{ duration: 0.3 }}
       // onMouseEnter={navHoverEffectEnter}
       // onMouseLeave={navHoverEffectOut}
       className={`overflow-hidden h-screen ${
-        isNavOpen ? "w-auto fixed lg:relative" : "w-[200px] fixed lg:relative"
+        isNavOpen ? "w-auto fixed lg:relative" : "w-[220px] fixed lg:relative"
       } bg-white dark:bg-[#282f46] z-50 border border-r dark:border-gray-300/25 border-gray-600/25 pt-4`}
     >
       <div className="flex flex-col items-center justify-between h-screen w-full">
