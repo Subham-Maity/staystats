@@ -7,7 +7,6 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
-
 } from 'recharts';
 import Context from '@/context/Context';
 
@@ -30,9 +29,25 @@ function BarChartComponent(props: any) {
         fontSize: '15px',
     };
 
+
+
+    const length = props.chartData.map((item: any) => item.source).length;
+
+    let chartHeight = 900;
+
+    const ratio = 900 / 17;
+
+    chartHeight = Math.floor(length * ratio);
+
+    const minHeight = 200;
+    const maxHeight = 3000;
+
+    chartHeight = Math.max(minHeight, Math.min(maxHeight, chartHeight));
+
+
     return (
-        <div style={{ height: '350px', overflow: 'auto' }}>
-            <ResponsiveContainer width="100%" height={400}>
+        <div style={{ height: '400px', overflow: 'auto' }}>
+            <ResponsiveContainer width="100%" height={chartHeight}>
                 <ComposedChart data={props.chartData} layout="vertical">
                     <YAxis interval={0} dataKey="source" textAnchor="end" type="category" tick={yAxisTextStyle} />
                     <XAxis type="number" tick={xAxisTextStyle} />
