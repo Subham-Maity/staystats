@@ -1879,14 +1879,14 @@ const Dashboard = () => {
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{thisYearRevenueTotal.toFixed(2)}
                                         </h1>
-                                        Total Revenue(Last Year)
+                                        Total Revenue(This Year)
                                     </div>
 
                                     <div className="text-center">
                                         <h1 className="text-2xl md:text-4xl font-semibold mb-2">
                                             ₹{(thisYearRevenueTotal / 365).toFixed(2)}
                                         </h1>
-                                        Average Revenue(Last Year)
+                                        Average Revenue(This Year)
                                     </div>
                                 </div>
                             </>
