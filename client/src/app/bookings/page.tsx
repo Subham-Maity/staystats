@@ -34,6 +34,7 @@ const Bookings = () => {
   const [reloadData, setReloadData] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingBookingData, setEditingBookingData] = useState<object>({});
+  const [onFilterOpen, setOnFilterOpen] = useState<boolean>(false);
 
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
@@ -217,6 +218,10 @@ const Bookings = () => {
         </h1>
         <div className="flex gap-2">
           {user.role === "ADMIN" && (
+            <>
+            <button onClick={()=> setOnFilterOpen(!onFilterOpen)} className="flex justify-center  items-center gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500">
+        Filter
+      </button>
             <button
               onClick={() => {
                 setShowDownloadPopUp(true);
@@ -228,6 +233,9 @@ const Bookings = () => {
                 Download Excel
               </p>
             </button>
+            
+            </>
+            
           )}
           <button
             onClick={() => setShowModal(true)}
@@ -243,6 +251,7 @@ const Bookings = () => {
       </div>
       <div className="w-full m-2">
         <Filter
+        isFilterOpen={onFilterOpen}
           setFilterData={(filter: any) => {
             setFilterData(filter);
             setReloadData(!reloadData);
