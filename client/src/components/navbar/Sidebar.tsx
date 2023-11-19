@@ -91,9 +91,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 accountType === "SUBADMIN" && "hidden"
               } flex items-center justify-start gap-2 p-2 hover:cursor-pointer  ${
                 pathname === "/dash"
-                  ? "bg-slate-300 text-primary hover:none"
-                  : "hover:bg-slate-300"
-              } rounded-xl`}
+                  ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
+                  : " dark:hover:bg-slate-600"
+              } rounded-md`}
             >
               <MdDashboard size={20} />{" "}
               <p className={` text-sm ${isNavOpen && "hidden"}`}>Dashboard</p>
@@ -107,9 +107,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 accountType === "SUBADMIN" && "hidden"
               } flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                 pathname === "/users"
-                  ? "bg-slate-300 text-primary"
-                  : "hover:bg-slate-300"
-              } rounded-xl`}
+                    ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
+                    : " dark:hover:bg-slate-600"
+              } rounded-md`}
             >
               <HiUserGroup size={20} />{" "}
               <p className={` text-sm ${isNavOpen && "hidden"}`}>Users</p>
@@ -121,9 +121,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 accountType === "SUBADMIN" && "hidden"
               } flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                 pathname === "/hotels"
-                  ? "bg-slate-300 text-primary"
-                  : "hover:bg-slate-300"
-              } rounded-xl`}
+                    ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
+                    : " dark:hover:bg-slate-600"
+              } rounded-md`}
             >
               <FaHome size={20} />
               <p className={` text-sm ${isNavOpen && "hidden"}`}>Hotels</p>
@@ -133,9 +133,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             <li
               className={`flex text-center items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                 pathname === "/bookings"
-                  ? "bg-slate-300 text-primary"
-                  : "hover:bg-slate-300"
-              } rounded-xl`}
+                    ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
+                    : " dark:hover:bg-slate-600"
+              } rounded-md`}
             >
               <RiMailFill size={20} />{" "}
               <p className={` text-sm ${isNavOpen && "hidden"}`}>Bookings</p>
@@ -145,9 +145,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             <li
               className={`flex text-center items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                 pathname === "/leads"
-                  ? "bg-slate-300 text-primary"
-                  : "hover:bg-slate-300"
-              } rounded-xl`}
+                    ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
+                    : " dark:hover:bg-slate-600"
+              } rounded-md`}
             >
               <MdLeaderboard size={20} />{" "}
               <p
@@ -163,9 +163,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
             <li
               className={`flex text-center items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                 pathname === "/works"
-                  ? "bg-slate-300 text-primary"
-                  : "hover:bg-slate-300"
-              } rounded-xl`}
+                    ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
+                    : " dark:hover:bg-slate-600"
+              } rounded-md`}
             >
               <MdWorkHistory size={20} />{" "}
               <p className={` text-sm ${isNavOpen && "hidden"}`}>Log Book</p>
@@ -177,9 +177,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
                 accountType === "SUBADMIN" && "hidden"
               } flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
                 pathname === "/users-ip"
-                  ? "bg-slate-300 text-primary"
-                  : "hover:bg-slate-300"
-              } rounded-xl`}
+                    ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
+                    : " dark:hover:bg-slate-600"
+              } rounded-md`}
             >
               <FaAddressBook size={20} />{" "}
               <p className={` text-sm ${isNavOpen && "hidden"}`}>Users Ip</p>
