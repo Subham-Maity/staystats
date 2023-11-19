@@ -4,7 +4,7 @@ import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts";
 import Link from "next/link";
 import { FaUserClock } from "react-icons/fa";
 import { useState } from "react";
-import ViewDashData from "@/components/card/ViewDashData";
+import ViewDashData from "@/components/dash/Components/Table/ViewDashData";
 
 type Props = {
   color: string;

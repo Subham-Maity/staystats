@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {
   AreaChart,
   Area,
@@ -15,6 +15,7 @@ import {
   endOfDay,
   startOfDay,
 } from "date-fns";
+import Context from "@/context/Context";
 
 interface DataPoint {
   checkInDate: string;
@@ -38,6 +39,7 @@ const generateYearlyDateData = () => {
 };
 
 const BookingCheckinAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
+  const { isDarkTheme } = useContext(Context);
   const yearlyDateData = generateYearlyDateData();
 
   const chartData = yearlyDateData.map((date) => {
@@ -49,25 +51,47 @@ const BookingCheckinAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
       bookings: matchingDataItem.length,
     };
   });
+  const customTooltipStyle = {
+    backgroundColor: isDarkTheme ? '#000' : '#fff',
+    border: isDarkTheme ? '1px solid #fff' : '1px solid #000',
+    color: isDarkTheme ? '#fff' : '#000',
+    fontSize: '15px',
+    borderRadius: '10px',
+  };
+  const yAxisTextStyle = {
+    fill: isDarkTheme ? '#fff' : '#000',
+    fontSize: '15px',
+  };
 
+  const xAxisTextStyle = {
+    fill: isDarkTheme ? '#fff' : '#000',
+    fontSize: '15px',
+    textAnchor: 'middle',
+
+  };
   return (
-    <div className="w-full h-64">
-      <ResponsiveContainer>
+
+      <ResponsiveContainer width="100%" height={400}>
         <AreaChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis tickFormatter={(tick) => `${tick}`} /> {/* Remove "k" */}
-          <Tooltip />
+          <XAxis dataKey="date" tick={xAxisTextStyle} />
+          <YAxis tickFormatter={(tick) => `${tick}`} tick={yAxisTextStyle}/>
+          <Tooltip
+              contentStyle={customTooltipStyle}
+              isAnimationActive={true}
+              useTranslate3d={true}
+              animationEasing={'ease-in-out'}
+          />
           <Area
             type="monotone"
             dataKey="bookings" // Update dataKey to "bookings"
-            stroke="rgb(59 130 246)"
-            fill="#8884d8"
-            strokeWidth={3}
+            fill="url(#colorGradient)"
+            stroke="#006ef5"
+            strokeWidth={0.5}
           />
         </AreaChart>
       </ResponsiveContainer>
-    </div>
+
   );
 };
 

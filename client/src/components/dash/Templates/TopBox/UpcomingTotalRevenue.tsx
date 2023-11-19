@@ -55,7 +55,7 @@ const UpcomingTotalRevenue= () => {
     const TodaysBooking:any = {
         color: "#8884d8",
         icon: "/userIcon.svg",
-        title: "Upcoming Total Revenue",
+        title: "Upcoming Revenue",
         number: todaysRevenu,
         dataKey: "revenue",
         percentage: thisWeekRevenue,
