@@ -92,7 +92,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="fade w-full h-screen flex flex-row items-center justify-center relative">
+    <div className="fade dark:bg-[#25293c] w-full h-screen flex flex-row items-center justify-center relative">
       {/* <div className="hidden lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover ">
         <Image src={'/assets/login_graphic.jpg'} height={600} width={600} alt="Image" className="rounded-md cursor-pointer ml-auto md:scale-90 " />
         </div> */}
@@ -143,7 +143,7 @@ const LoginForm = () => {
               <label className="text-sm mb-1 text-gray-700">Username</label>
               <input
                 type="text"
-                className="text-gray-700 w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm"
+                className="text-gray-700 dark:text-white w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm"
                 placeholder="Enter your username"
                 //@ts-ignore
                 ref={usernameRef}
@@ -155,7 +155,7 @@ const LoginForm = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="text-gray-700 w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm pr-10"
+                  className="text-gray-700 dark:text-white w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm pr-10"
                   placeholder="Enter your password"
                   //@ts-ignore
                   ref={passwordRef}

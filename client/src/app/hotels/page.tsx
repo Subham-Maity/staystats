@@ -298,7 +298,7 @@ const Hotels = () => {
               aria-describedby="basic-addon1"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-full h-full py-2 px-4   outline-none text-gray-700 "
+              className="w-full h-full py-2 px-4  dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
             />
             <button
               className="min-w-[40px] flex justify-center items-center defaultBtn"
