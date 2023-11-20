@@ -94,7 +94,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
         <>
 
             <div
-                className=" max-h-[800px] overflow-y-scroll max-w-screen-2xl absolute items-center  border border-r border-gray-300/25 rounded-xl shadow md:flex-row  dark:border-gray-700 ">
+                className=" max-h-[80%] overflow-y-scroll max-w-[90%] lg:max-w-screen-2xl absolute items-center  border border-r border-gray-300/25 rounded-xl shadow md:flex-row  dark:border-gray-700 ">
                 <TailwindWrapper>
                     <h1 className="text-center mx-auto text-xl font-bold my-2">{variable}</h1>
                     <button>
