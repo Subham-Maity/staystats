@@ -7,16 +7,18 @@ const UpcomingTotalRevenue= () => {
     let data  = useSelector(selectAllbookings)
     data = data.filter((item: any) => item.status === "CONFIRMED");
 
+    const currentDate = new Date();
     const todaysItems = data.filter((item:any) => {
-        return item.checkInDate > new Date().toISOString();
+        const checkInDate: string = item.checkInDate.split("T")[0];
+        return new Date(checkInDate).toISOString().split("T")[0] >
+            new Date(currentDate).toISOString().split("T")[0];
     });
+
 
     //if there is no booking today
     const todaysRevenu = todaysItems.reduce((total: any, item: any) => {
         return total + item.bookingAmount; // Use 'item.bookingAmount' instead of 'total.bookingAmount'
     }, 0);
-
-    const currentDate = new Date();
 
 
     const endOfWeek = new Date();
@@ -27,7 +29,7 @@ const UpcomingTotalRevenue= () => {
     //@ts-ignore
     const thisWeekItems = data.filter(item => {
         const Dates:Date = new Date(item.checkInDate);
-        return Dates >= currentDate && Dates <= endOfWeek;
+        return Dates > currentDate && Dates <= endOfWeek;
     });
 
 

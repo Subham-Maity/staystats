@@ -6,7 +6,6 @@ import {selectAllbookings} from "@/lib/features/bookingSlice";
 
 function TotalUsers() {
     let bookings =  useSelector(selectAllbookings);
-    bookings = bookings.filter((item: any) => item.status === "CONFIRMED");
 
     function calculateTotalCancellation(bookings:any) {
         //@ts-ignore

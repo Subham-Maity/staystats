@@ -46,6 +46,8 @@ function TodaysModifiedBooking() {
     return ModifiedDate.toISOString() <= currentDate2.toISOString() && ModifiedDate.toISOString() >= endOfWeek.toISOString();
   });
 
+  
+
   thisWeekModifiedBookings.forEach((record:any) => {
     const ModifiedDate = new Date(record.updatedAt);
     const dayOfWeek = ModifiedDate.getDay(); // 0 for Sunday, 1 for Monday, and so on

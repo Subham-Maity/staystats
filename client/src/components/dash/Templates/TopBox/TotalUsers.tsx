@@ -4,19 +4,6 @@ import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrappe
 import {useSelector} from "react-redux";
 import {selectAllUsers} from "@/lib/features/userSlice";
 
-function calculateThisWeekTotalUsers(
-    userData: any[],
-    startOfWeek: Date,
-    endOfWeek: Date
-): any[] {
-    const usersThisWeek = userData.filter(user => {
-        const userDate = new Date(user.updatedAt);
-        return userDate >= startOfWeek && userDate <= endOfWeek;
-    });
-
-    return usersThisWeek;
-}
-
 function TotalUsers() {
     // Use the `useSelector` hook to select user data from the Redux store
     let users = useSelector(selectAllUsers);
@@ -34,7 +21,10 @@ function TotalUsers() {
     endOfWeek.setHours(23, 59, 59, 999);
     endOfWeek.setDate(currentDate.getDate() - 6);
     const totalUsers = calculateTotalUsers(users);
-    const totalUsersThisWeek = calculateThisWeekTotalUsers(users, endOfWeek,currentDate);
+    const totalUsersThisWeek = users.filter((record:any) => {
+        const checkInDate = new Date(record.checkInDate);
+        return checkInDate <= currentDate && checkInDate >= endOfWeek;
+    });
 
     const chartData = [
         { name: "Sun", users: 0 },
