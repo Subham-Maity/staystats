@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import axios from "@/utils/axios";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 import { FaTimes } from "react-icons/fa";
 
@@ -165,8 +166,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl  "
     >
+      <TailwindWrapper>
      <div className="flex w-full mb-4">
         <p className="font-bold text-lg">Booking Details</p>
         <span
@@ -547,20 +549,24 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         
       </div>
 
+      <div className="flex gap-2 mt-4">
       <button
       disabled={loading}
         type="submit"
-        className="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="defaultBtn"
       >
         Submit
       </button>
       <button
       disabled={loading}
         type="reset"
-        className="mt-2 ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="defaultBtn"
       >
         Reset
       </button>
+      </div>
+
+      </TailwindWrapper>
     </form>
   );
 };

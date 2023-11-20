@@ -213,7 +213,7 @@ const Users = () => {
               onClick={() => {
                 setShowDownloadPopUp(true);
               }}
-              className="flex gap-2 whitespace-nowrap text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
+              className="defaultBtn"
             >
               <SiMicrosoftexcel size={20} />
               <p className="whitespace-nowrap text-sm hidden lg:block">
@@ -223,7 +223,7 @@ const Users = () => {
             <button
               onClick={() => setShowModal(true)}
               type="submit"
-              className=" flex whitespace-nowrap gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="defaultBtn "
             >
               <FaPlus size={20} />
               <p className="whitespace-nowrap text-sm hidden lg:block">
@@ -240,12 +240,12 @@ const Users = () => {
                 disabled={page === 1}
                 className="border p-3 shadow hover:bg-gray-200 cursor-pointer hover:opacity-90 rounded-l-md disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <FcPrevious />
+                <FcPrevious className="text-btnColor" />
               </button>
               <button
                 disabled={page * PAGE_LIMIT >= usersCount}
                 onClick={() => setPage(page + 1)}
-                className="border p-3 shadow hover:bg-gray-200 cursor-pointer hover:opacity-90 rounded-r-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="border p-3 shadow hover:bg-gray-200 cursor-pointer hover:opacity-90 rounded-r-md disabled:opacity-50 disabled:cursor-not-allowed dark:text-btnColor"
               >
                 <FcNext />
               </button>
@@ -291,7 +291,7 @@ const Users = () => {
                 className="w-full h-full py-2 px-4   outline-none text-gray-700 "
               />
               <button
-                className="min-w-[40px] flex justify-center items-center bg-blue-700 text-white cursor-pointer hover:opacity-90"
+                className="min-w-[40px] flex justify-center items-center defaultBtn"
                 onClick={(e) => {
                   getUsersBySearch(e);
                   // e.preventDefault();
@@ -345,7 +345,7 @@ const Users = () => {
         </div>
       )}
       {showEditModal && editingUserData && (
-        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden z-50">
           <EditUser
             onClose={(value) => setShowEditModal(value)}
             setUserData={setUserData}
@@ -364,7 +364,7 @@ const Users = () => {
           )}
         </div>
       )}
-      <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">
+      <div className="z-20 w-full flex flex-row justify-between items-center py-3">
         <div>
           <button
             onClick={() => setPage(page - 1)}

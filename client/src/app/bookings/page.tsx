@@ -219,14 +219,14 @@ const Bookings = () => {
         <div className="flex gap-2">
           {user.role === "ADMIN" && (
             <>
-            <button onClick={()=> setOnFilterOpen(!onFilterOpen)} className="flex justify-center  items-center gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500">
+            <button onClick={()=> setOnFilterOpen(!onFilterOpen)} className="defaultBtn">
         Filter
       </button>
             <button
               onClick={() => {
                 setShowDownloadPopUp(true);
               }}
-              className="flex justify-center  items-center gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
+              className="defaultBtn"
             >
               <SiMicrosoftexcel size={20} />
               <p className="whitespace-nowrap text-sm hidden lg:block">
@@ -240,7 +240,7 @@ const Bookings = () => {
           <button
             onClick={() => setShowModal(true)}
             type="submit"
-            className="flex gap-2 text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800"
+            className="defaultBtn"
           >
             <FaPlus size={20} />
             <p className="whitespace-nowrap text-sm hidden lg:block">
@@ -318,7 +318,7 @@ const Bookings = () => {
               className="w-full h-full py-2 px-4   outline-none text-gray-700 "
             />
             <button
-              className="min-w-[40px] flex justify-center items-center bg-indigo-500 text-white cursor-pointer hover:opacity-90"
+              className="min-w-[40px] flex justify-center items-center defaultBtn"
               onClick={(e) => {
                 getBookingsBySearch(e);
                 // e.preventDefault();
@@ -385,7 +385,7 @@ const Bookings = () => {
           />
         </div>
       )}
-      <div className="z-10 w-full flex flex-row justify-between items-center py-3 border-t-2">
+      <div className="z-10 w-full flex flex-row justify-between items-center py-3 ">
         <div>
           <button
             onClick={() => setPage(page - 1)}

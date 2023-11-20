@@ -57,8 +57,8 @@ const BookingTable = ({
   return (
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
-        <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
-          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full border border-gray-600/25 dark:border-gray-300/25 rounded-md text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
+          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400 border">
             <tr className=" whitespace-nowrap">
               <th scope="col" className="px-4 text-center py-3">
                 #
@@ -69,13 +69,13 @@ const BookingTable = ({
               <th scope="col" className="px-4 text-center py-3">
                 Guest Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 text-center py-3">
                 Contact Number
               </th>
               <th scope="col" className="px-4 text-center py-3">
                 Date
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 text-center py-3">
                 Number of Rooms
               </th>
               <th scope="col" className="px-4 text-center py-3">
@@ -122,7 +122,7 @@ const BookingTable = ({
               </th> */}
             </tr>
           </thead>
-          <tbody className="rounded-xl">
+          <tbody className="rounded-xl text-white">
             {bookingData?.length === 0 && (
               <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <TbLoader className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />

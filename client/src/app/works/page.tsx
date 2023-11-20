@@ -176,7 +176,7 @@ const Works = () => {
             <button
               onClick={() => setShowModal(true)}
               type="submit"
-              className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className=" defaultBtn"
             >
               <FaPlus size={20} />
               <p>Add Work</p>
@@ -235,7 +235,7 @@ const Works = () => {
               className="w-full h-full py-2 px-4   outline-none text-gray-700 "
             />
             <button
-              className="min-w-[40px] flex justify-center items-center bg-blue-700 text-white cursor-pointer hover:opacity-90"
+              className="min-w-[40px] flex justify-center items-center defaultBtn"
               onClick={(e) => {
                 e.preventDefault();
                 getWorksBySearch(e);
@@ -303,7 +303,7 @@ const Works = () => {
           />
         </div>
       )}
-      <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">
+      <div className="z-20 w-full flex flex-row justify-between items-center py-3 ">
         <div>
           <button
             onClick={() => setPage(page - 1)}

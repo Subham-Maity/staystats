@@ -36,6 +36,7 @@ import { FaTimes } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from "react";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 const ViewHotel = ({ hotel, onClose, owner, deleteHotelHandler,updateStatusHandler,setEditingHotelData,setShowEditHotelModal }: Props) => {
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
@@ -56,7 +57,8 @@ const ViewHotel = ({ hotel, onClose, owner, deleteHotelHandler,updateStatusHandl
 
   return (
     <>
-      <form className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 ">
+      <form className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl ">
+        <TailwindWrapper>
         <div className="flex mb-6">
           <p className="text-lg font-bold">Hotel Details</p>
           <span
@@ -293,13 +295,11 @@ const ViewHotel = ({ hotel, onClose, owner, deleteHotelHandler,updateStatusHandl
               Other Documents
             </label>
             <button
-              name="otherDocuments"
-              id="Other Documents"
-              className="bg-blue-500 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name=""
               placeholder="Other Document"
             >
               <a
-                className="bg-blue-500 text-white"
+                className="defaultBtn"
                 href={hotel?.otherDocuments}
               >
                 View Document
@@ -403,12 +403,13 @@ const ViewHotel = ({ hotel, onClose, owner, deleteHotelHandler,updateStatusHandl
             </button>
           </div>
         </div>
+        </TailwindWrapper>
       </form>
       {showDeletePopup && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg font-bold">Delete Hotel</h1>
+              <h1 className="text-lg font-bold text-black">Delete Hotel</h1>
               <button
                 onClick={() => setShowDeletePopUp(false)}
                 className="text-red-500 text-lg"
@@ -444,7 +445,7 @@ const ViewHotel = ({ hotel, onClose, owner, deleteHotelHandler,updateStatusHandl
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg font-bold">Active / Deactive Hotel</h1>
+              <h1 className="text-lg font-bold text-black">Active / Deactive Hotel</h1>
               <button
                 onClick={() => setShowStatusPopUp(false)}
                 className="text-red-500 text-lg"
