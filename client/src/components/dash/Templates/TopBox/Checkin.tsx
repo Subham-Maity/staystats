@@ -10,7 +10,8 @@ import {fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
 
 export const Checkin=() => {
 
-    const bookingData:BookingData[] = useSelector(selectAllbookings);
+    let bookingData:BookingData[] = useSelector(selectAllbookings);
+    bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
 
     const currentDate = new Date();

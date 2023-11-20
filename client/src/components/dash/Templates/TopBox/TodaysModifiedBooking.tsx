@@ -17,7 +17,9 @@ function calculateTodaysModifiedBooking(bookingData: BookingData[]):any {
 }
 
 function TodaysModifiedBooking() {
-  const bookingData: BookingData[] = useSelector(selectAllbookings);
+  let bookingData: BookingData[] = useSelector(selectAllbookings);
+  bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
+
   const todaysModification:any =
       calculateTodaysModifiedBooking(bookingData);
 

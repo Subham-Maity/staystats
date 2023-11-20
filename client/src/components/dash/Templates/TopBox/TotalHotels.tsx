@@ -5,7 +5,8 @@ import {useSelector} from "react-redux";
 import { selectAllhotels} from "@/lib/features/hotelSlice";
 
 function TotalHotels() {
-    const hotels: HotelData[] = useSelector(selectAllhotels);
+    let hotels: HotelData[] = useSelector(selectAllhotels);
+    // hotels = hotels.filter((item: any) => item.status === "CONFIRMED");
 
     function calculateTotalHotels(hotels:any) {
         //@ts-ignore

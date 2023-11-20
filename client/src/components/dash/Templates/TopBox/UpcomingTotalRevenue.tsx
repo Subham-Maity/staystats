@@ -4,8 +4,9 @@ import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrappe
 import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 
 const UpcomingTotalRevenue= () => {
+    let data  = useSelector(selectAllbookings)
+    data = data.filter((item: any) => item.status === "CONFIRMED");
 
-    const data  = useSelector(selectAllbookings)
     const todaysItems = data.filter((item:any) => {
         return item.checkInDate > new Date().toISOString();
     });

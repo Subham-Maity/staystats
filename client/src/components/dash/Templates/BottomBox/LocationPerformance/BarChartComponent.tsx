@@ -70,6 +70,14 @@ function BarChartComponent(props: any) {
     return (
         <ResponsiveContainer width="100%" height={400}>
             <BarChart data={props.chartData} width={chartWidth}>
+                <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                        {/* Start from the top with 100% opacity */}
+                        <stop offset="0%" stopColor="#8884d8" stopOpacity={1} />
+                        {/* Transition to the bottom with 0% opacity */}
+                        <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
+                    </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                     dataKey="source"
@@ -88,7 +96,8 @@ function BarChartComponent(props: any) {
                 <Legend />
                 <Bar
                     dataKey={props.type}
-                    fill="url(#colorGradient)"
+                    fill="url(#colorUv)"
+                    // fill="linear-gradient(to bottom, #ff0f00, #00ff00)"
                     stroke="#006ef5"
                     strokeWidth={0.5}
                     barSize={40}

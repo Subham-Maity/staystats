@@ -28,7 +28,9 @@ function calculateThisWeekBookings(
 }
 
 function TodaysBooking() {
-  const bookingData: BookingData[] = useSelector(selectAllbookings);
+  let bookingData: BookingData[] = useSelector(selectAllbookings);
+  bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
+
   const todaysBooking: number = calculateTodaysBooking(bookingData);
 
   const currentDate = new Date();

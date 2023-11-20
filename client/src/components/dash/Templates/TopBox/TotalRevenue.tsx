@@ -4,8 +4,9 @@ import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrappe
 import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 
 const TotalRevenue= () => {
+  let data  = useSelector(selectAllbookings)
+  data = data.filter((item: any) => item.status === "CONFIRMED");
 
-  const data  = useSelector(selectAllbookings)
   const todaysItems = data.filter((item:any) => {
     return item.createdAt === new Date().toISOString().split("T")[0];
   });

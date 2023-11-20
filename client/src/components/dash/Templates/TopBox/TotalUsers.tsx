@@ -19,7 +19,9 @@ function calculateThisWeekTotalUsers(
 
 function TotalUsers() {
     // Use the `useSelector` hook to select user data from the Redux store
-    const users = useSelector(selectAllUsers);
+    let users = useSelector(selectAllUsers);
+    // users = users.filter((item: any) => item.status === "CONFIRMED");
+
     // Calculate the total number of users
     function calculateTotalUsers(userData:any[]) {
         // console.log(userData.length,"userData.length");

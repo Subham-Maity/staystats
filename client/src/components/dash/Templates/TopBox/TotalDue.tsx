@@ -5,7 +5,8 @@ import {useSelector} from "react-redux";
 
 
 function TotalDue() {
-    const bookingData = useSelector(selectAllbookings);
+    let bookingData = useSelector(selectAllbookings);
+    bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
     //🚀 Upcoming Total Due
     //✅ Step-1 -> Filter Upcoming Total Due
