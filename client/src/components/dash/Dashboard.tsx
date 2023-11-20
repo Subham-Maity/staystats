@@ -171,7 +171,6 @@ const Dashboard = () => {
 
 
     //✅ Fetch All Bookings Data
-
     useEffect(() => {
         dispatch(fetchAllBookingsAsync())
     }, []);
@@ -182,7 +181,6 @@ const Dashboard = () => {
     //✅ Bottom Chart - OTA Performance - Calculation
 
     //❗Today-Booking-Ota-Total
-
 
     //Revenue and Booking
     const createdAt = bookingData.map((item: any) => item.createdAt);
@@ -593,10 +591,10 @@ const Dashboard = () => {
 //____________________________________________________________________________________________________________________________
 //❗Chart Data
 
-    //=Filter Confirmed Bookings=
+    //✔️Filters=
     const confirmedBookings = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
-    //=Store Required Data=
+    //✔️Required Data=
     const bookingSource: string[] = confirmedBookings.map((item: any) => item.bookingSource);
     const bookingAmountBar: number[] = confirmedBookings.map((item: any) => item.bookingAmount);
     const createdDate: string[] = confirmedBookings.map((item: any) => item.createdAt);
@@ -604,7 +602,7 @@ const Dashboard = () => {
     const userName: string[] = confirmedBookings.map((item: any) => item?.bookingBy);
     const locationName: string[] = confirmedBookings.map((item: any) => item?.hotel?.location);
 
-    //=Combine Data=
+    //✔️Combine Data=
 
     //1.>>>Booking Source
     const bookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
