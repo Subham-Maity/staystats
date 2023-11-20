@@ -5,7 +5,7 @@ import {selectAllbookings} from "@/lib/features/bookingSlice";
 
 
 function TotalUsers() {
-    const bookings =  useSelector(selectAllbookings);
+    let bookings =  useSelector(selectAllbookings);
 
     function calculateTotalCancellation(bookings:any) {
         //@ts-ignore

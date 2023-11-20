@@ -4,10 +4,14 @@ import TailwindWrapper from "@/components/dash/Components/Wrapper/TailwindWrappe
 import ChartBox from "@/components/dash/Components/ChartBox/ChartBox";
 
 const TotalRevenue= () => {
+  let bookingData  = useSelector(selectAllbookings)
+  bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
-  const data  = useSelector(selectAllbookings)
-  const todaysItems = data.filter((item:any) => {
-    return item.createdAt === new Date().toISOString().split("T")[0];
+  const currentDate = new Date();
+  const todaysItems = bookingData.filter((item:any) => {
+    const checkInDate: string = item.checkInDate.split("T")[0];
+    return new Date(checkInDate).toISOString().split("T")[0] ===
+        new Date(currentDate).toISOString().split("T")[0];
   });
 
   //if there is no booking today
@@ -15,24 +19,27 @@ const TotalRevenue= () => {
     return total + item.bookingAmount; // Use 'item.bookingAmount' instead of 'total.bookingAmount'
   }, 0);
 
-  const currentDate = new Date();
-
 
   const endOfWeek = new Date();
   endOfWeek.setHours(23, 59, 59, 999);
   endOfWeek.setDate(currentDate.getDate() - 6); // End of the week
 
 
-  //@ts-ignore
-  const thisWeekItems = data.filter(item => {
-    const Dates:Date = new Date(item.createdAt);
-    return Dates <= currentDate && Dates >= endOfWeek;
+  // //@ts-ignore
+  // const thisWeekItems = bookingData.filter(item => {
+  //   const Dates:Date = new Date(item.createdAt);
+  //   return Dates <= currentDate && Dates >= endOfWeek;
+  // });
+  const thisWeekItems = bookingData.filter((record:any) => {
+    const checkInDate = new Date(record.checkInDate);
+    return checkInDate <= currentDate && checkInDate >= endOfWeek;
   });
 
 
   const thisWeekRevenue = thisWeekItems.reduce((total: any, item: any) => {
     return total + item.bookingAmount; // Use 'item.bookingAmount' instead of 'total.bookingAmount'
   }, 0);
+
 
 
   const chartData = [

@@ -76,8 +76,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
       // onMouseEnter={navHoverEffectEnter}
       // onMouseLeave={navHoverEffectOut}
       className={`overflow-hidden h-screen ${
-        isNavOpen ? "w-auto fixed lg:relative" : "w-[220px] fixed lg:relative"
-      } bg-white dark:bg-[#282f46] z-50 border border-r dark:border-gray-300/25 border-gray-600/25 pt-4`}
+        isNavOpen ? "w-auto fixed lg:relative" : "w-[220px] fixed lg:relative z-20"
+      } bg-white dark:bg-[#282f46] border border-r dark:border-gray-300/25 border-gray-600/25 pt-4`}
     >
       <div className="flex flex-col items-center justify-between h-screen w-full">
         <ul
@@ -91,7 +91,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
            <Link href="/dash">
             <li
                 className={` flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                    pathname === "/users"
+                    pathname === "/dash"
                         ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
                         : " dark:hover:bg-slate-600"
                 } rounded-md`}

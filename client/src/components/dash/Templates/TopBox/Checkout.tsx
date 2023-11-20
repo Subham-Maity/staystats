@@ -5,7 +5,8 @@ import {useSelector} from "react-redux";
 import {selectAllbookings} from "@/lib/features/bookingSlice";
 
 function Checkout() {
-    const bookingData:BookingData[] = useSelector(selectAllbookings);
+    let bookingData:BookingData[] = useSelector(selectAllbookings);
+    bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
     const currentDate: string = new Date().toISOString().split("T")[0];
     //✅ Step-1 -> Calculate the number of check-ins for today

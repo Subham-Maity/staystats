@@ -17,7 +17,9 @@ function calculateTodaysModifiedBooking(bookingData: BookingData[]):any {
 }
 
 function TodaysModifiedBooking() {
-  const bookingData: BookingData[] = useSelector(selectAllbookings);
+  let bookingData: BookingData[] = useSelector(selectAllbookings);
+  bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
+
   const todaysModification:any =
       calculateTodaysModifiedBooking(bookingData);
 
@@ -43,6 +45,8 @@ function TodaysModifiedBooking() {
     const ModifiedDate = new Date(record.updatedAt);
     return ModifiedDate.toISOString() <= currentDate2.toISOString() && ModifiedDate.toISOString() >= endOfWeek.toISOString();
   });
+
+  
 
   thisWeekModifiedBookings.forEach((record:any) => {
     const ModifiedDate = new Date(record.updatedAt);

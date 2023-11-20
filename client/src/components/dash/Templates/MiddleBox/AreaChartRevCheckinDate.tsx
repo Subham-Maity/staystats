@@ -73,6 +73,14 @@ const RevenueCheckinAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
   return (
       <ResponsiveContainer width="100%" height={400}>
           <AreaChart data={chartData}>
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                {/* Start from the top with 100% opacity */}
+                <stop offset="0%" stopColor="#8884d8" stopOpacity={1} />
+                {/* Transition to the bottom with 0% opacity */}
+                <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
+              </linearGradient>
+            </defs>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" tick={xAxisTextStyle} />
             <YAxis tickFormatter={(tick) => `₹${tick}`} tick={yAxisTextStyle}/>
@@ -85,7 +93,7 @@ const RevenueCheckinAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
             <Area
                 type="monotone"
                 dataKey="revenue"
-                fill="url(#colorGradient)"
+                fill="url(#colorUv)"  // Use the correct reference to the linear gradient
                 stroke="#006ef5"
                 strokeWidth={0.5}
             />

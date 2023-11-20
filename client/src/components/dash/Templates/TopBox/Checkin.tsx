@@ -10,7 +10,8 @@ import {fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
 
 export const Checkin=() => {
 
-    const bookingData:BookingData[] = useSelector(selectAllbookings);
+    let bookingData:BookingData[] = useSelector(selectAllbookings);
+    bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
 
     const currentDate = new Date();
@@ -24,13 +25,13 @@ export const Checkin=() => {
 
     //✅ Step-2 -> Calculate the number of check-ins for this Week
     const currentDate2 = new Date();
- // Assuming Sunday is the first day of the week
+    // Assuming Sunday is the first day of the week
 
     const endOfWeek = new Date();
     endOfWeek.setHours(23, 59, 59, 999);
     endOfWeek.setDate(currentDate2.getDate() - 6); // End of the week
 
-// Filter the original data for this week's check-ins
+    // Filter the original data for this week's check-ins
     const thisWeekCheckIns = bookingData.filter((record:any) => {
         const checkInDate = new Date(record.checkInDate);
         return checkInDate <= currentDate2 && checkInDate >= endOfWeek;
