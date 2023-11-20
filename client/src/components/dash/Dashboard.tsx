@@ -153,6 +153,7 @@ import LocationWiseBookingCountBarChartBCTY
 import UpcomingTotalRevenue from "@/components/dash/Templates/TopBox/UpcomingTotalRevenue";
 
 const Dashboard = () => {
+    //✅ State for managing the filters
     const dispatch: AppDispatch = useDispatch();
     const [totalRevenuerbcd, setTotalRevenuerbcd] = useState(0);
     const [totalRevenuerbdb, setTotalRevenuerbdb] = useState(0);
@@ -178,43 +179,95 @@ const Dashboard = () => {
     const bookingData: BookingData[] = useSelector(selectAllbookings);
 
 
-    //✅ Bottom Chart - OTA Performance - Calculation
+      //✅ Middle Chart Data
+     //____________________________________________________________________________________________________________________________
+    //❗Chart Data - Last 30 days
 
-    //❗Today-Booking-Ota-Total
+  //✔️Filters=Revenue-Booking , Revenue-Checkin , Booking-Booking , Booking-Checkin
+    const confirmedBookingsLast30Days = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
-    //Revenue and Booking
-    const createdAt = bookingData.map((item: any) => item.createdAt);
-    const advanceAmount = bookingData.map((item: any) => item.advanceAmount);
+// ===================================
 
 
-    //Revenue and Checkin
-    const checkInDate = bookingData.map((item: any) => item.checkInDate);
-    const bookingAmount = bookingData.map((item: any) => item.bookingAmount);
-    //Booking and Booking
-    const bookingCount = bookingData.map(
-        (item: any) => item.bookingAmount.length,
-    );
-    const bookingDate = bookingData.map((item: any) => item.createdAt);
-    const revenueAndBooking = createdAt.map((item: any, i: any) => ({
+//✔️Required Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
+
+    const createdAt = confirmedBookingsLast30Days.map((item: any) => item.createdAt);
+    const bookingAmount = confirmedBookingsLast30Days.map((item: any) => item.bookingAmount);
+    const checkInDate = confirmedBookingsLast30Days.map((item: any) => item.checkInDate);
+    const bookingCount = confirmedBookingsLast30Days.map((item: any) => item.bookingAmount.length);
+    const bookingDate = confirmedBookingsLast30Days.map((item: any) => item.createdAt);
+    const advanceAmount = confirmedBookingsLast30Days.map((item: any) => item.advanceAmount);
+
+//✔️Combine Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
+
+    //1.>>>Revenue-Booking
+    const revenueAndBooking = confirmedBookingsLast30Days.map((item: any, i: any) => ({
         createdAt: createdAt[i],
         advanceAmount: bookingAmount[i],
     }));
 
-
-    const revenueAndCheckin = advanceAmount.map((item: any, i: any) => ({
+    //2.>>>Revenue-Checkin
+    const revenueAndCheckin =confirmedBookingsLast30Days.map((item: any, i: any) => ({
         checkInDate: checkInDate[i],
         bookingAmount: bookingAmount[i],
     }));
 
-    const bookingAndBooking = bookingCount.map((item: any, i: any) => ({
+    //3.>>>Booking-Booking
+    const bookingAndBooking = confirmedBookingsLast30Days.map((item: any, i: any) => ({
         createdAt: bookingDate[i],
         bookingAmount: bookingCount[i],
     }));
 
-    const bookingAndCheckin = bookingCount.map((item: any, i: any) => ({
+    //4.>>>Booking-Checkin
+    const bookingAndCheckin = confirmedBookingsLast30Days.map((item: any, i: any) => ({
         checkInDate: checkInDate[i],
         bookingAmount: bookingCount[i],
     }));
+
+
+    //✅ Bottom Chart Data
+   //____________________________________________________________________________________________________________________________
+  //❗Chart Data - Hotel Wise , Booking Source Wise , User Wise , Location Wise
+
+    //✔️Filters=Booking Source Wise, Hotel Wise, User Wise, Location Wise
+    const confirmedBookings = bookingData.filter((item: any) => item.status === "CONFIRMED");
+
+    //✔️Required Data=Booking Source Wise, Hotel Wise, User Wise, Location Wise
+    const bookingSource: string[] = confirmedBookings.map((item: any) => item.bookingSource);
+    const bookingAmountBar: number[] = confirmedBookings.map((item: any) => item.bookingAmount);
+    const createdDate: string[] = confirmedBookings.map((item: any) => item.createdAt);
+    const hotelNames: string[] = confirmedBookings.map((item: any) => item?.hotel?.hotelName);
+    const userName: string[] = confirmedBookings.map((item: any) => item?.bookingBy);
+    const locationName: string[] = confirmedBookings.map((item: any) => item?.hotel?.location);
+
+    //✔️Combine Data=Booking Source Wise, Hotel Wise, User Wise, Location Wise
+
+    //1.>>>Booking Source
+    const bookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
+        bookingSource: bookingSource[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+   //2.>>>Hotel Wise
+    const HotelWiseBookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
+        hotelName: hotelNames[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+    //3.>>>User Wise
+    const userWiseBookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
+        userName: userName[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+    //4.>>>Location Wise
+    const locationWiseBookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
+        locationName: locationName[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+
+//____________________________________________________________________________________________________________________________
 
 
     const handleAreaChange = (newArea: any) => {
@@ -583,54 +636,6 @@ const Dashboard = () => {
     }, [bookingData]);
 
 //____________________________________________________________________________________________________________________________
-
-
-
-
-//✅ Bottom Chart Data
-//____________________________________________________________________________________________________________________________
-//❗Chart Data
-
-    //✔️Filters=
-    const confirmedBookings = bookingData.filter((item: any) => item.status === "CONFIRMED");
-
-    //✔️Required Data=
-    const bookingSource: string[] = confirmedBookings.map((item: any) => item.bookingSource);
-    const bookingAmountBar: number[] = confirmedBookings.map((item: any) => item.bookingAmount);
-    const createdDate: string[] = confirmedBookings.map((item: any) => item.createdAt);
-    const hotelNames: string[] = confirmedBookings.map((item: any) => item?.hotel?.hotelName);
-    const userName: string[] = confirmedBookings.map((item: any) => item?.bookingBy);
-    const locationName: string[] = confirmedBookings.map((item: any) => item?.hotel?.location);
-
-    //✔️Combine Data=
-
-    //1.>>>Booking Source
-    const bookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
-        bookingSource: bookingSource[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-   //2.>>>Hotel Wise
-    const HotelWiseBookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
-        hotelName: hotelNames[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-    //3.>>>User Wise
-    const userWiseBookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
-        userName: userName[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-    //4.>>>Location Wise
-    const locationWiseBookingAndAmountToday = bookingSource.map((item: any, i: any) => ({
-        locationName: locationName[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-
-//____________________________________________________________________________________________________________________________
-
 
 
 
