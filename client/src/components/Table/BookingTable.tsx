@@ -122,7 +122,7 @@ const BookingTable = ({
               </th> */}
             </tr>
           </thead>
-          <tbody className="rounded-xl text-white">
+          <tbody className="rounded-xl dark:text-white">
             {bookingData?.length === 0 && (
               <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <TbLoader className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />

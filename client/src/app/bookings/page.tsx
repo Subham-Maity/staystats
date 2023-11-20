@@ -410,7 +410,7 @@ const Bookings = () => {
         </div>
       </div>
       {showDownloadPopUp && (
-        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden z-50">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
               <h1 className="text-lg font-bold">
