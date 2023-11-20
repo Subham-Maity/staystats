@@ -126,6 +126,8 @@ const getAllHotelsBySearch = async (req, res) => {
         { location: regex },
         { ownerName: regex },
         { "ownerContact.email": regex },
+        { "ownerContact.phone": regex },
+        { frontOfficeContact: regex },
       ])
       // .and([formsQuery])    // Additional conditions specified in formsQuery
       // .limit(5)
@@ -192,7 +194,10 @@ const createHotel = async (req, res) => {
       res.status(201).json({ message: "Hotel not created", hotel: {} });
       return;
     }
-    await User.updateMany({ role: "ADMIN" }, { $push: { hotel: newHotel._id } });
+    await User.updateMany(
+      { role: "ADMIN" },
+      { $push: { hotel: newHotel._id } }
+    );
     res
       .status(200)
       .json({ message: "Hotel created successfully", hotel: newHotel });
@@ -287,7 +292,7 @@ const deleteHotel = async (req, res) => {
       return;
     } else {
       let updatedUser = await User.updateMany(
-        {role: "ADMIN"},
+        { role: "ADMIN" },
         {
           $pull: { hotel: id },
         },
