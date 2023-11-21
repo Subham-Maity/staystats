@@ -43,16 +43,18 @@ const ViewDashData = ({onClose, variable}: Props) => {
     const users = useSelector(selectAllUsers);
     const hotels: HotelData[] = useSelector(selectAllhotels);
 
+    const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFIRMED");
+
 
     const currentDate = new Date();
     //✅ Step-1 -> Calculate the number of check-ins for today
-    const numberOfTodaysCheckIns = bookingData.filter((record: any) => {
+    const numberOfTodaysCheckIns = confirmedFilter.filter((record: any) => {
         const checkInDate: string = record.checkInDate.split("T")[0];
         return new Date(checkInDate).toISOString().split("T")[0] ===
             new Date(currentDate).toISOString().split("T")[0];
     });
 
-    const numberOfTodaysCheckOuts = bookingData.filter((record: any) => {
+    const numberOfTodaysCheckOuts = confirmedFilter.filter((record: any) => {
         const checkOutDate: string = record.checkOutDate.split("T")[0];
         return new Date(checkOutDate).toISOString().split("T")[0] ===
             new Date(currentDate).toISOString().split("T")[0];
@@ -60,13 +62,13 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
     const today: string = new Date().toISOString().split("T")[0];
 
-    const todaysBooking: BookingData[] = bookingData.filter((record) => {
+    const todaysBooking: BookingData[] = confirmedFilter.filter((record) => {
         const createdAtDate: Date = new Date(record.createdAt);
         const TodaysDate: string = createdAtDate.toISOString().split("T")[0];
         return TodaysDate === today;
     });
 
-    const todaysModification: BookingData[] = bookingData.filter((record) => {
+    const todaysModification: BookingData[] = confirmedFilter.filter((record) => {
         const currentDate: string = new Date(record.createdAt).toISOString()
         const ModifiedDate: string = new Date(record.updatedAt).toISOString()
         console.log(ModifiedDate, "modifiedDate", currentDate, "currentDate");
@@ -78,6 +80,13 @@ const ViewDashData = ({onClose, variable}: Props) => {
         }
     );
 
+    const todayCancellations = totalCancellation.filter(item => {
+        const createdDate = new Date(item.createdAt);
+        // @ts-ignore
+        return new Date(createdDate).toISOString().split("T")[0] ===
+            new Date(currentDate).toISOString().split("T")[0];
+    });
+
 
     useEffect(() => {
             setTodaysCheckIns(numberOfTodaysCheckIns);
@@ -85,7 +94,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
             setTodaysBookings(todaysBooking);
             setTodaysModification(todaysModification);
             setTodaysUser(users);
-            setTodaysCancellation(totalCancellation);
+            setTodaysCancellation(todayCancellations);
             setTotalHotels(hotels);
             }, [numberOfTodaysCheckIns, numberOfTodaysCheckOuts, todaysBooking, todaysModification, users, totalCancellation, hotels]);
 
