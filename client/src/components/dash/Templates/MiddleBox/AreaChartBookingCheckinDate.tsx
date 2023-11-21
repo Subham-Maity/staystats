@@ -48,7 +48,7 @@ const BookingCheckinAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
     );
     return {
       date: date,
-      bookings: matchingDataItem.length,
+      Bookings: matchingDataItem.length,
     };
   });
   const customTooltipStyle = {
@@ -84,7 +84,7 @@ const BookingCheckinAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
           />
           <Area
             type="monotone"
-            dataKey="bookings" // Update dataKey to "bookings"
+            dataKey="Bookings" // Update dataKey to "Bookings"
             fill="url(#colorGradient)"
             stroke="#006ef5"
             strokeWidth={0.5}

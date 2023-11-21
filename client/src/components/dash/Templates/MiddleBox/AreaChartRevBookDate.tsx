@@ -50,7 +50,7 @@ const RevenueAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
 
   const chartData = yearlyDateData.map((date) => ({
     date,
-    revenue: groupedData[date] || 0,
+    Revenue: groupedData[date] || 0,
   }));
   const customTooltipStyle = {
     backgroundColor: isDarkTheme ? '#000' : '#fff',
@@ -84,7 +84,7 @@ const RevenueAreaChart: React.FC<RevenueAreaChartProps> = ({ data }) => {
             />
             <Area
                 type="monotone"
-                dataKey="revenue"
+                dataKey="Revenue"
                 fill="url(#colorGradient)"
                 stroke="#006ef5"
                 strokeWidth={0.5}
