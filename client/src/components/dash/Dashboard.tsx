@@ -659,7 +659,7 @@ return (
                     <div className="flex gap-5 justify-center sm:justify-start">
                         <select
                             id="booking"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="default-input"
                             onChange={(e) => handleAreaChange(e.target.value)}
                             value={area}
                         >
@@ -670,7 +670,7 @@ return (
                         </select>
                         <select
                             id="date"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="default-input"
                             onChange={(e) => handleDateChange(e.target.value)}
                             value={date}
                         >
@@ -776,7 +776,7 @@ return (
                         <div className="flex gap-5 justify-center sm:justify-start">
                             <select
                                 id="booking"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setBookingOrRevenue(e.target.value)}
                                 value={BookingOrRevenue}
                             >
@@ -787,7 +787,7 @@ return (
                             </select>
                             <select
                                 id="date"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setHotelDay(e.target.value)}
                                 value={HotelDay}
                             >
@@ -1095,7 +1095,7 @@ return (
                         <div className="flex gap-5 justify-center sm:justify-start">
                             <select
                                 id="booking"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setHotelBookingOrRevenue(e.target.value)}
                                 value={hotelBookingOrRevenue}
                             >
@@ -1106,7 +1106,7 @@ return (
                             </select>
                             <select
                                 id="date"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setDay(e.target.value)}
                                 value={day}
                             >
@@ -1431,7 +1431,7 @@ return (
                         <div className="flex gap-5 justify-center sm:justify-start">
                             <select
                                 id="booking"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setUserBookingOrRevenue(e.target.value)}
                                 value={userBookingOrRevenue}
                             >
@@ -1442,7 +1442,7 @@ return (
                             </select>
                             <select
                                 id="date"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setUserDay(e.target.value)}
                                 value={UserDay}
                             >
@@ -1761,7 +1761,7 @@ return (
                         <div className="flex gap-5 justify-center sm:justify-start">
                             <select
                                 id="booking"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setLocationBookingOrRevenue(e.target.value)}
                                 value={locationBookingOrRevenue}
                             >
@@ -1772,7 +1772,7 @@ return (
                             </select>
                             <select
                                 id="date"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="default-input"
                                 onChange={(e) => setLocationDay(e.target.value)}
                                 value={LocationDay}
                             >

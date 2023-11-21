@@ -54,3 +54,8 @@
 .bgColor{
   @apply bg-[#282f46]
 }
+
+
+.default-input {
+  @apply block w-full rounded-md h-11 bg-gray-400 font-medium bg-opacity-40 dark:bg-slate-500/20 shadow-2xl text-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-0 focus:border-indigo-800  leading-6;
+}
