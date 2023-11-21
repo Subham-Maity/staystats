@@ -249,7 +249,7 @@ const Bookings = () => {
           </button>
         </div>
       </div>
-      <div className="w-full m-2">
+      <div className="w-full">
         <Filter
         isFilterOpen={onFilterOpen}
           setFilterData={(filter: any) => {
