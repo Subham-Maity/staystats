@@ -249,7 +249,7 @@ const Bookings = () => {
           </button>
         </div>
       </div>
-      <div className="w-full m-2">
+      <div className="w-full">
         <Filter
         isFilterOpen={onFilterOpen}
           setFilterData={(filter: any) => {
@@ -413,7 +413,7 @@ const Bookings = () => {
         <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden z-50">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg font-bold">
+              <h1 className="text-lg font-bold dark:text-black">
                 Downlod data in a Excel file
               </h1>
               <button

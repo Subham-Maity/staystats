@@ -212,7 +212,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             name="hotelName"
             id="first_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha Saikatabas"
+            
             required
             onChange={(e) =>
               (e.target.value = e.target.value.toLocaleUpperCase())
@@ -226,17 +226,22 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           >
             Location
           </label>
-          <input
+          <select
+          required
+            id="location"
             name="location"
-            type="text"
-            id="last_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha"
-            required
-            onChange={(e) =>
-              (e.target.value = e.target.value.toLocaleUpperCase())
-            }
-          />
+          >
+            <option selected disabled>--Choose--</option>
+
+            <option value="MANDARMANI">MANDARMANI</option>
+            <option value="TAJPUR">TAJPUR</option>
+            <option value="OLD DIGHA">OLD DIGHA</option>
+            <option value="NEW DIGHA">NEW DIGHA</option>
+            <option value="BAGDOGRA">BAGDOGRA</option>
+
+            
+          </select>
         </div>
         <div>
           <label
@@ -320,7 +325,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address (Optional)
+            Email address
           </label>
           <input
             name="email"

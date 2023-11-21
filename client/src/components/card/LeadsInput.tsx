@@ -117,7 +117,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
               (e.target.value = e.target.value.toLocaleUpperCase())
             }
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: John Doe"
+            
             required
           />
         </div>
@@ -135,7 +135,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             value={checkInDate}
             onChange={(e) => setCheckInDate(e.target.value)}
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="08.08.2023"
+            
             required
             min={new Date().toISOString().split("T")[0]}
           />
@@ -153,7 +153,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             name="check_out_date"
             type="date"
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="09.09.2023"
+            
             required
             min={checkInDate}
           />
@@ -164,14 +164,14 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             htmlFor="nop"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Persons <span className="text-red-500">*</span>
+            No. of Persons <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
             name="nop"
             id="nop"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Eg. 4"
+            
             required
           />
         </div>
@@ -180,14 +180,14 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             htmlFor="nor"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Rooms <span className="text-red-500">*</span>
+            No. of Rooms <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
             name="nor"
             id="nor"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Eg. 2"
+            
             required
           />
         </div>
@@ -203,7 +203,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             id="cn"
             name="cn"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="+91 999999999"
+            
             required
           />
         </div>
@@ -218,7 +218,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             type="text"
             name="area"
             id="area"
-            placeholder="Ex: Delhi"
+            
             onChange={(e) =>
               (e.target.value = e.target.value.toLocaleUpperCase())
             }
@@ -236,14 +236,14 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             type="number"
             name="budget"
             id="budget"
-            placeholder="Ex: 4000"
+           
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
         </div>
         <div className="">
           <label
             htmlFor="specialReq"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap"
           >
             Special Requirements
           </label>
@@ -255,7 +255,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             id="specialReq"
             name="specialReq"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Well well well"
+            
           />
         </div>
       </div>

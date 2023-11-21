@@ -179,7 +179,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             name="first_name"
             id="first_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha Saikatabas"
+            
             required
           />
         </div>
@@ -196,7 +196,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             name="phone"
             id="phone"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="+91 999999999"
+            
             // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             required
           />
@@ -214,7 +214,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             name="email"
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="hotel@company.com"
+            
             required
           />
         </div>
@@ -234,8 +234,8 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
           <div className="relative ">
             <input
               type={showPassword ? "text" : "password"}
-              className="text-gray-700 w-full p-2.5 rounded-md border border-gray-300 focus:border-indigo-400 focus:outline-none text-sm pr-10"
-              placeholder="Enter new password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              
               name="password"
               value={inputPassword}
               onChange={(e) => {
