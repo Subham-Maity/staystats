@@ -153,7 +153,7 @@ import LocationWiseBookingCountBarChartBCTY
 import UpcomingTotalRevenue from "@/components/dash/Templates/TopBox/UpcomingTotalRevenue";
 
 const Dashboard = () => {
-    //✅ State for managing the filters
+//✅ State for managing the filters
     const dispatch: AppDispatch = useDispatch();
     const [totalRevenuerbcd, setTotalRevenuerbcd] = useState(0);
     const [totalRevenuerbdb, setTotalRevenuerbdb] = useState(0);
@@ -170,106 +170,6 @@ const Dashboard = () => {
     const [UserDay, setUserDay] = useState("0");
     const [LocationDay, setLocationDay] = useState("0");
 
-
-    //✅ Fetch All Bookings Data
-    useEffect(() => {
-        dispatch(fetchAllBookingsAsync())
-    }, []);
-
-    const bookingData: BookingData[] = useSelector(selectAllbookings);
-
-
-      //✅ Middle Chart Data
-     //____________________________________________________________________________________________________________________________
-    //❗Chart Data - Last 30 days
-
-  //✔️Filters=Revenue-Booking , Revenue-Checkin , Booking-Booking , Booking-Checkin
-    const confirmedBookingsLast30Days = bookingData.filter((item: any) => item.status === "CONFIRMED");
-
-// ===================================
-
-
-//✔️Required Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
-
-    const createdAt = confirmedBookingsLast30Days.map((item: any) => item.createdAt);
-    const bookingAmount = confirmedBookingsLast30Days.map((item: any) => item.bookingAmount);
-    const checkInDate = confirmedBookingsLast30Days.map((item: any) => item.checkInDate);
-    const bookingCount = confirmedBookingsLast30Days.map((item: any) => item.bookingAmount.length);
-    const bookingDate = confirmedBookingsLast30Days.map((item: any) => item.createdAt);
-    const advanceAmount = confirmedBookingsLast30Days.map((item: any) => item.advanceAmount);
-
-//✔️Combine Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
-
-    //1.>>>Revenue-Booking
-    const revenueAndBooking = confirmedBookingsLast30Days.map((item: any, i: any) => ({
-        createdAt: createdAt[i],
-        advanceAmount: bookingAmount[i],
-    }));
-
-    //2.>>>Revenue-Checkin
-    const revenueAndCheckin =confirmedBookingsLast30Days.map((item: any, i: any) => ({
-        checkInDate: checkInDate[i],
-        bookingAmount: bookingAmount[i],
-    }));
-
-    //3.>>>Booking-Booking
-    const bookingAndBooking = confirmedBookingsLast30Days.map((item: any, i: any) => ({
-        createdAt: bookingDate[i],
-        bookingAmount: bookingCount[i],
-    }));
-
-    //4.>>>Booking-Checkin
-    const bookingAndCheckin = confirmedBookingsLast30Days.map((item: any, i: any) => ({
-        checkInDate: checkInDate[i],
-        bookingAmount: bookingCount[i],
-    }));
-
-
-    //✅ Bottom Chart Data
-   //____________________________________________________________________________________________________________________________
-  //❗Chart Data - Hotel Wise , Booking Source Wise , User Wise , Location Wise
-
-    //✔️Filters=Booking Source Wise, Hotel Wise, User Wise, Location Wise
-    const confirmedBookings = bookingData.filter((item: any) => item.status === "CONFIRMED");
-
-    //✔️Required Data=Booking Source Wise, Hotel Wise, User Wise, Location Wise
-    const bookingSource: string[] = confirmedBookings.map((item: any) => item.bookingSource);
-    const bookingAmountBar: number[] = confirmedBookings.map((item: any) => item.bookingAmount);
-    const createdDate: string[] = confirmedBookings.map((item: any) => item.createdAt);
-    const hotelNames: string[] = confirmedBookings.map((item: any) => item?.hotel?.hotelName);
-    const userName: string[] = confirmedBookings.map((item: any) => item?.bookingBy);
-    const locationName: string[] = confirmedBookings.map((item: any) => item?.hotel?.location);
-
-    //✔️Combine Data=Booking Source Wise, Hotel Wise, User Wise, Location Wise
-
-    //1.>>>Booking Source
-    const bookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
-        bookingSource: bookingSource[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-   //2.>>>Hotel Wise
-    const HotelWiseBookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
-        hotelName: hotelNames[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-    //3.>>>User Wise
-    const userWiseBookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
-        userName: userName[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-    //4.>>>Location Wise
-    const locationWiseBookingAndAmountToday = confirmedBookings.map((item: any, i: any) => ({
-        locationName: locationName[i],
-        bookingAmount: bookingAmountBar[i],
-        createdAt: createdDate[i],
-    }));
-
-//____________________________________________________________________________________________________________________________
-
-
     const handleAreaChange = (newArea: any) => {
         setArea(newArea);
     };
@@ -278,79 +178,179 @@ const Dashboard = () => {
         setDate(newDate);
     };
 
+//✅ Fetch All Bookings Data
+    useEffect(() => {
+        dispatch(fetchAllBookingsAsync())
+    }, []);
 
+const bookingData: BookingData[] = useSelector(selectAllbookings);
+
+
+
+//⚙️ Filters=Revenue-Booking , Revenue-Checkin , Booking-Booking , Booking-Checkin
+const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFIRMED");
+
+
+
+//✅ Middle Chart Data
+//____________________________________________________________________________________________________________________________
+//❗Chart Data - Last 30 days
+
+
+
+    //✔️Required Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
+
+    const createdAt = confirmedFilter.map((item: any) => item.createdAt);
+    const bookingAmount = confirmedFilter.map((item: any) => item.bookingAmount);
+    const checkInDate = confirmedFilter.map((item: any) => item.checkInDate);
+    const bookingCount = confirmedFilter.map((item: any) => item.bookingAmount.length);
+    const bookingDate = confirmedFilter.map((item: any) => item.createdAt);
+
+    //✔️Combine Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
+
+    //1.>>>Revenue-Booking
+    const revenueAndBooking = confirmedFilter.map((item: any, i: any) => ({
+        createdAt: createdAt[i],
+        advanceAmount: bookingAmount[i],
+    }));
+
+    //2.>>>Revenue-Checkin
+    const revenueAndCheckin = confirmedFilter.map((item: any, i: any) => ({
+        checkInDate: checkInDate[i],
+        bookingAmount: bookingAmount[i],
+    }));
+
+    //3.>>>Booking-Booking
+    const bookingAndBooking = confirmedFilter.map((item: any, i: any) => ({
+        createdAt: bookingDate[i],
+        bookingAmount: bookingCount[i],
+    }));
+
+    //4.>>>Booking-Checkin
+    const bookingAndCheckin = confirmedFilter.map((item: any, i: any) => ({
+        checkInDate: checkInDate[i],
+        bookingAmount: bookingCount[i],
+    }));
+
+
+
+//✅ Bottom Chart Data
+//____________________________________________________________________________________________________________________________
+//❗Chart Data - Hotel Wise, Booking Source Wise, User Wise, Location Wise
+
+
+    //✔️Required Data=Booking Source Wise, Hotel Wise, User Wise, Location Wise
+    const bookingSource: string[] = confirmedFilter.map((item: any) => item.bookingSource);
+    const bookingAmountBar: number[] = confirmedFilter.map((item: any) => item.bookingAmount);
+    const createdDate: string[] = confirmedFilter.map((item: any) => item.createdAt);
+    const hotelNames: string[] = confirmedFilter.map((item: any) => item?.hotel?.hotelName);
+    const userName: string[] = confirmedFilter.map((item: any) => item?.bookingBy);
+    const locationName: string[] = confirmedFilter.map((item: any) => item?.hotel?.location);
+
+    //✔️Combine Data=Booking Source Wise, Hotel Wise, User Wise, Location Wise
+
+    //1.>>>Booking Source
+    const bookingAndAmountToday = confirmedFilter.map((item: any, i: any) => ({
+        bookingSource: bookingSource[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+   //2.>>>Hotel Wise
+    const HotelWiseBookingAndAmountToday = confirmedFilter.map((item: any, i: any) => ({
+        hotelName: hotelNames[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+    //3.>>>User Wise
+    const userWiseBookingAndAmountToday = confirmedFilter.map((item: any, i: any) => ({
+        userName: userName[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+    //4.>>>Location Wise
+    const locationWiseBookingAndAmountToday = confirmedFilter.map((item: any, i: any) => ({
+        locationName: locationName[i],
+        bookingAmount: bookingAmountBar[i],
+        createdAt: createdDate[i],
+    }));
+
+//____________________________________________________________________________________________________________________________
+
+
+//✅ Widget Data
+//____________________________________________________________________________________________________________________________
+//❗Chart Data - Hotel Wise, Booking Source Wise, User Wise, Location Wise
+
+    //✔️ Last 30 days
+
+    //1.>>>Revenue-Checkin-Date
+    useEffect(() => {
+        const thirtyDaysAgo = subDays(new Date(), 30);
+        const last30DaysRevenueData = revenueAndCheckin.filter(
+            (dataPoint) => new Date(dataPoint.checkInDate) >= thirtyDaysAgo,
+        );
+        const totalRevenueLast30Days = last30DaysRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.bookingAmount),
+            0,
+        );
+        const averageRevenue = totalRevenueLast30Days / last30DaysRevenueData.length;
+
+        setTotalRevenuerbcd(totalRevenueLast30Days);
+    }, [revenueAndCheckin]);
+
+    //2.>>>Revenue-Booking-Date
     useEffect(() => {
         const thirtyDaysAgo = subDays(new Date(), 30);
         const last30DaysRevenueData = revenueAndBooking.filter(
             (dataPoint) => new Date(dataPoint.createdAt) >= thirtyDaysAgo,
         );
-        const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
-            (total, dataPoint) => {
-                return total + parseFloat(dataPoint.advanceAmount);
-            },
+        const totalRevenueLast30Days = last30DaysRevenueData.reduce(
+            (total, dataPoint) => total + parseFloat(dataPoint.advanceAmount),
             0,
         );
-
-        const averageRevenue =
-            totalRevenueLast30Days / last30DaysRevenueData.length;
-
-        setTotalRevenuerbcd(totalRevenueLast30Days);
-    });
-
-    useEffect(() => {
-        const thirtyDaysAgo = subDays(new Date(), 30);
-
-        const revenueAndBooking = bookingData.map((item: any, i: any) => ({
-            checkInDate: item.checkInDate,
-            bookingAmount: item.bookingAmount,
-        }));
-        const last30DaysRevenueData = revenueAndBooking.filter(
-            (dataPoint) => new Date(dataPoint.checkInDate) >= thirtyDaysAgo,
-        );
-
-        const totalRevenueLast30Days: number = last30DaysRevenueData.reduce(
-            (total, dataPoint) => {
-                return total + parseFloat(dataPoint.bookingAmount);
-            },
-            0,
-        );
-        const averageRevenue =
-            totalRevenueLast30Days / last30DaysRevenueData.length;
+        const averageRevenue = totalRevenueLast30Days / last30DaysRevenueData.length;
 
         setTotalRevenuerbdb(totalRevenueLast30Days);
-    });
+    }, [revenueAndBooking]);
 
+    //3.>>>Booking-CheckIn-Date
     useEffect(() => {
         const thirtyDaysAgo = subDays(new Date(), 30);
-
-        const last30DaysRevenueDataBBBD = bookingData.filter(
-            (booking) =>
-                new Date(booking.checkInDate) >= thirtyDaysAgo,
+        const last30DaysRevenueDataBBBD = confirmedFilter.filter(
+            (booking) => new Date(booking.checkInDate) >= thirtyDaysAgo,
         );
         const totalRevenuebbbd = last30DaysRevenueDataBBBD.length;
-        setTotalRevenuebbbd(totalRevenuebbbd);
-    }, [bookingData]);
 
+        setTotalRevenuebbbd(totalRevenuebbbd);
+    }, [confirmedFilter]);
+
+    //4.>>>Booking-Booking-date
     useEffect(() => {
         const thirtyDaysAgo = subDays(new Date(), 30);
-        const last30DaysRevenueDataBBCD = bookingData.filter(
+        const last30DaysRevenueDataBBCD = confirmedFilter.filter(
             (booking) => new Date(booking.createdAt) >= thirtyDaysAgo,
         );
         const totalRevenuebbcd = last30DaysRevenueDataBBCD.length;
-        setTotalRevenuebbcd(totalRevenuebbcd);
-    }, [bookingData]);
 
+        setTotalRevenuebbcd(totalRevenuebbcd);
+    }, [confirmedFilter]);
+
+
+
+    //✔️ Booking Source Wise, Hotel Wise, User Wise, Location Wise
+
+    //1.1>>>Today-Booking-Ota-Total
     const [todayBookingOtaTotal, setTodayBookingOtaTotal] = useState<number>(0);
     useEffect(() => {
         const today = new Date();
-        const todayBookings = bookingData.filter(
+        const todayBookings = confirmedFilter.filter(
             (booking) => isSameDay(new Date(booking.createdAt), today)
         );
         const totalBookingsToday = todayBookings.length;
         setTodayBookingOtaTotal(totalBookingsToday);
     }, [bookingData]);
 
-    //❗Today-Revenue-Ota-Total
+    //1.2>>>Today-Revenue-Ota-Total
     const [todayRevenueOtaTotal, setTodayRevenueOtaTotal] = useState<number>(0);
     useEffect(() => {
         const today = new Date();
@@ -366,7 +366,7 @@ const Dashboard = () => {
         setTodayRevenueOtaTotal(totalRevenueToday);
     }, [bookingData]);
 
-    // ❗Week-Booking-Ota-Total
+    //2.1>>>Week-Booking-Ota-Total
     const [weekBookingTotal, setWeekBookingTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -387,7 +387,7 @@ const Dashboard = () => {
         setWeekBookingTotal(totalBookingsWeek);
     }, [bookingData]);
 
-    // ❗Week-Revenue-Ota-Total
+    //2.2>>>Week-Revenue-Ota-Total
     const [weekRevenueTotal, setWeekRevenueTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -410,7 +410,7 @@ const Dashboard = () => {
         setWeekRevenueTotal(totalRevenueForWeek);
     }, [bookingData]);
 
-    // ❗Previous-Week-Booking-Ota-Total
+    //3.1>>>Previous-Week-Booking-Ota-Total
     const [previousWeekBookingTotal, setPreviousWeekBookingTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -431,7 +431,7 @@ const Dashboard = () => {
         setPreviousWeekBookingTotal(totalBookingsPreviousWeek);
     }, [bookingData]);
 
-    // ❗Previous-Week-Revenue-Ota-Total
+    //3.2>>>Previous-Week-Revenue-Ota-Total
     const [previousWeekRevenueTotal, setPreviousWeekRevenueTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -454,7 +454,7 @@ const Dashboard = () => {
         setPreviousWeekRevenueTotal(totalRevenuePreviousWeek);
     }, [bookingData]);
 
-    // ❗This-Month-Booking-Ota-Total
+    //4.1>>>This-Month-Booking-Ota-Total
 
     const [thisMonthBookingTotal, setThisMonthBookingTotal] = useState<number>(0);
 
@@ -476,7 +476,7 @@ const Dashboard = () => {
         setThisMonthBookingTotal(totalBookingsThisMonth);
     }, [bookingData]);
 
-    // ❗This-Month-Revenue-Ota-Total
+    //4.2>>>This-Month-Revenue-Ota-Total
     const [thisMonthRevenueTotal, setThisMonthRevenueTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -499,7 +499,7 @@ const Dashboard = () => {
 
         setThisMonthRevenueTotal(totalRevenueThisMonth);
     }, [bookingData]);
-    // ❗Previous-Month-Booking-Ota-Total
+    //5.1>>>Previous-Month-Booking-Ota-Total
 
     const [previousMonthBookingTotal, setPreviousMonthBookingTotal] = useState<number>(0);
 
@@ -521,7 +521,7 @@ const Dashboard = () => {
         setPreviousMonthBookingTotal(totalBookingsPreviousMonth);
     }, [bookingData]);
 
-    // ❗Previous-Month-Revenue-Ota-Total
+    //5.2>>>Previous-Month-Revenue-Ota-Total
     const [previousMonthRevenueTotal, setPreviousMonthRevenueTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -544,7 +544,7 @@ const Dashboard = () => {
 
         setPreviousMonthRevenueTotal(totalRevenuePreviousMonth);
     }, [bookingData]);
-    // ❗This-Year-Booking-Ota-Total
+    //6.1>>>This-Year-Booking-Ota-Total
 
     const [thisYearBookingTotal, setThisYearBookingTotal] = useState<number>(0);
 
@@ -566,7 +566,7 @@ const Dashboard = () => {
         setThisYearBookingTotal(totalBookingsThisYear);
     }, [bookingData]);
 
-    // ❗This-Year-Revenue-Ota-Total
+    //6.2>>>This-Year-Revenue-Ota-Total
     const [thisYearRevenueTotal, setThisYearRevenueTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -590,7 +590,7 @@ const Dashboard = () => {
         setThisYearRevenueTotal(totalRevenueThisYear);
     }, [bookingData]);
 
-    // ❗Previous-Year-Booking-Ota-Total
+    //7.1>>>Previous-Year-Booking-Ota-Total
     const [previousYearBookingTotal, setPreviousYearBookingTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -611,7 +611,7 @@ const Dashboard = () => {
         setPreviousYearBookingTotal(totalBookingsPreviousYear);
     }, [bookingData]);
 
-    // ❗Previous-Year-Revenue-Ota-Total
+    //7.2>>>Previous-Year-Revenue-Ota-Total
     const [previousYearRevenueTotal, setPreviousYearRevenueTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -636,12 +636,7 @@ const Dashboard = () => {
     }, [bookingData]);
 
 //____________________________________________________________________________________________________________________________
-
-
-
-
-
-    return (
+return (
         <>
             <div>
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
