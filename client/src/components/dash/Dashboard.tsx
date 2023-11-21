@@ -200,11 +200,11 @@ const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFI
 
     //✔️Required Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
 
-    const createdAt = confirmedFilter.map((item: any) => item.createdAt);
-    const bookingAmount = confirmedFilter.map((item: any) => item.bookingAmount);
-    const checkInDate = confirmedFilter.map((item: any) => item.checkInDate);
-    const bookingCount = confirmedFilter.map((item: any) => item.bookingAmount.length);
-    const bookingDate = confirmedFilter.map((item: any) => item.createdAt);
+    const createdAt = confirmedFilter.map((item: any) => item?.createdAt);
+    const bookingAmount = confirmedFilter.map((item: any) => item?.bookingAmount);
+    const checkInDate = confirmedFilter.map((item: any) => item?.checkInDate);
+    const bookingCount = confirmedFilter.map((item: any) => item?.bookingAmount.length);
+    const bookingDate = confirmedFilter.map((item: any) => item?.createdAt);
 
     //✔️Combine Data=Revenue-Booking, Revenue-Checkin, Booking-Booking, Booking-Checkin
 
@@ -240,9 +240,9 @@ const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFI
 
 
     //✔️Required Data=Booking Source Wise, Hotel Wise, User Wise, Location Wise
-    const bookingSource: string[] = confirmedFilter.map((item: any) => item.bookingSource);
-    const bookingAmountBar: number[] = confirmedFilter.map((item: any) => item.bookingAmount);
-    const createdDate: string[] = confirmedFilter.map((item: any) => item.createdAt);
+    const bookingSource: string[] = confirmedFilter.map((item: any) => item?.bookingSource);
+    const bookingAmountBar: number[] = confirmedFilter.map((item: any) => item?.bookingAmount);
+    const createdDate: string[] = confirmedFilter.map((item: any) => item?.createdAt);
     const hotelNames: string[] = confirmedFilter.map((item: any) => item?.hotel?.hotelName);
     const userName: string[] = confirmedFilter.map((item: any) => item?.bookingBy);
     const locationName: string[] = confirmedFilter.map((item: any) => item?.hotel?.location);
@@ -455,7 +455,6 @@ const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFI
     }, [bookingData]);
 
     //4.1>>>This-Month-Booking-Ota-Total
-
     const [thisMonthBookingTotal, setThisMonthBookingTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -499,8 +498,8 @@ const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFI
 
         setThisMonthRevenueTotal(totalRevenueThisMonth);
     }, [bookingData]);
-    //5.1>>>Previous-Month-Booking-Ota-Total
 
+    //5.1>>>Previous-Month-Booking-Ota-Total
     const [previousMonthBookingTotal, setPreviousMonthBookingTotal] = useState<number>(0);
 
     useEffect(() => {
@@ -544,8 +543,8 @@ const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFI
 
         setPreviousMonthRevenueTotal(totalRevenuePreviousMonth);
     }, [bookingData]);
-    //6.1>>>This-Year-Booking-Ota-Total
 
+    //6.1>>>This-Year-Booking-Ota-Total
     const [thisYearBookingTotal, setThisYearBookingTotal] = useState<number>(0);
 
     useEffect(() => {
