@@ -97,12 +97,12 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     // }
 
 
-    if (formValues.nor.trim() === "" || !numberRegex.test(formValues.nor)) {
+    if (formValues.nor.trim() === "") {
       toast.error("Please enter a valid number of rooms");
       return;
     }
 
-    if (formValues.nop.trim() === "" || !numberRegex.test(formValues.nop)) {
+    if (formValues.nop.trim() === "" ) {
       toast.error("Please enter a valid number of persons");
       return;
     }
