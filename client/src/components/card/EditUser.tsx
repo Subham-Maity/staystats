@@ -262,7 +262,7 @@ const EditUser = ({
             name="role"
             id="role"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
-            placeholder="hotel@company.com"
+            
             value={!loading ? editingUserData.role : "fetching.."}
             required
             disabled
@@ -284,8 +284,8 @@ const EditUser = ({
           <div className="relative ">
             <input
               type={showPassword ? "text" : "password"}
-              className="text-gray-700 w-full p-2.5 rounded-md border border-gray-300 focus:border-indigo-400 focus:outline-none text-sm pr-10"
-              placeholder="Enter new password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              
               name="password"
               value={inputPassword}
               onChange={(e) => {
@@ -319,7 +319,7 @@ const EditUser = ({
             isMulti
             value={!loading ? selectedHotels : ["Fetching..."]}
             onChange={handleHotelSelection}
-            className="w-full break-before-all"
+            className="w-full break-before-all dark:bg-gray-600 dark:text-black"
             isDisabled={loading}
           />
           {availableHotels.length === 0 && (

@@ -59,7 +59,9 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             htmlFor="guest_name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Guest Name
+            Guest Name  
+           <span className="text-red-500">*</span>
+
           </label>
           <input
             type="text"
@@ -130,7 +132,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             htmlFor="nop"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Persons <span className="text-red-500">*</span>
+            No. of Persons <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -147,7 +149,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             htmlFor="nor"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Rooms <span className="text-red-500">*</span>
+            No. of Rooms <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -243,7 +245,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
         <div className="">
           <label
             htmlFor="specialReq"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap"
           >
             Special Requirements
           </label>
@@ -254,7 +256,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             id="specialReq"
             name="specialReq"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Well well well"
+            
           />
         </div>
 
