@@ -29,6 +29,11 @@ const ifUser = [
 const ifHotels = [
     "Serial No.", "Hotel Name", "Location", 'Owner Name', 'Phone Number'
 ]
+const ifRevenue = [
+    "Serial No.", "Hotel Name", "Location", "Revenue"
+]
+
+
 const ViewDashData = ({onClose, variable}: Props) => {
     const [todaysCheckIns, setTodaysCheckIns] = useState<BookingData[]>();
     const [todaysCheckOuts, setTodaysCheckOuts] = useState<BookingData[]>();
@@ -37,6 +42,12 @@ const ViewDashData = ({onClose, variable}: Props) => {
     const [todaysUser, setTodaysUser] = useState<any[]>();
     const [todaysCancellation, setTodaysCancellation] = useState<any[]>();
     const [totalHotels, setTotalHotels] = useState<HotelData[]>();
+
+    const [todaysRevenue,setTodayRevenue] = useState<{
+        hotelName: String;
+        bookingAmount: Number;
+        location: String;
+    }[]>();
 
 
     const bookingData: BookingData[] = useSelector(selectAllbookings);
@@ -87,6 +98,24 @@ const ViewDashData = ({onClose, variable}: Props) => {
             new Date(currentDate).toISOString().split("T")[0];
     });
 
+    const bookingSource: string[] = confirmedFilter.map((item: any) => item?.bookingSource);
+    const bookingAmountBar: number[] = confirmedFilter.map((item: any) => item?.bookingAmount);
+    const createdDate: string[] = confirmedFilter.map((item: any) => item?.createdAt);
+    const hotelNames: string[] = confirmedFilter.map((item: any) => item?.hotel?.hotelName);
+    const userName: string[] = confirmedFilter.map((item: any) => item?.bookingBy);
+    const locationName: string[] = confirmedFilter.map((item: any) => item?.hotel?.location);
+
+    // const HotelWiseBookingAndAmountToday = confirmedFilter.map((item: any, i: any) => ({
+    //     hotelName: hotelNames[i],
+    //     bookingAmount: bookingAmountBar[i],
+    //     locationName: locationName[i],
+    //     createdAt: createdDate[i],
+    // }));
+    
+
+    
+
+
 
     useEffect(() => {
             setTodaysCheckIns(numberOfTodaysCheckIns);
@@ -96,6 +125,10 @@ const ViewDashData = ({onClose, variable}: Props) => {
             setTodaysUser(users);
             setTodaysCancellation(todayCancellations);
             setTotalHotels(hotels);
+            // @ts-ignore
+            // setTodayRevenue(revenueToday)
+            // console.log(revenueToday,"Hiiii")
+
             }, [numberOfTodaysCheckIns, numberOfTodaysCheckOuts, todaysBooking, todaysModification, users, totalCancellation, hotels]);
 
 
@@ -161,6 +194,27 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
                                 {
                                     variable === "Total Hotels" && ifHotels.map((_, i) => (
+                                        <th key={i} scope="col" className="px-4 py-2 text-center">
+                                            {_}
+                                        </th>
+                                    ))
+                                }
+                                {
+                                    variable === "Today's Revenue" && ifRevenue.map((_, i) => (
+                                        <th key={i} scope="col" className="px-4 py-2 text-center">
+                                            {_}
+                                        </th>
+                                    ))
+                                }
+                                {
+                                    variable === "Upcoming Revenue" && ifRevenue.map((_, i) => (
+                                        <th key={i} scope="col" className="px-4 py-2 text-center">
+                                            {_}
+                                        </th>
+                                    ))
+                                }
+                                {
+                                    variable === "Future Dues" && ifRevenue.map((_, i) => (
                                         <th key={i} scope="col" className="px-4 py-2 text-center">
                                             {_}
                                         </th>
@@ -453,6 +507,38 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                     </tr>
                                 ))
                             }
+
+{
+                                variable === "Today's Revenue" &&
+                                todaysBooking?.map((_, i) => (
+                                    <tr
+                                        title="Click to view user details"
+                                        key={i}
+
+                                        className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                    >
+                                        <th
+                                            scope="row"
+                                            className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                                        >
+                                            {i + 1}
+                                        </th>
+                                        <td
+
+                                            className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
+                                        >
+                                            {_.hotel.hotelName}
+                                        </td>
+                                        <td className="px-4 py-2 text-center">
+                                            {/* @ts-ignore */}
+                                            {_.hotel.location}
+                                        </td>
+                                        <td className="px-4 py-2 text-center">
+                                            {_.bookingAmount}
+                                        </td>
+                                        
+                                    </tr>
+                                ))}
 
                             {
                                 variable === "Total Hotels" &&
