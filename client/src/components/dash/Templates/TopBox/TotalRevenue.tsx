@@ -9,7 +9,7 @@ const TotalRevenue= () => {
 
   const currentDate = new Date();
   const todaysItems = bookingData.filter((item:any) => {
-    const checkInDate: string = item.checkInDate.split("T")[0];
+    const checkInDate: string = item.createdAt.split("T")[0];
     return new Date(checkInDate).toISOString().split("T")[0] ===
         new Date(currentDate).toISOString().split("T")[0];
   });
@@ -31,7 +31,7 @@ const TotalRevenue= () => {
   //   return Dates <= currentDate && Dates >= endOfWeek;
   // });
   const thisWeekItems = bookingData.filter((record:any) => {
-    const checkInDate = new Date(record.checkInDate);
+    const checkInDate = new Date(record.createdAt);
     return checkInDate <= currentDate && checkInDate >= endOfWeek;
   });
 
