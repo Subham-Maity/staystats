@@ -227,7 +227,7 @@ const EditLead = ({
             Number of Persons <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             name="nop"
             id="nop"
             value={editingLeadData?.numberOfPerson}
@@ -251,7 +251,7 @@ const EditLead = ({
             Number of Rooms <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             name="nor"
             id="nor"
             value={editingLeadData?.numberOfRooms}

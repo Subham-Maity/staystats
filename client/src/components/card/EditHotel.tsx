@@ -66,7 +66,7 @@ const EditHotel = ({
         return;
       }
     });
-    // console.log(formValues)
+    console.log(formValues)
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
@@ -229,23 +229,34 @@ const EditHotel = ({
           >
             Location <span className="text-red-500">*</span>
           </label>
-          <input
-            name="location"
-            type="text"
-            id="last_name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha"
+          <select
             required
-            value={editingHotelData.location}
-            onChange={(e) => {
-              setEditingHotelData((prev: any) => {
-                return {
-                  ...prev,
-                  location: e.target.value.toLocaleUpperCase(),
-                };
-              });
-            }}
-          />
+            onChange={
+              (e) => {
+                setEditingHotelData((prev: any) => {
+                  return {
+                    ...prev,
+                    location: e.target.value.toLocaleUpperCase(),
+                  };
+                })
+              }
+            }
+            id="plan"
+            name="location"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option
+              defaultValue={editingHotelData.location}
+              value={editingHotelData.location}
+            >
+              {editingHotelData.location}
+            </option>
+            <option value="MANDARMANI">MANDARMANI</option>
+            <option value="TAJPUR">TAJPUR</option>
+            <option value="OLD DIGHA">OLD DIGHA</option>
+            <option value="NEW DIGHA">NEW DIGHA</option>
+            <option value="BAGDOGRA">BAGDOGRA</option>
+          </select>
         </div>
         <div>
           <label
