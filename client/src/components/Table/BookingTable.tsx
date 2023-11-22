@@ -117,6 +117,12 @@ const BookingTable = ({
               <th scope="col" className="px-6 py-3">
                 Remarks
               </th>
+              <th scope="col" className="px-6 py-3">
+                Creation Date
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Modification Date
+              </th>
               {/* <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
               </th> */}
@@ -217,6 +223,12 @@ const BookingTable = ({
 
                         <td className="px-6 py-4">
                           {booking.remarks || "No remarks"}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {new Date(booking?.createdAt).toDateString() || ""}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {new Date(booking?.updatedAt).toDateString() || ""}
                         </td>
                         {/* <td className="px-6 py-4">
                           <div className="flex justify-center items-center">
