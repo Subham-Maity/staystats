@@ -46,19 +46,19 @@ function TodaysBooking() {
   const thisWeekBooking: number = thisWeekBookings.length;
 
   const chartData = [
-    { name: "Sun", guests: 0 },
-    { name: "Mon", guests: 0 },
-    { name: "Tue", guests: 0 },
-    { name: "Wed", guests: 0 },
-    { name: "Thu", guests: 0 },
-    { name: "Fri", guests: 0 },
-    { name: "Sat", guests: 0 },
+    { name: "Sun", Bookings: 0 },
+    { name: "Mon", Bookings: 0 },
+    { name: "Tue", Bookings: 0 },
+    { name: "Wed", Bookings: 0 },
+    { name: "Thu", Bookings: 0 },
+    { name: "Fri", Bookings: 0 },
+    { name: "Sat", Bookings: 0 },
   ];
 
   thisWeekBookings.forEach((record) => {
     const createdAtDate: Date = new Date(record.createdAt);
     const dayOfWeek = createdAtDate.getDay();
-    chartData[dayOfWeek].guests++;
+    chartData[dayOfWeek].Bookings++;
   });
 
 
@@ -67,7 +67,7 @@ function TodaysBooking() {
     icon: "/userIcon.svg",
     title: "Today's Booking",
     number: todaysBooking,
-    dataKey: "guests",
+    dataKey: "Bookings",
     percentage: thisWeekBooking,
     reactIcon: "BsCalendar2Date",
     chartData: chartData,

@@ -4,13 +4,12 @@ import { BookingData } from "@/lib/Types/Dashboard/types";
 import { useSelector } from "react-redux";
 import { selectAllbookings } from "@/lib/features/bookingSlice";
 
-function calculateTodaysModifiedBooking(bookingData: BookingData[]):any {
+function getModified(bookingData: BookingData[]):any {
 
   const todaysModification: BookingData[] = bookingData.filter((record) => {
     const currentDate: string = new Date(record.createdAt).toISOString()
     const ModifiedDate: string = new Date(record.updatedAt).toISOString()
-    console.log(ModifiedDate,"modifiedDate",currentDate,"currentDate");
-    return ModifiedDate > currentDate;
+    return ModifiedDate != currentDate;
   });
 
   return todaysModification;
@@ -20,15 +19,13 @@ function TodaysModifiedBooking() {
   let bookingData: BookingData[] = useSelector(selectAllbookings);
   bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
 
-  const todaysModification:any =
-      calculateTodaysModifiedBooking(bookingData);
+  let todaysModification:any = getModified(bookingData);
 
-  const currentDate = new Date();
-
-  const endOfWeek = new Date(currentDate);
-  endOfWeek.setHours(23, 59, 59, 999);
-  endOfWeek.setDate(currentDate.getDate() - 6);
-
+  todaysModification = todaysModification.filter((item: any) =>     {
+    const currentDate: string = new Date(item.createdAt).toISOString()
+    const ModifiedDate: string = new Date(item.updatedAt).toISOString()
+    return ModifiedDate > currentDate;
+  });
 
   const chartData = [
     { name: "Sun", Bookings: 0 },
@@ -40,19 +37,29 @@ function TodaysModifiedBooking() {
     { name: "Sat", Bookings: 0 },
   ];
 
-  const thisWeekModifiedBookings = bookingData.filter((record:any) => {
-    const currentDate2 = new Date(record.createdAt);
-    const ModifiedDate = new Date(record.updatedAt);
-    return ModifiedDate.toISOString() <= currentDate2.toISOString() && ModifiedDate.toISOString() >= endOfWeek.toISOString();
+  const currentDate = new Date();
+  const startOfTheWeek = new Date(currentDate);
+  startOfTheWeek.setHours(23, 59, 59, 999);
+  startOfTheWeek.setDate(currentDate.getDate() - 6);
+
+  //booking is not taken because need to get all the records after today which is provided by todaysModification
+  //it's actually after today remaning modification
+  let thisWeekModifiedBookings = getModified(bookingData)
+  thisWeekModifiedBookings = thisWeekModifiedBookings.filter((record:any) => {
+    const ModifiedDate = new Date(record.updatedAt).toISOString().split("T")[0];
+    const currentDate2 = currentDate.toISOString().split("T")[0];
+    const startOfTheWeek2 = startOfTheWeek.toISOString().split("T")[0];
+    if (ModifiedDate <= currentDate2 && ModifiedDate >= startOfTheWeek2) {
+      console.log(startOfTheWeek2,"<", ModifiedDate,"<", currentDate2, "thisWeekModifiedBookings");
+    }
+    return ModifiedDate <= currentDate2 && ModifiedDate >= startOfTheWeek2;
   });
 
-  
+
 
   thisWeekModifiedBookings.forEach((record:any) => {
     const ModifiedDate = new Date(record.updatedAt);
-    const dayOfWeek = ModifiedDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
-
-    // Increment the modified bookings count for the corresponding day in chartData
+    const dayOfWeek = ModifiedDate.getDay();
     chartData[dayOfWeek].Bookings++;
   });
 
@@ -62,7 +69,7 @@ function TodaysModifiedBooking() {
     title: "Today's Modification",
     number: todaysModification.length,
     dataKey: "Bookings",
-    percentage: thisWeekModifiedBookings.length, // Update to use thisWeekModification
+    percentage: thisWeekModifiedBookings.length,
     reactIcon: "BsCalendar2Date",
     chartData: chartData,
   };

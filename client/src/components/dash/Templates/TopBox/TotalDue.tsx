@@ -28,19 +28,19 @@ function TotalDue() {
     }, 0);
 
     let chartData= [
-        { name: "Sun", dues: 0 },
-        { name: "Mon", dues: 0 },
-        { name: "Tue", dues: 0 },
-        { name: "Wed", dues: 0 },
-        { name: "Thu", dues: 0 },
-        { name: "Fri", dues: 0 },
-        { name: "Sat", dues: 0 },
+        { name: "Sun", Dues: 0 },
+        { name: "Mon", Dues: 0 },
+        { name: "Tue", Dues: 0 },
+        { name: "Wed", Dues: 0 },
+        { name: "Thu", Dues: 0 },
+        { name: "Fri", Dues: 0 },
+        { name: "Sat", Dues: 0 },
     ]
 
     futureBookingsForDue.forEach((record:any) => {
         const cancelDate = new Date(record.createdAt);
         const dayOfWeek = cancelDate.getDay(); // 0 for Sunday, 1 for Monday, and so on// Increment the cancellations count for the corresponding day in chartData
-        chartData[dayOfWeek].dues++;
+        chartData[dayOfWeek].Dues++;
     });
 
      const TotalDue = {
@@ -48,7 +48,7 @@ function TotalDue() {
         icon: "/userIcon.svg",
         title: "Future Dues",
         number: totalDueAmount,
-        dataKey: "dues",
+        dataKey: "Dues",
         percentage: futureBookingsForDue.length,
         reactIcon: "BsCalendar2Date",
         chartData:chartData

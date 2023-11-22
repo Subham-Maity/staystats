@@ -9,7 +9,7 @@ const TotalRevenue= () => {
 
   const currentDate = new Date();
   const todaysItems = bookingData.filter((item:any) => {
-    const checkInDate: string = item.checkInDate.split("T")[0];
+    const checkInDate: string = item.createdAt.split("T")[0];
     return new Date(checkInDate).toISOString().split("T")[0] ===
         new Date(currentDate).toISOString().split("T")[0];
   });
@@ -31,7 +31,7 @@ const TotalRevenue= () => {
   //   return Dates <= currentDate && Dates >= endOfWeek;
   // });
   const thisWeekItems = bookingData.filter((record:any) => {
-    const checkInDate = new Date(record.checkInDate);
+    const checkInDate = new Date(record.createdAt);
     return checkInDate <= currentDate && checkInDate >= endOfWeek;
   });
 
@@ -43,20 +43,20 @@ const TotalRevenue= () => {
 
 
   const chartData = [
-    { name: "Sun", revenue: 0 },
-    { name: "Mon", revenue: 0 },
-    { name: "Tue", revenue: 0 },
-    { name: "Wed", revenue: 0 },
-    { name: "Thu", revenue: 0 },
-    { name: "Fri", revenue: 0 },
-    { name: "Sat", revenue: 0 },
+    { name: "Sun", Revenue: 0 },
+    { name: "Mon", Revenue: 0 },
+    { name: "Tue", Revenue: 0 },
+    { name: "Wed", Revenue: 0 },
+    { name: "Thu", Revenue: 0 },
+    { name: "Fri", Revenue: 0 },
+    { name: "Sat", Revenue: 0 },
   ];
 
   thisWeekItems.forEach((record:any) => {
     const cancelDate = new Date(record.createdAt);
     const dayOfWeek = cancelDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
-    // Increment the revenue for the corresponding day in chartData
-    chartData[dayOfWeek].revenue += record.bookingAmount;
+    // Increment the Revenue for the corresponding day in chartData
+    chartData[dayOfWeek].Revenue += record.bookingAmount;
   });
 
   const TodaysBooking:any = {
@@ -64,7 +64,7 @@ const TotalRevenue= () => {
     icon: "/userIcon.svg",
     title: "Today's Revenue",
     number: todaysRevenu,
-    dataKey: "revenue",
+    dataKey: "Revenue",
     percentage: thisWeekRevenue,
     reactIcon: "BsCalendar2Date",
     chartData: chartData,

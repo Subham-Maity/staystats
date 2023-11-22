@@ -33,19 +33,19 @@ function TotalHotels() {
     let thisWeeknewHotels= newHotels.length;
 
     let chartData = [
-        { name: "Sun", hotels: 0 },
-        { name: "Mon", hotels: 0 },
-        { name: "Tue", hotels: 0 },
-        { name: "Wed", hotels: 0 },
-        { name: "Thu", hotels: 0 },
-        { name: "Fri", hotels: 0 },
-        { name: "Sat", hotels: 0 },
+        { name: "Sun", Hotels: 0 },
+        { name: "Mon", Hotels: 0 },
+        { name: "Tue", Hotels: 0 },
+        { name: "Wed", Hotels: 0 },
+        { name: "Thu", Hotels: 0 },
+        { name: "Fri", Hotels: 0 },
+        { name: "Sat", Hotels: 0 },
     ];
 
     newHotels.forEach((record:any) => {
         const cancelDate = new Date(record.createdAt);
         const dayOfWeek = cancelDate.getDay(); // 0 for Sunday, 1 for Monday, and so on// Increment the cancellations count for the corresponding day in chartData
-        chartData[dayOfWeek].hotels++;
+        chartData[dayOfWeek].Hotels++;
     });
 
      const TotalHotels = {
@@ -53,7 +53,7 @@ function TotalHotels() {
         icon: "/userIcon.svg",
         title: "Total Hotels",
         number: totalHotels.length,
-        dataKey: "hotels",
+        dataKey: "Hotels",
         percentage: thisWeeknewHotels,
         reactIcon: "BsCalendar2Date",
         chartData: chartData

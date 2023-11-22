@@ -39,20 +39,20 @@ const UpcomingTotalRevenue= () => {
 
 
     const chartData = [
-        { name: "Sun", revenue: 0 },
-        { name: "Mon", revenue: 0 },
-        { name: "Tue", revenue: 0 },
-        { name: "Wed", revenue: 0 },
-        { name: "Thu", revenue: 0 },
-        { name: "Fri", revenue: 0 },
-        { name: "Sat", revenue: 0 },
+        { name: "Sun", Revenue: 0 },
+        { name: "Mon", Revenue: 0 },
+        { name: "Tue", Revenue: 0 },
+        { name: "Wed", Revenue: 0 },
+        { name: "Thu", Revenue: 0 },
+        { name: "Fri", Revenue: 0 },
+        { name: "Sat", Revenue: 0 },
     ];
 
     thisWeekItems.forEach((record:any) => {
         const cancelDate = new Date(record.createdAt);
         const dayOfWeek = cancelDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
-        // Increment the revenue for the corresponding day in chartData
-        chartData[dayOfWeek].revenue += record.bookingAmount;
+        // Increment the Revenue for the corresponding day in chartData
+        chartData[dayOfWeek].Revenue += record.bookingAmount;
     });
 
     const TodaysBooking:any = {
@@ -60,7 +60,7 @@ const UpcomingTotalRevenue= () => {
         icon: "/userIcon.svg",
         title: "Upcoming Revenue",
         number: todaysRevenu,
-        dataKey: "revenue",
+        dataKey: "Revenue",
         percentage: thisWeekRevenue,
         reactIcon: "BsCalendar2Date",
         chartData: chartData,
