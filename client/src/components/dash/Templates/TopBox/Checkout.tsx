@@ -31,13 +31,13 @@ function Checkout() {
 
     // Initialize an array to represent the desired format for chartData
     const chartData = [
-        { name: "Sun", checkouts: 0 },
-        { name: "Mon", checkouts: 0 },
-        { name: "Tue", checkouts: 0 },
-        { name: "Wed", checkouts: 0 },
-        { name: "Thu", checkouts: 0 },
-        { name: "Fri", checkouts: 0 },
-        { name: "Sat", checkouts: 0 },
+        { name: "Sun", CheckOuts: 0 },
+        { name: "Mon", CheckOuts: 0 },
+        { name: "Tue", CheckOuts: 0 },
+        { name: "Wed", CheckOuts: 0 },
+        { name: "Thu", CheckOuts: 0 },
+        { name: "Fri", CheckOuts: 0 },
+        { name: "Sat", CheckOuts: 0 },
     ];
 
     // Calculate the total number of checkouts for each day of the current week
@@ -46,7 +46,7 @@ function Checkout() {
         const dayOfWeek = checkOutDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
 
         // Increment the check-outs count for the corresponding day in chartData
-        chartData[dayOfWeek].checkouts++;
+        chartData[dayOfWeek].CheckOuts++;
     });
 
     const Checkout = {
@@ -54,7 +54,7 @@ function Checkout() {
         icon: "/userIcon.svg",
         title: "Today's Check-Outs",
         number: todaysCheckOuts,
-        dataKey: "checkouts",
+        dataKey: "CheckOuts",
         percentage: thisWeekCheckOuts.length,
         reactIcon: "BsCalendar2Date",
         chartData: chartData

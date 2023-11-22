@@ -9,10 +9,8 @@ import {useDispatch} from "react-redux";
 import {fetchAllBookingsAsync} from "@/lib/features/bookingSlice";
 
 export const Checkin=() => {
-
     let bookingData:BookingData[] = useSelector(selectAllbookings);
     bookingData = bookingData.filter((item: any) => item.status === "CONFIRMED");
-
 
     const currentDate = new Date();
     //✅ Step-1 -> Calculate the number of check-ins for today
@@ -37,35 +35,31 @@ export const Checkin=() => {
         return checkInDate <= currentDate2 && checkInDate >= endOfWeek;
     });
 
-
 // Initialize an array to represent the desired format for chartData
     const chartData = [
-        { name: "Sun", checkIns: 0 },
-        { name: "Mon", checkIns: 0 },
-        { name: "Tue", checkIns: 0 },
-        { name: "Wed", checkIns: 0 },
-        { name: "Thu", checkIns: 0 },
-        { name: "Fri", checkIns: 0 },
-        { name: "Sat", checkIns: 0 },
+        { name: "Sun", CheckIns: 0 },
+        { name: "Mon", CheckIns: 0 },
+        { name: "Tue", CheckIns: 0 },
+        { name: "Wed", CheckIns: 0 },
+        { name: "Thu", CheckIns: 0 },
+        { name: "Fri", CheckIns: 0 },
+        { name: "Sat", CheckIns: 0 },
     ];
-
 
     // Calculate the total number of users for each day of the current week
     thisWeekCheckIns.forEach((record:any) => {
         const checkInDate = new Date(record.checkInDate);
         const dayOfWeek = checkInDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
-
         // Increment the users count for the corresponding day in chartData
-        chartData[dayOfWeek].checkIns++;
+        chartData[dayOfWeek].CheckIns++;
     });
-
 
     let Checkin={
         color: "#8884d8",
         icon: "/userIcon.svg",
         title: "Today's Check-Ins",
         number: todaysCheckIns,
-        dataKey: "checkIns",
+        dataKey: "CheckIns",
         percentage: thisWeekCheckIns.length,
         reactIcon: "BsCalendar2Date",
         chartData: chartData

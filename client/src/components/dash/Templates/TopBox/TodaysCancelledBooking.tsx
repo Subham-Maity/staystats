@@ -62,7 +62,7 @@ function TotalUsers() {
     const TotalUsersData = {
         color: "#8884d8",
         icon: "/userIcon.svg",
-        title: "Total Cancellation",
+        title: "Today's Cancellation",
         number: todaysCancellation,
         dataKey: "Bookings",
         percentage: thisweekCancellation,

@@ -27,13 +27,13 @@ function TotalUsers() {
     });
 
     const chartData = [
-        { name: "Sun", users: 0 },
-        { name: "Mon", users: 0 },
-        { name: "Tue", users: 0 },
-        { name: "Wed", users: 0 },
-        { name: "Thu", users: 0 },
-        { name: "Fri", users: 0 },
-        { name: "Sat", users: 0 },
+        { name: "Sun", Users: 0 },
+        { name: "Mon", Users: 0 },
+        { name: "Tue", Users: 0 },
+        { name: "Wed", Users: 0 },
+        { name: "Thu", Users: 0 },
+        { name: "Fri", Users: 0 },
+        { name: "Sat", Users: 0 },
     ];
 
     totalUsersThisWeek.forEach((user:any) => {
@@ -41,7 +41,7 @@ function TotalUsers() {
         const dayOfWeek = userDate.getDay(); // 0 for Sunday, 1 for Monday, and so on
 
         // Increment the total users count for the corresponding day in chartData
-        chartData[dayOfWeek].users++;
+        chartData[dayOfWeek].Users++;
     });
 
     const TotalUsersData = {
@@ -49,7 +49,7 @@ function TotalUsers() {
         icon: "/userIcon.svg",
         title: "Total Users",
         number: totalUsers,
-        dataKey: "users",
+        dataKey: "Users",
         percentage: totalUsersThisWeek.length,
         reactIcon: "BsCalendar2Date",
         chartData: chartData
