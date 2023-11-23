@@ -57,6 +57,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     const advanceValue = parseFloat(advance);
 
     if (!isNaN(bookingValue) && !isNaN(advanceValue)) {
+      
       const due = bookingValue - advanceValue;
       setDueAmount(due.toFixed(2));
     } else {
@@ -111,9 +112,29 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       toast.error("Please enter a valid advance date");
       return;
     }
+    if (!formValues.accountType || formValues.accountType.trim() === "" ) {
+      toast.error("Please enter a valid account type");
+      return;
+    }
+
+    if (!formValues.plan || formValues.plan.trim() === "" ) {
+      toast.error("Please enter a valid plan");
+      return;
+    }
+
+    if (!formValues.paymentby || formValues.paymentby.trim() === "") {
+      console.log("formValues.bookingSource", formValues.paymentby);
+      toast.error("Please enter a valid booking source");
+      return;
+    }
 
     if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn) || formValues.cn.length !== 10) {
       toast.error("Please enter a valid contact number and don't include +91");
+      return;
+    }
+
+    if(formValues.advanceAmount > formValues.bookingAmount) {
+      toast.error("Advance amount should be less than booking amount")
       return;
     }
 
@@ -468,6 +489,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             Booking Source <span className="text-red-500">*</span>
           </label>
           <select
+          required
             id="paymentby"
             name="paymentby"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
