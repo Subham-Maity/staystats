@@ -188,7 +188,14 @@ const bookingData: BookingData[] = useSelector(selectAllbookings);
 
 
 //⚙️ Filters=Revenue-Booking , Revenue-Checkin , Booking-Booking , Booking-Checkin
-const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFIRMED");
+const userDeactive =  bookingData.filter((item: any) => item?.addedBy?.isActive === true);
+
+console.log(bookingData.map((item: any) => item?.addedBy?.username) + "bookingData");
+
+console.log(userDeactive + "userDeactive");
+const hotelDeactive =  bookingData.filter((item: any) => item?.hotel?.isActive === true);
+const confirmedFilter = hotelDeactive.filter((item: any) => item.status === "CONFIRMED");
+
 
 
 
