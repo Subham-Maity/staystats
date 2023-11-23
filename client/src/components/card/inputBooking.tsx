@@ -57,6 +57,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     const advanceValue = parseFloat(advance);
 
     if (!isNaN(bookingValue) && !isNaN(advanceValue)) {
+      
       const due = bookingValue - advanceValue;
       setDueAmount(due.toFixed(2));
     } else {
@@ -129,6 +130,11 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
 
     if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn) || formValues.cn.length !== 10) {
       toast.error("Please enter a valid contact number and don't include +91");
+      return;
+    }
+
+    if(formValues.advanceAmount > formValues.bookingAmount) {
+      toast.error("Advance amount should be less than booking amount")
       return;
     }
 

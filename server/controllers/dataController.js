@@ -25,9 +25,13 @@ const getHotels = async (req, res) => {
 
 const getBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().populate("hotel");
+    const bookings = await Booking.find().populate("hotel").populate({
+      path: "addedBy",
+      model: User,
+    });
     res.status(200).json(bookings);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
