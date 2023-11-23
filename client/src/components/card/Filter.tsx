@@ -232,7 +232,7 @@ const Filter = ({ setFilterData,isFilterOpen }: Props) => {
                   <option value="checkInDate">Arrival</option>
   
                   <option value="checkOutDate">Departure</option>
-                  <option value="updatedAt">Cancelled</option>
+                  <option value="status">Cancelled</option>
                 </select>
               </div>
             </div>
@@ -241,7 +241,7 @@ const Filter = ({ setFilterData,isFilterOpen }: Props) => {
             <div className="flex overflow-y-scroll no-scrollbar flex-col gap-2">
               <h1 className="mb-2 font-bold">Select date range</h1>
               <DateRangePicker
-                className="bg-black text-blue-600 rounded-xl"
+                className=" text-blue-600 rounded-xl dark:bg-gray-800"
                 showMonthAndYearPickers={true}
                 ranges={[selectionRange]}
                 onChange={handleSelect}

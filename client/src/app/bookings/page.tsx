@@ -259,7 +259,7 @@ const Bookings = () => {
           }}
         />
       </div>
-      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
+      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-row justify-center gap-2 md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
           <div className="flex flex-row h-full text-gray-700">
             <button
@@ -306,7 +306,7 @@ const Bookings = () => {
 
             // toast.info("Search feature is not available yet");
           }}
-          className="w-full h-full text-xs mt-2 md:mt-0"
+          className="w-full h-full text-xs md:mt-0"
         >
           <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
             <input

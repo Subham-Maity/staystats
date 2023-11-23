@@ -110,6 +110,9 @@ const ViewDashData = ({onClose, variable}: Props) => {
         },
     );
     
+    const userDeactive =  users.filter((item: any) => item.isActive === true);
+
+    const hotelDeactive =  hotels.filter((item: any) => item.isActive === true);
 
     
 
@@ -122,7 +125,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
             setTodaysModification(todaysModification);
             setTodaysUser(users);
             setTodaysCancellation(todayCancellations);
-            setTotalHotels(hotels);
+            setTotalHotels(hotelDeactive);
             setFutureDue(futureBookingsForDue)
             
 
@@ -182,7 +185,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                     ))
                                 }
                                 {
-                                    variable === "Total Cancellation" && ifBookingToday.map((_, i) => (
+                                    variable === "Today's Cancellation" && ifBookingToday.map((_, i) => (
                                         <th key={i} scope="col" className="px-4 py-2 text-center">
                                             {_}
                                         </th>
@@ -359,10 +362,10 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                             {_.numberOfRooms}
                                         </td>
                                         <td className="px-4 py-2 text-center">
-                                            {_.checkInDate.split("T")[0]}
+                                            {`${new Date(_.checkInDate).getDate()} / ${new Date(_.checkInDate).getMonth() +1} / ${new Date(_.checkInDate).getFullYear()}` }
                                         </td>
                                         <td className="px-4 py-2 text-center">
-                                            {_.checkOutDate.split("T")[0]}
+                                        {`${new Date(_.checkOutDate).getDate()} / ${new Date(_.checkOutDate).getMonth() +1} / ${new Date(_.checkOutDate).getFullYear()}` }
                                         </td>
 
 
@@ -410,10 +413,10 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                             {_.numberOfRooms}
                                         </td>
                                         <td className="px-4 py-2 text-center">
-                                            {_.checkInDate.split("T")[0]}
+                                        {`${new Date(_.checkInDate).getDate()} / ${new Date(_.checkInDate).getMonth() +1} / ${new Date(_.checkInDate).getFullYear()}` }
                                         </td>
                                         <td className="px-4 py-2 text-center">
-                                            {_.checkOutDate.split("T")[0]}
+                                        {`${new Date(_.checkOutDate).getDate()} / ${new Date(_.checkOutDate).getMonth() +1} / ${new Date(_.checkOutDate).getFullYear()}` }
                                         </td>
 
 
@@ -455,7 +458,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                 ))}
 
                             {
-                                variable === "Total Cancellation" &&
+                                variable === "Today's Cancellation" &&
                                 todaysCancellation?.map((_, i) => (
                                     <tr
                                         title="Click to view user details"
@@ -494,10 +497,10 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                             {_.numberOfRooms}
                                         </td>
                                         <td className="px-4 py-2 text-center">
-                                            {_.checkInDate.split("T")[0]}
+                                        {`${new Date(_.checkInDate).getDate()} / ${new Date(_.checkInDate).getMonth() +1} / ${new Date(_.checkInDate).getFullYear()}` }
                                         </td>
                                         <td className="px-4 py-2 text-center">
-                                            {_.checkOutDate.split("T")[0]}
+                                        {`${new Date(_.checkOutDate).getDate()} / ${new Date(_.checkOutDate).getMonth() +1} / ${new Date(_.checkOutDate).getFullYear()}` }
                                         </td>
 
 
