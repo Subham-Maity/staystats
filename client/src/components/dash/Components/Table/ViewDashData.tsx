@@ -39,17 +39,28 @@ const ViewDashData = ({onClose, variable}: Props) => {
     const [todaysCheckOuts, setTodaysCheckOuts] = useState<BookingData[]>();
     const [todaysBookings, setTodaysBookings] = useState<BookingData[]>();
     const [todaysModificationBooking, setTodaysModification] = useState<BookingData[]>();
-    const [todaysUser, setTodaysUser] = useState<any[]>();
     const [todaysCancellation, setTodaysCancellation] = useState<any[]>();
-    const [totalHotels, setTotalHotels] = useState<HotelData[]>();
     const [futureDue,setFutureDue] = useState<BookingData[]>();
-
-
+    const [statusChange,setStatusChange] = useState<boolean>(false)
+    
+    
     const bookingData: BookingData[] = useSelector(selectAllbookings);
     const users = useSelector(selectAllUsers);
     const hotels: HotelData[] = useSelector(selectAllhotels);
-
+    
+    const [todaysUser, setTodaysUser] = useState<any[]>();
+    
+    const [totalHotels, setTotalHotels] = useState<HotelData[]>();
+    
     const confirmedFilter = bookingData.filter((item: any) => item.status === "CONFIRMED");
+
+    useEffect(()=>{
+        const activeUsers = users.filter((item: any) => item.isActive === true);
+    setTodaysUser(activeUsers)
+    const activeHotels = hotels.filter((item: any) => item.isActive === true);
+    setTotalHotels(activeHotels)
+
+    },[status])
 
 
     const currentDate = new Date();
@@ -77,7 +88,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
     const todaysModification: BookingData[] = confirmedFilter.filter((record) => {
         const currentDate: string = new Date(record.createdAt).toISOString()
         const ModifiedDate: string = new Date(record.updatedAt).toISOString()
-        console.log(ModifiedDate, "modifiedDate", currentDate, "currentDate");
+        // console.log(ModifiedDate, "modifiedDate", currentDate, "currentDate");
         return ModifiedDate > currentDate;
     });
 
@@ -92,6 +103,36 @@ const ViewDashData = ({onClose, variable}: Props) => {
         return new Date(createdDate).toISOString().split("T")[0] ===
             new Date(currentDate).toISOString().split("T")[0];
     });
+
+
+    const statusChnageHandler = (type: string, status:string) => {
+        setStatusChange(!statusChange)
+        if(type === "Total Users") {
+           
+            if(status === "ACTIVE") {
+     
+
+                const activeUsers = users.filter((item: any) => item.isActive === true);
+                setTodaysUser(activeUsers)
+            } else {
+                const deactiveUsers = users.filter((item: any) => item.isActive === false)
+                
+                setTodaysUser(deactiveUsers)
+            }
+        } else {
+            if(status === "ACTIVE") {
+                const activeHotels = hotels.filter((item: any) => item.isActive === true);
+                setTotalHotels(activeHotels)
+            } else {
+                const deactiveHotels = hotels.filter((item: any) => item.isActive === false)
+                setTotalHotels(deactiveHotels)
+            }
+        }
+    }
+
+
+
+
 
     const bookingSource: string[] = confirmedFilter.map((item: any) => item?.bookingSource);
     const bookingAmountBar: number[] = confirmedFilter.map((item: any) => item?.bookingAmount);
@@ -119,17 +160,19 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
 
     useEffect(() => {
+
+        // console.log("Chnages")
             setTodaysCheckIns(numberOfTodaysCheckIns);
             setTodaysCheckOuts(numberOfTodaysCheckOuts);
             setTodaysBookings(todaysBooking);
             setTodaysModification(todaysModification);
-            setTodaysUser(users);
+            // setTodaysUser(users);
             setTodaysCancellation(todayCancellations);
-            setTotalHotels(hotelDeactive);
+            // setTotalHotels(hotelDeactive);
             setFutureDue(futureBookingsForDue)
             
 
-            }, [numberOfTodaysCheckIns, numberOfTodaysCheckOuts, todaysBooking, todaysModification, users, totalCancellation, hotels]);
+            }, [numberOfTodaysCheckIns, numberOfTodaysCheckOuts, todaysBooking, todaysModification, users, totalCancellation, hotels,todaysUser,totalHotels]);
 
 
     return (
@@ -144,6 +187,54 @@ const ViewDashData = ({onClose, variable}: Props) => {
                             className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-gray-700 cursor-pointer"
                             onClick={() => onClose(false)}/>
                     </button>
+                   {
+                    variable === "Total Users" && (
+                        <div className="flex justify-start gap-2 mb-2 items-center">
+                   <label
+            htmlFor="plan"
+            className="block text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Status :
+          </label>
+                   <select
+            required
+            onChange={(e) => statusChnageHandler("Total Users", e.target.value)}
+            id="plan"
+            name="plan"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="DEACTIVE">DEACTIVE</option>
+          
+          </select>
+                   </div>
+                    )
+                   }
+                   {
+                    variable === "Total Hotels" && (
+                        <div className="flex justify-start gap-2 mb-2 items-center">
+                   <label
+            htmlFor="plan"
+            className="block text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Status :
+          </label>
+                   <select
+            required
+            onChange={(e) => statusChnageHandler("Total Hotels", e.target.value)}
+            id="plan"
+            name="plan"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="DEACTIVE">DEACTIVE</option>
+          
+          </select>
+                   </div>
+                    )
+                   }
                     <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
                         <table
                             className="p-4 w-full  text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
@@ -426,7 +517,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
                             {
                                 variable === "Total Users" &&
-                                todaysUser?.map((_, i) => (
+                                todaysUser && todaysUser.length > 0 && todaysUser?.map((_, i) => (
                                     <tr
                                         title="Click to view user details"
                                         key={i}

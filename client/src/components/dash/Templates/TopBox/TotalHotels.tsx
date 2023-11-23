@@ -10,7 +10,7 @@ function TotalHotels() {
 
     function calculateTotalHotels(hotels:any) {
         //@ts-ignore
-        return hotels.filter(item => item.isActive === true);
+        return hotels
     }
 
     const currentDate2 = new Date();
