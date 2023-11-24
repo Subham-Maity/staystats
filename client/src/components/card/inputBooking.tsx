@@ -133,7 +133,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       return;
     }
 
-    if(formValues.advanceAmount > formValues.bookingAmount) {
+    if(Number(formValues.advanceAmount) > Number(formValues.bookingAmount)) {
+      console.log("formValues.advanceAmount", formValues.advanceAmount);
+      console.log("formValues.bookingAmount", formValues.bookingAmount);
       toast.error("Advance amount should be less than booking amount")
       return;
     }
