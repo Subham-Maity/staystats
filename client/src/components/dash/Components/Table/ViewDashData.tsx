@@ -42,6 +42,10 @@ const ViewDashData = ({onClose, variable}: Props) => {
     const [todaysCancellation, setTodaysCancellation] = useState<any[]>();
     const [futureDue,setFutureDue] = useState<BookingData[]>();
     const [statusChange,setStatusChange] = useState<boolean>(false)
+    const [sortedRevenueArray, setSortedRevenueArray] = useState<any[]>();
+    const [sortedDueArray, setSortedDueArray] = useState<any[]>();
+    const [sortedUpcomingRevArray, setsortedUpcomingRevArray] = useState<any[]>();
+
     
     
     const bookingData: BookingData[] = useSelector(selectAllbookings);
@@ -60,7 +64,8 @@ const ViewDashData = ({onClose, variable}: Props) => {
     const activeHotels = hotels.filter((item: any) => item.isActive === true);
     setTotalHotels(activeHotels)
 
-    },[status])
+
+    },[])
 
 
     const currentDate = new Date();
@@ -137,7 +142,8 @@ const ViewDashData = ({onClose, variable}: Props) => {
     const bookingSource: string[] = confirmedFilter.map((item: any) => item?.bookingSource);
     const bookingAmountBar: number[] = confirmedFilter.map((item: any) => item?.bookingAmount);
     const createdDate: string[] = confirmedFilter.map((item: any) => item?.createdAt);
-    const hotelNames: string[] = confirmedFilter.map((item: any) => item?.hotel?.hotelName);
+    const hotelNames: string[] = confirmedFilter.map((item: any) => item?.hotel);
+    // console.log(hotelNames, "hotelNames")
     const userName: string[] = confirmedFilter.map((item: any) => item?.bookingBy);
     const locationName: string[] = confirmedFilter.map((item: any) => item?.hotel?.location);
 
@@ -150,12 +156,87 @@ const ViewDashData = ({onClose, variable}: Props) => {
             return checkInDateForDue > currentDateForDue;
         },
     );
-    
+
     const userDeactive =  users.filter((item: any) => item.isActive === true);
 
     const hotelDeactive =  hotels.filter((item: any) => item.isActive === true);
 
-    
+    useEffect(() => {
+        let bookingArray:any[] = [];
+        let duesArray :any[] = [];
+        let futureRevenueArray:any[] = [];
+
+        todaysBooking.map((item: any,index:number) => {
+        // Check if a record with the same hotel name exists in the array
+        const hotelName = item.hotel.hotelName;
+        // console.log(hotelName, "hotelName")
+        const hotelIndex = bookingArray.findIndex((item: any) => item.hotelName === hotelName);
+        // console.log(hotelIndex, "hotelIndex")
+
+        // If the hotel name exists, add the amount to the existing amount
+        if (hotelIndex !== -1) {
+            bookingArray[hotelIndex].bookingAmount += item.bookingAmount;
+            // console.log(bookingArray[hotelIndex].bookingAmount, "bookingArray[hotelIndex].bookingAmount")
+        } else {
+            // If the hotel name does not exist, add a new record to the array
+            bookingArray.push({
+                hotelName: item.hotel.hotelName,
+                bookingAmount: item.bookingAmount,
+                location: item.hotel.location,
+            });
+        }
+    });
+
+    futureBookingsForDue.map((item: any,index:number) => {
+        // Check if a record with the same hotel name exists in the array
+        const hotelName = item.hotel.hotelName;
+        // console.log(hotelName, "hotelName")
+        const hotelIndex = futureRevenueArray.findIndex((item: any) => item.hotelName === hotelName);
+        // console.log(hotelIndex, "hotelIndex")
+
+        // If the hotel name exists, add the amount to the existing amount
+        if (hotelIndex !== -1) {
+            futureRevenueArray[hotelIndex].bookingAmount += item.bookingAmount;
+            // console.log(bookingArray[hotelIndex].bookingAmount, "bookingArray[hotelIndex].bookingAmount")
+        } else {
+            // If the hotel name does not exist, add a new record to the array
+            futureRevenueArray.push({
+                hotelName: item.hotel.hotelName,
+                bookingAmount: item.bookingAmount,
+                location: item.hotel.location,
+            });
+        }
+    });
+
+    futureBookingsForDue.map((item: any,index:number) => {
+        // Check if a record with the same hotel name exists in the array
+        const hotelName = item.hotel.hotelName;
+        // console.log(hotelName, "hotelName")
+        const hotelIndex = duesArray.findIndex((item: any) => item.hotelName === hotelName);
+        // console.log(hotelIndex, "hotelIndex")
+
+        // If the hotel name exists, add the amount to the existing amount
+        if (hotelIndex !== -1) {
+            duesArray[hotelIndex].dueAmount += item.dueAmount;
+            // console.log(bookingArray[hotelIndex].bookingAmount, "bookingArray[hotelIndex].bookingAmount")
+        } else {
+            // If the hotel name does not exist, add a new record to the array
+            duesArray.push({
+                hotelName: item.hotel.hotelName,
+                dueAmount: item.dueAmount,
+                location: item.hotel.location,
+            });
+        }
+    });
+
+
+        setSortedRevenueArray(bookingArray)
+        setsortedUpcomingRevArray(futureRevenueArray)
+        setSortedDueArray(duesArray)
+        
+
+    // console.log(bookingArray, "bookingArray")
+    },[])
 
 
 
@@ -601,7 +682,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
                             {
                                 variable === "Today's Revenue" &&
-                                todaysBooking?.map((_, i) => (
+                                sortedRevenueArray?.map((_, i) => (
                                     <tr
                                         title="Click to view user details"
                                         key={i}
@@ -618,11 +699,11 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
                                             className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                                         >
-                                            {_.hotel.hotelName}
+                                            {_.hotelName}
                                         </td>
                                         <td className="px-4 py-2 text-center">
                                             {/* @ts-ignore */}
-                                            {_.hotel.location}
+                                            {_.location}
                                         </td>
                                         <td className="px-4 py-2 text-center">
                                             {_.bookingAmount}
@@ -632,7 +713,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                 ))}
                                 {
                                 variable === "Upcoming Revenue" &&
-                                futureDue?.map((_, i) => (
+                                sortedUpcomingRevArray?.map((_, i) => (
                                     <tr
                                         title="Click to view user details"
                                         key={i}
@@ -649,11 +730,11 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
                                             className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                                         >
-                                            {_.hotel.hotelName}
+                                            {_.hotelName}
                                         </td>
                                         <td className="px-4 py-2 text-center">
                                             {/* @ts-ignore */}
-                                            {_.hotel.location}
+                                            {_.location}
                                         </td>
                                         <td className="px-4 py-2 text-center">
                                             {_.bookingAmount}
@@ -663,7 +744,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                 ))}
                                 {
                                 variable === "Future Dues" &&
-                                futureDue?.map((_, i) => (
+                                sortedDueArray?.map((_, i) => (
                                     <tr
                                         title="Click to view user details"
                                         key={i}
@@ -680,11 +761,11 @@ const ViewDashData = ({onClose, variable}: Props) => {
 
                                             className="text-center px-4 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
                                         >
-                                            {_.hotel.hotelName}
+                                            {_.hotelName}
                                         </td>
                                         <td className="px-4 py-2 text-center">
                                             {/* @ts-ignore */}
-                                            {_.hotel.location}
+                                            {_.location}
                                         </td>
                                         <td className="px-4 py-2 text-center">
                                             {_.dueAmount}
