@@ -250,7 +250,7 @@ const Hotels = () => {
           </button>
         </div>
       </div>
-      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
+      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-row justify-center gap-2 md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
           <div className="flex flex-row h-full text-gray-700">
             <button
@@ -289,22 +289,23 @@ const Hotels = () => {
             e.preventDefault();
             getHotelsBySearch(e);
           }}
-          className="w-full h-full text-xs mt-2 md:mt-0"
+          className="w-full h-full text-xs md:mt-0"
         >
-          <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
+          <div className="ml-auto border shadow md:w-[500px] mx-1 h-full flex flex-row rounded-md justify-center items-center overflow-hidden">
             <input
               placeholder="Search Hotels..."
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-full h-full py-2 px-4  dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
+              className="w-full h-full py-4 px-4 dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
             />
             <button
               className="min-w-[40px] flex justify-center items-center defaultBtn"
               onClick={(e) => {
-                e.preventDefault();
                 getHotelsBySearch(e);
+                // e.preventDefault();
+                // toast.info("Search feature is not available yet");
               }}
             >
               <BiSearch className="text-xl" />

@@ -51,6 +51,7 @@ const WorksTable = ({
 
 
   useEffect(() => {
+    console.log(workData)
     if (showEditWorkModal) {
       document.body.style.overflow = "hidden";
     } else {
@@ -125,7 +126,7 @@ const WorksTable = ({
                     <InfinitySpin width="200" color="#4fa94d" />
                   </div>
                 ) : (
-                  workData.map((work: any, index: number) => {
+                  workData && workData.map((work: any, index: number) => {
                       // console.log(work);
 
 

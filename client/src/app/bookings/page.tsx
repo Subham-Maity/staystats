@@ -308,14 +308,14 @@ const Bookings = () => {
           }}
           className="w-full h-full text-xs md:mt-0"
         >
-          <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
+          <div className="ml-auto border shadow md:w-[500px] mx-1 h-full flex flex-row rounded-md justify-center items-center overflow-hidden">
             <input
               placeholder="Search Bookings..."
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-full h-full py-2 px-4 dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
+              className="w-full h-full py-4 px-4 dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
             />
             <button
               className="min-w-[40px] flex justify-center items-center defaultBtn"

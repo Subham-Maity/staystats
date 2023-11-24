@@ -65,7 +65,7 @@ const Works = () => {
         let { data } = await axios.get(
           `/work/get-all-works/search?&query=${searchText}`
         );
-        // console.log("users", data);
+        console.log("users", data);
         if (!data.error) {
           // setSearchResults(data);
           setWorkData(data.works);
@@ -85,8 +85,9 @@ const Works = () => {
         const { data } = await axios.get(
           `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`
         );
-        // console.log(data);
+        console.log(data);
         if (!data.error) {
+
           setWorkData(data.works);
           setWorksCount(data.worksCount);
         } else {
@@ -184,7 +185,7 @@ const Works = () => {
           )}
         </div>
       </div>
-      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
+      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-row justify-center gap-2 md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
           <div className="flex flex-row h-full text-gray-700">
             <button
@@ -204,41 +205,50 @@ const Works = () => {
           </div>
           {/* <div className="ml-4 py-2 px-2 h-full border shadow rounded text-xs font-medium"> */}
           {/* <Select
-            id="work"
-            name="work"
-            options={[{value: "all", label: "All Hotels"}, ...workData.map((work: any)=>({value: work._id, label: work.workName}))]}
-            isMulti
-            value={"coming soon"}
-            onChange={()=>{
-              toast.info("Search feature is not available yet")
-              // handleHotelSelection()
-            }}
-            className="w-[80px] outline-none ml-4 px-2 h-full shadow rounded text-xs font-medium"
-            isDisabled={loading}
-          /> */}
+              id="hotel"
+              name="hotel"
+              options={[
+                { value: "all", label: "All Users" },
+                ...userData.map((user: any) => ({
+                  value: user._id,
+                  label: user.username,
+                })),
+              ]}
+              isMulti
+              value={"coming soon"}
+              onChange={() => {
+                toast.info("Search feature is not available yet");
+                // handleHotelSelection()
+              }}
+              className="w-[80px] outline-none ml-4 px-2 h-full shadow rounded text-xs font-medium"
+              isDisabled={loading}
+            /> */}
           {/* </div> */}
         </div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             getWorksBySearch(e);
+
+            // toast.info("Search feature is not available yet");
           }}
-          className="w-full h-full text-xs mt-2 md:mt-0"
+          className="w-full h-full text-xs md:mt-0"
         >
-          <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
+          <div className="ml-auto border shadow md:w-[500px] mx-1 h-full flex flex-row rounded-md justify-center items-center overflow-hidden">
             <input
-              placeholder="Search Hotels..."
+              placeholder="Search Works..."
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-full h-full py-2 px-4 dark:bg-[#282f46] outline-none text-gray-700 dark:text-white "
+              className="w-full h-full py-4 px-4 dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
             />
             <button
               className="min-w-[40px] flex justify-center items-center defaultBtn"
               onClick={(e) => {
-                e.preventDefault();
                 getWorksBySearch(e);
+                // e.preventDefault();
+                // toast.info("Search feature is not available yet");
               }}
             >
               <BiSearch className="text-xl" />
