@@ -118,7 +118,7 @@ const EditWork = ({
   return (
     <form
       ref={formRef}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl w-full"
       onSubmit={handleSubmit}
     >
       <TailwindWrapper>
@@ -170,7 +170,7 @@ const EditWork = ({
             options={reactSelectOptions}
             value={selectedUser}
             onChange={handleUsersSelection}
-            className="w-full text-black"
+            className="w-[90%] text-black"
           />
           {availableUsers.length === 0 && (
             <div className="text-xs text-red-600 font-medium">
