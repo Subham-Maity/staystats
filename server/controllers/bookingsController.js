@@ -1,5 +1,6 @@
 const { Booking } = require("../models/bookingModel");
 const { Hotel } = require("../models/hotelModel");
+const { User } = require("../models/userModel");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -60,7 +61,6 @@ const getAllBookings = async (req, res) => {
       hotelName,
       status,
     } = req.query;
-    console.log(req.query)
     let { startDate, endDate } = req.body;
     // console.log("req.body: ", req.body);
     // console.log("req.query: ", req.query);
@@ -97,6 +97,12 @@ const getAllBookings = async (req, res) => {
           $lte: new Date(endDate),
         };
       } else if (filterBy === "updatedAt") {
+        filter.updatedAt = {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        };
+      } else if (filterBy === "status") {
+        status = "CANCELLED";
         filter.updatedAt = {
           $gte: new Date(startDate),
           $lte: new Date(endDate),
@@ -154,7 +160,8 @@ const getAllBookings = async (req, res) => {
         .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
         .skip(skipIndex)
         .limit(query_limit)
-        .populate({ path: "hotel", model: Hotel });
+        .populate({ path: "hotel", model: Hotel })
+        .populate({ path: "addedBy", model: User });
     } else {
       bookings = await Booking.find(filter)
         .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
@@ -204,8 +211,8 @@ const getAllBookingsBySearch = async (req, res) => {
 
     const bookings = await Booking.find(filter)
       .or([
-        { guestName: regex },// Search for bookings with guentName matching the provided regex
-        {contactNumber:regex},
+        { guestName: regex }, // Search for bookings with guentName matching the provided regex
+        { contactNumber: regex },
         {
           hotel: {
             $in: await Hotel.find({
@@ -259,7 +266,7 @@ const createBooking = async (req, res) => {
     contactNumber,
     accountType,
     remarks,
-    guestEmail
+    guestEmail,
   } = req.body;
   try {
     const bookingsCount = await Booking.countDocuments();

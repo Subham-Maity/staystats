@@ -14,13 +14,57 @@
 /*}*/
 
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+::-webkit-scrollbar {
+  width: 0px;
 }
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+::-webkit-scrollbar-thumb {
+  background-color: #3b3b3b;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+
+*::-webkit-scrollbar {
+  width: 0px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+  border-radius: 20px;
+  border: 3px solid transparent;
+}
+
+.defaultBtn {
+  @apply flex gap-2 whitespace-nowrap border-2 text-white border-indigo-600/25 bg-indigo-600 hover:bg-indigo-400 focus:ring-0 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out  dark:text-white cursor-pointer;
+}
+
+.bgColor{
+  @apply bg-[#282f46]
+}
+
+
+.default-input {
+  @apply block w-full lg:w-40 rounded-md h-11 bg-gray-400 font-medium bg-opacity-40 dark:bg-slate-500/20 shadow-2xl text-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-0 focus:border-indigo-800  leading-6;
+}
+
+
+.rdrDateRangePickerWrapper, .rdrDefinedRangesWrapper, .rdrStaticRange,.rdrCalendarWrapper, .rdrDateDisplayWrapper,.rdrDateDisplay,.rdrDateInput,.rdrMonth,.rdrDateRangeWrapper {
+  @apply dark:bg-[#282f46] rounded-md dark:text-white dark:hover:text-blue-600 !important;
+}
+
+.rdrDateRangeWrapper,.rdrDays,.rdrDay,.rdrDayNumber *,.rdrMonthAndYearPickers *,.rdrInputRangeInput *,.rdrInputRange *{
+  @apply dark:text-white !important;
 }

@@ -11,6 +11,7 @@ import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from "@/utils/axios";
 import React, { useState, useEffect, useRef } from "react";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 const EditLead = ({
   setLeadData,
@@ -131,7 +132,8 @@ const EditLead = ({
     }
   };
   return (
-    <form onSubmit={handleUpdate} className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full">
+    <form onSubmit={handleUpdate} className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl w-full">
+      <TailwindWrapper>
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Edit Lead Details</p>
         <span
@@ -225,7 +227,7 @@ const EditLead = ({
             Number of Persons <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             name="nop"
             id="nop"
             value={editingLeadData?.numberOfPerson}
@@ -249,7 +251,7 @@ const EditLead = ({
             Number of Rooms <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             name="nor"
             id="nor"
             value={editingLeadData?.numberOfRooms}
@@ -373,11 +375,12 @@ const EditLead = ({
       </div>
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        className="defaultBtn"
         disabled={loading}
       >
         Update
       </button>
+      </TailwindWrapper>
     </form>
   );
 };

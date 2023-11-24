@@ -51,6 +51,7 @@ const WorksTable = ({
 
 
   useEffect(() => {
+    console.log(workData)
     if (showEditWorkModal) {
       document.body.style.overflow = "hidden";
     } else {
@@ -82,9 +83,9 @@ const WorksTable = ({
   return (
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
-        <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
-          <thead className="text-sm text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-            <tr>
+      <table className="w-full border border-gray-600/25 dark:border-gray-300/25 rounded-md text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
+          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400 border">
+          <tr className="whitespace-nowrap">
               <th scope="col" className="px-6 py-3 text-center">
                 #
               </th>
@@ -111,9 +112,9 @@ const WorksTable = ({
               </th> */}
             </tr>
           </thead>
-          <tbody className="rounded-xl">
+          <tbody className="rounded-xl dark:text-white">
             {workData.length === 0 && (
-              <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr className=" border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <TbLoader className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </tr>
             )}
@@ -125,7 +126,7 @@ const WorksTable = ({
                     <InfinitySpin width="200" color="#4fa94d" />
                   </div>
                 ) : (
-                  workData.map((work: any, index: number) => {
+                  workData && workData.map((work: any, index: number) => {
                       // console.log(work);
 
 
@@ -135,7 +136,7 @@ const WorksTable = ({
                         <tr
 
                           key={index}
-                          className={`bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
+                          className={` border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
                         >
                           <div>
                             
@@ -293,7 +294,7 @@ const WorksTable = ({
                         // @ts-ignore
                         
                           key={index}
-                          className={`bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
+                          className={` border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
                         >
                          
 

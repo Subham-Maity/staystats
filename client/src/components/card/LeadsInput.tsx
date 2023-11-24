@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 interface Props {
   setLeadsData: (lead: any) => void;
@@ -87,9 +88,10 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
   return (
     <form
       ref={formRef}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl w-full"
       onSubmit={handleSubmit}
     >
+      <TailwindWrapper>
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Lead Details</p>
         <span
@@ -115,7 +117,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
               (e.target.value = e.target.value.toLocaleUpperCase())
             }
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: John Doe"
+            
             required
           />
         </div>
@@ -133,7 +135,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             value={checkInDate}
             onChange={(e) => setCheckInDate(e.target.value)}
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="08.08.2023"
+            
             required
             min={new Date().toISOString().split("T")[0]}
           />
@@ -151,7 +153,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             name="check_out_date"
             type="date"
             className="uppercase bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="09.09.2023"
+            
             required
             min={checkInDate}
           />
@@ -162,14 +164,14 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             htmlFor="nop"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Persons <span className="text-red-500">*</span>
+            No. of Persons <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             name="nop"
             id="nop"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Eg. 4"
+            
             required
           />
         </div>
@@ -178,14 +180,14 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             htmlFor="nor"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Rooms <span className="text-red-500">*</span>
+            No. of Rooms <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             name="nor"
             id="nor"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Eg. 2"
+            
             required
           />
         </div>
@@ -201,7 +203,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             id="cn"
             name="cn"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="+91 999999999"
+            
             required
           />
         </div>
@@ -216,7 +218,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             type="text"
             name="area"
             id="area"
-            placeholder="Ex: Delhi"
+            
             onChange={(e) =>
               (e.target.value = e.target.value.toLocaleUpperCase())
             }
@@ -234,14 +236,14 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             type="number"
             name="budget"
             id="budget"
-            placeholder="Ex: 4000"
+           
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
         </div>
         <div className="">
           <label
             htmlFor="specialReq"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap"
           >
             Special Requirements
           </label>
@@ -253,17 +255,18 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
             id="specialReq"
             name="specialReq"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Well well well"
+            
           />
         </div>
       </div>
 
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        className="defaultBtn"
       >
         Submit
       </button>
+      </TailwindWrapper>
     </form>
   );
 };

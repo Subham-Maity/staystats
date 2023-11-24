@@ -11,6 +11,7 @@ import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from "@/utils/axios";
 import React, { useState, useEffect, useRef } from "react";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 const EditBooking = ({
   setBookingData,
@@ -121,8 +122,9 @@ const EditBooking = ({
   return (
     <form
       onSubmit={handleUpdate}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl  "
     >
+      <TailwindWrapper>
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Booking Details</p>
         <span
@@ -163,7 +165,7 @@ const EditBooking = ({
             name="hotel"
             value={editingBookingData.hotel.hotelName || "Deleted hotel"}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha Saikatabas"
+            
           />
         </div>
         <div>
@@ -179,7 +181,7 @@ const EditBooking = ({
             id="guest_name"
             name="guest_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Subham"
+            
             required
             onChange={(e) => {
               setEditingBookingData((prev: any) => {
@@ -203,7 +205,7 @@ const EditBooking = ({
             id="cn"
             name="cn"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="+91 999999999"
+            
             required
             value={editingBookingData.contactNumber}
             onChange={(e) =>
@@ -226,7 +228,7 @@ const EditBooking = ({
             name="checkInDate"
             type="date"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="08.08.2023"
+            
             required
             min={
               owner.role !== "ADMIN"
@@ -255,7 +257,7 @@ const EditBooking = ({
             required
             min={editingBookingData.checkInDate.split("T")[0]}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="09.09.2023"
+            
             onChange={(e) =>
               setEditingBookingData((prev: any) => {
                 return { ...prev, checkOutDate: e.target.value };
@@ -272,11 +274,11 @@ const EditBooking = ({
             Number of Room <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             id="nor"
             name="nor"
             className="appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="20"
+            
             required
             onChange={(e) =>
               setEditingBookingData((prev: any) => {
@@ -294,11 +296,11 @@ const EditBooking = ({
             Number of Person <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             id="nop"
             name="nop"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="4"
+            
             required
             value={editingBookingData.numberOfPersons}
             onChange={(e) =>
@@ -376,7 +378,7 @@ const EditBooking = ({
             value={editingBookingData.bookingAmount}
             required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter booking amount"
+            
             onChange={(e) =>
               setEditingBookingData((prev: any) => {
                 return {
@@ -402,7 +404,7 @@ const EditBooking = ({
             id="advanceAmount"
             value={editingBookingData.advanceAmount}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter advance amount"
+            
             required
             onChange={(e) =>
               setEditingBookingData((prev: any) => {
@@ -448,7 +450,7 @@ const EditBooking = ({
             type="date"
             max={editingBookingData.checkInDate.split("T")[0]}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="24.05.26"
+            
             required
             onChange={(e) =>
               setEditingBookingData((prev: any) => {
@@ -507,7 +509,7 @@ const EditBooking = ({
             id="bb"
             name="bb"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Someone"
+            
             disabled
             value={editingBookingData.bookingBy}
           />
@@ -525,7 +527,7 @@ const EditBooking = ({
             id="bb"
             name="guestEmail"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Email address"
+            
             onChange={(e) =>
               setEditingBookingData((prev: any) => {
                 return { ...prev, guestEmail: e.target.value };
@@ -547,7 +549,7 @@ const EditBooking = ({
             id="remark"
             name="remark"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Very Good"
+            
             onChange={(e) =>
               setEditingBookingData((prev: any) => {
                 return { ...prev, remarks: e.target.value.toLocaleUpperCase() };
@@ -558,7 +560,7 @@ const EditBooking = ({
       </div>
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        className="defaultBtn"
         disabled={loading}
       >
         Update
@@ -570,6 +572,7 @@ const EditBooking = ({
       >
         Reset
       </button> */}
+      </TailwindWrapper>
     </form>
   );
 };

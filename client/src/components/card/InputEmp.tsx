@@ -7,6 +7,7 @@ import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { MdAutoFixHigh } from "react-icons/md";
 import generator from "generate-password";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 interface Props {
   setUserData: (users: any) => void;
@@ -148,9 +149,10 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
   return (
     <form
       ref={formRef}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl w-full"
       onSubmit={handleSubmit}
     >
+      <TailwindWrapper>
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">User Details</p>
         <span
@@ -177,7 +179,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             name="first_name"
             id="first_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha Saikatabas"
+            
             required
           />
         </div>
@@ -194,7 +196,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             name="phone"
             id="phone"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="+91 999999999"
+            
             // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             required
           />
@@ -212,7 +214,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
             name="email"
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="hotel@company.com"
+            
             required
           />
         </div>
@@ -232,8 +234,8 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
           <div className="relative ">
             <input
               type={showPassword ? "text" : "password"}
-              className="text-gray-700 w-full p-2.5 rounded-md border border-gray-300 focus:border-indigo-400 focus:outline-none text-sm pr-10"
-              placeholder="Enter new password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              
               name="password"
               value={inputPassword}
               onChange={(e) => {
@@ -254,7 +256,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
           </div>
         </div>
 
-        <div className="w-[340px]">
+        <div className="w-[200%]">
           <label
             htmlFor="hotel"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -280,7 +282,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
 
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        className="defaultBtn"
         disabled={
           loading || availableHotels.length === 0 || selectedHotels.length === 0
         }
@@ -296,6 +298,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
       >
        Reset
       </button> */}
+      </TailwindWrapper>
     </form>
   );
 };

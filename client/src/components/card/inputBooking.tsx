@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import axios from "@/utils/axios";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 import { FaTimes } from "react-icons/fa";
 
@@ -56,6 +57,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     const advanceValue = parseFloat(advance);
 
     if (!isNaN(bookingValue) && !isNaN(advanceValue)) {
+      
       const due = bookingValue - advanceValue;
       setDueAmount(due.toFixed(2));
     } else {
@@ -96,12 +98,12 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     // }
 
 
-    if (formValues.nor.trim() === "" || !numberRegex.test(formValues.nor)) {
+    if (formValues.nor.trim() === "") {
       toast.error("Please enter a valid number of rooms");
       return;
     }
 
-    if (formValues.nop.trim() === "" || !numberRegex.test(formValues.nop)) {
+    if (formValues.nop.trim() === "" ) {
       toast.error("Please enter a valid number of persons");
       return;
     }
@@ -110,9 +112,31 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       toast.error("Please enter a valid advance date");
       return;
     }
+    if (!formValues.accountType || formValues.accountType.trim() === "" ) {
+      toast.error("Please enter a valid account type");
+      return;
+    }
+
+    if (!formValues.plan || formValues.plan.trim() === "" ) {
+      toast.error("Please enter a valid plan");
+      return;
+    }
+
+    if (!formValues.paymentby || formValues.paymentby.trim() === "") {
+      console.log("formValues.bookingSource", formValues.paymentby);
+      toast.error("Please enter a valid booking source");
+      return;
+    }
 
     if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn) || formValues.cn.length !== 10) {
       toast.error("Please enter a valid contact number and don't include +91");
+      return;
+    }
+
+    if(Number(formValues.advanceAmount) > Number(formValues.bookingAmount)) {
+      console.log("formValues.advanceAmount", formValues.advanceAmount);
+      console.log("formValues.bookingAmount", formValues.bookingAmount);
+      toast.error("Advance amount should be less than booking amount")
       return;
     }
 
@@ -165,8 +189,9 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl  "
     >
+      <TailwindWrapper>
      <div className="flex w-full mb-4">
         <p className="font-bold text-lg">Booking Details</p>
         <span
@@ -238,7 +263,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="guest_name"
             name="guest_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Subham"
+            
             required
             onChange={(e)=> e.target.value =  e.target.value.toLocaleUpperCase()}
           />
@@ -255,7 +280,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="cn"
             name="cn"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="+91 999999999"
+            
             required
           />
         </div>
@@ -273,7 +298,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             value={checkInDate}
             onChange={(e)=>setCheckInDate(e.target.value)}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="08.08.2023"
+            
             required
             min={user.role !== "ADMIN" ? new Date().toISOString().split("T")[0] : ""}
           />
@@ -291,7 +316,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             name="endDate"
             type="date"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="09.09.2023"
+           
             required
             min={checkInDate}
           />
@@ -309,7 +334,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="nor"
             name="nor"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="20"
+           
             required
           />
         </div>
@@ -321,11 +346,11 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             Number of Person <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             id="nop"
             name="nop"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="4"
+            
             required
           />
         </div>
@@ -342,7 +367,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="nop"
             name="roomCategory"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter room category"
+            
             required
           />
         </div>
@@ -381,7 +406,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             value={bookingAmount}
             onChange={handleBookingAmountChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter booking amount"
+            
             required
           />
         </div>
@@ -399,7 +424,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             value={advanceAmount}
             onChange={handleAdvanceAmountChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter advance amount"
+            
             required
           />
         </div>
@@ -435,7 +460,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             type="date"
             max={checkInDate}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="24.05.26"
+            
             required
             
           />
@@ -452,7 +477,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="bb"
             name="bb"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Someone"
+           
             disabled
             defaultValue={user.name || user.username || "admin"}
             required
@@ -466,6 +491,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             Booking Source <span className="text-red-500">*</span>
           </label>
           <select
+          required
             id="paymentby"
             name="paymentby"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -516,14 +542,14 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             htmlFor="bb"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Guest&apos;s email (Optional)
+            Guest&apos;s email
           </label>
           <input
             type="email"
             id="bb"
             name="guestEmail"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Enter email"
+            
           />
         </div>
 
@@ -532,7 +558,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             htmlFor="remark"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Remarks (Optional)
+            Remarks
           </label>
           <textarea
             cols={10}
@@ -540,27 +566,31 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             id="remark"
             name="remark"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Very Good"
+            
             
           />
         </div>
         
       </div>
 
+      <div className="flex gap-2 mt-4">
       <button
       disabled={loading}
         type="submit"
-        className="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="defaultBtn"
       >
         Submit
       </button>
       <button
       disabled={loading}
         type="reset"
-        className="mt-2 ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="defaultBtn"
       >
         Reset
       </button>
+      </div>
+
+      </TailwindWrapper>
     </form>
   );
 };

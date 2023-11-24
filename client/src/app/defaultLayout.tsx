@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Sidebar from "@/components/navbar/Sidebar";
 import LoginForm from "@/components/login";
 import LoadingSpinner from "@/components/loadingSpinner/LoadingSpinner";
+import MobileBottomNavbar from "@/components/navbar/MobileSidebar";
 import { usePathname, useRouter } from "next/navigation";
 import { FRONTEND_URL } from "@/constants/constant";
 import ForgotPasswordRequest from "@/components/ForgotPasswordRequest";
@@ -50,20 +51,29 @@ const DefaultLayout = ({ children }: any) => {
   console.log("pathName", pathName);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       {/* @ts-ignore */}
       {user && user._id && user.isActive ? (
-        <div className="flex">
-          <Sidebar
-            isSidebarOpen={isSidebarOpen}
-            toggleSidebar={toggleSidebar}
-          />
-          <div className="flex flex-col justify-start items-center w-full">
+        <div className="overflow-hidden max-h-screen ">
+          <div className=" lg:block">
             <Navbar
               isSidebarOpen={isSidebarOpen}
               toggleSidebar={toggleSidebar}
             />
-            <div className="lg:w-[90%] w-[90%] 2xl:w-[65%]">{children}</div>
+          </div>
+          {/* <div className="lg:hidden">
+            <MobileBottomNavbar />
+          </div> */}
+          <div className="flex">
+            <div className="lg:flex z-50">
+              <Sidebar
+                isSidebarOpen={isSidebarOpen}
+                toggleSidebar={toggleSidebar}
+              />
+            </div>
+            <div className="lg:m-6 lg:px-4 max-h-[90vh] lg:max-h-[90vh] w-full overflow-y-scroll">
+              {children}
+            </div>
           </div>
         </div>
       ) : pathName === "/forgot-password" ? (

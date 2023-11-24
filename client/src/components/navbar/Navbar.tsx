@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { RiMenuUnfoldFill } from "react-icons/ri";
 import { BsBell, BsBarChart, BsDot, BsHouseCheck } from "react-icons/bs";
 import { MdOutlineTipsAndUpdates, MdLogout } from "react-icons/md";
+import { FaBars } from "react-icons/fa";
+import { RiMenu2Fill } from "react-icons/ri";
+import { BiMenuAltLeft } from "react-icons/bi";
 import Image from "next/image";
 import Switcher from "../mode/Switcher";
 import { ThemeProvider } from "next-themes";
@@ -17,13 +20,14 @@ interface NavbarProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
 }
-const events = [
-  "load",
-  "mousemove",
-  "mousedown",
-  "click",
-  "scroll",
-  "keypress",
+//❌
+const events:any = [
+  // "load",
+  // "mousemove",
+  // "mousedown",
+  // "click",
+  // "scroll",
+  // "keypress",
 ];
 const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false);
@@ -81,33 +85,33 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const resetTimer = () => {
     if (timer) clearTimeout(timer);
   };
-
-  const handleLogoutTimer = () => {
-    //@ts-ignore
-    timer = setTimeout(() => {
-      // clears any pending timer.
-      resetTimer();
-      // Listener clean up. Removes the existing event listener from the window
-      Object.values(events).forEach((item) => {
-        window.removeEventListener(item, resetTimer);
-      });
-      // logs out user
-      logoutAction("INACTIVITY LOGOUT");
-    }, 500000); // 10000ms = 10secs.
-  };
-  useEffect(() => {
-    Object.values(events).forEach((item) => {
-      window.addEventListener(item, () => {
-        resetTimer();
-        handleLogoutTimer();
-      });
-    });
-  }, []);
+//❌
+  // const handleLogoutTimer = () => {
+  //   //@ts-ignore
+  //   timer = setTimeout(() => {
+  //     // clears any pending timer.
+  //     resetTimer();
+  //     // Listener clean up. Removes the existing event listener from the window
+  //     Object.values(events).forEach((item) => {
+  //       window.removeEventListener(item, resetTimer);
+  //     });
+  //     // logs out user
+  //     logoutAction("INACTIVITY LOGOUT");
+  //   }, 500000); // 10000ms = 10secs.
+  // };
+  // useEffect(() => {
+  //   Object.values(events).forEach((item) => {
+  //     window.addEventListener(item, () => {
+  //       resetTimer();
+  //       handleLogoutTimer();
+  //     });
+  //   });
+  // }, []);
 
   const logoutAction = async (action: string) => {
     let { data: ipData } = await axios_.get("https://ipapi.co/json/");
     let ip = ipData.ip;
-    let userId = JSON.parse(localStorage.getItem("user") || "")?._id
+    let userId = JSON.parse(localStorage.getItem("user") || "")?._id;
     await axios.post("/api/logout", {
       id: userId,
       ip,
@@ -118,21 +122,50 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   };
 
   return (
-    <div className="flex  flex-col gap-2 cursor-pointer mt-4 text-gray-600 lg:w-[65%] w-[90%]">
-      <div className="navbar flex justify-between items-center px-4 py-2 dark:bg-blue-950 light:bg-slate-300 border border-sm rounded-lg">
-        <div className="flex items-center justify-around gap-6">
-          <RiMenuUnfoldFill
-            size={18}
-            onClick={() => {
-              toggleSidebar();
-            }}
-            className={`block lg:hidden`}
-          />
-          <ThemeProvider>
-            <Switcher />
-          </ThemeProvider>
+    <div className="flex w-full z-50 bg-white dark:bg-[#282f46] flex-col gap-2 cursor-pointer text-gray-600 border-sm border border-b dark:border-gray-300/25 border-gray-600/25">
+      <div className="navbar flex justify-between items-center px-4 py-4 bg-white dark:bg-[#282f46] rounded-lg">
+        <div className="flex items-center justify-center gap-6">
+          <div className="w-full flex items-center justify-between gap-2 font-semibold text-blue-500 ">
+            <div className="flex gap-2 items-center justify-center">
+              <div>
+                <RiMenu2Fill
+                  size={25}
+                  className={`hover:cursor-pointer`}
+                  onClick={() => {
+                    toggleSidebar();
+                  }}
+                />
+              </div>
+              <Image
+
+                src="/assets/sayngo.png"
+                width={30}
+                height={20}
+                alt=""
+              ></Image>
+
+              <span className={` lg:text-xl lg:block hidden lg:font-bold`}>
+                SAYNGO
+              </span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center justify-around gap-6">
+
+        <div className="flex items-center justify-center gap-6">
+          <div className="mt-2">
+            <div className="hidden lg:block">
+              <RiMenuUnfoldFill
+                size={18}
+                onClick={() => {
+                  toggleSidebar();
+                }}
+                className={`block lg:hidden`}
+              />
+            </div>
+            <ThemeProvider>
+              <Switcher />
+            </ThemeProvider>
+          </div>
           {/* <BsHouseCheck size={18} />
           <BsBarChart size={18} />
           <div className="relative">
@@ -146,11 +179,12 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
               height={35}
               width={35}
               alt="Image"
-              className="rounded-full cursor-pointer"
+              className="border-gray-300 rounded-full border-2"
               onClick={() => {
                 toggleDropdown();
               }}
             />
+
             {isProfileDropDownOpen && (
               <motion.div
                 initial={{ x: 20, y: -10, scale: 0.8 }}
@@ -159,7 +193,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
                   duration: 0.4,
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
-                className="absolute right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg py-2 w-[200px] z-50"
+                className="absolute right-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg py-2 w-[300px] z-50"
               >
                 <div className="flex items-center gap-4 px-4 py-2">
                   <Image

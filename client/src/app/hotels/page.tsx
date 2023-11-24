@@ -39,7 +39,7 @@ const Hotels = () => {
   const [reloadData, setReloadData] = useState<boolean>(false);
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
- const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
+  const [showEditHotelModal, setShowEditHotelModal] = useState<boolean>(false);
   const [editingHotelData, setEditingHotelData] = useState<object>({});
   useEffect(() => {
     if (showModal || showViewModal) {
@@ -64,8 +64,7 @@ const Hotels = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("authToken");
 
-        window.open(`${FRONTEND_URL}/login`,"_self")
-
+        window.open(`${FRONTEND_URL}/login`, "_self");
       }
     };
     updateUser();
@@ -144,7 +143,7 @@ const Hotels = () => {
     }
   };
 
-  const updateHotelStatushandler = async (id?: string) =>{
+  const updateHotelStatushandler = async (id?: string) => {
     try {
       const { data } = await axios.post(`/hotel/update-hotel-status`, {
         id,
@@ -171,7 +170,7 @@ const Hotels = () => {
       toast.error(error.message);
       console.log(error);
     }
-  }
+  };
 
   const handleDownload = async () => {
     const getHotelsForDownload = async () => {
@@ -232,22 +231,26 @@ const Hotels = () => {
             onClick={() => {
               setShowDownloadPopUp(true);
             }}
-            className="flex gap-2 text-indigo-500 bg-white border-2 border-indigo-600 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out duration:500"
+            className="defaultBtn"
           >
             <SiMicrosoftexcel size={20} />
-            <p>Download Excel</p>
+            <p className="whitespace-nowrap text-sm hidden lg:block">
+              Download Excel
+            </p>
           </button>
           <button
             onClick={() => setShowModal(true)}
             type="submit"
-            className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className=" defaultBtn"
           >
             <FaPlus size={20} />
-            <p>Add Hotel</p>
+            <p className="whitespace-nowrap text-sm hidden lg:block">
+              Add Hotel
+            </p>
           </button>
         </div>
       </div>
-      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
+      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-row justify-center gap-2 md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
           <div className="flex flex-row h-full text-gray-700">
             <button
@@ -286,22 +289,23 @@ const Hotels = () => {
             e.preventDefault();
             getHotelsBySearch(e);
           }}
-          className="w-full h-full text-xs mt-2 md:mt-0"
+          className="w-full h-full text-xs md:mt-0"
         >
-          <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
+          <div className="ml-auto border shadow md:w-[500px] mx-1 h-full flex flex-row rounded-md justify-center items-center overflow-hidden">
             <input
               placeholder="Search Hotels..."
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-full h-full py-2 px-4   outline-none text-gray-700 "
+              className="w-full h-full py-4 px-4 dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
             />
             <button
-              className="min-w-[40px] flex justify-center items-center bg-blue-700 text-white cursor-pointer hover:opacity-90"
+              className="min-w-[40px] flex justify-center items-center defaultBtn"
               onClick={(e) => {
-                e.preventDefault();
                 getHotelsBySearch(e);
+                // e.preventDefault();
+                // toast.info("Search feature is not available yet");
               }}
             >
               <BiSearch className="text-xl" />
@@ -346,11 +350,11 @@ const Hotels = () => {
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           {accountType === "ADMIN" && (
             <ViewHotel
-            setEditingHotelData={(value) => setEditingHotelData(value)}
-            setShowEditHotelModal={(value) => setShowEditHotelModal(value)}
-            updateStatusHandler={updateHotelStatushandler}
-            deleteHotelHandler={deleteHotelHandler}
-            owner={user}
+              setEditingHotelData={(value) => setEditingHotelData(value)}
+              setShowEditHotelModal={(value) => setShowEditHotelModal(value)}
+              updateStatusHandler={updateHotelStatushandler}
+              deleteHotelHandler={deleteHotelHandler}
+              owner={user}
               hotel={hotel}
               onClose={(value) => setShowViewModal(value)}
             />
@@ -367,7 +371,7 @@ const Hotels = () => {
           />
         </div>
       )}
-      <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">
+      <div className="z-20 w-full flex flex-row justify-between items-center py-3 ">
         <div>
           <button
             onClick={() => setPage(page - 1)}
@@ -390,10 +394,10 @@ const Hotels = () => {
         </div>
       </div>
       {showDownloadPopUp && (
-        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+        <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden z-50">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg font-bold">
+              <h1 className="text-lg font-bold text-black">
                 Downlod data in a Excel file
               </h1>
               <button

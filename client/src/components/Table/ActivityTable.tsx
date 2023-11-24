@@ -31,8 +31,8 @@ const ActivityTable = ({ activityData, owner, loading }: TableProps) => {
   return (
     <div className="w-full mt-6">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
-        <table className="w-full border-white border-2 text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
-          <thead className="text-sm text-gray-900 uppercase dark:text-gray-400">
+        <table className="w-full border border-gray-600/25 dark:border-gray-300/25 rounded-md text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
+          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400 border">
             <tr>
               <th scope="col" className="px-4 py-2 text-center">
                 Name
@@ -51,7 +51,7 @@ const ActivityTable = ({ activityData, owner, loading }: TableProps) => {
               </th>
             </tr>
           </thead>
-          <tbody className="rounded-xl">
+          <tbody className="rounded-xl dark:text-white">
             {activityData.length === 0 && (
               <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <TbLoader className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
@@ -97,7 +97,7 @@ const ActivityTable = ({ activityData, owner, loading }: TableProps) => {
                         </td>
                         <td className="px-4 py-2 text-center">
                           <p>
-                            <h3 className="text-gray-700">
+                            <h3 className="">
                               {new Date(activity.createdAt).toDateString()}
                             </h3>
                             <p className="text-gray-500 text-xs mt-1">

@@ -94,8 +94,8 @@ const LeadsTable = ({
   return (
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
-        <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
-          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full border border-gray-600/25 dark:border-gray-300/25 rounded-md text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
+          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400 border">
             <tr className="whitespace-nowrap">
               <th scope="col" className="px-4 text-center py-3">
                 #
@@ -134,9 +134,7 @@ const LeadsTable = ({
                 Status
               </th>
 
-              <th scope="col" className="px-4 text-center py-3">
-                OPTIONS
-              </th>
+              
             </tr>
           </thead>
           <tbody className="rounded-xl">

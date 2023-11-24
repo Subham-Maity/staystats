@@ -7,7 +7,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import EditBooking from "../card/EditBooking";
 import { InfinitySpin } from "react-loader-spinner";
 import { FaTimes } from "react-icons/fa";
-import{toast} from "react-toastify";
+import { toast } from "react-toastify";
 interface TableProps {
   bookingData?: {
     hotelName?: string;
@@ -49,19 +49,16 @@ const BookingTable = ({
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
 
-
-
-
   useEffect(() => {
-    if(bookingData?.length === 0){
+    if (bookingData?.length === 0) {
       // toast.error("No bookings found")
     }
   }, [bookingData]);
   return (
     <div className="w-full">
       <div className="w-full relative overflow-x-auto shadow-md sm:rounded-lg cursor-pointer">
-        <table className="w-full border-white border-2 text-sm text-left text-gray-500 dark:bg-inherit dark:text-gray-400">
-          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full border border-gray-600/25 dark:border-gray-300/25 rounded-md text-sm text-left text-gray-500  dark:bg-inherit  dark:text-gray-400">
+          <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400 border">
             <tr className=" whitespace-nowrap">
               <th scope="col" className="px-4 text-center py-3">
                 #
@@ -72,13 +69,13 @@ const BookingTable = ({
               <th scope="col" className="px-4 text-center py-3">
                 Guest Name
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 text-center py-3">
                 Contact Number
               </th>
               <th scope="col" className="px-4 text-center py-3">
                 Date
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 text-center py-3">
                 Number of Rooms
               </th>
               <th scope="col" className="px-4 text-center py-3">
@@ -120,12 +117,18 @@ const BookingTable = ({
               <th scope="col" className="px-6 py-3">
                 Remarks
               </th>
+              <th scope="col" className="px-6 py-3">
+                Creation Date
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Modification Date
+              </th>
               {/* <th scope="col" className="px-4 text-center py-3">
                 OPTIONS
               </th> */}
             </tr>
           </thead>
-          <tbody className="rounded-xl">
+          <tbody className="rounded-xl dark:text-white">
             {bookingData?.length === 0 && (
               <tr className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <TbLoader className="text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
@@ -196,7 +199,9 @@ const BookingTable = ({
                         <td className="px-6 py-2">
                           {booking?.advanceAmount || ""}
                         </td>
-                        <td className="px-6 py-4">{booking.dueAmount || "PAID"}</td>
+                        <td className="px-6 py-4">
+                          {booking.dueAmount || "PAID"}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {new Date(booking?.advanceDate).toDateString() || ""}
                         </td>
@@ -218,6 +223,12 @@ const BookingTable = ({
 
                         <td className="px-6 py-4">
                           {booking.remarks || "No remarks"}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {new Date(booking?.createdAt).toDateString() || ""}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {new Date(booking?.updatedAt).toDateString() || ""}
                         </td>
                         {/* <td className="px-6 py-4">
                           <div className="flex justify-center items-center">
@@ -267,7 +278,7 @@ const BookingTable = ({
           </tbody>
         </table>
       </div>
-      
+
       {showDeletePopup && (
         <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">

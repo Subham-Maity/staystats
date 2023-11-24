@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
-dotenv.config({ path: "prod.env" });
-// dotenv.config({ path: "dev.env" });
+// dotenv.config({ path: "prod.env" });
+dotenv.config({ path: "dev.env" });
 console.log("ENV : ", process.env.NODE_ENV);
 
 const express = require("express");
@@ -21,7 +21,9 @@ const bookingRoutes = require("./routes/bookingsRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const leadRoutes = require("./routes/leadRoutes");
 const workRoutes = require("./routes/workRoutes");
+const dataRoutes = require("./routes/dataRoutes");
 app.use("/", authRoutes);
+app.use("/", dataRoutes);
 app.use(checkAuth);
 app.use("/", userRoutes);
 app.use("/", hotelRoutes);
@@ -33,7 +35,6 @@ app.use("/", workRoutes);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
 
 (async () =>
   await connectDB()

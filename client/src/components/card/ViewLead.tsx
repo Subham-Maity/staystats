@@ -30,6 +30,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FiEdit } from "react-icons/fi";
 // import { AiOutlineEye } from "react-icons/ai";
 import { MdFileDownloadDone } from "react-icons/md";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,setShowEditModal }: Props) => {
   const [updating, setUpdating] = useState<boolean>(false);
@@ -41,7 +42,8 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
 
   return (
     <>
-    <form className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full">
+    <form className="p-6 items-cente rounded-lg shadow md:flex-row md:max-w-xl  w-full">
+      <TailwindWrapper>
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Lead Details</p>
         <span
@@ -57,7 +59,9 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             htmlFor="guest_name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Guest Name
+            Guest Name  
+           <span className="text-red-500">*</span>
+
           </label>
           <input
             type="text"
@@ -128,7 +132,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             htmlFor="nop"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Persons <span className="text-red-500">*</span>
+            No. of Persons <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -145,7 +149,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             htmlFor="nor"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Number of Rooms <span className="text-red-500">*</span>
+            No. of Rooms <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -241,7 +245,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
         <div className="">
           <label
             htmlFor="specialReq"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white whitespace-nowrap"
           >
             Special Requirements
           </label>
@@ -252,7 +256,7 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
             id="specialReq"
             name="specialReq"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Well well well"
+            
           />
         </div>
 
@@ -319,12 +323,13 @@ const ViewLead = ({ lead, onClose,owner,confirmLeadHandler,setEditingLeadsData,s
                             </div>
 
       </div>
+      </TailwindWrapper>
     </form>
     {showStatusPopup && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg font-bold">Confirm Lead</h1>
+              <h1 className="text-lg font-bold text-black">Confirm Lead</h1>
               <button
                 onClick={() => setShowStatusPopUp(false)}
                 className="text-red-500 text-lg"

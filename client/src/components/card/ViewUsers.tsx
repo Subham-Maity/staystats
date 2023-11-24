@@ -26,6 +26,7 @@ import { FaTimes } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from "react";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,setEditingUserData,setShowEditModal }: Props) => {
   const [showDeletePopUp, setShowDeletePopUp] = useState<boolean>(false);
@@ -46,7 +47,8 @@ const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,s
   return (
 
     <>
-    <form className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full">
+    <form className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl w-full">
+      <TailwindWrapper>
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">User Details</p>
         <span
@@ -141,7 +143,7 @@ const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,s
           </label>
 
           <textarea
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:opacity-50"
             value={
               user?.hotel?.map((hotel: any) => hotel.hotelName).join(", ") ||
               "Deleted Hotel"
@@ -186,13 +188,14 @@ const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,s
           </button>
         </div>
       </div>
+      </TailwindWrapper>
     </form>
     {
         showDeletePopUp && (
-          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex z-50 justify-center items-center overflow-hidden">
             <div className="w-1/3 bg-white rounded-lg p-6">
               <div className="flex justify-between items-center">
-                <h1 className="text-lg font-bold">Delete User</h1>
+                <h1 className="text-lg font-bold dark:text-black">Delete User</h1>
                 <button onClick={()=> setShowDeletePopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
               </div>
               <p className="text-sm text-gray-500 mt-2">Are you sure you want to delete this user?</p>
@@ -210,10 +213,10 @@ const ViewUser = ({ user, onClose, owner,deleteUserHandler,updateStatusHandler,s
       }
       {
         showStatusPopUp && (
-          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
+          <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden z-50">
             <div className="w-1/3 bg-white rounded-lg p-6">
               <div className="flex justify-between items-center">
-                <h1 className="text-lg font-bold">Activate/ Deactivate User</h1>
+                <h1 className="text-lg font-bold dark:text-black">Activate/ Deactivate User</h1>
                 <button onClick={()=> setShowStatusPopUp(false)} className="text-red-500 text-lg"><FaTimes/></button>
               </div>
               <p className="text-sm text-gray-500 mt-2">Are you sure you want to activate/deactivate this user?</p>

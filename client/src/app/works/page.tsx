@@ -52,8 +52,7 @@ const Works = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("authToken");
 
-        window.open(`${FRONTEND_URL}/login`,"_self")
-
+        window.open(`${FRONTEND_URL}/login`, "_self");
       }
     };
     updateUser();
@@ -64,9 +63,9 @@ const Works = () => {
     try {
       if (searchText?.trim()?.length > 0) {
         let { data } = await axios.get(
-          `/work/get-all-works/search?&query=${searchText}`,
+          `/work/get-all-works/search?&query=${searchText}`
         );
-        // console.log("users", data);
+        console.log("users", data);
         if (!data.error) {
           // setSearchResults(data);
           setWorkData(data.works);
@@ -84,10 +83,11 @@ const Works = () => {
       try {
         setLoading(true);
         const { data } = await axios.get(
-          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`,
+          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`
         );
-        // console.log(data);
+        console.log(data);
         if (!data.error) {
+
           setWorkData(data.works);
           setWorksCount(data.worksCount);
         } else {
@@ -103,23 +103,30 @@ const Works = () => {
     searchText.trim().length > 0 ? getWorksBySearch() : getHotels();
   }, [page, PAGE_LIMIT, reloadData]);
 
-  const workStatusUpdateHandler = async (id: string,workConfirm: string, remarks: string)=> {
-
-    if (id.trim() === "" || workConfirm.trim() === ""  || remarks.trim() === "") {
+  const workStatusUpdateHandler = async (
+    id: string,
+    workConfirm: string,
+    remarks: string
+  ) => {
+    if (
+      id.trim() === "" ||
+      workConfirm.trim() === "" ||
+      remarks.trim() === ""
+    ) {
       toast.error("Please fill all the fields");
       return;
     }
-    
+
     try {
-      const {data} = await axios.post("/work/update-status", {
+      const { data } = await axios.post("/work/update-status", {
         id,
         workConfirm,
-        remarks
-      })
+        remarks,
+      });
       if (!data.error) {
         toast.success(data.message);
         const { data: users } = await axios.get(
-          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`,
+          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`
         );
         if (!data.error) {
           setWorkData(users.works);
@@ -130,12 +137,9 @@ const Works = () => {
       } else {
         toast.error(data.error);
       }
-      
     } catch (error: any) {
       toast.error(error.message);
-      
     }
-
   };
 
   const deleteWorkHandler = async (id: string) => {
@@ -146,7 +150,7 @@ const Works = () => {
       if (!data.error) {
         toast.success(data.message);
         const { data: users } = await axios.get(
-          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`,
+          `/work/get-all-works?page=${page}&limit=${PAGE_LIMIT}`
         );
         if (!data.error) {
           setWorkData(users.works);
@@ -168,20 +172,20 @@ const Works = () => {
     <div className="flex w-full flex-col justify-center gap-4 items-center">
       <div className="flex w-full justify-between mt-6">
         <h1 className="text-2xl font-bold">Log Book</h1>
-        {
-          accountType === "ADMIN" && (
+        <div className="flex gap-2">
+          {accountType === "ADMIN" && (
             <button
-          onClick={() => setShowModal(true)}
-          type="submit"
-          className=" flex  gap-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          <FaPlus size={20} />
-          <p>Add Work</p>
-        </button>
-          )
-        }
+              onClick={() => setShowModal(true)}
+              type="submit"
+              className=" defaultBtn"
+            >
+              <FaPlus size={20} />
+              <p>Add Work</p>
+            </button>
+          )}
+        </div>
       </div>
-      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-col md:flex-row items-center w-full">
+      <div className="md:h-[40px] my-4 sm:my-6 text-gray-600 flex flex-row justify-center gap-2 md:flex-row items-center w-full">
         <div className="h-full flex flex-row  items-center mr-auto">
           <div className="flex flex-row h-full text-gray-700">
             <button
@@ -201,41 +205,50 @@ const Works = () => {
           </div>
           {/* <div className="ml-4 py-2 px-2 h-full border shadow rounded text-xs font-medium"> */}
           {/* <Select
-            id="work"
-            name="work"
-            options={[{value: "all", label: "All Hotels"}, ...workData.map((work: any)=>({value: work._id, label: work.workName}))]}
-            isMulti
-            value={"coming soon"}
-            onChange={()=>{
-              toast.info("Search feature is not available yet")
-              // handleHotelSelection()
-            }}
-            className="w-[80px] outline-none ml-4 px-2 h-full shadow rounded text-xs font-medium"
-            isDisabled={loading}
-          /> */}
+              id="hotel"
+              name="hotel"
+              options={[
+                { value: "all", label: "All Users" },
+                ...userData.map((user: any) => ({
+                  value: user._id,
+                  label: user.username,
+                })),
+              ]}
+              isMulti
+              value={"coming soon"}
+              onChange={() => {
+                toast.info("Search feature is not available yet");
+                // handleHotelSelection()
+              }}
+              className="w-[80px] outline-none ml-4 px-2 h-full shadow rounded text-xs font-medium"
+              isDisabled={loading}
+            /> */}
           {/* </div> */}
         </div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             getWorksBySearch(e);
+
+            // toast.info("Search feature is not available yet");
           }}
-          className="w-full h-full text-xs mt-2 md:mt-0"
+          className="w-full h-full text-xs md:mt-0"
         >
-          <div className="ml-auto border shadow md:w-[500px] h-full flex flex-row rounded-md overflow-hidden">
+          <div className="ml-auto border shadow md:w-[500px] mx-1 h-full flex flex-row rounded-md justify-center items-center overflow-hidden">
             <input
-              placeholder="Search Hotels..."
+              placeholder="Search Works..."
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-full h-full py-2 px-4   outline-none text-gray-700 "
+              className="w-full h-full py-4 px-4 dark:bg-[#282f46] outline-none text-gray-700 dark:text-white"
             />
             <button
-              className="min-w-[40px] flex justify-center items-center bg-blue-700 text-white cursor-pointer hover:opacity-90"
+              className="min-w-[40px] flex justify-center items-center defaultBtn"
               onClick={(e) => {
-                e.preventDefault();
                 getWorksBySearch(e);
+                // e.preventDefault();
+                // toast.info("Search feature is not available yet");
               }}
             >
               <BiSearch className="text-xl" />
@@ -278,21 +291,19 @@ const Works = () => {
       )}
       {showViewModal && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
-          
-            <ViewWorks
+          <ViewWorks
             setEditingWorkData={(value) => setEditingWorkData(value)}
-              setShowEditWorkModal={(value) => setShowEditWorkModal(value)}
-              // @ts-ignore`
-              workData={work}
-              deleteWorkHandler={deleteWorkHandler}
-              statusUpdateHandler={workStatusUpdateHandler}
-              owner={user}
-              onClose={(value) => setShowViewModal(value)}
-            />
-          
+            setShowEditWorkModal={(value) => setShowEditWorkModal(value)}
+            // @ts-ignore`
+            workData={work}
+            deleteWorkHandler={deleteWorkHandler}
+            statusUpdateHandler={workStatusUpdateHandler}
+            owner={user}
+            onClose={(value) => setShowViewModal(value)}
+          />
         </div>
       )}
-        {showEditWorkModal && editingWorkData && (
+      {showEditWorkModal && editingWorkData && (
         <div className="z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <EditWorks
             onClose={(value) => setShowEditWorkModal(value)}
@@ -302,7 +313,7 @@ const Works = () => {
           />
         </div>
       )}
-      <div className="z-20 w-full flex flex-row justify-between items-center py-3 border-t-2">
+      <div className="z-20 w-full flex flex-row justify-between items-center py-3 ">
         <div>
           <button
             onClick={() => setPage(page - 1)}

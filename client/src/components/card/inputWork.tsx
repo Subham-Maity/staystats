@@ -3,6 +3,7 @@ import axios from "@/utils/axios";
 import Select from "react-select";
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 interface Props {
   setWorkData: (users: any) => void;
@@ -21,7 +22,7 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
     const getUsers = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/user/get-users");
+        const { data } = await axios.get("/user/get-all-users");
         console.log(data);
         if (!data.error) {
           setAvailableUsers(data.users);
@@ -93,9 +94,10 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
   return (
     <form
       ref={formRef}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 w-full"
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl w-full"
       onSubmit={handleSubmit}
     >
+      <TailwindWrapper>
       <div className="flex w-full mb-6">
         <p className="font-bold text-lg">Work Details</p>
         <span
@@ -137,7 +139,7 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
             options={reactSelectOptions}
             value={selectedUser}
             onChange={handleUsersSelection}
-            className="w-full text-black"
+            className="w-[90%] text-black"
           />
           {availableUsers.length === 0 && (
             <div className="text-xs text-red-600 font-medium">
@@ -154,7 +156,9 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
           Work Details <span className="text-red-500">*</span>
         </label>
         <textarea
-        onChange={(e)=> e.target.value= e.target.value.toLocaleUpperCase()}
+          onChange={(e) =>
+            (e.target.value = e.target.value.toLocaleUpperCase())
+          }
           rows={4}
           name="workDetails"
           id="workDetails"
@@ -166,11 +170,12 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
 
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        className="defaultBtn"
         disabled={loading}
       >
         Submit
       </button>
+      </TailwindWrapper>
     </form>
   );
 };

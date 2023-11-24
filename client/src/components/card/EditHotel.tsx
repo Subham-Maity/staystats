@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import axios from "@/utils/axios";
 import axios_ from "axios";
 import React, { useState, useEffect, useRef } from "react";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
 const EditHotel = ({
   setHotelData,
@@ -65,7 +66,7 @@ const EditHotel = ({
         return;
       }
     });
-    // console.log(formValues)
+    console.log(formValues)
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
@@ -183,8 +184,9 @@ const EditHotel = ({
   return (
     <form
       onSubmit={handleUpdate}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl  "
     >
+      <TailwindWrapper>
       <div className="flex mb-6">
         <p className="text-lg font-bold">Hotel Details</p>
         <span
@@ -227,23 +229,34 @@ const EditHotel = ({
           >
             Location <span className="text-red-500">*</span>
           </label>
-          <input
-            name="location"
-            type="text"
-            id="last_name"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha"
+          <select
             required
-            value={editingHotelData.location}
-            onChange={(e) => {
-              setEditingHotelData((prev: any) => {
-                return {
-                  ...prev,
-                  location: e.target.value.toLocaleUpperCase(),
-                };
-              });
-            }}
-          />
+            onChange={
+              (e) => {
+                setEditingHotelData((prev: any) => {
+                  return {
+                    ...prev,
+                    location: e.target.value.toLocaleUpperCase(),
+                  };
+                })
+              }
+            }
+            id="plan"
+            name="location"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option
+              defaultValue={editingHotelData.location}
+              value={editingHotelData.location}
+            >
+              {editingHotelData.location}
+            </option>
+            <option value="MANDARMANI">MANDARMANI</option>
+            <option value="TAJPUR">TAJPUR</option>
+            <option value="OLD DIGHA">OLD DIGHA</option>
+            <option value="NEW DIGHA">NEW DIGHA</option>
+            <option value="BAGDOGRA">BAGDOGRA</option>
+          </select>
         </div>
         <div>
           <label
@@ -508,7 +521,7 @@ const EditHotel = ({
           <div className="flex gap-2 flex-col items-center justify-center">
             {!uploadingDocument && (
               <a
-                className="text-xs bg-blue-500 p-2 text-white rounded-xl"
+                className="defaultBtn mr-4"
                 href={editingHotelData.otherDocuments}
               >
                 View Old Document
@@ -585,11 +598,12 @@ const EditHotel = ({
 
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+        className="defaultBtn"
         disabled={loading}
       >
         Update
       </button>
+      </TailwindWrapper>
     </form>
   );
 };

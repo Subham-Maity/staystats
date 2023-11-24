@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 import axios from "@/utils/axios";
 import axios_ from "axios";
 import React, { useState, useEffect, useRef } from "react";
-
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
+ 
 const InputHotel = ({ setHotelData, onClose }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -186,8 +187,9 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800 "
+      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl "
     >
+      <TailwindWrapper>
       <div className="flex mb-6">
         <p className="text-lg font-bold">Hotel Details</p>
         <span
@@ -210,7 +212,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             name="hotelName"
             id="first_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha Saikatabas"
+            
             required
             onChange={(e) =>
               (e.target.value = e.target.value.toLocaleUpperCase())
@@ -224,17 +226,22 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
           >
             Location
           </label>
-          <input
+          <select
+          required
+            id="location"
             name="location"
-            type="text"
-            id="last_name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha"
-            required
-            onChange={(e) =>
-              (e.target.value = e.target.value.toLocaleUpperCase())
-            }
-          />
+          >
+            <option selected disabled>--Choose--</option>
+
+            <option value="MANDARMANI">MANDARMANI</option>
+            <option value="TAJPUR">TAJPUR</option>
+            <option value="OLD DIGHA">OLD DIGHA</option>
+            <option value="NEW DIGHA">NEW DIGHA</option>
+            <option value="BAGDOGRA">BAGDOGRA</option>
+
+            
+          </select>
         </div>
         <div>
           <label
@@ -318,7 +325,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Email address (Optional)
+            Email address
           </label>
           <input
             name="email"
@@ -473,20 +480,23 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         </div>
       </div>
 
+      <div className="flex gap-2">
       <button
         disabled={uploadingDocument}
         type="submit"
-        className="text-white mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="defaultBtn"
       >
         Submit
       </button>
       <button
         disabled={uploadingDocument}
         type="reset"
-        className="text-white ml-2 mt-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="defaultBtn"
       >
         Reset
       </button>
+      </div>
+      </TailwindWrapper>
     </form>
   );
 };

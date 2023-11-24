@@ -92,15 +92,15 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="fade w-full h-screen flex flex-row items-center justify-center relative">
+    <div className="fade dark:bg-[#25293c] w-full h-screen flex flex-row items-center justify-center relative">
       {/* <div className="hidden lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover ">
         <Image src={'/assets/login_graphic.jpg'} height={600} width={600} alt="Image" className="rounded-md cursor-pointer ml-auto md:scale-90 " />
         </div> */}
       <div className="bg-white hidden pr-16 lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover">
         <AnimatedImage
-          src="/assets/login_graphic.jpg"
-          height={600}
-          width={600}
+          src="/assets/login-page.jpeg"
+          height={700}
+          width={700}
           alt="Image"
           quality={100}
           className="rounded-md cursor-pointer ml-auto "
@@ -111,6 +111,7 @@ const LoginForm = () => {
             perspective: "1000px",
             boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
             borderRadius: "10px",
+            
           }}
           animate={{
             rotateY: ["-10deg", "10deg", "-10deg"],
@@ -130,7 +131,7 @@ const LoginForm = () => {
           <div className="w-full px-2 lg:border-l-2 border-gray-200 sm:px-6 py-7 flex flex-col bg-white">
             <div className="pb-8 w-full h-full flex flex-col justify-end items-start  text-black">
               <h2 className="text-2xl capitalize mb-2 font-medium">
-                <span className="text-indigo-500 font-semibold">Sayngo</span>{" "}
+                <span className="text-indigo-500 font-semibold">SAYNGO</span>{" "}
                 {/* do we know you ? */}
               </h2>
               <p className="text-sm">
@@ -143,7 +144,7 @@ const LoginForm = () => {
               <label className="text-sm mb-1 text-gray-700">Username</label>
               <input
                 type="text"
-                className="text-gray-700 w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm"
+                className="text-gray-700 dark:text-white w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm"
                 placeholder="Enter your username"
                 //@ts-ignore
                 ref={usernameRef}
@@ -155,7 +156,7 @@ const LoginForm = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="text-gray-700 w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm pr-10"
+                  className="text-gray-700 dark:text-white w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm pr-10"
                   placeholder="Enter your password"
                   //@ts-ignore
                   ref={passwordRef}
