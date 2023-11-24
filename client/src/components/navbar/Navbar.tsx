@@ -22,12 +22,12 @@ interface NavbarProps {
 }
 //❌
 const events:any = [
-  // "load",
-  // "mousemove",
-  // "mousedown",
-  // "click",
-  // "scroll",
-  // "keypress",
+  "load",
+  "mousemove",
+  "mousedown",
+  "click",
+  "scroll",
+  "keypress",
 ];
 const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false);
@@ -86,27 +86,29 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
     if (timer) clearTimeout(timer);
   };
 //❌
-  // const handleLogoutTimer = () => {
-  //   //@ts-ignore
-  //   timer = setTimeout(() => {
-  //     // clears any pending timer.
-  //     resetTimer();
-  //     // Listener clean up. Removes the existing event listener from the window
-  //     Object.values(events).forEach((item) => {
-  //       window.removeEventListener(item, resetTimer);
-  //     });
-  //     // logs out user
-  //     logoutAction("INACTIVITY LOGOUT");
-  //   }, 500000); // 10000ms = 10secs.
-  // };
-  // useEffect(() => {
-  //   Object.values(events).forEach((item) => {
-  //     window.addEventListener(item, () => {
-  //       resetTimer();
-  //       handleLogoutTimer();
-  //     });
-  //   });
-  // }, []);
+  const handleLogoutTimer = () => {
+    //@ts-ignore
+    timer = setTimeout(() => {
+      // clears any pending timer.
+      resetTimer();
+      // Listener clean up. Removes the existing event listener from the window
+      Object.values(events).forEach((item):any => {
+        // @ts-ignore
+        window.removeEventListener(item, resetTimer);
+      });
+      // logs out user
+      logoutAction("INACTIVITY LOGOUT");
+    }, 500000); // 10000ms = 10secs.
+  };
+  useEffect(() => {
+    Object.values(events).forEach((item) => {
+      // @ts-ignore
+      window.addEventListener(item, () => {
+        resetTimer();
+        handleLogoutTimer();
+      });
+    });
+  }, []);
 
   const logoutAction = async (action: string) => {
     let { data: ipData } = await axios_.get("https://ipapi.co/json/");
