@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchOwner } from "@/utils";
 import { toast } from "react-toastify";
-import {useRouter} from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 
 
 const AdminProtector =  ({ children }: { children: React.ReactNode }) => {
@@ -30,11 +30,11 @@ const AdminProtector =  ({ children }: { children: React.ReactNode }) => {
         updateUser();
     }, []);
 
-    useEffect(() => {
+
         if (accountType && accountType !== "ADMIN") {
-            router.push("/bookings");
+            redirect("/bookings");
         }
-    }, [accountType, router]);
+
 
     return accountType === "ADMIN" ? children : null;
 };
