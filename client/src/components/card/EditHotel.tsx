@@ -256,6 +256,8 @@ const EditHotel = ({
             <option value="OLD DIGHA">OLD DIGHA</option>
             <option value="NEW DIGHA">NEW DIGHA</option>
             <option value="BAGDOGRA">BAGDOGRA</option>
+            <option value="TARAPITH">TARAPITH</option>
+
           </select>
         </div>
         <div>
