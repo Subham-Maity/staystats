@@ -39,7 +39,7 @@ const Filter = ({ setFilterData,isFilterOpen }: Props) => {
       try {
         setLoading(true);
         const { data } = await axios.post(`/hotel/get-all-hotels`);
-        const { data: users } = await axios.get(`/user/get-users`);
+        const { data: users } = await axios.get(`/user/get-all-users`);
         // console.log(data);
         if (!data.error) {
           setHotels(data.hotels);
