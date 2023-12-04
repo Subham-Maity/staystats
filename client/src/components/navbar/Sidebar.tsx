@@ -91,7 +91,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }: SidebarProps) => {
            <Link href="/dash">
             <li
                 className={` flex items-center justify-start gap-2 p-2 hover:cursor-pointer ${
-                    pathname === "/dash"
+                    pathname === "/dash" || pathname === "/"
                         ? "bg-slate-300 dark:bg-slate-700 text-primary hover:none"
                         : " dark:hover:bg-slate-600"
                 } rounded-md`}

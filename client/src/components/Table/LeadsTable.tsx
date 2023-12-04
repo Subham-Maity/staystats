@@ -54,12 +54,15 @@ const LeadsTable = ({
   const [editingLeadsData, setEditingLeadsData] = useState<object>({});
 
   useEffect(() => {
+    if(leadsData?.length === 0){
+      toast.error("No Leads Found");
+    }
     if (showEditModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [showEditModal]);
+  }, [showEditModal,leadsData]);
 
   // const confirmLeadHandler = async (id: string) => {
   //   try {
@@ -138,11 +141,12 @@ const LeadsTable = ({
             </tr>
           </thead>
           <tbody className="rounded-xl">
-            {leadsData?.length === 0 && (
-              <th className="light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 h-10">
-                <TbLoader className=" mt-4 text-4xl text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-              </th>
-            )}
+            {/* {leadsData?.length === 0 && (
+             
+                
+                <p className="mx-auto text-center">No Leads Found</p>
+              
+            )} */}
             {leadsData && leadsData.length > 0 && (
               <>
                 {loading ? (
