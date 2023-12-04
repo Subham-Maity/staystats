@@ -55,7 +55,7 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
     });
     localStorage.removeItem("user");
     localStorage.removeItem("authToken");
-    window.location.reload();
+    window.location.href = "/login";
   };
 
   const pathname = usePathname();

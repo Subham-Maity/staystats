@@ -59,13 +59,18 @@ const EditBooking = ({
       }
     });
 
-    // console.log(formValues);
+    console.log(formValues);
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
 
     if (!nameRegex.test(formValues.guest_name)) {
       toast.error("Guest name should contain only alphabets");
+      return;
+    }
+
+    if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn) || formValues.cn.length !== 10) {
+      toast.error("Please enter a valid contact number and don't include +91");
       return;
     }
 
@@ -85,6 +90,7 @@ const EditBooking = ({
         advanceDate: formValues.Advancedate,
         bookingSource: formValues.bookingSource,
         booikingBy: formValues.bb,
+        accountType: formValues.accountType,
         plan: formValues.plan,
         contactNumber: formValues.cn,
         remarks: formValues.remark,
@@ -201,7 +207,7 @@ const EditBooking = ({
             Contact Number <span className="text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             id="cn"
             name="cn"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -513,6 +519,33 @@ const EditBooking = ({
             disabled
             value={editingBookingData.bookingBy}
           />
+        </div>
+        <div>
+          <label
+            htmlFor="plan"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Account type <span className="text-red-500">*</span>
+          </label>
+          <select
+          required
+          onChange={(e) =>
+            setEditingBookingData((prev: any) => {
+              return { ...prev, accountType: e.target.value }
+
+            })
+            }
+            id="plan"
+            name="accountType"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option value={editingBookingData.accountType}>{editingBookingData.accountType}</option>
+
+            <option value="HOTEL">HOTEL</option>
+            <option value="SAYNGO">SAYNGO</option>
+            
+          </select>
+          
         </div>
         
         <div className="">

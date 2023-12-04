@@ -70,13 +70,18 @@ const LoginForm = () => {
         localStorage.setItem("user", JSON.stringify(response.user));
         localStorage.setItem("authToken", response.jwt);
 
+        if (response.user?.role !== "ADMIN") {
+          
+          console.log("redirecting to bookings");
+          window.location.href = `/bookings`;
+        } else{
+          console.log("redirecting to admin");
+          window.location.href = `/`;
+        }
         // @ts-ignore
         toast.success(`Welcome ${response.user.username}`);
-        setTimeout(() => {
-          if (username.role !== "ADMIN") {
-            window.location.href = `/bookings`;
-          }
-        }, 800);
+      
+        
       } else if (response.message) {
         toast.error(response.message);
       }
