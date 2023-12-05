@@ -14,38 +14,38 @@
 /*}*/
 
 /* Chrome, Safari, Edge, Opera */
-::-webkit-scrollbar {
-  width: 0px;
-}
+/*::-webkit-scrollbar {*/
+/*  width: 2px;*/
+/*}*/
 
-::-webkit-scrollbar-thumb {
-  background-color: #3b3b3b;
-}
+/*::-webkit-scrollbar-thumb {*/
+/*  background-color: #3b3b3b;*/
+/*}*/
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-}
+/** {*/
+/*  scrollbar-width: thin;*/
+/*  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;*/
+/*}*/
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-}
+/** {*/
+/*  scrollbar-width: thin;*/
+/*  scrollbar-color: transparent transparent;*/
+/*}*/
 
 
-*::-webkit-scrollbar {
-  width: 0px;
-}
+/**::-webkit-scrollbar {*/
+/*  width: 2px;*/
+/*}*/
 
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
+/**::-webkit-scrollbar-track {*/
+/*  background: transparent;*/
+/*}*/
 
-*::-webkit-scrollbar-thumb {
-  background-color: transparent !important;
-  border-radius: 20px;
-  border: 3px solid transparent;
-}
+/**::-webkit-scrollbar-thumb {*/
+/*  background-color: transparent !important;*/
+/*  border-radius: 20px;*/
+/*  border: 3px solid transparent;*/
+/*}*/
 
 .defaultBtn {
   @apply flex gap-2 whitespace-nowrap border-2 text-white border-indigo-600/25 bg-indigo-600 hover:bg-indigo-400 focus:ring-0 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-500 dark:focus:ring-indigo-800 hover:text-white transition-all ease-in-out  dark:text-white cursor-pointer;
