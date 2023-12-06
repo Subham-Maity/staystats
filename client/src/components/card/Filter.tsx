@@ -5,13 +5,19 @@ import { Calendar } from "react-date-range";
 import { DateRangePicker } from "react-date-range";
 import axios from "@/utils/axios";
 import { toast } from "react-toastify";
+import { Table } from "flowbite-react";
 
 type Props = {
   setFilterData: any;
   isFilterOpen: boolean;
+  bookingStats: {
+    totalBookingAmt: number;
+    totalAdvanceAmt: number;
+    totalDueAmt: number;
+  }
 };
 
-const Filter = ({ setFilterData,isFilterOpen }: Props) => {
+const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
   const [hotels, setHotels] = React.useState<any>([]);
   const [users, setUsers] = React.useState<any>([]);
 
@@ -35,6 +41,7 @@ const Filter = ({ setFilterData,isFilterOpen }: Props) => {
   });
 
   useEffect(() => {
+    // console.log(bookingStats)
     const getHotels = async () => {
       try {
         setLoading(true);
@@ -251,7 +258,8 @@ const Filter = ({ setFilterData,isFilterOpen }: Props) => {
         </div>
         {
           isFilterOpen && (
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 flex gap-2 flex-col">
+          <div className="mt-2 flex gap-2">
           <button
             onClick={handleSubmit}
             type="submit"
@@ -297,6 +305,21 @@ const Filter = ({ setFilterData,isFilterOpen }: Props) => {
           >
             Reset
           </button>
+          </div>
+          <div className="flex flex-col justify-center items-start">
+            <div className="flex lg:flex-row flex-col gap-4">
+              <p>Total Booking Amount - ₹ {bookingStats.totalBookingAmt}</p>
+              <h1 className="hidden lg:block"> | </h1>
+              <p>Total Advance Amount - ₹ {bookingStats.totalAdvanceAmt}</p>
+              
+              <h1 className="hidden lg:block"> | </h1>
+
+              <p>Total Due Amount - ₹ {bookingStats.totalDueAmt}</p>
+
+            </div>
+
+            
+          </div>
         </div>
           )
         }

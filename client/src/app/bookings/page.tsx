@@ -19,12 +19,17 @@ import EditBooking from "@/components/card/EditBooking";
 
 const Bookings = () => {
   let router = useRouter();
-  const PAGE_LIMIT = 20;
+  const PAGE_LIMIT = 50;
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
   const [filterData, setFilterData] = useState<any>();
   const [bookingData, setBookingData] = useState<any>([]);
+  const [bookingDataStats, setBookingDataStats] = useState<any>({
+    totalBookingAmt: 0,
+    totalAdvanceAmt: 0,
+    totalDueAmt: 0,
+  }); // {users: [], usersCount: 0}
   const [bookingCounts, setBookingCounts] = useState<number>(0);
   const [booking, setBooking] = useState<any>();
   const [showViewModal, setShowViewModal] = useState<boolean>();
@@ -108,7 +113,16 @@ const Bookings = () => {
         if (!data.error) {
           setBookingData(data.bookings);
           setBookingCounts(data.bookingsCount);
+          setBookingDataStats((prev: any) => {
+            return {
+              ...prev,
+              totalBookingAmt: data.totalBookingAmt,
+              totalAdvanceAmt: data.totalAdvanceAmt,
+              totalDueAmt: data.totalDueAmt,
+            };
+          });
           data.message && toast.info(data.message);
+          
         } else {
           toast.error(data.error);
         }
@@ -252,6 +266,7 @@ const Bookings = () => {
       </div>
       <div className="w-full">
         <Filter
+        bookingStats={bookingDataStats}
         isFilterOpen={onFilterOpen}
           setFilterData={(filter: any) => {
             setFilterData(filter);

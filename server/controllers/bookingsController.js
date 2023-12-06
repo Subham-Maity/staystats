@@ -153,9 +153,14 @@ const getAllBookings = async (req, res) => {
     }
 
     console.log("filter: ", filter);
-
+    let bookingsForCalculation;
     // Fetch all bookings
     if (page && limit) {
+      bookingsForCalculation = await Booking.find(filter)
+        .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
+        .populate({ path: "hotel", model: Hotel })
+        .populate({ path: "addedBy", model: User });
+
       bookings = await Booking.find(filter)
         .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
         .skip(skipIndex)
@@ -181,7 +186,28 @@ const getAllBookings = async (req, res) => {
       });
       return;
     } else {
-      res.status(200).json({ bookings, bookingsCount: bookingsCount ?? 0 });
+      // if the booking status is not cancelled then add the total amount of booking in a variable
+
+      let totalBookingAmt = 0;
+      let totalAdvanceAmt = 0;
+      let totalDueAmt = 0;
+
+      bookingsForCalculation.forEach((booking) => {
+        if (booking.status !== "CANCELLED") {
+          totalBookingAmt += booking.bookingAmount;
+          totalAdvanceAmt += booking.advanceAmount;
+          totalDueAmt += booking.dueAmount;
+        }
+      });
+
+      // console.log(totalBookingAmt);
+      res.status(200).json({
+        bookings,
+        bookingsCount: bookingsCount ?? 0,
+        totalBookingAmt,
+        totalAdvanceAmt,
+        totalDueAmt,
+      });
       return;
     }
   } catch (error) {
