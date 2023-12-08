@@ -107,9 +107,9 @@ const WorksTable = ({
               <th scope="col" className="px-6 py-3 text-center">
                 Remarks
               </th>
-              {/* <th scope="col" className="px-6 py-3 text-center">
+              <th scope="col" className="px-6 py-3 text-center">
                 Options
-              </th> */}
+              </th>
             </tr>
           </thead>
           <tbody className="rounded-xl dark:text-white">
@@ -130,7 +130,7 @@ const WorksTable = ({
                       // console.log(work);
 
 
-                    if(owner.role !== "ADMIN" && work?.userName?._id === owner?._id){
+                    if( work?.userName?._id === owner?._id){
                       
                       return (
                         <tr
@@ -138,9 +138,7 @@ const WorksTable = ({
                           key={index}
                           className={` border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${work.workConfirm === "CONFIRMED" ? "text-green-500" : work.workConfirm === "REJECTED" ? "text-red-500 line-through" : ""}`}
                         >
-                          <div>
-                            
-                          </div>
+                          
                           <th
                             scope="row"
                             className="text-center px-6 py-2 font-medium text-gray-500 whitespace-nowrap dark:text-white"
@@ -167,49 +165,7 @@ const WorksTable = ({
                           </td>
   
                           <td className="px-6 py-2 text-center">
-                            {owner.role !== "SUBADMIN" ? (
-                              <div className="flex justify-center items-center">
-                                <button
-                                  // disabled={work.createdBy._id !== owner._id}
-                                  data-tip={"Preview Link"}
-                                  onClick={() => {
-                                    // console.log("chal nubbb" + work);
-                                    getWork(work);
-                                    setShowModal(true);
-                                  }}
-                                  className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
-                                >
-                                  <AiOutlineEye className="" />
-                                </button>
-                                <button
-                                  disabled={
-                                    work.createdBy._id !== owner._id &&
-                                    owner.role !== "ADMIN"
-                                  }
-                                  // data-tip={"Preview Link"}
-                                  onClick={() => {
-                                    setShowEditWorkModal(true);
-                                    setEditingWorkData(work);
-                                  }}
-                                  className={`w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
-                                >
-                                  <FiEdit className="" />
-                                </button>
-                                <button
-                                  disabled={
-                                    work.createdBy._id !== owner._id &&
-                                    owner.role !== "ADMIN"
-                                  }
-                                  data-tip={"Delete Hotel"}
-                                  onClick={() => {
-                                    handleShowDeleteModal(work._id);
-                                  }}
-                                  className={`w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-sm rounded-md disabled:opacity-50`}
-                                >
-                                  <RiDeleteBin6Line size={15} className="" />
-                                </button>
-                              </div>
-                            ) : (
+                            {owner?._id === work?.userName?._id ? (
                               <div className="flex gap-2 w-full justify-center items-center">
                                 <button
                                   disabled={work.workConfirm === "CONFIRMED" || work.workConfirm === "REJECTED"}
@@ -234,18 +190,7 @@ const WorksTable = ({
                                   }
                                   {work.workConfirm === "CONFIRMED" ? "Accepted" : work.workConfirm === "REJECTED" ? "Rejected" : "Accept"}
                                 </button>
-                                <button
-                                  // disabled={work.createdBy._id !== owner._id}
-                                  data-tip={"Preview Link"}
-                                  onClick={() => {
-                                    // console.log("chal nubbb" + work);
-                                    getWork(work);
-                                    setShowModal(true);
-                                  }}
-                                  className={`w-fit text-center p-2 shadow border bg-gray-100 text-blue-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
-                                >
-                                  <AiOutlineEye className="" />
-                                </button>
+                                
                                 {
                                   work.workConfirm === "PENDING" && (
                                     <>
@@ -279,6 +224,8 @@ const WorksTable = ({
                                   )
                                 }
                               </div>
+                            ): (
+                              <p>No Actions Available</p>
                             )}
                           </td>
                         </tr>
@@ -322,6 +269,9 @@ const WorksTable = ({
                           </td>
                           <td className="px-6 py-2 text-center">
                             {work.remarks?.length > 50 ? work.remarks?.substring(0,50) + "..." : work.remarks || "no remarks"}
+                          </td>
+                          <td className="px-6 py-2 text-center">
+                            No Actions Available
                           </td>
                          
   
@@ -461,7 +411,7 @@ const WorksTable = ({
           <div className=" z-50 w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg font-bold">Accept / Reject</h1>
+              <h1 className="text-lg dark:text-black font-bold">Accept / Reject</h1>
               <button
                 onClick={() => setShowRemarksPopup(false)}
                 className="text-red-500 text-lg"
@@ -472,7 +422,7 @@ const WorksTable = ({
             <p className="text-sm text-gray-500 mt-2">
               Please enter remarks here!
             </p>
-            <textarea placeholder="Enter remarks" required onChange={(e) => setRemarks(e.target.value)}  className="w-full rounded-xl mt-2" />
+            <textarea placeholder="Enter remarks" required onChange={(e) => setRemarks(e.target.value)}  className="w-full rounded-xl mt-2 dark:bg-white dark:text-black dark:border" />
             <div className="flex justify-end items-center mt-6">
               <button
                 onClick={() => setShowRemarksPopup(false)}

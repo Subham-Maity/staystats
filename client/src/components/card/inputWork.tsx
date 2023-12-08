@@ -94,7 +94,7 @@ const InputWork = ({ setWorkData, onClose }: Props) => {
   return (
     <form
       ref={formRef}
-      className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl w-full"
+      className="p-6 items-center rounded-lg md:flex-row md:max-w-xl w-full"
       onSubmit={handleSubmit}
     >
       <TailwindWrapper>
