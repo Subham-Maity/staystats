@@ -192,13 +192,14 @@ const getAllBookings = async (req, res) => {
       let totalAdvanceAmt = 0;
       let totalDueAmt = 0;
 
-      bookingsForCalculation.forEach((booking) => {
-        if (booking.status !== "CANCELLED") {
-          totalBookingAmt += booking.bookingAmount;
-          totalAdvanceAmt += booking.advanceAmount;
-          totalDueAmt += booking.dueAmount;
-        }
-      });
+      bookingsForCalculation &&
+        bookingsForCalculation.forEach((booking) => {
+          if (booking.status !== "CANCELLED") {
+            totalBookingAmt += booking.bookingAmount;
+            totalAdvanceAmt += booking.advanceAmount;
+            totalDueAmt += booking.dueAmount;
+          }
+        });
 
       // console.log(totalBookingAmt);
       res.status(200).json({
