@@ -263,6 +263,7 @@ const LeadsInput = ({ setLeadsData, onClose }: Props) => {
       <button
         type="submit"
         className="defaultBtn"
+        disabled={loading}
       >
         Submit
       </button>
