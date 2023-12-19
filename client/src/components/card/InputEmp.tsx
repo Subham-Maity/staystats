@@ -287,7 +287,7 @@ const InputEmp = ({ setUserData, onClose }: Props) => {
           loading || availableHotels.length === 0 || selectedHotels.length === 0
         }
       >
-        Submit
+        {loading ? 'Please Wait..': 'Submit'}
       </button>
       {/* <button
         type="reset"

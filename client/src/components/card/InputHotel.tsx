@@ -139,50 +139,58 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         },
       );
       if (fileUrl) {
-        setUploadingDocument(false);
-      }
-
-      const { data } = await axios.post("/hotel/create-hotel", {
-        hotelName: formValues.hotelName,
-        location: formValues.location,
-        ownerName: formValues.ownerName,
-        ownerContact: {
-          phone: formValues.phoneNumber,
-          email: formValues.email ?? "",
-        },
-        bank: formValues.bank,
-        GSTNumber: formValues.GSTNumber,
-        panNumber: formValues.panNumber,
-        aadharNumber: formValues.aadharNumber,
-        tradeLicense: formValues.tradeLicense,
-        accountNumber: formValues.accountNumber,
-        ifscCode: formValues.ifscCode,
-        otherDocuments: fileUrl.secure_url,
-        documentId: fileUrl.public_id,
-        frontOfficeContact: formValues.frontOfficeContact,
-        roomCategories: roomCategories
-      });
-      if (!data.error) {
-        // const { data } = await axios.get("/hotel/get-all-hotels")
-
-        // console.log(data.hotel)
-        setHotelData((prev: any) => {
-          return [data.hotel, ...prev];
+        const { data } = await axios.post("/hotel/create-hotel", {
+          hotelName: formValues.hotelName,
+          location: formValues.location,
+          ownerName: formValues.ownerName,
+          ownerContact: {
+            phone: formValues.phoneNumber,
+            email: formValues.email ?? "",
+          },
+          bank: formValues.bank,
+          GSTNumber: formValues.GSTNumber,
+          panNumber: formValues.panNumber,
+          aadharNumber: formValues.aadharNumber,
+          tradeLicense: formValues.tradeLicense,
+          accountNumber: formValues.accountNumber,
+          ifscCode: formValues.ifscCode,
+          otherDocuments: fileUrl.secure_url,
+          documentId: fileUrl.public_id,
+          frontOfficeContact: formValues.frontOfficeContact,
+          roomCategories: roomCategories
         });
+        if (!data.error) {
+          // const { data } = await axios.get("/hotel/get-all-hotels")
+  
+          // console.log(data.hotel)
+          setHotelData((prev: any) => {
+            return [data.hotel, ...prev];
+          });
+          setUploadingDocument(false);
+          onClose(false);
+  
+          toast.success(data.message);
+          formRef.current?.reset();
+        } else {
+          toast.error(data.error);
+        }
+        setLoading(false);
 
-        onClose(false);
-
-        toast.success(data.message);
-        formRef.current?.reset();
-      } else {
-        toast.error(data.error);
+      } 
+      else{
+        setLoading(false);
+        toast.error("Upload failed");
       }
-      setLoading(false);
+        
+      
+
+      
     } catch (error: any) {
       setLoading(false);
       console.log(error);
       toast.error(error.message);
     }
+    
   };
   return (
     <form
@@ -488,7 +496,7 @@ const InputHotel = ({ setHotelData, onClose }: Props) => {
         type="submit"
         className="defaultBtn"
       >
-        Submit
+        {uploadingDocument? 'Please Wait...' : 'Submit'}
       </button>
       <button
         disabled={uploadingDocument}

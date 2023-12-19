@@ -579,7 +579,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         type="submit"
         className="defaultBtn"
       >
-        Submit
+        {loading ? 'Please wait...' : 'Submit'}
       </button>
       <button
       disabled={loading}

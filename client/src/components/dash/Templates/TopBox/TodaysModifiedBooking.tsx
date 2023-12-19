@@ -22,9 +22,8 @@ function TodaysModifiedBooking() {
   let todaysModification:any = getModified(bookingData);
 
   todaysModification = todaysModification.filter((item: any) =>     {
-    const currentDate: string = new Date(item.createdAt).toISOString()
-    const ModifiedDate: string = new Date(item.updatedAt).toISOString()
-    return ModifiedDate > currentDate;
+    const ModifiedDate: string = new Date(item.updatedAt).toISOString().split("T")[0]
+    return ModifiedDate == new Date().toISOString().split("T")[0];
   });
 
   const chartData = [
@@ -49,9 +48,6 @@ function TodaysModifiedBooking() {
     const ModifiedDate = new Date(record.updatedAt).toISOString().split("T")[0];
     const currentDate2 = currentDate.toISOString().split("T")[0];
     const startOfTheWeek2 = startOfTheWeek.toISOString().split("T")[0];
-    if (ModifiedDate <= currentDate2 && ModifiedDate >= startOfTheWeek2) {
-      console.log(startOfTheWeek2,"<", ModifiedDate,"<", currentDate2, "thisWeekModifiedBookings");
-    }
     return ModifiedDate <= currentDate2 && ModifiedDate >= startOfTheWeek2;
   });
 

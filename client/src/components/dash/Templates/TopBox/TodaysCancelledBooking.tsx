@@ -25,7 +25,7 @@ function TotalUsers() {
     // Filter for today's cancellations
     //@ts-ignore
     const todayCancellations = cancelledBookings.filter(item => {
-        const createdDate = new Date(item.createdAt);
+        const createdDate = new Date(item.updatedAt);
         // @ts-ignore
         return new Date(createdDate).toISOString().split("T")[0] ===
             new Date(currentDate2).toISOString().split("T")[0];
@@ -35,7 +35,7 @@ function TotalUsers() {
     // Filter for this week's cancellations
     //@ts-ignore
     const weekCancellations = cancelledBookings.filter(item => {
-        const cancelDate = new Date(item.createdAt);
+        const cancelDate = new Date(item.updatedAt);
         return cancelDate <= currentDate2 && cancelDate >= endOfWeek;
     });
 
@@ -54,7 +54,7 @@ function TotalUsers() {
     ];
 
     weekCancellations.forEach((record:any) => {
-        const cancelDate = new Date(record.createdAt);
+        const cancelDate = new Date(record.updatedAt);
         const dayOfWeek = cancelDate.getDay(); // 0 for Sunday, 1 for Monday, and so on// Increment the cancellations count for the corresponding day in chartData
         chartData[dayOfWeek].Bookings++;
     });
