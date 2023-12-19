@@ -40,7 +40,7 @@ function TodaysBooking() {
   endOfWeek.setDate(currentDate.getDate() - 6);
 
   const thisWeekBookings = bookingData.filter((record:any) => {
-    const checkInDate = new Date(record.bookingData);
+    const checkInDate = new Date(record.createdAt);
     return checkInDate <= currentDate && checkInDate >= endOfWeek;
   });
   const thisWeekBooking: number = thisWeekBookings.length;
