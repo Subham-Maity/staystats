@@ -59,7 +59,7 @@ function TotalUsers() {
     return (
         <TailwindWrapper className={"mt-5 justify-self-center"}>
             <div className="box box2">
-                <ChartBox titleOfPercentage="This Week" {...TotalUsersData} />
+                <ChartBox titleOfPercentage="Last 7 days" {...TotalUsersData} />
             </div>
         </TailwindWrapper>
     );
