@@ -11,7 +11,6 @@ import {FaTimes} from "react-icons/fa";
 interface Props {
     onClose: (value: boolean) => void;
     variable: string;
-
 }
 
 const ifCheckInToday = [
@@ -30,7 +29,7 @@ const ifHotels = [
     "Serial No.", "Hotel Name", "Location", 'Owner Name', 'Phone Number'
 ]
 const ifRevenue = [
-    "Serial No.", "Hotel Name", "Location", "Revenue"
+    "Serial No.", "Hotel Name", "Location", "Dues"
 ]
 
 
@@ -90,12 +89,30 @@ const ViewDashData = ({onClose, variable}: Props) => {
         return TodaysDate === today;
     });
 
-    const todaysModification: BookingData[] = confirmedFilter.filter((record) => {
-        const currentDate: string = new Date(record.createdAt).toISOString()
-        const ModifiedDate: string = new Date(record.updatedAt).toISOString()
-        // console.log(ModifiedDate, "modifiedDate", currentDate, "currentDate");
-        return ModifiedDate > currentDate;
+    function getModified(bookingData: BookingData[]):any {
+
+        const todaysModification: BookingData[] = bookingData.filter((record) => {
+            const currentDate: string = new Date(record.createdAt).toISOString()
+            const ModifiedDate: string = new Date(record.updatedAt).toISOString()
+            return ModifiedDate != currentDate;
+        });
+
+        return todaysModification;
+    }
+
+
+
+    let todaysModification:any = getModified(confirmedFilter);
+
+    todaysModification = todaysModification.filter((item: any) =>     {
+        const ModifiedDate: string = new Date(item.updatedAt).toISOString().split("T")[0]
+        return ModifiedDate == new Date().toISOString().split("T")[0];
     });
+
+    // const todaysModification: BookingData[] = confirmedFilter.filter((record) => {
+    //     const ModifiedDate: string = new Date(record.updatedAt).toISOString().split("T")[0]
+    //     return ModifiedDate == new Date().toISOString().split("T")[0];
+    // });
 
     const totalCancellation = bookingData.filter((record: any) => {
             return record.status === "CANCELLED";

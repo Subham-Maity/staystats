@@ -66,10 +66,26 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
   }, []);
 
   const handleSelect = (ranges: any) => {
-    // console.log(ranges)
-    setSelectionRange(ranges.selection);
-    filter.dateRange = ranges.selection;
+    const startDate = new Date(ranges.selection.startDate);
+    const endDate = new Date(ranges.selection.endDate);
+  
+    // Convert both start and end dates to local time zone
+    startDate.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
+    endDate.setMinutes(endDate.getMinutes() - endDate.getTimezoneOffset());
+  
+    setSelectionRange({ startDate, endDate, key: "selection" });
+  
+    // Update filter with local time zone dates
+    setFilter({
+      ...filter,
+      dateRange: {
+        startDate: new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0),
+        endDate: new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59),
+      },
+    });
   };
+  
+  
 
   const handleSubmit = () => {
     // console.log(filter)
@@ -308,13 +324,13 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
           </div>
           <div className="flex flex-col justify-center items-start">
             <div className="flex lg:flex-row flex-col gap-4">
-              <p>Total Booking Amount - ₹ {bookingStats.totalBookingAmt}</p>
+              <p>Total Booking Amount - ₹ {Math.floor(bookingStats.totalBookingAmt)}</p>
               <h1 className="hidden lg:block"> | </h1>
-              <p>Total Advance Amount - ₹ {bookingStats.totalAdvanceAmt}</p>
+              <p>Total Advance Amount - ₹ {Math.floor(bookingStats.totalAdvanceAmt)}</p>
               
               <h1 className="hidden lg:block"> | </h1>
 
-              <p>Total Due Amount - ₹ {bookingStats.totalDueAmt}</p>
+              <p>Total Due Amount - ₹ {Math.floor(bookingStats.totalDueAmt)}</p>
 
             </div>
 
