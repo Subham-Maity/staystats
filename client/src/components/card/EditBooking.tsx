@@ -84,15 +84,15 @@ const EditBooking = ({
         roomCatagory: formValues.roomCategory,
         numberOfRooms: formValues.nor,
         numberOfPersons: formValues.nop,
-        bookingAmount: formValues.bookingAmount,
-        advanceAmount: formValues.advanceAmount,
+        bookingAmount: formValues.bookingAmount.trim(),
+        advanceAmount: formValues.advanceAmount.trim(),
         dueAmount: formValues.dueamount,
         advanceDate: formValues.Advancedate,
         bookingSource: formValues.bookingSource,
         booikingBy: formValues.bb,
         accountType: formValues.accountType,
         plan: formValues.plan,
-        contactNumber: formValues.cn,
+        contactNumber: formValues.cn.trim(),
         remarks: formValues.remark,
         guestEmail: formValues.guestEmail
       });

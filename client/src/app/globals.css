@@ -68,3 +68,7 @@
 .rdrDateRangeWrapper,.rdrDays,.rdrDay,.rdrDayNumber *,.rdrMonthAndYearPickers *,.rdrInputRangeInput *,.rdrInputRange *{
   @apply dark:text-white !important;
 }
+
+.rdrDefinedRangesWrapper{
+  display: none !important;
+}
