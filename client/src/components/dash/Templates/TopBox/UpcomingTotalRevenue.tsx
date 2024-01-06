@@ -69,7 +69,7 @@ const UpcomingTotalRevenue= () => {
     return (
         <TailwindWrapper className="mt-5 justify-self-center">
             <div className="box box2">
-                <ChartBox titleOfPercentage="This Week" {...TodaysBooking} />
+                <ChartBox titleOfPercentage="Next 7 days" {...TodaysBooking} />
             </div>
         </TailwindWrapper>
     );

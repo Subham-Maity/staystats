@@ -57,7 +57,7 @@ function TotalDue() {
     return (
         <TailwindWrapper className={"mt-5 justify-self-center"}>
             <div className="box box2">
-                <ChartBox titleOfPercentage="This Week" {...TotalDue} />
+                <ChartBox titleOfPercentage="Hotel count" {...TotalDue} />
             </div>
         </TailwindWrapper>
     );
