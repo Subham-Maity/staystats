@@ -29,6 +29,9 @@ const ifHotels = [
     "Serial No.", "Hotel Name", "Location", 'Owner Name', 'Phone Number'
 ]
 const ifRevenue = [
+    "Serial No.", "Hotel Name", "Location", "Revenue"
+]
+const ifFutureDues = [
     "Serial No.", "Hotel Name", "Location", "Dues"
 ]
 
@@ -403,7 +406,7 @@ const ViewDashData = ({onClose, variable}: Props) => {
                                     ))
                                 }
                                 {
-                                    variable === "Future Dues" && ifRevenue.map((_, i) => (
+                                    variable === "Future Dues" && ifFutureDues.map((_, i) => (
                                         <th key={i} scope="col" className="px-4 py-2 text-center">
                                             {_}
                                         </th>
