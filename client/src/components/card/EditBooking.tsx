@@ -28,16 +28,16 @@ const EditBooking = ({
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    // console.log(editingBookingDataProps)
+  
     if (updatedData) {
       setUpdatedData(false);
       window.location.reload();
     }
   }, [updatedData]);
 
-  // console.log(editingBookingData)
+
   useEffect(() => {
-    // console.log(editingBookingDataProps)
+ 
     setEditingBookingData(editingBookingDataProps);
   }, [editingBookingDataProps]);
 
@@ -47,11 +47,10 @@ const EditBooking = ({
     const formData = new FormData(event.currentTarget);
     const formValues: { [key: string]: string } = {};
 
-    // Collect all the form field values
     formData.forEach((value, key) => {
       formValues[key] = value as string;
       if (formValues[key].trim() === "") {
-        // console.log(key)
+       
         if (key !== "remark" && key !== "guestEmail") {
           toast.error("Please fill all the fields");
         }
@@ -59,7 +58,7 @@ const EditBooking = ({
       }
     });
 
-    console.log(formValues);
+
 
     const numberRegex = /^[0-9]+$/;
     const nameRegex = /^[a-zA-Z ]+$/;
@@ -69,7 +68,7 @@ const EditBooking = ({
       return;
     }
 
-    if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn) || formValues.cn.length !== 10) {
+    if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn.trim()) || formValues.cn.trim().length !== 10) {
       toast.error("Please enter a valid contact number and don't include +91");
       return;
     }
