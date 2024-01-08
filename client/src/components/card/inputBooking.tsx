@@ -92,7 +92,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     const nameRegex = /^[a-zA-Z ]+$/;
 
 
-    // if(formValues.guest_name.trim() === "" || formValues.startDate.trim() === "" || formValues.endDate.trim() === "" || formValues.roomCategory.trim() === "" || formValues.nor.trim() === "" || formValues.nop.trim() === "" || formValues.bookingAmount.trim() === "" || formValues.advanceAmount.trim() === "" || formValues.dueamount.trim() === "" || formValues.Advancedate.trim() === "" || formValues.paymentby.trim() === "" || formValues.plan.trim() === "" || formValues.cn.trim() === ""){
+    // if(formValues.hotel.trim() === "" || formValues.guest_name.trim() === "" || formValues.startDate.trim() === "" || formValues.endDate.trim() === "" || formValues.roomCategory.trim() === "" || formValues.nor.trim() === "" || formValues.nop.trim() === "" || formValues.bookingAmount.trim() === "" || formValues.advanceAmount.trim() === "" || formValues.dueamount.trim() === "" || formValues.Advancedate.trim() === "" || formValues.paymentby.trim() === "" || formValues.plan.trim() === "" || formValues.cn.trim() === ""){
     //   toast.error("Please fill all the fields");
     //   return;
     // }
@@ -112,6 +112,11 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       toast.error("Please enter a valid advance date");
       return;
     }
+
+    if (!formValues.hotel || formValues.hotel.trim() === "" ) {
+      toast.error("Please select a valid hotel ");
+      return;
+    }
     if (!formValues.accountType || formValues.accountType.trim() === "" ) {
       toast.error("Please enter a valid account type");
       return;
@@ -128,7 +133,8 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
       return;
     }
 
-    if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn) || formValues.cn.length !== 10) {
+    if (formValues.cn.trim() === "" || !numberRegex.test(formValues.cn.trim()) || formValues.cn.trim().length !== 10) {
+      console.log("formValues.cn", formValues.cn.trim().length);
       toast.error("Please enter a valid contact number and don't include +91");
       return;
     }

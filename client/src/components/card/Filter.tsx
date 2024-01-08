@@ -41,17 +41,17 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
   });
 
   useEffect(() => {
-    // console.log(bookingStats)
+   
     const getHotels = async () => {
       try {
         setLoading(true);
         const { data } = await axios.post(`/hotel/get-all-hotels`);
         const { data: users } = await axios.get(`/user/get-all-users`);
-        // console.log(data);
+
         if (!data.error) {
           setHotels(data.hotels);
           setUsers(users.users);
-          //   console.log(hotels)
+      
         } else {
           toast.error(data.error);
         }
@@ -69,13 +69,13 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
     const startDate = new Date(ranges.selection.startDate);
     const endDate = new Date(ranges.selection.endDate);
   
-    // Convert both start and end dates to local time zone
+   
     startDate.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
     endDate.setMinutes(endDate.getMinutes() - endDate.getTimezoneOffset());
   
     setSelectionRange({ startDate, endDate, key: "selection" });
   
-    // Update filter with local time zone dates
+
     setFilter({
       ...filter,
       dateRange: {
@@ -88,7 +88,6 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
   
 
   const handleSubmit = () => {
-    // console.log(filter)
     setFilterData(filter);
   };
  if(isFilterOpen){

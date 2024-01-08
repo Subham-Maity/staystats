@@ -208,6 +208,7 @@ const getAllBookings = async (req, res) => {
         totalBookingAmt,
         totalAdvanceAmt,
         totalDueAmt,
+        bookingsForCalculation,
       });
       return;
     }
@@ -257,7 +258,8 @@ const getAllBookingsBySearch = async (req, res) => {
       });
 
     if (bookings.length > 0) {
-      console.log(bookings);
+      console.log(bookings.length);
+      // console.log(bookings);
       res
         .status(200)
         .json({ bookings, message: "Bookings fetched successfully" });

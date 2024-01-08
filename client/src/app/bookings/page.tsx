@@ -24,6 +24,7 @@ const Bookings = () => {
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
   const [filterData, setFilterData] = useState<any>();
+  const [filteredData, setFilteredData] = useState<any>(); // {users: [], usersCount: 0}
   const [bookingData, setBookingData] = useState<any>([]);
   const [bookingDataStats, setBookingDataStats] = useState<any>({
     totalBookingAmt: 0,
@@ -72,9 +73,7 @@ const Bookings = () => {
     updateUser();
   }, []);
 
-  // useEffect(()=>{
-  //   console.log(filterData)
-  // },[filterData])
+
 
   const getBookingsBySearch = async (e?: any) => {
     setFilterData(null);
@@ -84,9 +83,9 @@ const Bookings = () => {
         let { data } = await axios.get(
           `/booking/get-all-bookings/search?&query=${searchText}`
         );
-        // console.log("forms", data);
+        
         if (!data.error) {
-          // setSearchResults(data);
+          
           setBookingData(data.bookings);
           data.message && toast.info(data.message);
         } else {
@@ -113,6 +112,7 @@ const Bookings = () => {
         if (!data.error) {
           setBookingData(data.bookings);
           setBookingCounts(data.bookingsCount);
+          setFilteredData(data.bookingsForCalculation)
           setBookingDataStats((prev: any) => {
             return {
               ...prev,
@@ -188,7 +188,16 @@ const Bookings = () => {
       }
     };
 
-    let bookingDataFormDownload = await getBookingsFordownload();
+    let bookingDataFormDownload 
+
+    if(searchText.trim().length > 0){
+      bookingDataFormDownload = bookingData;
+    } else if(filterData){
+      bookingDataFormDownload = filteredData;
+    }
+    else{
+      bookingDataFormDownload = await getBookingsFordownload();
+    }
 
     let bookingDataForExcel = bookingDataFormDownload.map((booking: any) => {
       return {
