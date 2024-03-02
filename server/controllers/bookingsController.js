@@ -23,6 +23,82 @@ const getBooking = async (req, res) => {
   }
 };
 
+const saveCustomBookingData = async (req, res) => {
+  try {
+    const jsonData = req.body;
+
+    if (!jsonData || !Array.isArray(jsonData)) {
+      return res.status(400).json({ message: "Invalid JSON data" });
+    }
+
+    // Get the last serial number from the database
+    const lastBooking = await Booking.findOne().sort({ serialNumber: -1 });
+    let serialNumber = lastBooking ? parseInt(lastBooking.serialNumber) + 1 : 1;
+    const resultData = [];
+
+    // Iterate through each booking data
+    for (const bookingData of jsonData) {
+      // Find the hotel by name
+      const hotel = await Hotel.findOne({
+        hotelName: bookingData["Hotel Name"],
+      });
+
+      if (!hotel) {
+        console.error(`Hotel not found for name: ${bookingData["Hotel Name"]}`);
+        continue; // Skip this booking if hotel not found
+      }
+
+      // Retrieve hotel and added by unique IDs
+      const { _id: hotelId, addedBy: addedById } = hotel;
+
+      // Calculate due amount
+      const bookingAmount = parseFloat(bookingData["Booking Amount"]);
+      const advanceAmount = parseFloat(bookingData["Advance Amount"]);
+      const dueAmount = bookingAmount - advanceAmount;
+
+      // Parse and format the booking data
+      const formattedBooking = {
+        hotel: hotelId,
+        serialNumber: serialNumber.toString(), // Convert serial number to string
+        guestName: bookingData["Guest Name"],
+        guestEmail: bookingData["Guest Email"],
+        checkInDate: new Date(bookingData["Check-In Date"]),
+        checkOutDate: new Date(bookingData["Check-Out Date"]),
+        roomCategory: bookingData["Room Category"],
+        numberOfRooms: parseInt(bookingData["Number of Rooms"]),
+        numberOfPersons: parseInt(bookingData["Number of Person"]),
+        bookingAmount: bookingAmount,
+        advanceAmount: advanceAmount,
+        dueAmount: dueAmount,
+        advanceDate: new Date(bookingData["Advance Date"]),
+        bookingSource: bookingData["Booking Source"],
+        bookingBy: bookingData["Booked By"],
+        plan: bookingData["Plan"],
+        contactNumber: bookingData["Guest Contact"],
+        remarks: bookingData["Remarks"] || "",
+        addedBy: addedById,
+        status: bookingData["Booking Status"] || "CONFIRMED",
+        accountType: bookingData["Account Type"] || "",
+      };
+
+      // Save formatted booking data to the database
+      const newBooking = await Booking.create(formattedBooking);
+
+      // Increment serial number for the next booking
+      serialNumber++;
+
+      resultData.push(newBooking); // To show on the response
+    }
+
+    res
+      .status(200)
+      .json({ message: "Data uploaded successfully", data: resultData });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const getAllBookings = async (req, res) => {
   try {
     //scripts to change db
@@ -447,4 +523,5 @@ module.exports = {
   updateBooking,
   cancelBooking,
   downloadExcel,
+  saveCustomBookingData,
 };
