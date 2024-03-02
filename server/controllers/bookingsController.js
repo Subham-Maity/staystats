@@ -33,7 +33,7 @@ const saveCustomBookingData = async (req, res) => {
     }
 
     // Get the last serial number from the database
-    const lastBooking = await Booking.findOne().sort({ serialNumber: -1 });
+    const lastBooking = await Booking.findOne().sort({ createdAt: -1 });
     let serialNumber = lastBooking ? parseInt(lastBooking.serialNumber) + 1 : 1;
     const resultData = [];
 
@@ -90,9 +90,6 @@ const saveCustomBookingData = async (req, res) => {
       };
 
       resultData.push(formattedBooking); // To show on the response
-
-      // // Save formatted booking data to the database
-      // const newBooking = await Booking.create(formattedBooking);
 
       // Increment serial number for the next booking
       serialNumber++;
