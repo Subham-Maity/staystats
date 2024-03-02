@@ -359,6 +359,9 @@ const Bookings = () => {
           console.log(response);
           setIsConfirmed(false);
 
+          // Reset the xlsxFile state here
+          setXlsxFile([]);
+
           // Update the toast to show success
           toast.update(toastId, {
             render: "Upload successful!",
@@ -379,6 +382,7 @@ const Bookings = () => {
         });
     }
   }, [isConfirmed, xlsxFile]);
+
   const handleOnDownload = () => {
     const excelFilePath = "/samplecsv.xlsx";
     const link = document.createElement("a");
