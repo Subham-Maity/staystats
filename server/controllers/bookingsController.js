@@ -2,6 +2,7 @@ const { Booking } = require("../models/bookingModel");
 const { Hotel } = require("../models/hotelModel");
 const { User } = require("../models/userModel");
 const mongoose = require("mongoose");
+const moment = require("moment");
 const ObjectId = mongoose.Types.ObjectId;
 
 const getBooking = async (req, res) => {
@@ -45,7 +46,8 @@ const saveCustomBookingData = async (req, res) => {
 
       if (!hotel) {
         console.error(`Hotel not found for name: ${bookingData["Hotel Name"]}`);
-        continue; // Skip this booking if hotel not found
+        continue;
+        // throw new Error(`Hotel not found: ${bookingData["Hotel Name"]}`);
       }
 
       // Retrieve hotel and added by unique IDs
@@ -62,15 +64,21 @@ const saveCustomBookingData = async (req, res) => {
         serialNumber: serialNumber.toString(), // Convert serial number to string
         guestName: bookingData["Guest Name"],
         guestEmail: bookingData["Guest Email"],
-        checkInDate: new Date(bookingData["Check-In Date"]),
-        checkOutDate: new Date(bookingData["Check-Out Date"]),
+        checkInDate: moment(
+          bookingData["Check-In Date"],
+          "DD-MM-YYYY"
+        ).toDate(),
+        checkOutDate: moment(
+          bookingData["Check-Out Date"],
+          "DD-MM-YYYY"
+        ).toDate(),
         roomCategory: bookingData["Room Category"],
         numberOfRooms: parseInt(bookingData["Number of Rooms"]),
         numberOfPersons: parseInt(bookingData["Number of Person"]),
         bookingAmount: bookingAmount,
         advanceAmount: advanceAmount,
         dueAmount: dueAmount,
-        advanceDate: new Date(bookingData["Advance Date"]),
+        advanceDate: moment(bookingData["Advance Date"], "DD-MM-YYYY").toDate(),
         bookingSource: bookingData["Booking Source"],
         bookingBy: bookingData["Booked By"],
         plan: bookingData["Plan"],
@@ -81,21 +89,28 @@ const saveCustomBookingData = async (req, res) => {
         accountType: bookingData["Account Type"] || "",
       };
 
-      // Save formatted booking data to the database
-      const newBooking = await Booking.create(formattedBooking);
+      resultData.push(formattedBooking); // To show on the response
+
+      // // Save formatted booking data to the database
+      // const newBooking = await Booking.create(formattedBooking);
 
       // Increment serial number for the next booking
       serialNumber++;
-
-      resultData.push(newBooking); // To show on the response
     }
 
+    if (resultData.length !== jsonData.length) {
+      throw new Error("Some bookings were not saved");
+    }
+
+    const allData = await Booking.insertMany(resultData);
     res
       .status(200)
-      .json({ message: "Data uploaded successfully", data: resultData });
+      .json({ message: "All Data uploaded successfully", data: allData });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
