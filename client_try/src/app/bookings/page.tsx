@@ -354,7 +354,7 @@ const Bookings = () => {
       const toastId = toast("Loading...", { autoClose: false });
 
       axios
-        .post("http://localhost:5000/bookings/updatexlsx", xlsxFile)
+        .post("/bookings/updatexlsx", xlsxFile)
         .then((response: any) => {
           console.log(response);
           setIsConfirmed(false);
