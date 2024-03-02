@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { ThemeProvider } from "next-themes";
+import { NextUIProvider } from "@nextui-org/react";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = React.useState(false);
@@ -8,7 +9,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   if (!mounted) return <>{children}</>;
   return (
     <ThemeProvider attribute="class" defaultTheme="light">
-      {children}
+      <NextUIProvider>{children}</NextUIProvider>
     </ThemeProvider>
   );
 };
