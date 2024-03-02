@@ -23,7 +23,6 @@ const hotelSchema = new mongoose.Schema(
       },
       email: {
         type: String,
-        
       },
     },
     isActive: {
@@ -46,10 +45,9 @@ const hotelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    roomCategories:{
+    roomCategories: {
       type: [String],
-      default: []
-      
+      default: [],
     },
     bank: {
       type: String,
@@ -78,7 +76,7 @@ const hotelSchema = new mongoose.Schema(
       ref: "user",
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 hotelSchema.pre("save", function (next) {

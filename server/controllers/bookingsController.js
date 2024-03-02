@@ -2,6 +2,7 @@ const { Booking } = require("../models/bookingModel");
 const { Hotel } = require("../models/hotelModel");
 const { User } = require("../models/userModel");
 const mongoose = require("mongoose");
+const moment = require("moment");
 const ObjectId = mongoose.Types.ObjectId;
 
 const getBooking = async (req, res) => {
@@ -20,6 +21,93 @@ const getBooking = async (req, res) => {
     res.status(500).json({
       message: "Internal server error",
     });
+  }
+};
+
+const saveCustomBookingData = async (req, res) => {
+  try {
+    const jsonData = req.body;
+
+    if (!jsonData || !Array.isArray(jsonData)) {
+      return res.status(400).json({ message: "Invalid JSON data" });
+    }
+
+    // Get the last serial number from the database
+    const lastBooking = await Booking.findOne().sort({ createdAt: -1 });
+    let serialNumber = lastBooking ? parseInt(lastBooking.serialNumber) + 1 : 1;
+    const resultData = [];
+
+    // Iterate through each booking data
+    for (const bookingData of jsonData) {
+      // Find the hotel by name
+      const hotel = await Hotel.findOne({
+        hotelName: bookingData["Hotel Name"],
+      });
+
+      if (!hotel) {
+        console.error(`Hotel not found for name: ${bookingData["Hotel Name"]}`);
+        continue;
+        // throw new Error(`Hotel not found: ${bookingData["Hotel Name"]}`);
+      }
+
+      // Retrieve hotel and added by unique IDs
+      const { _id: hotelId, addedBy: addedById } = hotel;
+
+      // Calculate due amount
+      const bookingAmount = parseFloat(bookingData["Booking Amount"]);
+      const advanceAmount = parseFloat(bookingData["Advance Amount"]);
+      const dueAmount = bookingAmount - advanceAmount;
+
+      // Parse and format the booking data
+      const formattedBooking = {
+        hotel: hotelId,
+        serialNumber: serialNumber.toString(), // Convert serial number to string
+        guestName: bookingData["Guest Name"],
+        guestEmail: bookingData["Guest Email"],
+        checkInDate: moment(
+          bookingData["Check-In Date"],
+          "DD-MM-YYYY"
+        ).toDate(),
+        checkOutDate: moment(
+          bookingData["Check-Out Date"],
+          "DD-MM-YYYY"
+        ).toDate(),
+        roomCategory: bookingData["Room Category"],
+        numberOfRooms: parseInt(bookingData["Number of Rooms"]),
+        numberOfPersons: parseInt(bookingData["Number of Person"]),
+        bookingAmount: bookingAmount,
+        advanceAmount: advanceAmount,
+        dueAmount: dueAmount,
+        advanceDate: moment(bookingData["Advance Date"], "DD-MM-YYYY").toDate(),
+        bookingSource: bookingData["Booking Source"],
+        bookingBy: bookingData["Booked By"],
+        plan: bookingData["Plan"],
+        contactNumber: bookingData["Guest Contact"],
+        remarks: bookingData["Remarks"] || "",
+        addedBy: addedById,
+        status: bookingData["Booking Status"] || "CONFIRMED",
+        accountType: bookingData["Account Type"] || "",
+      };
+
+      resultData.push(formattedBooking); // To show on the response
+
+      // Increment serial number for the next booking
+      serialNumber++;
+    }
+
+    if (resultData.length !== jsonData.length) {
+      throw new Error("Some bookings were not saved");
+    }
+
+    const allData = await Booking.insertMany(resultData);
+    res
+      .status(200)
+      .json({ message: "All Data uploaded successfully", data: allData });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -447,4 +535,5 @@ module.exports = {
   updateBooking,
   cancelBooking,
   downloadExcel,
+  saveCustomBookingData,
 };
