@@ -348,16 +348,34 @@ const Bookings = () => {
     }
     setIsDialogOpen(true);
   };
+
   useEffect(() => {
     if (isConfirmed) {
+      const toastId = toast("Loading...", { autoClose: false });
+
       axios
-        .post("/your-api-endpoint", xlsxFile)
+        .post("http://localhost:5000/bookings/updatexlsx", xlsxFile)
         .then((response: any) => {
           console.log(response);
           setIsConfirmed(false);
+
+          // Update the toast to show success
+          toast.update(toastId, {
+            render: "Upload successful!",
+            type: toast.TYPE.SUCCESS,
+            autoClose: 5000,
+          });
         })
         .catch((error: any) => {
-          console.error(error);
+          console.error("Error object:", error);
+          console.error("Error details:", error.response);
+
+          // Update the toast to show the error
+          toast.update(toastId, {
+            render: `Error: ${error.message}`,
+            type: toast.TYPE.ERROR,
+            autoClose: 5000,
+          });
         });
     }
   }, [isConfirmed, xlsxFile]);
