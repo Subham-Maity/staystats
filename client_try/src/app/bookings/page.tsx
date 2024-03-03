@@ -279,7 +279,7 @@ const Bookings = () => {
           toast(() => (
             <>
               <strong>Data limit exceeded</strong>
-              <p>You can't upload more than 130 records.</p>
+              <p>You cannot upload more than 130 records.</p>
             </>
           ));
           return;
