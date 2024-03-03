@@ -1,9 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { FaCloudUploadAlt, FaFileUpload } from "react-icons/fa";
+import * as xlsx from "xlsx";
+import { utils, writeFile } from "xlsx";
 import BookingTable from "@/components/Table/BookingTable";
 import axios from "@/utils/axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import InputBooking from "@/components/card/inputBooking";
 import ViewBooking from "@/components/card/ViewBookings";
@@ -13,14 +15,30 @@ import { CiSquareRemove } from "react-icons/ci";
 import { BiSearch } from "react-icons/bi";
 import Filter from "@/components/card/Filter";
 import { SiMicrosoftexcel } from "react-icons/si";
-import { utils, writeFile } from "xlsx";
 import { FRONTEND_URL } from "@/constants/constant";
 import EditBooking from "@/components/card/EditBooking";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "@nextui-org/react";
+import XlsxTable from "@/components/ui/custom/xlsx-table/xlsx-table";
+import XlsxDangerModal from "@/components/ui/custom/xlsx-table/modal/xlsx-danger-modal";
+import { Download, FolderDown, Save } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Bookings = () => {
-  let router = useRouter();
   const PAGE_LIMIT = 50;
   const [page, setPage] = useState(1);
+  const router = useRouter();
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
   const [filterData, setFilterData] = useState<any>();
@@ -30,7 +48,10 @@ const Bookings = () => {
     totalBookingAmt: 0,
     totalAdvanceAmt: 0,
     totalDueAmt: 0,
-  }); // {users: [], usersCount: 0}
+  });
+  const [xlsxFile, setXlsxFile] = useState<any>([]);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [bookingCounts, setBookingCounts] = useState<number>(0);
   const [booking, setBooking] = useState<any>();
   const [showViewModal, setShowViewModal] = useState<boolean>();
@@ -73,19 +94,16 @@ const Bookings = () => {
     updateUser();
   }, []);
 
-
-
   const getBookingsBySearch = async (e?: any) => {
     setFilterData(null);
     e && e.preventDefault();
     try {
       if (searchText?.trim()?.length > 0) {
         let { data } = await axios.get(
-          `/booking/get-all-bookings/search?&query=${searchText}`
+          `/booking/get-all-bookings/search?&query=${searchText}`,
         );
-        
+
         if (!data.error) {
-          
           setBookingData(data.bookings);
           data.message && toast.info(data.message);
         } else {
@@ -107,12 +125,12 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          }
+          },
         );
         if (!data.error) {
           setBookingData(data.bookings);
           setBookingCounts(data.bookingsCount);
-          setFilteredData(data.bookingsForCalculation)
+          setFilteredData(data.bookingsForCalculation);
           setBookingDataStats((prev: any) => {
             return {
               ...prev,
@@ -122,7 +140,6 @@ const Bookings = () => {
             };
           });
           data.message && toast.info(data.message);
-          
         } else {
           toast.error(data.error);
         }
@@ -150,7 +167,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          }
+          },
         );
         if (!bookingData.error) {
           setBookingData(bookingData.bookings);
@@ -175,7 +192,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          }
+          },
         );
         if (!data.error) {
           return data.bookings;
@@ -188,14 +205,13 @@ const Bookings = () => {
       }
     };
 
-    let bookingDataFormDownload 
+    let bookingDataFormDownload;
 
-    if(searchText.trim().length > 0){
+    if (searchText.trim().length > 0) {
       bookingDataFormDownload = bookingData;
-    } else if(filterData){
+    } else if (filterData) {
       bookingDataFormDownload = filteredData;
-    }
-    else{
+    } else {
       bookingDataFormDownload = await getBookingsFordownload();
     }
 
@@ -206,20 +222,20 @@ const Bookings = () => {
         "Guest Name": booking.guestName,
         "Guest Contact": booking.contactNumber,
         "Guest Email": booking.guestEmail ? booking.guestEmail : "No Data",
-        "Check-In Date": `${new Date(booking.checkInDate).getDate()}-${new Date(booking.checkInDate).getMonth() +1}-${new Date(booking.checkInDate).getFullYear()}` ,
-        "Check-Out Date": `${new Date(booking.checkOutDate).getDate()}-${new Date(booking.checkOutDate).getMonth() +1}-${new Date(booking.checkOutDate).getFullYear()}`,
+        "Check-In Date": `${new Date(booking.checkInDate).getDate()}-${new Date(booking.checkInDate).getMonth() + 1}-${new Date(booking.checkInDate).getFullYear()}`,
+        "Check-Out Date": `${new Date(booking.checkOutDate).getDate()}-${new Date(booking.checkOutDate).getMonth() + 1}-${new Date(booking.checkOutDate).getFullYear()}`,
         "Number of Rooms": booking.numberOfRooms,
         "Number of Person": booking.numberOfPersons,
         "Room Category": booking.roomCategory,
         "Booking Amount": booking.bookingAmount,
         "Advance Amount": booking.advanceAmount,
         "Due Amount": booking.dueAmount,
-        "Advance Date": `${new Date(booking.advanceDate).getDate()}-${new Date(booking.advanceDate).getMonth() +1}-${new Date(booking.advanceDate).getFullYear()}`,
+        "Advance Date": `${new Date(booking.advanceDate).getDate()}-${new Date(booking.advanceDate).getMonth() + 1}-${new Date(booking.advanceDate).getFullYear()}`,
         "Account Type": booking.accountType,
         "Booking Source": booking.bookingSource,
         "Booked By": booking.bookingBy,
         "Booking Status": booking.status,
-        "Modified Date": `${new Date(booking.updatedAt).getDate()}-${new Date(booking.updatedAt).getMonth() +1}-${new Date(booking.updatedAt).getFullYear()}`,
+        "Modified Date": `${new Date(booking.updatedAt).getDate()}-${new Date(booking.updatedAt).getMonth() + 1}-${new Date(booking.updatedAt).getFullYear()}`,
         Plan: booking.plan,
         Remarks: booking.remarks,
       };
@@ -230,10 +246,164 @@ const Bookings = () => {
     utils.book_append_sheet(workbook, worksheet, "Data");
     writeFile(
       workbook,
-      `Bookings-${user.name || user.username}-${new Date().toDateString()}.xlsx`
+      `Bookings-${user.name || user.username}-${new Date().toDateString()}.xlsx`,
     );
   };
 
+  console.log(xlsxFile, "xlsxFile");
+  const readUploadFile = (e: any) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const file = e.target.files[0];
+      const fileType = file.name.split(".").pop();
+
+      if (fileType !== "xlsx") {
+        toast(() => (
+          <>
+            <strong>Invalid file type</strong>
+            <p>Please upload an Excel (.xlsx) file.</p>
+          </>
+        ));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const data = e.target.result;
+        const workbook = xlsx.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        let json = xlsx.utils.sheet_to_json(worksheet);
+
+        // Check if the data limit is exceeded
+        if (json.length > 130) {
+          toast(() => (
+            <>
+              <strong>Data limit exceeded</strong>
+              <p>You cannot upload more than 130 records.</p>
+            </>
+          ));
+          return;
+        }
+
+        // Convert all string fields to uppercase and validate data types
+        json = json.map((row: any) => {
+          for (let key in row) {
+            if (typeof row[key] === "string") {
+              row[key] = row[key].toUpperCase();
+            }
+          }
+          return row;
+        });
+
+        // Validate the data
+        const isValid = json.every((row: any) => {
+          return (
+            "Hotel Name" in row &&
+            "Guest Name" in row &&
+            "Guest Contact" in row &&
+            "Guest Email" in row &&
+            "Check-In Date" in row &&
+            "Check-Out Date" in row &&
+            "Number of Rooms" in row &&
+            "Number of Person" in row &&
+            "Room Category" in row &&
+            "Booking Amount" in row &&
+            "Advance Amount" in row &&
+            "Advance Date" in row &&
+            "Account Type" in row &&
+            "Booking Source" in row &&
+            "Booked By" in row &&
+            "Booking Status" in row &&
+            "Modified Date" in row &&
+            "Plan" in row &&
+            "Remarks" in row
+          );
+        });
+
+        if (!isValid) {
+          toast(() => (
+            <>
+              <strong>Invalid data</strong>
+              <p>The uploaded file does not match the required format.</p>
+            </>
+          ));
+          return;
+        }
+
+        setXlsxFile(json);
+
+        toast(() => (
+          <>
+            <strong>File uploaded</strong>
+            <p>Thank you, the Excel file has been uploaded successfully.</p>
+          </>
+        ));
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  };
+
+  const handleConfirm = () => {
+    setIsConfirmed(true);
+  };
+
+  const handleSaveExcel = () => {
+    if (!xlsxFile || xlsxFile.length === 0) {
+      toast(() => (
+        <>
+          <strong>No file uploaded</strong>
+          <p>Please upload an Excel (.xlsx) file.</p>
+        </>
+      ));
+      return;
+    }
+    setIsDialogOpen(true);
+  };
+
+  useEffect(() => {
+    if (isConfirmed) {
+      const toastId = toast("Loading...", { autoClose: false });
+
+      axios
+        .post("/bookings/updatexlsx", xlsxFile)
+        .then((response: any) => {
+          console.log(response);
+          setIsConfirmed(false);
+
+          // Reset the xlsxFile state here
+          setXlsxFile([]);
+
+          // Update the toast to show success
+          toast.update(toastId, {
+            render: "Upload successful!",
+            type: toast.TYPE.SUCCESS,
+            autoClose: 5000,
+          });
+        })
+        .catch((error: any) => {
+          console.error("Error object:", error);
+          console.error("Error details:", error.response);
+
+          // Update the toast to show the error
+          toast.update(toastId, {
+            render: `Error: ${error.message}`,
+            type: toast.TYPE.ERROR,
+            autoClose: 5000,
+          });
+        });
+    }
+  }, [isConfirmed, xlsxFile]);
+
+  const handleOnDownload = () => {
+    const excelFilePath = "/samplecsv.xlsx";
+    const link = document.createElement("a");
+    link.href = excelFilePath;
+    link.download = "samplecsv.xlsx";
+    link.click();
+  };
+
+  // console.log(JSON.stringify(xlsxFile) + "xlsxFile");
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
       <div className="flex w-full justify-between px-2 items-center gap-4 lg:gap-0 mt-6">
@@ -243,25 +413,88 @@ const Bookings = () => {
         <div className="flex gap-2">
           {user.role === "ADMIN" && (
             <>
-            <button onClick={()=> setOnFilterOpen(!onFilterOpen)} className="defaultBtn">
-        Filter
-      </button>
-            <button
-              onClick={() => {
-                setShowDownloadPopUp(true);
-              }}
-              className="defaultBtn"
-            >
-              <SiMicrosoftexcel size={20} />
-              <p className="whitespace-nowrap text-sm hidden lg:block">
-                Download Excel
-              </p>
-            </button>
-            
+              <Button
+                onClick={() => setOnFilterOpen(!onFilterOpen)}
+                className="defaultBtn"
+              >
+                Filter
+              </Button>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button className="defaultBtn">
+                    <FaCloudUploadAlt size={20} />
+
+                    <p className="whitespace-nowrap text-sm hidden lg:block">
+                      Upload Excel
+                    </p>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="dark:bg-[#25293c]">
+                  <SheetHeader>
+                    <SheetTitle>Upload Excel</SheetTitle>
+                    <SheetDescription>
+                      Make sure the excel file is in the correct format
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="name" className="text-right">
+                        Excel File
+                      </Label>
+                      <Input
+                        onChange={readUploadFile}
+                        id="name"
+                        type="file"
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+                  <SheetFooter>
+                    <Button
+                      color="success"
+                      variant="bordered"
+                      onClick={handleOnDownload}
+                    >
+                      <FolderDown />
+                      Sample Excel
+                    </Button>
+
+                    <SheetClose asChild>
+                      <Button
+                        type="submit"
+                        variant="faded"
+                        onClick={handleSaveExcel}
+                        startContent={<Save />}
+                      >
+                        Save Excel
+                      </Button>
+                    </SheetClose>
+                  </SheetFooter>
+
+                  <XlsxTable data={xlsxFile} setXlsxFile={setXlsxFile} />
+                </SheetContent>
+              </Sheet>
+              <XlsxDangerModal
+                title="Are you sure?"
+                description="This action cannot be undone. This will permanently update the data in your table."
+                onConfirm={handleConfirm}
+                open={isDialogOpen}
+                setOpen={setIsDialogOpen}
+              />
+              <Button
+                onClick={() => {
+                  setShowDownloadPopUp(true);
+                }}
+                className="defaultBtn"
+              >
+                <SiMicrosoftexcel size={20} />
+                <p className="whitespace-nowrap text-sm hidden lg:block">
+                  Download Excel
+                </p>
+              </Button>
             </>
-            
           )}
-          <button
+          <Button
             onClick={() => setShowModal(true)}
             type="submit"
             className="defaultBtn"
@@ -270,13 +503,13 @@ const Bookings = () => {
             <p className="whitespace-nowrap text-sm hidden lg:block">
               Add Booking
             </p>
-          </button>
+          </Button>
         </div>
       </div>
       <div className="w-full">
         <Filter
-        bookingStats={bookingDataStats}
-        isFilterOpen={onFilterOpen}
+          bookingStats={bookingDataStats}
+          isFilterOpen={onFilterOpen}
           setFilterData={(filter: any) => {
             setFilterData(filter);
             setReloadData(!reloadData);
@@ -302,34 +535,11 @@ const Bookings = () => {
               <FcNext />
             </button>
           </div>
-          {/* <div className="ml-4 py-2 px-2 h-full border shadow rounded text-xs font-medium"> */}
-          {/* <Select
-              id="hotel"
-              name="hotel"
-              options={[
-                { value: "all", label: "All Users" },
-                ...userData.map((user: any) => ({
-                  value: user._id,
-                  label: user.username,
-                })),
-              ]}
-              isMulti
-              value={"coming soon"}
-              onChange={() => {
-                toast.info("Search feature is not available yet");
-                // handleHotelSelection()
-              }}
-              className="w-[80px] outline-none ml-4 px-2 h-full shadow rounded text-xs font-medium"
-              isDisabled={loading}
-            /> */}
-          {/* </div> */}
         </div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             getBookingsBySearch(e);
-
-            // toast.info("Search feature is not available yet");
           }}
           className="w-full h-full text-xs md:mt-0"
         >
@@ -346,8 +556,6 @@ const Bookings = () => {
               className="min-w-[40px] flex justify-center items-center defaultBtn"
               onClick={(e) => {
                 getBookingsBySearch(e);
-                // e.preventDefault();
-                // toast.info("Search feature is not available yet");
               }}
             >
               <BiSearch className="text-xl" />
@@ -430,7 +638,7 @@ const Bookings = () => {
         <div className="text-gray-500 text-sm">
           {" "}
           <div>{`Page ${page} of ${Math.ceil(
-            bookingCounts / PAGE_LIMIT
+            bookingCounts / PAGE_LIMIT,
           )}`}</div>
         </div>
       </div>
