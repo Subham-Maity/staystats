@@ -3,6 +3,7 @@ const { Hotel } = require("../models/hotelModel");
 const { User } = require("../models/userModel");
 const mongoose = require("mongoose");
 const moment = require("moment");
+const Sequence = require("../models/sequenceModel");
 const ObjectId = mongoose.Types.ObjectId;
 
 const getBooking = async (req, res) => {
@@ -108,6 +109,14 @@ const saveCustomBookingData = async (req, res) => {
     }
 
     const allData = await Booking.insertMany(resultData);
+
+    // Update the sequence
+    await Sequence.findByIdAndUpdate(
+      "Booking",
+      { $inc: { seq: resultData.length } },
+      { new: true, upsert: true }
+    );
+
     res
       .status(200)
       .json({ message: "All Data uploaded successfully", data: allData });
