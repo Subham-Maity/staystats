@@ -274,6 +274,17 @@ const Bookings = () => {
         const worksheet = workbook.Sheets[sheetName];
         let json = xlsx.utils.sheet_to_json(worksheet);
 
+        // Check if the data limit is exceeded
+        if (json.length > 130) {
+          toast(() => (
+            <>
+              <strong>Data limit exceeded</strong>
+              <p>You cannot upload more than 130 records.</p>
+            </>
+          ));
+          return;
+        }
+
         // Convert all string fields to uppercase and validate data types
         json = json.map((row: any) => {
           for (let key in row) {
@@ -391,6 +402,7 @@ const Bookings = () => {
     link.click();
   };
 
+  // console.log(JSON.stringify(xlsxFile) + "xlsxFile");
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
       <div className="flex w-full justify-between px-2 items-center gap-4 lg:gap-0 mt-6">
@@ -400,12 +412,12 @@ const Bookings = () => {
         <div className="flex gap-2">
           {user.role === "ADMIN" && (
             <>
-              <button
+              <Button
                 onClick={() => setOnFilterOpen(!onFilterOpen)}
                 className="defaultBtn"
               >
                 Filter
-              </button>
+              </Button>
               <Sheet>
                 <SheetTrigger asChild>
                   <Button className="defaultBtn">
@@ -468,7 +480,7 @@ const Bookings = () => {
                 open={isDialogOpen}
                 setOpen={setIsDialogOpen}
               />
-              <button
+              <Button
                 onClick={() => {
                   setShowDownloadPopUp(true);
                 }}
@@ -478,10 +490,10 @@ const Bookings = () => {
                 <p className="whitespace-nowrap text-sm hidden lg:block">
                   Download Excel
                 </p>
-              </button>
+              </Button>
             </>
           )}
-          <button
+          <Button
             onClick={() => setShowModal(true)}
             type="submit"
             className="defaultBtn"
@@ -490,7 +502,7 @@ const Bookings = () => {
             <p className="whitespace-nowrap text-sm hidden lg:block">
               Add Booking
             </p>
-          </button>
+          </Button>
         </div>
       </div>
       <div className="w-full">

@@ -16,10 +16,10 @@ type Props = {
     totalBookingAmt: number;
     totalAdvanceAmt: number;
     totalDueAmt: number;
-  }
+  };
 };
 
-const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
+const Filter = ({ setFilterData, isFilterOpen, bookingStats }: Props) => {
   const [hotels, setHotels] = React.useState<any>([]);
   const [users, setUsers] = React.useState<any>([]);
 
@@ -43,7 +43,6 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
   });
 
   useEffect(() => {
-   
     const getHotels = async () => {
       try {
         setLoading(true);
@@ -53,7 +52,6 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
         if (!data.error) {
           setHotels(data.hotels);
           setUsers(users.users);
-      
         } else {
           toast.error(data.error);
         }
@@ -70,34 +68,45 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
   const handleSelect = (ranges: any) => {
     const startDate = new Date(ranges.selection.startDate);
     const endDate = new Date(ranges.selection.endDate);
-  
-   
-    startDate.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
+
+    startDate.setMinutes(
+      startDate.getMinutes() - startDate.getTimezoneOffset(),
+    );
     endDate.setMinutes(endDate.getMinutes() - endDate.getTimezoneOffset());
-  
+
     setSelectionRange({ startDate, endDate, key: "selection" });
-  
 
     setFilter({
       ...filter,
       dateRange: {
-        startDate: new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0),
-        endDate: new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59),
+        startDate: new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate(),
+          0,
+          0,
+          0,
+        ),
+        endDate: new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate(),
+          23,
+          59,
+          59,
+        ),
       },
     });
   };
-  
-  
 
   const handleSubmit = () => {
     setFilterData(filter);
   };
- if(isFilterOpen){
+  if (isFilterOpen) {
     return (
       <div className="rounded-md w-full flex-wrap flex justify-start items-start p-4 flex-col">
-        
         <div className="flex  justify-between w-full lg:flex-row flex-col gap-4">
-              <div className="flex flex-col gap-4 justify-start items-start">
+          <div className="flex flex-col gap-4 justify-start items-start">
             <div className="flex lg:justify-center lg:items-center gap-2 flex-wrap">
               <div className="">
                 <label htmlFor="" className="whitespace-nowrap">
@@ -254,7 +263,7 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
                   </option>
                   <option value="createdAt">Created</option>
                   <option value="checkInDate">Arrival</option>
-  
+
                   <option value="checkOutDate">Departure</option>
                   <option value="status">Cancelled</option>
                 </select>
@@ -264,91 +273,89 @@ const Filter = ({ setFilterData,isFilterOpen,bookingStats }: Props) => {
           {isFilterOptionSelected && (
             <div className="flex overflow-y-scroll no-scrollbar flex-col gap-2">
               <h1 className="mb-2 font-bold">Select date range</h1>
-              {/*<DateRangePicker*/}
-              {/*  className=" text-blue-600 rounded-xl dark:bg-gray-800"*/}
-              {/*  showMonthAndYearPickers={true}*/}
-              {/*  ranges={[selectionRange]}*/}
-              {/*  onChange={handleSelect}*/}
-              {/*/>*/}
+              <DateRangePicker
+                className=" text-blue-600 rounded-xl dark:bg-gray-800"
+                showMonthAndYearPickers={true}
+                ranges={[selectionRange]}
+                onChange={handleSelect}
+              />
             </div>
           )}
         </div>
-        {
-          isFilterOpen && (
-            <div className="mt-2 flex gap-2 flex-col">
-          <div className="mt-2 flex gap-2">
-          <button
-            onClick={handleSubmit}
-            type="submit"
-            disabled={
-              !filter.guestName &&
-              filter.hotelName === "--select--" &&
-              filter.bookingSource === "--select--" &&
-              !filter.serialNumber &&
-              filter.filterBy === "--select--" &&
-              filter.status === "--select--" &&
-              filter.addedBy === "--select--"
-            }
-            className="defaultBtn"
-          >
-            Search
-          </button>
-          <button
-            onClick={() => {
-              setisFilterOptionSelected(false);
-              setFilter({
-                guestName: "",
-                hotelName: "--select--",
-                bookingSource: "--select--",
-                serialNumber: "",
-                filterBy: "--select--",
-                dateRange: {},
-                status: "--select--",
-                addedBy: "--select--",
-              });
-              setFilterData({
-                guestName: "",
-                hotelName: "",
-                bookingSource: "",
-                serialNumber: "",
-                filterBy: "",
-                dateRange: {},
-                status: "",
-                addedBy: "",
-              });
-            }}
-            type="submit"
-            className="defaultBtn"
-          >
-            Reset
-          </button>
-          </div>
-          <div className="flex flex-col justify-center items-start">
-            <div className="flex lg:flex-row flex-col gap-4">
-              <p>Total Booking Amount - ₹ {Math.floor(bookingStats.totalBookingAmt)}</p>
-              <h1 className="hidden lg:block"> | </h1>
-              <p>Total Advance Amount - ₹ {Math.floor(bookingStats.totalAdvanceAmt)}</p>
-              
-              <h1 className="hidden lg:block"> | </h1>
-
-              <p>Total Due Amount - ₹ {Math.floor(bookingStats.totalDueAmt)}</p>
-
+        {isFilterOpen && (
+          <div className="mt-2 flex gap-2 flex-col">
+            <div className="mt-2 flex gap-2">
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                disabled={
+                  !filter.guestName &&
+                  filter.hotelName === "--select--" &&
+                  filter.bookingSource === "--select--" &&
+                  !filter.serialNumber &&
+                  filter.filterBy === "--select--" &&
+                  filter.status === "--select--" &&
+                  filter.addedBy === "--select--"
+                }
+                className="defaultBtn"
+              >
+                Search
+              </button>
+              <button
+                onClick={() => {
+                  setisFilterOptionSelected(false);
+                  setFilter({
+                    guestName: "",
+                    hotelName: "--select--",
+                    bookingSource: "--select--",
+                    serialNumber: "",
+                    filterBy: "--select--",
+                    dateRange: {},
+                    status: "--select--",
+                    addedBy: "--select--",
+                  });
+                  setFilterData({
+                    guestName: "",
+                    hotelName: "",
+                    bookingSource: "",
+                    serialNumber: "",
+                    filterBy: "",
+                    dateRange: {},
+                    status: "",
+                    addedBy: "",
+                  });
+                }}
+                type="submit"
+                className="defaultBtn"
+              >
+                Reset
+              </button>
             </div>
+            <div className="flex flex-col justify-center items-start">
+              <div className="flex lg:flex-row flex-col gap-4">
+                <p>
+                  Total Booking Amount - ₹{" "}
+                  {Math.floor(bookingStats.totalBookingAmt)}
+                </p>
+                <h1 className="hidden lg:block"> | </h1>
+                <p>
+                  Total Advance Amount - ₹{" "}
+                  {Math.floor(bookingStats.totalAdvanceAmt)}
+                </p>
 
-            
+                <h1 className="hidden lg:block"> | </h1>
+
+                <p>
+                  Total Due Amount - ₹ {Math.floor(bookingStats.totalDueAmt)}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-          )
-        }
+        )}
       </div>
     );
-  
- } else {
-   return (
-    <div>
-      
-    </div>
-   )
+  } else {
+    return <div></div>;
   }
 };
 

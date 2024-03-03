@@ -3,6 +3,7 @@ const { Hotel } = require("../models/hotelModel");
 const { User } = require("../models/userModel");
 const mongoose = require("mongoose");
 const moment = require("moment");
+const Sequence = require("../models/sequenceModel");
 const ObjectId = mongoose.Types.ObjectId;
 
 const getBooking = async (req, res) => {
@@ -30,6 +31,12 @@ const saveCustomBookingData = async (req, res) => {
 
     if (!jsonData || !Array.isArray(jsonData)) {
       return res.status(400).json({ message: "Invalid JSON data" });
+    }
+
+    if (jsonData.length > 140) {
+      return res.status(400).json({
+        message: "You can upload a maximum of 140 bookings at a time",
+      });
     }
 
     // Get the last serial number from the database
@@ -96,10 +103,20 @@ const saveCustomBookingData = async (req, res) => {
     }
 
     if (resultData.length !== jsonData.length) {
-      throw new Error("Some bookings were not saved");
+      throw new Error(
+        "Bookings were not saved becuase some unknown data found in your data"
+      );
     }
 
     const allData = await Booking.insertMany(resultData);
+
+    // Update the sequence
+    await Sequence.findByIdAndUpdate(
+      "Booking",
+      { $inc: { seq: resultData.length } },
+      { new: true, upsert: true }
+    );
+
     res
       .status(200)
       .json({ message: "All Data uploaded successfully", data: allData });
