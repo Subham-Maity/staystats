@@ -32,6 +32,12 @@ const saveCustomBookingData = async (req, res) => {
       return res.status(400).json({ message: "Invalid JSON data" });
     }
 
+    if (jsonData.length > 140) {
+      return res.status(400).json({
+        message: "You can upload a maximum of 140 bookings at a time",
+      });
+    }
+
     // Get the last serial number from the database
     const lastBooking = await Booking.findOne().sort({ createdAt: -1 });
     let serialNumber = lastBooking ? parseInt(lastBooking.serialNumber) + 1 : 1;
@@ -96,7 +102,9 @@ const saveCustomBookingData = async (req, res) => {
     }
 
     if (resultData.length !== jsonData.length) {
-      throw new Error("Some bookings were not saved");
+      throw new Error(
+        "Bookings were not saved becuase some unknown data found in your data"
+      );
     }
 
     const allData = await Booking.insertMany(resultData);
