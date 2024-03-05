@@ -96,10 +96,10 @@ const saveCustomBookingData = async (req, res) => {
         accountType: bookingData["Account Type"] || "",
       };
 
-      resultData.push(formattedBooking); // To show on the response
-
       // Increment serial number for the next booking
-      serialNumber++;
+      serialNumber += 1;
+
+      resultData.push(formattedBooking); // Storing in array
     }
 
     if (resultData.length !== jsonData.length) {
@@ -108,18 +108,12 @@ const saveCustomBookingData = async (req, res) => {
       );
     }
 
-    const allData = await Booking.insertMany(resultData);
+    // Insert each booking data one by one to get different timestamps
+    for (const booking of resultData) {
+      await Booking.create(booking);
+    }
 
-    // Update the sequence
-    await Sequence.findByIdAndUpdate(
-      "Booking",
-      { $inc: { seq: resultData.length } },
-      { new: true, upsert: true }
-    );
-
-    res
-      .status(200)
-      .json({ message: "All Data uploaded successfully", data: allData });
+    res.status(200).json({ message: "All Data uploaded successfully" });
   } catch (error) {
     console.error(error);
     res
