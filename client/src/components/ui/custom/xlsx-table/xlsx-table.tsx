@@ -44,7 +44,7 @@ export default function XlsxTable({ data, setXlsxFile }: ICustomTableProps) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [height] = useScreenSize();
   const isMobile = height <= 768;
-  const itemsPerPage: number = isMobile ? 3 : 6;
+  const itemsPerPage: number = isMobile ? 2 : 4;
 
   const filteredData: IGuest[] = data.filter((item: IGuest) =>
     Object.values(item).some((value) =>

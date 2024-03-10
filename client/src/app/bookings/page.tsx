@@ -426,6 +426,14 @@ const Bookings = () => {
   const resetState = () => {
     setXlsxFile([]);
     setIsConfirmed(false);
+    toast(() => (
+      <>
+        <strong>Data Reset Successful</strong>
+        <p>
+          Please close the side panel and re-upload your file for a fresh start.
+        </p>
+      </>
+    ));
   };
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
