@@ -91,7 +91,6 @@ export default function XlsxTable({ data, setXlsxFile }: ICustomTableProps) {
               <TableHead>Booking Source</TableHead>
               <TableHead>Booked By</TableHead>
               <TableHead>Booking Status</TableHead>
-              <TableHead>Modified Date</TableHead>
               <TableHead>Plan</TableHead>
               <TableHead>Remarks</TableHead>
             </TableRow>
@@ -256,17 +255,6 @@ export default function XlsxTable({ data, setXlsxFile }: ICustomTableProps) {
                     {item["Booking Status"]}
                   </XlsxTableAction>
                 </TableCell>
-
-                <TableCell>
-                  <XlsxTableAction
-                    title="Are you sure you want to delete?"
-                    description={`${item["Guest Name"]} ${item["Guest Contact"]} will be deleted.`}
-                    onDelete={() => deleteItem(index)}
-                  >
-                    {item["Modified Date"]}
-                  </XlsxTableAction>
-                </TableCell>
-
                 <TableCell>
                   <XlsxTableAction
                     title="Are you sure you want to delete?"

@@ -32,12 +32,13 @@ import {
 import { Button } from "@nextui-org/react";
 import XlsxTable from "@/components/ui/custom/xlsx-table/xlsx-table";
 import XlsxDangerModal from "@/components/ui/custom/xlsx-table/modal/xlsx-danger-modal";
-import { Download, FolderDown, Save } from "lucide-react";
+import { Download, FolderDown, ListRestart, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Bookings = () => {
   const PAGE_LIMIT = 50;
   const [page, setPage] = useState(1);
+
   const router = useRouter();
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -421,6 +422,11 @@ const Bookings = () => {
   };
 
   console.log(JSON.stringify(xlsxFile) + "xlsxFile");
+
+  const resetState = () => {
+    setXlsxFile([]);
+    setIsConfirmed(false);
+  };
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
       <div className="flex w-full justify-between px-2 items-center gap-4 lg:gap-0 mt-6">
@@ -448,7 +454,20 @@ const Bookings = () => {
                 </SheetTrigger>
                 <SheetContent className="dark:bg-[#25293c]">
                   <SheetHeader>
-                    <SheetTitle>Upload Excel</SheetTitle>
+                    <div className="flex gap-2">
+                      <SheetTitle>Upload Excel</SheetTitle>
+                      <SheetTitle>
+                        <Button
+                          size="sm"
+                          color="danger"
+                          variant="faded"
+                          onClick={resetState}
+                          startContent={<ListRestart size={20} />}
+                        >
+                          Reset
+                        </Button>
+                      </SheetTitle>
+                    </div>
                     <SheetDescription>
                       Make sure the excel file is in the correct format
                     </SheetDescription>
