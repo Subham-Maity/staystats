@@ -44,7 +44,7 @@ export default function XlsxTable({ data, setXlsxFile }: ICustomTableProps) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [height] = useScreenSize();
   const isMobile = height <= 768;
-  const itemsPerPage: number = isMobile ? 3 : 6;
+  const itemsPerPage: number = isMobile ? 2 : 4;
 
   const filteredData: IGuest[] = data.filter((item: IGuest) =>
     Object.values(item).some((value) =>
@@ -91,7 +91,6 @@ export default function XlsxTable({ data, setXlsxFile }: ICustomTableProps) {
               <TableHead>Booking Source</TableHead>
               <TableHead>Booked By</TableHead>
               <TableHead>Booking Status</TableHead>
-              <TableHead>Modified Date</TableHead>
               <TableHead>Plan</TableHead>
               <TableHead>Remarks</TableHead>
             </TableRow>
@@ -256,17 +255,6 @@ export default function XlsxTable({ data, setXlsxFile }: ICustomTableProps) {
                     {item["Booking Status"]}
                   </XlsxTableAction>
                 </TableCell>
-
-                <TableCell>
-                  <XlsxTableAction
-                    title="Are you sure you want to delete?"
-                    description={`${item["Guest Name"]} ${item["Guest Contact"]} will be deleted.`}
-                    onDelete={() => deleteItem(index)}
-                  >
-                    {item["Modified Date"]}
-                  </XlsxTableAction>
-                </TableCell>
-
                 <TableCell>
                   <XlsxTableAction
                     title="Are you sure you want to delete?"

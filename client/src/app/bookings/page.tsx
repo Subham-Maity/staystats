@@ -32,12 +32,13 @@ import {
 import { Button } from "@nextui-org/react";
 import XlsxTable from "@/components/ui/custom/xlsx-table/xlsx-table";
 import XlsxDangerModal from "@/components/ui/custom/xlsx-table/modal/xlsx-danger-modal";
-import { Download, FolderDown, Save } from "lucide-react";
+import { Download, FolderDown, ListRestart, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Bookings = () => {
   const PAGE_LIMIT = 50;
   const [page, setPage] = useState(1);
+
   const router = useRouter();
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -250,7 +251,43 @@ const Bookings = () => {
     );
   };
 
-  console.log(xlsxFile, "xlsxFile");
+  //upload excel file
+  //Basic validation : TODO: no requirement so no need to do it
+  const requiredFields = [
+    "Hotel Name",
+    "Guest Name",
+    "Guest Contact",
+    "Guest Email",
+    "Check-In Date",
+    "Check-Out Date",
+    "Number of Rooms",
+    "Number of Person",
+    "Room Category",
+    "Booking Amount",
+    "Advance Amount",
+    "Advance Date",
+    "Account Type",
+    "Booking Source",
+    "Booked By",
+    "Booking Status",
+    "Plan",
+    "Remarks",
+  ];
+  function formatDate(date: {
+    getTimezoneOffset: () => number;
+    getTime: () => number;
+  }) {
+    const timezoneOffset = date.getTimezoneOffset() * 60000;
+    const adjustedDate = new Date(date.getTime() - timezoneOffset);
+    const day = adjustedDate.getDate();
+    const month = adjustedDate.getMonth() + 1;
+    const year = adjustedDate.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+  xlsx.SSF.load_table({
+    0: "General",
+    14: "m-d-yy",
+  });
   const readUploadFile = (e: any) => {
     e.preventDefault();
     if (e.target.files) {
@@ -270,12 +307,11 @@ const Bookings = () => {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const data = e.target.result;
-        const workbook = xlsx.read(data, { type: "array" });
+        const workbook = xlsx.read(data, { type: "array", cellDates: true });
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
-        let json = xlsx.utils.sheet_to_json(worksheet);
+        let json = xlsx.utils.sheet_to_json(worksheet, { dateNF: "m-d-yy" });
 
-        // Check if the data limit is exceeded
         if (json.length > 130) {
           toast(() => (
             <>
@@ -286,45 +322,27 @@ const Bookings = () => {
           return;
         }
 
-        // Convert all string fields to uppercase and validate data types
         json = json.map((row: any) => {
           for (let key in row) {
-            if (typeof row[key] === "string") {
+            if (row[key] instanceof Date) {
+              row[key] = formatDate(row[key]);
+            } else if (typeof row[key] === "string") {
               row[key] = row[key].toUpperCase();
             }
           }
           return row;
         });
 
-        // Validate the data
-        const isValid = json.every((row: any) => {
-          return (
-            "Hotel Name" in row &&
-            "Guest Name" in row &&
-            "Guest Contact" in row &&
-            "Guest Email" in row &&
-            "Check-In Date" in row &&
-            "Check-Out Date" in row &&
-            "Number of Rooms" in row &&
-            "Number of Person" in row &&
-            "Room Category" in row &&
-            "Booking Amount" in row &&
-            "Advance Amount" in row &&
-            "Advance Date" in row &&
-            "Account Type" in row &&
-            "Booking Source" in row &&
-            "Booked By" in row &&
-            "Booking Status" in row &&
-            "Modified Date" in row &&
-            "Plan" in row &&
-            "Remarks" in row
-          );
-        });
+        const keys = Object.keys(json[0] as object);
+        const isFieldMismatch =
+          keys.length !== requiredFields.length ||
+          !requiredFields.every((field) => keys.includes(field));
+        const isModifiedFieldPresent = keys.includes("Modified Date");
 
-        if (!isValid) {
+        if (isFieldMismatch || isModifiedFieldPresent) {
           toast(() => (
             <>
-              <strong>Invalid data</strong>
+              <strong>Column mismatch</strong>
               <p>The uploaded file does not match the required format.</p>
             </>
           ));
@@ -403,7 +421,20 @@ const Bookings = () => {
     link.click();
   };
 
-  // console.log(JSON.stringify(xlsxFile) + "xlsxFile");
+  console.log(JSON.stringify(xlsxFile) + "xlsxFile");
+
+  const resetState = () => {
+    setXlsxFile([]);
+    setIsConfirmed(false);
+    toast(() => (
+      <>
+        <strong>Data Reset Successful</strong>
+        <p>
+          Please close the side panel and re-upload your file for a fresh start.
+        </p>
+      </>
+    ));
+  };
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
       <div className="flex w-full justify-between px-2 items-center gap-4 lg:gap-0 mt-6">
@@ -431,7 +462,20 @@ const Bookings = () => {
                 </SheetTrigger>
                 <SheetContent className="dark:bg-[#25293c]">
                   <SheetHeader>
-                    <SheetTitle>Upload Excel</SheetTitle>
+                    <div className="flex gap-2">
+                      <SheetTitle>Upload Excel</SheetTitle>
+                      <SheetTitle>
+                        <Button
+                          size="sm"
+                          color="danger"
+                          variant="faded"
+                          onClick={resetState}
+                          startContent={<ListRestart size={20} />}
+                        >
+                          Reset
+                        </Button>
+                      </SheetTitle>
+                    </div>
                     <SheetDescription>
                       Make sure the excel file is in the correct format
                     </SheetDescription>
