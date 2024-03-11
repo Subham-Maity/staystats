@@ -536,6 +536,31 @@ const cancelBooking = async (req, res) => {
   }
 };
 
+const undoCancelBooking = async (req, res) => {
+  const { bookingId, status } = req.body;
+  try {
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      bookingId,
+      {
+        status,
+      },
+      { new: true } // This option returns the updated document after the update is applied
+    );
+
+    if (!updatedBooking) {
+      return res.status(201).json({ error: "Booking not found" });
+    }
+
+    res.status(200).json({
+      message: "Cancellation Reversed Successfully",
+      booking: updatedBooking,
+    });
+  } catch (error) {
+    console.log("[user controller update error:]", error);
+    res.status(201).json({ error: error.message });
+  }
+};
+
 const downloadExcel = async (req, res) => {};
 
 module.exports = {
@@ -545,6 +570,7 @@ module.exports = {
   createBooking,
   updateBooking,
   cancelBooking,
+  undoCancelBooking,
   downloadExcel,
   saveCustomBookingData,
 };
