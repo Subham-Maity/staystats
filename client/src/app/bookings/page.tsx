@@ -421,7 +421,7 @@ const Bookings = () => {
     link.click();
   };
 
-  console.log(JSON.stringify(xlsxFile) + "xlsxFile");
+  // console.log(JSON.stringify(xlsxFile) + "xlsxFile");
 
   const resetState = () => {
     setXlsxFile([]);
