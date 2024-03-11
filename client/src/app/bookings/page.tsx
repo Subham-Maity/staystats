@@ -101,7 +101,7 @@ const Bookings = () => {
     try {
       if (searchText?.trim()?.length > 0) {
         let { data } = await axios.get(
-          `/booking/get-all-bookings/search?&query=${searchText}`,
+          `/booking/get-all-bookings/search?&query=${searchText}`
         );
 
         if (!data.error) {
@@ -126,7 +126,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          },
+          }
         );
         if (!data.error) {
           setBookingData(data.bookings);
@@ -168,7 +168,38 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          },
+          }
+        );
+        if (!bookingData.error) {
+          setBookingData(bookingData.bookings);
+          setBookingCounts(bookingData.bookingsCount);
+        } else {
+          toast.error(bookingData.error);
+        }
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
+
+  const undoCancelBookingHandler = async (bookingId: string) => {
+    setFilterData(null);
+    try {
+      const { data } = await axios.post(`/booking/undo-cancel-booking`, {
+        bookingId,
+        status: "CONFIRMED",
+      });
+      if (!data.error) {
+        toast.success(data.message);
+        const { data: bookingData } = await axios.post(
+          `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}&filterBy=${filterData?.filterBy}&hotelName=${filterData?.hotelName}&bookingSource=${filterData?.bookingSource}&guestName=${filterData?.guestName}&serialNumber=${filterData?.serialNumber}&status=${filterData?.status}&addedBy=${filterData?.addedBy}`,
+          {
+            startDate: filterData?.dateRange?.startDate ?? null,
+            endDate: filterData?.dateRange?.endDate ?? null,
+          }
         );
         if (!bookingData.error) {
           setBookingData(bookingData.bookings);
@@ -193,7 +224,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          },
+          }
         );
         if (!data.error) {
           return data.bookings;
@@ -247,7 +278,7 @@ const Bookings = () => {
     utils.book_append_sheet(workbook, worksheet, "Data");
     writeFile(
       workbook,
-      `Bookings-${user.name || user.username}-${new Date().toDateString()}.xlsx`,
+      `Bookings-${user.name || user.username}-${new Date().toDateString()}.xlsx`
     );
   };
 
@@ -624,6 +655,7 @@ const Bookings = () => {
           setShowModal={(value) => setShowViewModal(value)}
           getBooking={(booking) => setBooking(booking)}
           cancelBookingHandler={cancelBookingHandler}
+          undoCancelBookingHandler={undoCancelBookingHandler}
           bookingData={bookingData}
           loading={loading}
         />
@@ -650,6 +682,7 @@ const Bookings = () => {
           <ViewBooking
             setShowEditModal={(value) => setShowEditModal(value)}
             cancelBookingHandler={cancelBookingHandler}
+            undoCancelBookingHandler={undoCancelBookingHandler}
             onClose={(value) => setShowViewModal(value)}
             booking={booking}
             setEditingBookingData={(value) => setEditingBookingData(value)}
@@ -687,7 +720,7 @@ const Bookings = () => {
         <div className="text-gray-500 text-sm">
           {" "}
           <div>{`Page ${page} of ${Math.ceil(
-            bookingCounts / PAGE_LIMIT,
+            bookingCounts / PAGE_LIMIT
           )}`}</div>
         </div>
       </div>

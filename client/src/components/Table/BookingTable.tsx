@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 
 import { TbLoader } from "react-icons/tb";
 
@@ -30,12 +30,10 @@ interface TableProps {
   getBooking: (booking: object) => void;
   setShowModal: (value: boolean) => void;
   cancelBookingHandler: (id: string) => void;
+  undoCancelBookingHandler: (id: string) => void;
   owner?: any;
   loading?: boolean;
 }
-
-
-
 
 const BookingTable = ({
   bookingData,
