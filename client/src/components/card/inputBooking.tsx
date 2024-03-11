@@ -3,8 +3,6 @@ import { toast } from "react-toastify";
 import axios from "@/utils/axios";
 import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
 
-import { FaTimes } from "react-icons/fa";
-
 interface BookingProps {
   user: any;
   setBookingData: (users: any) => void;
@@ -49,7 +47,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     if (input.length <= 10) {
-      setPhoneNumber(String(input));
+      setPhoneNumber(input);
     }
   };
 
@@ -138,6 +136,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
 
     const formData = new FormData(event.currentTarget);
     const formValues: { [key: string]: string } = {};
+    console.log(formValues);
 
     // Collect all the form field values
     formData.forEach((value, key) => {
@@ -235,7 +234,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         bookingBy: user.name || user.username,
         accountType: formValues.accountType,
         plan: formValues.plan,
-        contactNumber: formValues.cn.trim(),
+        contactNumber: formValues.cn.toString().trim(),
         guestEmail: formValues.guestEmail,
         remarks: formValues.remark,
       });
@@ -245,10 +244,14 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           return [data.booking, ...prev];
         });
 
-        onClose(false);
+        onClose(true);
+        setPhoneNumber("");
+        setBookingAmount("");
+        setAdvanceAmount("");
+        setDueAmount("");
 
-        toast.success(data.message);
         formRef.current?.reset();
+        toast.success(data.message);
       } else {
         toast.error(data.error);
       }
@@ -262,6 +265,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit}
       className="p-6 items-center rounded-lg shadow md:flex-row md:max-w-xl  "
     >
@@ -361,7 +365,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
               name="cn"
               value={phoneNumber}
               onChange={handleContactChange}
-              className="no-spinner bg-gray-50 border appearance-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border appearance-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
           </div>
@@ -418,7 +422,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
               type="number"
               id="nor"
               name="nor"
-              className="no-spinner bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
           </div>
@@ -490,7 +494,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
               id="bookingAmount"
               value={bookingAmount}
               onChange={handleBookingAmountChange}
-              className="no-spinner bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
           </div>
@@ -507,7 +511,7 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
               id="advanceAmount"
               value={advanceAmount}
               onChange={handleAdvanceAmountChange}
-              className="no-spinner bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
             />
           </div>

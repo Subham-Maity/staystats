@@ -489,7 +489,9 @@ const ViewBooking = ({
         <div className="w-full bg-black/50 h-screen fixed top-0 left-0 flex justify-center items-center overflow-hidden">
           <div className="w-1/3 bg-white rounded-lg p-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-lg font-bold text-black">Undo Cancel</h1>
+              <h1 className="text-lg font-bold text-black">
+                Undo Booking Cancelletion
+              </h1>
               <button
                 onClick={() => setShowUndoDeletePopUp(false)}
                 className="text-red-500 text-lg"
