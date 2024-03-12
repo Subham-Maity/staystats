@@ -38,8 +38,7 @@ import { useRouter } from "next/navigation";
 const Bookings = () => {
   const PAGE_LIMIT = 50;
   const [page, setPage] = useState(1);
-
-  const router = useRouter();
+  const [stayColor, setStayColor] = useState<boolean>(false);
   const [searchText, setSearchText] = useState(""); // {users: [], usersCount: 0}
   const [showModal, setShowModal] = useState<boolean>(false);
   const [filterData, setFilterData] = useState<any>();
@@ -101,7 +100,7 @@ const Bookings = () => {
     try {
       if (searchText?.trim()?.length > 0) {
         let { data } = await axios.get(
-          `/booking/get-all-bookings/search?&query=${searchText}`
+          `/booking/get-all-bookings/search?&query=${searchText}`,
         );
 
         if (!data.error) {
@@ -126,7 +125,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          }
+          },
         );
         if (!data.error) {
           setBookingData(data.bookings);
@@ -168,7 +167,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          }
+          },
         );
         if (!bookingData.error) {
           setBookingData(bookingData.bookings);
@@ -199,7 +198,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          }
+          },
         );
         if (!bookingData.error) {
           setBookingData(bookingData.bookings);
@@ -224,7 +223,7 @@ const Bookings = () => {
           {
             startDate: filterData?.dateRange?.startDate ?? null,
             endDate: filterData?.dateRange?.endDate ?? null,
-          }
+          },
         );
         if (!data.error) {
           return data.bookings;
@@ -278,7 +277,7 @@ const Bookings = () => {
     utils.book_append_sheet(workbook, worksheet, "Data");
     writeFile(
       workbook,
-      `Bookings-${user.name || user.username}-${new Date().toDateString()}.xlsx`
+      `Bookings-${user.name || user.username}-${new Date().toDateString()}.xlsx`,
     );
   };
 
@@ -452,6 +451,29 @@ const Bookings = () => {
     link.click();
   };
 
+  const getStayBookings = async () => {
+    setFilterData((prev: any) => ({ ...prev, filterBy: "stay" }));
+
+    try {
+      const { data } = await axios.post(
+        `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}&filterBy=stay&hotelName=${filterData?.hotelName}&bookingSource=${filterData?.bookingSource}&guestName=${filterData?.guestName}&serialNumber=${filterData?.serialNumber}&status=${filterData?.status}&addedBy=${filterData?.addedBy}`,
+        {
+          startDate: null,
+          endDate: null,
+        },
+      );
+      if (!data.error) {
+        setBookingData(data.bookings);
+        setBookingCounts(data.bookingsCount);
+        setStayColor(true);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   // console.log(JSON.stringify(xlsxFile) + "xlsxFile");
 
   const resetState = () => {
@@ -472,6 +494,7 @@ const Bookings = () => {
         <h1 className="lg:text-2xl text-lg whitespace-nowrap font-bold">
           Booking Details
         </h1>
+
         <div className="flex gap-2">
           {user.role === "ADMIN" && (
             <>
@@ -583,6 +606,8 @@ const Bookings = () => {
       </div>
       <div className="w-full">
         <Filter
+          setStayColor={setStayColor}
+          getStayBookings={getStayBookings}
           bookingStats={bookingDataStats}
           isFilterOpen={onFilterOpen}
           setFilterData={(filter: any) => {
@@ -650,6 +675,7 @@ const Bookings = () => {
       </div>
       <div className={` flex w-full`}>
         <BookingTable
+          stayColor={stayColor}
           owner={user}
           setBookingData={setBookingData}
           setShowModal={(value) => setShowViewModal(value)}
@@ -720,7 +746,7 @@ const Bookings = () => {
         <div className="text-gray-500 text-sm">
           {" "}
           <div>{`Page ${page} of ${Math.ceil(
-            bookingCounts / PAGE_LIMIT
+            bookingCounts / PAGE_LIMIT,
           )}`}</div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { InfinitySpin } from "react-loader-spinner";
 import { FaTimes } from "react-icons/fa";
 
 interface TableProps {
+  stayColor?: boolean;
   bookingData?: {
     hotelName?: string;
     guestName?: string;
@@ -36,6 +37,7 @@ interface TableProps {
 }
 
 const BookingTable = ({
+  stayColor,
   bookingData,
   getBooking,
   setShowModal,
@@ -148,17 +150,17 @@ const BookingTable = ({
                           booking?.status === "CANCELLED"
                             ? "line-through text-red-400"
                             : ""
-                        }`}
+                        } ${stayColor ? "text-green-500" : ""}`}
                       >
                         <th
                           scope="row"
-                          className="px-6 py-2 font-medium whitespace-nowrap dark:text-white text-center "
+                          className="px-6 py-2 font-medium whitespace-nowrap text-center "
                         >
                           {booking?.serialNumber}
                         </th>
                         <td
                           scope="row"
-                          className="px-6 py-2 font-medium whitespace-nowrap dark:text-white text-center "
+                          className="px-6 py-2 font-medium whitespace-nowrap text-center "
                         >
                           {booking?.hotel?.hotelName || "DELETED HOTEL"}
                         </td>

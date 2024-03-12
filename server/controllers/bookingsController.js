@@ -124,34 +124,9 @@ const saveCustomBookingData = async (req, res) => {
 
 const getAllBookings = async (req, res) => {
   try {
-    //scripts to change db
-    // async function updateSerialNumbers() {
-    //   try {
-    //     const bookings = await Booking.find().sort({ createdAt: 1 }); // Sort by creation date in ascending order
-
-    //     // Update serial numbers
-    //     for (let i = 0; i < bookings.length; i++) {
-    //       const booking = bookings[i];
-    //       booking.serialNumber = i + 1;
-    //       booking.advanceDate = booking.createdAt;
-    //       booking.advanceAmount = booking.bookingAmount;
-    //       await booking.save();
-    //     }
-
-    //     console.log('Serial numbers updated successfully.');
-    //   } catch (error) {
-    //     console.error('Error updating serial numbers:', error);
-    //   }
-    // }
-    // await updateSerialNumbers();
-
     let {
       page,
       limit,
-      sortBy,
-      sortOrder,
-      location,
-      addedByMe,
       addedBy,
       filterBy,
       bookingSource,
@@ -161,24 +136,26 @@ const getAllBookings = async (req, res) => {
       status,
     } = req.query;
     let { startDate, endDate } = req.body;
-    // console.log("req.body: ", req.body);
-    // console.log("req.query: ", req.query);
     let query_page = parseInt(page) ?? 1;
     let query_limit = parseInt(limit) ?? 10;
 
     let skipIndex = (query_page - 1) * query_limit;
     let bookings;
-
-    console.log("[get all bookings controller: =>]");
-    console.time("get bookings");
-
-    // Fetch bookings with applied filters and sorting
     let filter = {};
 
     if (req.user.role === "SUBADMIN") {
       filter.addedBy = req.user._id;
     }
 
+    if (filterBy === "stay") {
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+      let tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      filter.checkInDate = { $lt: tomorrow };
+      filter.checkOutDate = { $gt: today };
+    }
     if (filterBy && startDate && endDate) {
       if (filterBy === "checkInDate") {
         filter.checkInDate = {
@@ -250,10 +227,7 @@ const getAllBookings = async (req, res) => {
     ) {
       filter.status = status;
     }
-
-    console.log("filter: ", filter);
     let bookingsForCalculation;
-    // Fetch all bookings
     if (page && limit) {
       bookingsForCalculation = await Booking.find(filter)
         .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (-1)
@@ -273,11 +247,7 @@ const getAllBookings = async (req, res) => {
     }
 
     let bookingsCount = await Booking.countDocuments(filter);
-    console.log("bookingsCount: ", bookingsCount);
-
-    console.timeEnd("get bookings");
-
-    if (!bookings || bookings.length === 0) {
+   if (!bookings || bookings.length === 0) {
       res.status(200).json({
         message: "No bookings found",
         bookings: [],
@@ -285,8 +255,6 @@ const getAllBookings = async (req, res) => {
       });
       return;
     } else {
-      // if the booking status is not cancelled then add the total amount of booking in a variable
-
       let totalBookingAmt = 0;
       let totalAdvanceAmt = 0;
       let totalDueAmt = 0;
@@ -300,7 +268,6 @@ const getAllBookings = async (req, res) => {
           }
         });
 
-      // console.log(totalBookingAmt);
       res.status(200).json({
         bookings,
         bookingsCount: bookingsCount ?? 0,
@@ -312,7 +279,6 @@ const getAllBookings = async (req, res) => {
       return;
     }
   } catch (error) {
-    console.log("Error: ", error);
     res.status(500).json({
       message: "Internal server error",
     });
