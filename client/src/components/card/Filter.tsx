@@ -8,8 +8,12 @@ import { DateRangePicker } from "react-date-range";
 import axios from "@/utils/axios";
 import { toast } from "react-toastify";
 import { Table } from "flowbite-react";
+import { Button } from "@nextui-org/react";
+import { Home, UserIcon } from "lucide-react";
 
 type Props = {
+  setStayColor: any;
+  getStayBookings: any;
   setFilterData: any;
   isFilterOpen: boolean;
   bookingStats: {
@@ -19,7 +23,13 @@ type Props = {
   };
 };
 
-const Filter = ({ setFilterData, isFilterOpen, bookingStats }: Props) => {
+const Filter = ({
+  setStayColor,
+  getStayBookings,
+  setFilterData,
+  isFilterOpen,
+  bookingStats,
+}: Props) => {
   const [hotels, setHotels] = React.useState<any>([]);
   const [users, setUsers] = React.useState<any>([]);
 
@@ -285,7 +295,15 @@ const Filter = ({ setFilterData, isFilterOpen, bookingStats }: Props) => {
         {isFilterOpen && (
           <div className="mt-2 flex gap-2 flex-col">
             <div className="mt-2 flex gap-2">
-              <button
+              <Button
+                color="success"
+                variant="bordered"
+                startContent={<Home size={20} />}
+                onClick={getStayBookings}
+              >
+                Stay
+              </Button>
+              <Button
                 onClick={handleSubmit}
                 type="submit"
                 disabled={
@@ -300,8 +318,9 @@ const Filter = ({ setFilterData, isFilterOpen, bookingStats }: Props) => {
                 className="defaultBtn"
               >
                 Search
-              </button>
-              <button
+              </Button>
+
+              <Button
                 onClick={() => {
                   setisFilterOptionSelected(false);
                   setFilter({
@@ -314,6 +333,7 @@ const Filter = ({ setFilterData, isFilterOpen, bookingStats }: Props) => {
                     status: "--select--",
                     addedBy: "--select--",
                   });
+                  setStayColor(false);
                   setFilterData({
                     guestName: "",
                     hotelName: "",
@@ -329,7 +349,7 @@ const Filter = ({ setFilterData, isFilterOpen, bookingStats }: Props) => {
                 className="defaultBtn"
               >
                 Reset
-              </button>
+              </Button>
             </div>
             <div className="flex flex-col justify-center items-start">
               <div className="flex lg:flex-row flex-col gap-4">
