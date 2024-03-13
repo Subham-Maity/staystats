@@ -148,13 +148,17 @@ const getAllBookings = async (req, res) => {
     }
 
     if (filterBy === "stay") {
-      let today = new Date();
-      today.setHours(0, 0, 0, 0);
-      let tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
+      let selectedDate = startDate ? new Date(startDate) : new Date();
+      selectedDate.setHours(0, 0, 0, 0);
+      let nextDay = new Date(selectedDate);
+      nextDay.setDate(nextDay.getDate() + 1);
 
-      filter.checkInDate = { $lt: tomorrow };
-      filter.checkOutDate = { $gt: today };
+      filter.checkInDate = { $lt: nextDay };
+      filter.checkOutDate = { $gt: selectedDate };
+
+      if (hotelName !== "undefined" && hotelName !== "null" && hotelName !== "" && hotelName !== "--select--") {
+        filter.hotel = hotelName;
+      }
     }
     if (filterBy && startDate && endDate) {
       if (filterBy === "checkInDate") {
@@ -210,6 +214,8 @@ const getAllBookings = async (req, res) => {
       hotelName !== "--select--"
     ) {
       filter.hotel = hotelName;
+
+
     }
     if (
       addedBy !== "undefined" &&

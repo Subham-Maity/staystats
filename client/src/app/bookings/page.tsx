@@ -32,8 +32,7 @@ import {
 import { Button } from "@nextui-org/react";
 import XlsxTable from "@/components/ui/custom/xlsx-table/xlsx-table";
 import XlsxDangerModal from "@/components/ui/custom/xlsx-table/modal/xlsx-danger-modal";
-import { Download, FolderDown, ListRestart, Save } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { FolderDown, ListRestart, Save } from "lucide-react";
 
 const Bookings = () => {
   const PAGE_LIMIT = 50;
@@ -451,14 +450,18 @@ const Bookings = () => {
     link.click();
   };
 
-  const getStayBookings = async () => {
-    setFilterData((prev: any) => ({ ...prev, filterBy: "stay" }));
+  const getStayBookings = async (selectedDate: any, hotelName: string) => {
+    setFilterData((prev: any) => ({
+      ...prev,
+      filterBy: "stay",
+      hotelName: hotelName,
+    }));
 
     try {
       const { data } = await axios.post(
-        `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}&filterBy=stay&hotelName=${filterData?.hotelName}&bookingSource=${filterData?.bookingSource}&guestName=${filterData?.guestName}&serialNumber=${filterData?.serialNumber}&status=${filterData?.status}&addedBy=${filterData?.addedBy}`,
+        `/booking/get-all-bookings?page=${page}&limit=${PAGE_LIMIT}&filterBy=stay&hotelName=${hotelName}&bookingSource=${filterData?.bookingSource}&guestName=${filterData?.guestName}&serialNumber=${filterData?.serialNumber}&status=${filterData?.status}&addedBy=${filterData?.addedBy}`,
         {
-          startDate: null,
+          startDate: selectedDate,
           endDate: null,
         },
       );
@@ -636,6 +639,7 @@ const Bookings = () => {
             </button>
           </div>
         </div>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -673,6 +677,7 @@ const Bookings = () => {
           </div>
         </form>
       </div>
+
       <div className={` flex w-full`}>
         <BookingTable
           stayColor={stayColor}
