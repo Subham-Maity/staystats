@@ -434,6 +434,11 @@ const Filter = ({
                 <Button
                   onClick={() => {
                     setisFilterOptionSelected(false);
+
+                    setStayHotels({
+                      hotelName: "--select--",
+                    });
+
                     setFilter({
                       guestName: "",
                       hotelName: "--select--",
