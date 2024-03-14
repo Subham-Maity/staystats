@@ -136,9 +136,10 @@ const getAllBookings = async (req, res) => {
       status,
     } = req.query;
     let { startDate, endDate } = req.body;
+
     let query_page = parseInt(page) ?? 1;
     let query_limit = parseInt(limit) ?? 10;
-    console.log(startDate);
+    console.log(startDate + "startDate");
 
     let skipIndex = (query_page - 1) * query_limit;
     let bookings;
@@ -150,13 +151,14 @@ const getAllBookings = async (req, res) => {
 
     if (filterBy === "stay") {
       let selectedDate = startDate ? new Date(startDate) : new Date();
-      console.log(selectedDate);
-      selectedDate.setHours(0, 0, 0, 0);
+      console.log(selectedDate + "selectedDate");
+      selectedDate.setHours(23, 59, 59, 999); // Set the time to the end of the selected date
       let nextDay = new Date(selectedDate);
       nextDay.setDate(nextDay.getDate() + 1);
+      nextDay.setHours(0, 0, 0, 0); // Set the time to the start of the next day
 
-      filter.checkInDate = { $lt: nextDay };
-      filter.checkOutDate = { $gt: selectedDate };
+      filter.checkInDate = { $lte: selectedDate };
+      filter.checkOutDate = { $gte: nextDay };
 
       if (hotelName !== "undefined" && hotelName !== "null" && hotelName !== "" && hotelName !== "--select--") {
         filter.hotel = hotelName;
