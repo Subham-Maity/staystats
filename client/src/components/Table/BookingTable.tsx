@@ -164,7 +164,7 @@ const BookingTable = ({
                           booking?.status === "CANCELLED"
                             ? "line-through text-red-400"
                             : ""
-                        } ${stayColor ? (isCheckInSelectedDate ? "text-green-500 font-bold" : "text-indigo-500") : "text-black dark:text-white"}`}
+                        } ${stayColor ? (isCheckInSelectedDate ? "text-green-500 font-bold bg-green-200/50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800/50" : "text-indigo-500") : "text-black dark:text-white"}`}
                       >
                         <th
                           scope="row"

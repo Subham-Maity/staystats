@@ -138,6 +138,7 @@ const getAllBookings = async (req, res) => {
     let { startDate, endDate } = req.body;
     let query_page = parseInt(page) ?? 1;
     let query_limit = parseInt(limit) ?? 10;
+    console.log(startDate);
 
     let skipIndex = (query_page - 1) * query_limit;
     let bookings;
@@ -149,6 +150,7 @@ const getAllBookings = async (req, res) => {
 
     if (filterBy === "stay") {
       let selectedDate = startDate ? new Date(startDate) : new Date();
+      console.log(selectedDate);
       selectedDate.setHours(0, 0, 0, 0);
       let nextDay = new Date(selectedDate);
       nextDay.setDate(nextDay.getDate() + 1);
