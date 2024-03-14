@@ -6,7 +6,7 @@ import {
   Select as NextUISelect,
   SelectItem as NextUISelectItem,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Calendars } from "@/components/ui/calendar";
+import Context from "@/context/Context";
 
 type Props = {
   setStayColor: any;
@@ -74,7 +75,7 @@ const Filter = ({
     key: "selection",
   });
 
-  const [date, setDate] = React.useState<Date>();
+  const { date, setDate } = useContext(Context);
   useEffect(() => {
     const getHotels = async () => {
       try {

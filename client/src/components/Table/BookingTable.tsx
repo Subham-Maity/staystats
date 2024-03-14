@@ -6,6 +6,7 @@ import { InfinitySpin } from "react-loader-spinner";
 import { FaTimes } from "react-icons/fa";
 
 interface TableProps {
+  date?: any;
   stayColor?: boolean;
   bookingData?: {
     hotelName?: string;
@@ -37,6 +38,7 @@ interface TableProps {
 }
 
 const BookingTable = ({
+  date,
   stayColor,
   bookingData,
   getBooking,
@@ -137,6 +139,18 @@ const BookingTable = ({
                   </div>
                 ) : (
                   bookingData?.map((booking: any, index: number) => {
+                    const selectedDate = date ? date : new Date();
+
+                    const formattedSelectedDate = selectedDate
+                      .toISOString()
+                      .split("T")[0];
+                    const checkInDate = new Date(booking?.checkInDate)
+                      .toISOString()
+                      .split("T")[0];
+
+                    const isCheckInSelectedDate =
+                      formattedSelectedDate === checkInDate;
+
                     return (
                       <tr
                         title="Click to view"
@@ -150,7 +164,7 @@ const BookingTable = ({
                           booking?.status === "CANCELLED"
                             ? "line-through text-red-400"
                             : ""
-                        } ${stayColor ? "text-green-500" : ""}`}
+                        } ${stayColor ? (isCheckInSelectedDate ? "text-green-500 font-bold bg-green-200/50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800/50" : "text-indigo-500") : "text-black dark:text-white"}`}
                       >
                         <th
                           scope="row"

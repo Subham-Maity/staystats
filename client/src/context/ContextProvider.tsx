@@ -3,40 +3,41 @@ import React, { useState } from "react";
 import FormContext, { ContextDispatch, ContextState } from "./Context";
 
 export interface InfoData {
-    softCap: number;
+  softCap: number;
 }
 
 interface FormProviderProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const ContextProvider: React.FC<FormProviderProps> = ({ children }) => {
-    const [infoData, setInfoData] = useState<InfoData>({
-        softCap: 0,
-    });
+  const [infoData, setInfoData] = useState<InfoData>({
+    softCap: 0,
+  });
 
-    const [isDarkTheme, setIsDarkTheme] = useState<Boolean>(false);
+  const [isDarkTheme, setIsDarkTheme] = useState<Boolean>(false);
+  const [date, setDate] = React.useState<any>();
+  const [isGrid, setIsGrid] = useState<Boolean>(true);
 
-    const[isGrid, setIsGrid] = useState<Boolean>(true);
+  const contextState: ContextState = {
+    infoData,
+    isDarkTheme,
+    date,
+    isGrid,
+  };
 
-    const contextState: ContextState = {
-        infoData,
-        isDarkTheme,
-        isGrid
-    };
+  const contextDispatch: ContextDispatch = {
+    setInfoData,
+    setIsDarkTheme,
+    setDate,
+    setIsGrid,
+  };
 
-    const contextDispatch: ContextDispatch = {
-        setInfoData,
-        setIsDarkTheme,
-        setIsGrid
-    };
-
-
-    return (
-        <FormContext.Provider value={{ ...contextState, ...contextDispatch }}>
-            {children}
-        </FormContext.Provider>
-    );
+  return (
+    <FormContext.Provider value={{ ...contextState, ...contextDispatch }}>
+      {children}
+    </FormContext.Provider>
+  );
 };
 
 export default ContextProvider;

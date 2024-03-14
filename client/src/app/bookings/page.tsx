@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaCloudUploadAlt, FaFileUpload } from "react-icons/fa";
 import * as xlsx from "xlsx";
 import { utils, writeFile } from "xlsx";
@@ -33,6 +33,7 @@ import { Button } from "@nextui-org/react";
 import XlsxTable from "@/components/ui/custom/xlsx-table/xlsx-table";
 import XlsxDangerModal from "@/components/ui/custom/xlsx-table/modal/xlsx-danger-modal";
 import { FolderDown, ListRestart, Save } from "lucide-react";
+import Context from "@/context/Context";
 
 const Bookings = () => {
   const PAGE_LIMIT = 50;
@@ -61,7 +62,7 @@ const Bookings = () => {
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingBookingData, setEditingBookingData] = useState<object>({});
   const [onFilterOpen, setOnFilterOpen] = useState<boolean>(false);
-
+  const { date } = useContext(Context);
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
 
@@ -680,6 +681,7 @@ const Bookings = () => {
 
       <div className={` flex w-full`}>
         <BookingTable
+          date={date}
           stayColor={stayColor}
           owner={user}
           setBookingData={setBookingData}
