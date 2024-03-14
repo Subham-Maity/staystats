@@ -13,11 +13,7 @@ import { DateRangePicker } from "react-date-range";
 import axios from "@/utils/axios";
 import { toast } from "react-toastify";
 import { Calendar as CalendarIcon, Home } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
 import {
@@ -29,6 +25,11 @@ import {
 } from "@/components/ui/select";
 import { Calendars } from "@/components/ui/calendar";
 import Context from "@/context/Context";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 type Props = {
   setStayColor: any;
@@ -41,7 +42,12 @@ type Props = {
     totalDueAmt: number;
   };
 };
-
+// Function to remove time from a date
+const removeTime = (date: Date) => {
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate;
+};
 const Filter = ({
   setStayColor,
   getStayBookings,
@@ -76,6 +82,13 @@ const Filter = ({
   });
 
   const { date, setDate } = useContext(Context);
+  const addIndianTime = (selectedDate: Date) => {
+    const updatedDate = new Date(selectedDate);
+    updatedDate.setHours(updatedDate.getHours() + 6);
+    updatedDate.setMinutes(updatedDate.getMinutes() + 30);
+    return updatedDate;
+  };
+
   useEffect(() => {
     const getHotels = async () => {
       try {
@@ -328,13 +341,9 @@ const Filter = ({
                     <PopoverTrigger asChild>
                       <Button className="defaultBtn">Stay</Button>
                     </PopoverTrigger>
-                    <PopoverContent className="dark:bg-stone-800/80 bg-stone-300/50">
-                      <Card
-                        shadow="sm"
-                        isPressable
-                        className="border-none bg-background/70 dark:bg-default-100/50 "
-                      >
-                        <CardBody className="overflow-visible p-6 gap-4">
+                    <PopoverContent className="px-0 py-0 rounded-2xl">
+                      <Card shadow="sm" isPressable className="border-none ">
+                        <CardBody className="overflow-hidden gap-4">
                           <div>
                             <NextUISelect
                               id="hotel-drop-down"
@@ -368,18 +377,28 @@ const Filter = ({
                                 )}
                               >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? (
+                                {date instanceof Date && !isNaN(date as any) ? (
                                   format(date, "PPP")
                                 ) : (
                                   <span>Select date</span>
                                 )}
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
+                            <PopoverContent className="flex w-auto flex-col space-y-2 p-0 ">
                               <Select
-                                onValueChange={(value) =>
-                                  setDate(addDays(new Date(), parseInt(value)))
-                                }
+                                onValueChange={(value) => {
+                                  // Use the current date and time if no date is selected
+                                  const baseDate = date
+                                    ? new Date(date)
+                                    : new Date();
+                                  const selectedDate = addDays(
+                                    baseDate,
+                                    parseInt(value),
+                                  );
+                                  const dateWithIndianTime =
+                                    addIndianTime(selectedDate);
+                                  setDate(dateWithIndianTime);
+                                }}
                               >
                                 <SelectTrigger>
                                   <SelectValue placeholder="Select" />
@@ -395,14 +414,21 @@ const Filter = ({
                                 <Calendars
                                   mode="single"
                                   selected={date}
-                                  onSelect={setDate}
+                                  onSelect={(newDate: any) => {
+                                    const selectedDate = removeTime(newDate);
+                                    const dateWithIndianTime =
+                                      addIndianTime(selectedDate);
+                                    setDate(dateWithIndianTime);
+                                  }}
                                 />
                               </div>
                             </PopoverContent>
                           </Popover>
+
                           <Button
                             color="success"
                             variant="bordered"
+                            isDisabled={!date}
                             startContent={<Home size={20} />}
                             onClick={() =>
                               getStayBookings(date, stayHotels.hotelName)
