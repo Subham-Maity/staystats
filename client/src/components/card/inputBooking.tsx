@@ -20,6 +20,13 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [dueAmount, setDueAmount] = useState<string>("");
   const [availableHotels, setAvailableHotels] = useState<any>([]);
+  const [selectedHotelOption, setSelectedHotelOption] = useState("--Choose--");
+  const [selectedPlanOption, setSelectedPlanOption] = useState("--Choose--");
+  const [selectedSourceOption, setSelectedSourceOption] =
+    useState("--Choose--");
+  const [selectedAccountOption, setSelectedAccountOption] =
+    useState("--Choose--");
+
   // console.log("inputbooking", user);
   useEffect(() => {
     const getHotels = async () => {
@@ -35,6 +42,13 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
     };
     getHotels();
   }, [user.hotel]);
+
+  const handleSelectHotelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    setSelectedHotelOption(selectedValue);
+
+    availableHotels.find((hotel: any) => hotel._id === e.target.value);
+  };
 
   const handleBookingAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -249,6 +263,13 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
         setBookingAmount("");
         setAdvanceAmount("");
         setDueAmount("");
+        setCheckOutDate("");
+        setCheckInDate("");
+        setAdvanceDate("");
+        setSelectedHotelOption("--Choose--");
+        setSelectedPlanOption("--Choose--");
+        setSelectedSourceOption("--Choose--");
+        setSelectedAccountOption("--Choose--");
 
         formRef.current?.reset();
         toast.success(data.message);
@@ -280,22 +301,6 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
           </span>
         </div>
         <div className="grid gap-2 grid-cols-3 md:grid-cols-3">
-          {/* <div>
-          <label
-            htmlFor="hotel"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Hotel Name
-          </label>
-          <input
-            type="text"
-            id="hotel"
-            name="hotel"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Ex: Digha Saikatabas"
-            required
-          />
-        </div> */}
           <div>
             <label
               htmlFor="hotel"
@@ -304,17 +309,12 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
               Hotel Name <span className="text-red-500">*</span>
             </label>
             <select
-              onChange={(e) => {
-                const hotel = availableHotels.find(
-                  (hotel: any) => hotel._id === e.target.value
-                );
-              }}
+              value={selectedHotelOption}
+              onChange={handleSelectHotelChange}
               id="hotel"
               name="hotel"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              {/* <option selected>Choose</option> */}
-
               <option selected disabled>
                 --Choose--
               </option>
@@ -469,6 +469,8 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
             <select
               id="plan"
               name="plan"
+              value={selectedPlanOption}
+              onChange={(e) => setSelectedPlanOption(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option selected disabled>
@@ -580,6 +582,8 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
               required
               id="paymentby"
               name="paymentby"
+              value={selectedSourceOption}
+              onChange={(e) => setSelectedSourceOption(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option defaultValue="choose" selected disabled>
@@ -614,6 +618,8 @@ const InputBooking = ({ user, setBookingData, onClose }: BookingProps) => {
               required
               id="plan"
               name="accountType"
+              value={selectedAccountOption}
+              onChange={(e) => setSelectedAccountOption(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option selected disabled>
