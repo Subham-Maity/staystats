@@ -139,14 +139,14 @@ const Bookings = () => {
               totalDueAmt: data.totalDueAmt,
             };
           });
-          data.message && toast.info(data.message);
+          data.message && console.log(data.message);
         } else {
-          toast.error(data.error);
+          console.log(data.error);
         }
         setLoading(false);
       } catch (error: any) {
         setLoading(false);
-        toast.error(error.message);
+        console.log(error);
         console.log(error);
       }
     };
@@ -471,12 +471,14 @@ const Bookings = () => {
         setBookingCounts(data.bookingsCount);
         setStayColor(true);
       } else {
-        toast.error(data.error);
+        console.log(data.error);
       }
     } catch (error: any) {
-      toast.error(error.message);
+      console.log(error);
     }
   };
+
+  console.log("bookingData", bookingData);
 
   // console.log(JSON.stringify(xlsxFile) + "xlsxFile");
 
