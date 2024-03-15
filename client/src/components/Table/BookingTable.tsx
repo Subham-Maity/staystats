@@ -139,15 +139,19 @@ const BookingTable = ({
                   </div>
                 ) : (
                   bookingData?.map((booking: any, index: number) => {
-                    const selectedDate = date ? date : new Date();
-
-                    const formattedSelectedDate = selectedDate
-                      .toISOString()
-                      .split("T")[0];
+                    const selectedDate = date ? new Date(date) : new Date();
+                    let formattedSelectedDate = "";
+                    if (
+                      selectedDate instanceof Date &&
+                      !isNaN(selectedDate as any)
+                    ) {
+                      formattedSelectedDate = selectedDate
+                        .toISOString()
+                        .split("T")[0];
+                    }
                     const checkInDate = new Date(booking?.checkInDate)
                       .toISOString()
                       .split("T")[0];
-
                     const isCheckInSelectedDate =
                       formattedSelectedDate === checkInDate;
 

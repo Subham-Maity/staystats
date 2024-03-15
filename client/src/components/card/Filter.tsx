@@ -11,7 +11,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
 import axios from "@/utils/axios";
-import { toast } from "react-toastify";
+
 import { Calendar as CalendarIcon, Home } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -100,12 +100,10 @@ const Filter = ({
           setHotels(data.hotels);
           setUsers(users.users);
         } else {
-          toast.error(data.error);
         }
         setLoading(false);
       } catch (error: any) {
         setLoading(false);
-        toast.error(error.message);
         console.log(error);
       }
     };
@@ -388,9 +386,8 @@ const Filter = ({
                               <Select
                                 onValueChange={(value) => {
                                   // Use the current date and time if no date is selected
-                                  const baseDate = date
-                                    ? new Date(date)
-                                    : new Date();
+                                  const baseDate = new Date(date);
+
                                   const selectedDate = addDays(
                                     baseDate,
                                     parseInt(value),
