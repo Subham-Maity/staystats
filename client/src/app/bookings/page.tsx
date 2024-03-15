@@ -1,12 +1,11 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { FaCloudUploadAlt, FaFileUpload } from "react-icons/fa";
+import { FaCloudUploadAlt, FaPlus, FaTimes } from "react-icons/fa";
 import * as xlsx from "xlsx";
 import { utils, writeFile } from "xlsx";
 import BookingTable from "@/components/Table/BookingTable";
 import axios from "@/utils/axios";
 import { toast, ToastContainer } from "react-toastify";
-import { FaPlus, FaTimes } from "react-icons/fa";
 import InputBooking from "@/components/card/inputBooking";
 import ViewBooking from "@/components/card/ViewBookings";
 import { fetchOwner } from "@/utils";
@@ -29,11 +28,37 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@nextui-org/react";
+import { Button, Card, CardBody } from "@nextui-org/react";
 import XlsxTable from "@/components/ui/custom/xlsx-table/xlsx-table";
 import XlsxDangerModal from "@/components/ui/custom/xlsx-table/modal/xlsx-danger-modal";
-import { FolderDown, ListRestart, Save } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  FolderDown,
+  Home,
+  ListRestart,
+  RotateCcw,
+  Save,
+} from "lucide-react";
 import Context from "@/context/Context";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select as NextUISelect,
+  SelectItem as NextUISelectItem,
+} from "@nextui-org/select";
+import { cn } from "@/lib/utils";
+import { addDays, format } from "date-fns";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Calendars } from "@/components/ui/calendar";
 
 const Bookings = () => {
   const PAGE_LIMIT = 50;
@@ -62,7 +87,6 @@ const Bookings = () => {
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [editingBookingData, setEditingBookingData] = useState<object>({});
   const [onFilterOpen, setOnFilterOpen] = useState<boolean>(false);
-  const { date } = useContext(Context);
   const [showDownloadPopUp, setShowDownloadPopUp] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
 
@@ -494,6 +518,53 @@ const Bookings = () => {
       </>
     ));
   };
+  const { date, setDate } = useContext(Context);
+  const [users, setUsers] = React.useState<any>([]);
+  const [hotels, setHotels] = React.useState<any>([]);
+  const [stayHotels, setStayHotels] = useState({
+    hotelName: "--select--",
+  });
+  const addIndianTime = (selectedDate: Date) => {
+    const updatedDate = new Date(selectedDate);
+    updatedDate.setHours(updatedDate.getHours() + 6);
+    updatedDate.setMinutes(updatedDate.getMinutes() + 30);
+    return updatedDate;
+  };
+  useEffect(() => {
+    const getHotels = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.post(`/hotel/get-all-hotels`);
+        const { data: users } = await axios.get(`/user/get-all-users`);
+
+        if (!data.error) {
+          setHotels(data.hotels);
+          setUsers(users.users);
+        } else {
+        }
+        setLoading(false);
+      } catch (error: any) {
+        setLoading(false);
+        console.log(error);
+      }
+    };
+    getHotels();
+  }, []);
+  const [filter, setFilter] = useState({
+    guestName: "",
+    hotelName: "--select--",
+    bookingSource: "--select--",
+    serialNumber: "",
+    filterBy: "--select--",
+    status: "--select--",
+    addedBy: "--select--",
+    dateRange: {},
+  });
+  const removeTime = (date: Date) => {
+    const newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0);
+    return newDate;
+  };
   return (
     <div className="flex w-full flex-col justify-center gap-4 items-center overflow-hidden">
       <div className="flex w-full justify-between px-2 items-center gap-4 lg:gap-0 mt-6">
@@ -501,113 +572,253 @@ const Bookings = () => {
           Booking Details
         </h1>
 
-        <div className="flex gap-2">
-          {user.role === "ADMIN" && (
-            <>
-              <Button
-                onClick={() => setOnFilterOpen(!onFilterOpen)}
-                className="defaultBtn"
-              >
-                Filter
-              </Button>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button className="defaultBtn">
-                    <FaCloudUploadAlt size={20} />
+        <div>
+          <div className="flex flex-wrap gap-2">
+            {user.role === "ADMIN" && (
+              <>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button className="defaultBtn">Stay</Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="px-0 py-0 rounded-2xl">
+                    <Card shadow="sm" isPressable className="border-none ">
+                      <CardBody className="overflow-hidden gap-4">
+                        <div>
+                          <NextUISelect
+                            id="hotel-drop-down"
+                            value={filter.hotelName}
+                            label="Select hotel"
+                            onChange={(e) => {
+                              setStayHotels({
+                                ...filter,
+                                hotelName: e.target.value,
+                              });
+                            }}
+                          >
+                            {hotels.map((hotel: any) => (
+                              <NextUISelectItem
+                                key={hotel._id}
+                                value={hotel._id}
+                              >
+                                {hotel.hotelName}
+                              </NextUISelectItem>
+                            ))}
+                          </NextUISelect>
+                        </div>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              color="primary"
+                              variant="faded"
+                              className={cn(
+                                "w-[280px] justify-start text-left font-normal",
+                                !date && "text-muted-foreground",
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {date instanceof Date && !isNaN(date as any) ? (
+                                format(date, "PPP")
+                              ) : (
+                                <span>Select date</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="flex w-auto flex-col space-y-2 p-0 ">
+                            <Select
+                              onValueChange={(value) => {
+                                // Use the current date and time if no date is selected
+                                const baseDate = new Date(date);
 
-                    <p className="whitespace-nowrap text-sm hidden lg:block">
-                      Upload Excel
-                    </p>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent className="dark:bg-[#25293c]">
-                  <SheetHeader>
-                    <div className="flex gap-2">
-                      <SheetTitle>Upload Excel</SheetTitle>
-                      <SheetTitle>
+                                const selectedDate = addDays(
+                                  baseDate,
+                                  parseInt(value),
+                                );
+                                const dateWithIndianTime =
+                                  addIndianTime(selectedDate);
+                                setDate(dateWithIndianTime);
+                              }}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select" />
+                              </SelectTrigger>
+                              <SelectContent position="popper">
+                                <SelectItem value="0">Today</SelectItem>
+                                <SelectItem value="1">Tomorrow</SelectItem>
+                                <SelectItem value="3">In 3 days</SelectItem>
+                                <SelectItem value="7">In a week</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <div className="rounded-md border">
+                              <Calendars
+                                mode="single"
+                                selected={date}
+                                onSelect={(newDate: any) => {
+                                  const selectedDate = removeTime(newDate);
+                                  const dateWithIndianTime =
+                                    addIndianTime(selectedDate);
+                                  setDate(dateWithIndianTime);
+                                }}
+                              />
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+
                         <Button
-                          size="sm"
+                          color="success"
+                          variant="bordered"
+                          isDisabled={!date}
+                          startContent={<Home size={20} />}
+                          onClick={() =>
+                            getStayBookings(date, stayHotels.hotelName)
+                          }
+                        >
+                          Stay
+                        </Button>
+                        <Button
                           color="danger"
-                          variant="faded"
-                          onClick={resetState}
-                          startContent={<ListRestart size={20} />}
+                          variant="bordered"
+                          isDisabled={!date}
+                          startContent={<RotateCcw size={20} />}
+                          onClick={() => {
+                            setStayHotels({
+                              hotelName: "--select--",
+                            });
+
+                            setFilter({
+                              guestName: "",
+                              hotelName: "--select--",
+                              bookingSource: "--select--",
+                              serialNumber: "",
+                              filterBy: "--select--",
+                              dateRange: {},
+                              status: "--select--",
+                              addedBy: "--select--",
+                            });
+                            setStayColor(false);
+                            setFilterData({
+                              guestName: "",
+                              hotelName: "",
+                              bookingSource: "",
+                              serialNumber: "",
+                              filterBy: "",
+                              dateRange: {},
+                              status: "",
+                              addedBy: "",
+                            });
+                          }}
                         >
                           Reset
                         </Button>
-                      </SheetTitle>
-                    </div>
-                    <SheetDescription>
-                      Make sure the excel file is in the correct format
-                    </SheetDescription>
-                  </SheetHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="name" className="text-right">
-                        Excel File
-                      </Label>
-                      <Input
-                        onChange={readUploadFile}
-                        id="name"
-                        type="file"
-                        className="col-span-3"
-                      />
-                    </div>
-                  </div>
-                  <SheetFooter>
-                    <Button
-                      color="success"
-                      variant="bordered"
-                      onClick={handleOnDownload}
-                    >
-                      <FolderDown />
-                      Sample Excel
+                      </CardBody>
+                    </Card>
+                  </PopoverContent>
+                </Popover>
+
+                <Button
+                  onClick={() => setOnFilterOpen(!onFilterOpen)}
+                  className="defaultBtn"
+                >
+                  Filter
+                </Button>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button className="defaultBtn">
+                      <FaCloudUploadAlt size={20} />
+
+                      <p className="whitespace-nowrap text-sm hidden lg:block">
+                        Upload Excel
+                      </p>
                     </Button>
-
-                    <SheetClose asChild>
+                  </SheetTrigger>
+                  <SheetContent className="dark:bg-[#25293c]">
+                    <SheetHeader>
+                      <div className="flex gap-2">
+                        <SheetTitle>Upload Excel</SheetTitle>
+                        <SheetTitle>
+                          <Button
+                            size="sm"
+                            color="danger"
+                            variant="faded"
+                            onClick={resetState}
+                            startContent={<ListRestart size={20} />}
+                          >
+                            Reset
+                          </Button>
+                        </SheetTitle>
+                      </div>
+                      <SheetDescription>
+                        Make sure the excel file is in the correct format
+                      </SheetDescription>
+                    </SheetHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name" className="text-right">
+                          Excel File
+                        </Label>
+                        <Input
+                          onChange={readUploadFile}
+                          id="name"
+                          type="file"
+                          className="col-span-3"
+                        />
+                      </div>
+                    </div>
+                    <SheetFooter>
                       <Button
-                        type="submit"
-                        variant="faded"
-                        onClick={handleSaveExcel}
-                        startContent={<Save />}
+                        color="success"
+                        variant="bordered"
+                        onClick={handleOnDownload}
                       >
-                        Save Excel
+                        <FolderDown />
+                        Sample Excel
                       </Button>
-                    </SheetClose>
-                  </SheetFooter>
 
-                  <XlsxTable data={xlsxFile} setXlsxFile={setXlsxFile} />
-                </SheetContent>
-              </Sheet>
-              <XlsxDangerModal
-                title="Are you sure?"
-                description="This action cannot be undone. This will permanently update the data in your table."
-                onConfirm={handleConfirm}
-                open={isDialogOpen}
-                setOpen={setIsDialogOpen}
-              />
-              <Button
-                onClick={() => {
-                  setShowDownloadPopUp(true);
-                }}
-                className="defaultBtn"
-              >
-                <SiMicrosoftexcel size={20} />
-                <p className="whitespace-nowrap text-sm hidden lg:block">
-                  Download Excel
-                </p>
-              </Button>
-            </>
-          )}
-          <Button
-            onClick={() => setShowModal(true)}
-            type="submit"
-            className="defaultBtn"
-          >
-            <FaPlus size={20} />
-            <p className="whitespace-nowrap text-sm hidden lg:block">
-              Add Booking
-            </p>
-          </Button>
+                      <SheetClose asChild>
+                        <Button
+                          type="submit"
+                          variant="faded"
+                          onClick={handleSaveExcel}
+                          startContent={<Save />}
+                        >
+                          Save Excel
+                        </Button>
+                      </SheetClose>
+                    </SheetFooter>
+
+                    <XlsxTable data={xlsxFile} setXlsxFile={setXlsxFile} />
+                  </SheetContent>
+                </Sheet>
+                <XlsxDangerModal
+                  title="Are you sure?"
+                  description="This action cannot be undone. This will permanently update the data in your table."
+                  onConfirm={handleConfirm}
+                  open={isDialogOpen}
+                  setOpen={setIsDialogOpen}
+                />
+                <Button
+                  onClick={() => {
+                    setShowDownloadPopUp(true);
+                  }}
+                  className="defaultBtn"
+                >
+                  <SiMicrosoftexcel size={20} />
+                  <p className="whitespace-nowrap text-sm hidden lg:block">
+                    Download Excel
+                  </p>
+                </Button>
+              </>
+            )}
+            <Button
+              onClick={() => setShowModal(true)}
+              type="submit"
+              className="defaultBtn"
+            >
+              <FaPlus size={20} />
+              <p className="whitespace-nowrap text-sm hidden lg:block">
+                Add Booking
+              </p>
+            </Button>
+          </div>
         </div>
       </div>
       <div className="w-full">
