@@ -157,7 +157,12 @@ const getAllBookings = async (req, res) => {
       filter.checkInDate = { $lte: selectedDate };
       filter.checkOutDate = { $gt: selectedDate };
       console.log(selectedDate + "selectedDate");
-      if (hotelName !== "undefined" && hotelName !== "null" && hotelName !== "" && hotelName !== "--select--") {
+      if (
+        hotelName !== "undefined" &&
+        hotelName !== "null" &&
+        hotelName !== "" &&
+        hotelName !== "--select--"
+      ) {
         filter.hotel = hotelName;
       }
     }
@@ -216,8 +221,6 @@ const getAllBookings = async (req, res) => {
       hotelName !== "--select--"
     ) {
       filter.hotel = hotelName;
-
-
     }
     if (
       addedBy !== "undefined" &&
@@ -255,7 +258,7 @@ const getAllBookings = async (req, res) => {
     }
 
     let bookingsCount = await Booking.countDocuments(filter);
-   if (!bookings || bookings.length === 0) {
+    if (!bookings || bookings.length === 0) {
       res.status(200).json({
         message: "No bookings found",
         bookings: [],
@@ -415,29 +418,31 @@ const createBooking = async (req, res) => {
 };
 
 const updateBooking = async (req, res) => {
-  const {
-    id,
-    guestName,
-    checkInDate,
-    checkOutDate,
-    roomCategory,
-    numberOfRooms,
-    numberOfPersons,
-    bookingAmount,
-    advanceAmount,
-    dueAmount,
-    advanceDate,
-    bookingSource,
-    bookingBy,
-    accountType,
-    plan,
-    contactNumber,
-    remarks,
-    guestEmail,
-    status,
-  } = req.body;
   try {
-    console.log("[update bookings controller]");
+    const {
+      id,
+      guestName,
+      checkInDate,
+      checkOutDate,
+      roomCategory,
+      numberOfRooms,
+      numberOfPersons,
+      bookingAmount,
+      advanceAmount,
+      dueAmount,
+      advanceDate,
+      bookingSource,
+      bookingBy,
+      accountType,
+      plan,
+      contactNumber,
+      remarks,
+      guestEmail,
+      status,
+    } = req.body;
+    console.log("[update bookings controller]", roomCategory);
+
+    console.log(req.body);
 
     const updatedBooking = await Booking.findByIdAndUpdate(
       id,

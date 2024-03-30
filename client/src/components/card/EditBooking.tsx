@@ -57,6 +57,16 @@ const EditBooking = ({
     });
   };
 
+  const handleRoomCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    return setEditingBookingData((prev: any) => {
+      const roomCategory = e.target.value.toLocaleUpperCase();
+      return {
+        ...prev,
+        roomCategory: roomCategory,
+      };
+    });
+  };
+
   const handleCheckInDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputDate = e.target.value;
     const [year, month, day] = inputDate.split("-");
@@ -168,7 +178,7 @@ const EditBooking = ({
         guestName: formValues.guest_name,
         checkInDate: formValues.checkInDate,
         checkOutDate: formValues.checkOutDate,
-        roomCatagory: formValues.roomCategory,
+        roomCategory: formValues.roomCategory,
         numberOfRooms: formValues.nor,
         numberOfPersons: formValues.nop,
         bookingAmount: formValues.bookingAmount.trim(),
@@ -228,22 +238,6 @@ const EditBooking = ({
           </span>
         </div>
         <div className="grid gap-2 grid-cols-3  md:grid-cols-3">
-          {/* <div>
-            <label
-              htmlFor="hotel"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Hotel Name
-            </label>
-            <input
-              type="text"
-              id="hotel"
-              name="hotel"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Ex: Digha Saikatabas"
-              
-            />
-          </div> */}
           <div>
             <label
               htmlFor="hotel"
@@ -398,14 +392,7 @@ const EditBooking = ({
               required
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={editingBookingData.roomCategory}
-              onChange={(e) =>
-                setEditingBookingData((prev: any) => {
-                  return {
-                    ...prev,
-                    roomCategory: e.target.value.toLocaleUpperCase(),
-                  };
-                })
-              }
+              onChange={handleRoomCategoryChange}
             />
           </div>
           <div>
