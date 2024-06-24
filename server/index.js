@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 // dotenv.config({ path: "prod.env" });
-dotenv.config({ path: "dev.env" });
+dotenv.config({ path: "kamehameha.env" });
 console.log("ENV : ", process.env.NODE_ENV);
 
 const express = require("express");
@@ -22,6 +22,7 @@ const fileRoutes = require("./routes/fileRoutes");
 const leadRoutes = require("./routes/leadRoutes");
 const workRoutes = require("./routes/workRoutes");
 const dataRoutes = require("./routes/dataRoutes");
+
 app.use("/", authRoutes);
 app.use("/", dataRoutes);
 app.use(checkAuth);
