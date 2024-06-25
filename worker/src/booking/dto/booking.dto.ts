@@ -10,8 +10,14 @@ import {
 import { Type } from 'class-transformer';
 
 export class CreateBookingDto {
+  @IsOptional()
+  _id?: string;
+
   @IsNotEmpty()
   hotel: string;
+
+  @IsNotEmpty()
+  serialNumber: string;
 
   @IsNotEmpty()
   @IsString()
@@ -90,4 +96,14 @@ export class CreateBookingDto {
   @IsOptional()
   @IsString()
   accountType?: string;
+
+  @IsNotEmpty()
+  @Type(() => Date)
+  @IsDate()
+  createdAt: Date;
+
+  @IsNotEmpty()
+  @Type(() => Date)
+  @IsDate()
+  updatedAt: Date;
 }

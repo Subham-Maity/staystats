@@ -4,19 +4,7 @@ const { User } = require("../models/userModel");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const Sequence = require("../models/sequenceModel");
-const cron = require("node-cron");
 const ObjectId = mongoose.Types.ObjectId;
-const axios = require("axios");
-cron.schedule("*/1 * * * *", async () => {
-  console.log("Cron job started");
-  try {
-    const allData = await Booking.find({});
-    await axios.post("http://localhost:3333/bookings", allData);
-    console.log("Data sent successfully");
-  } catch (error) {
-    console.error("Error sending data", error);
-  }
-});
 
 const getBooking = async (req, res) => {
   const { bookingId } = req.body;

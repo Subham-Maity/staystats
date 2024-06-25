@@ -9,6 +9,17 @@ const app = express();
 const connectDB = require("./config/dbConnection");
 const PORT = process.env.PORT || 5000;
 const checkAuth = require("./middlewares/authMiddleware");
+const {
+  startBookingCronJob,
+  startHotelCronJob,
+  startUserCronJob,
+  startSequenceCronJob,
+} = require("./worker/worker");
+
+startBookingCronJob();
+startHotelCronJob();
+startUserCronJob();
+startSequenceCronJob();
 
 app.use(express.json());
 app.use(cors());

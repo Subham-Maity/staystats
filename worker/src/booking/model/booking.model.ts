@@ -1,10 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Booking extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Hotel', required: true })
-  hotel: Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId })
+  _id: mongoose.Schema.Types.ObjectId;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Hotel', required: true })
+  hotel: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   serialNumber: string;
@@ -57,14 +60,20 @@ export class Booking extends Document {
   @Prop()
   remarks: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  addedBy: Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  addedBy: mongoose.Schema.Types.ObjectId;
 
   @Prop({ enum: ['CONFIRMED', 'CANCELLED'], default: 'CONFIRMED' })
   status: string;
 
   @Prop()
   accountType: string;
+
+  @Prop({ required: true })
+  createdAt: Date;
+
+  @Prop({ required: true })
+  updatedAt: Date;
 }
 
 export const BookingSchema = SchemaFactory.createForClass(Booking);

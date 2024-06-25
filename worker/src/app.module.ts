@@ -8,6 +8,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { LoggerMiddleware } from './common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BookingModule } from './booking/booking.module';
+import { HotelsModule } from './hotels/hotels.module';
+import { UsersModule } from './users/users.module';
+import { SequenceModule } from './sequence/sequence.module';
 
 @Module({
   imports: [
@@ -28,6 +31,9 @@ import { BookingModule } from './booking/booking.module';
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     BookingModule,
+    HotelsModule,
+    UsersModule,
+    SequenceModule,
   ],
   controllers: [AppController],
   providers: [
