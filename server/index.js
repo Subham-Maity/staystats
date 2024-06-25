@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 // dotenv.config({ path: "prod.env" });
-dotenv.config({ path: "dev.env" });
+dotenv.config({ path: "kamehameha.env" });
 console.log("ENV : ", process.env.NODE_ENV);
 
 const express = require("express");
@@ -9,6 +9,17 @@ const app = express();
 const connectDB = require("./config/dbConnection");
 const PORT = process.env.PORT || 5000;
 const checkAuth = require("./middlewares/authMiddleware");
+const {
+  startBookingCronJob,
+  startHotelCronJob,
+  startUserCronJob,
+  startSequenceCronJob,
+} = require("./worker/worker");
+
+startBookingCronJob();
+startHotelCronJob();
+startUserCronJob();
+startSequenceCronJob();
 
 app.use(express.json());
 app.use(cors());
@@ -22,6 +33,7 @@ const fileRoutes = require("./routes/fileRoutes");
 const leadRoutes = require("./routes/leadRoutes");
 const workRoutes = require("./routes/workRoutes");
 const dataRoutes = require("./routes/dataRoutes");
+
 app.use("/", authRoutes);
 app.use("/", dataRoutes);
 app.use(checkAuth);

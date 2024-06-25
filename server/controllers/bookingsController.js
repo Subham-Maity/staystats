@@ -73,11 +73,11 @@ const saveCustomBookingData = async (req, res) => {
         guestEmail: bookingData["Guest Email"],
         checkInDate: moment(
           bookingData["Check-In Date"],
-          "DD-MM-YYYY"
+          "DD-MM-YYYY",
         ).toDate(),
         checkOutDate: moment(
           bookingData["Check-Out Date"],
-          "DD-MM-YYYY"
+          "DD-MM-YYYY",
         ).toDate(),
         roomCategory: bookingData["Room Category"],
         numberOfRooms: parseInt(bookingData["Number of Rooms"]),
@@ -104,7 +104,7 @@ const saveCustomBookingData = async (req, res) => {
 
     if (resultData.length !== jsonData.length) {
       throw new Error(
-        "Bookings were not saved becuase some unknown data found in your data"
+        "Bookings were not saved becuase some unknown data found in your data",
       );
     }
 
@@ -466,7 +466,7 @@ const updateBooking = async (req, res) => {
         guestEmail,
         status,
       },
-      { new: true } // This option returns the updated document after the update is applied
+      { new: true }, // This option returns the updated document after the update is applied
     );
 
     if (!updatedBooking) {
@@ -474,7 +474,7 @@ const updateBooking = async (req, res) => {
     }
 
     const populatedBooking = await Booking.findById(
-      updatedBooking._id
+      updatedBooking._id,
     ).populate({
       path: "hotel",
       model: Hotel,
@@ -498,7 +498,7 @@ const cancelBooking = async (req, res) => {
       {
         status,
       },
-      { new: true } // This option returns the updated document after the update is applied
+      { new: true }, // This option returns the updated document after the update is applied
     );
 
     if (!updatedBooking) {
@@ -523,7 +523,7 @@ const undoCancelBooking = async (req, res) => {
       {
         status,
       },
-      { new: true } // This option returns the updated document after the update is applied
+      { new: true }, // This option returns the updated document after the update is applied
     );
 
     if (!updatedBooking) {
