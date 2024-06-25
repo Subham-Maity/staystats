@@ -11,7 +11,7 @@ export class AppService {
     return 'Hello World!';
   }
   // Run this method every 3 minutes
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_3AM)
   async keepServerWarm() {
     try {
       const serverUrl = `https://who-is-xam.onrender.com/`;

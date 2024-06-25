@@ -7,6 +7,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { LoggerMiddleware } from './common';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       inject: [ConfigService],
     }),
     ConfigModule.forRoot({ isGlobal: true }),
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [
