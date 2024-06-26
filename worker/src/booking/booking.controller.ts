@@ -1,6 +1,14 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+} from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/booking.dto';
+import { JWtGuard } from '../auth/guard/jwt.guard';
 
 @Controller('bookings')
 export class BookingController {
@@ -8,6 +16,7 @@ export class BookingController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JWtGuard)
   async createBookings(@Body() bookings: CreateBookingDto[]) {
     const createdBookings = await this.bookingService.createBookings(bookings);
     return {
