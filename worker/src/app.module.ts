@@ -11,6 +11,7 @@ import { BookingModule } from './booking/booking.module';
 import { HotelsModule } from './hotels/hotels.module';
 import { UsersModule } from './users/users.module';
 import { SequenceModule } from './sequence/sequence.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SequenceModule } from './sequence/sequence.module';
     HotelsModule,
     UsersModule,
     SequenceModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

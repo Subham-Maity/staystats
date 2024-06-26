@@ -35,3 +35,5 @@ next-env.d.ts
 
 
 kamehameha.env
+
+prod2.env

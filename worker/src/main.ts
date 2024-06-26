@@ -15,7 +15,6 @@ import { json } from 'express';
 const port: number = 3333;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // Add this line to set the JSON payload limit
   app.use(json({ limit: '50mb' }));
   app.useGlobalPipes(
     new ValidationPipe({
