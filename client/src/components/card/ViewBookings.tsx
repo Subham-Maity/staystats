@@ -1,3 +1,5 @@
+import { Button } from "@nextui-org/react";
+
 interface Props {
   booking: {
     _id: string;
@@ -34,6 +36,9 @@ import { FaTimes, FaUndo } from "react-icons/fa";
 import React, { useState, useEffect, useRef } from "react";
 import { FiEdit } from "react-icons/fi";
 import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
+import { Send } from "lucide-react";
+import axios from "@/utils/axios";
+import { toast } from "react-toastify";
 
 const ViewBooking = ({
   booking,
@@ -47,7 +52,7 @@ const ViewBooking = ({
   const [showUndoDeletePopup, setShowUndoDeletePopUp] =
     useState<boolean>(false);
   // console.log(booking, "userdata");
-
+  const [isSending, setIsSending] = useState(false);
   const handleShowDeleteModal = (event: any) => {
     event.preventDefault();
     setShowDeletePopUp(true);
@@ -57,6 +62,23 @@ const ViewBooking = ({
   const handleShowUndoDeleteModal = (event: any) => {
     event.preventDefault();
     setShowUndoDeletePopUp(true);
+  };
+  const handleSendSMS = async () => {
+    setIsSending(true);
+    const message = `Dear ${booking.guestName}, your booking at ${booking.hotel.hotelName} has been ${booking.status}. Your check-in is scheduled for ${booking.checkInDate}, and check-out is on ${booking.checkOutDate}. You have booked ${booking.numberOfRooms} rooms for ${booking.numberOfPersons} guests. The booking amount is ₹${booking.bookingAmount}, with an advance payment of ₹${booking.advanceAmount}. The due amount is ₹${booking.dueAmount}. You have chosen the ${booking.plan} plan. Your contact number is ${booking.contactNumber}. Thank you for choosing ${booking.hotel.hotelName}. For any assistance, you can reach out to us at "+91 97483 14053".`;
+
+    try {
+      await axios.post("/send-sms", {
+        to: "+91" + booking?.contactNumber,
+        body: message,
+      });
+      toast.success("SMS sent successfully");
+    } catch (error) {
+      console.error("Error sending SMS:", error);
+      toast.error("Failed to send SMS");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -414,8 +436,8 @@ const ViewBooking = ({
               />
             </div>
           </div>
-          <div className="flex justify-start items-center mt-8">
-            <button
+          <div className="flex justify-start gap-4 items-center mt-8">
+            <Button
               disabled={booking?.status === "CANCELLED"}
               data-tip={"Preview Link"}
               onClick={(e) => {
@@ -424,28 +446,38 @@ const ViewBooking = ({
                 setEditingBookingData(booking);
                 onClose(false);
               }}
-              className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-green-500  hover:opacity-90 text-sm rounded-md mr-2 disabled:opacity-50`}
+              className="defaultBtn"
+              endContent={<FiEdit className="" size={20} />}
             >
-              <FiEdit className="" size={20} />
               <p>Edit</p>
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={(event) => handleShowDeleteModal(event)}
-              className={`flex justify-center items-center gap-2 w-fit text-center p-2 shadow border bg-gray-100 text-red-500  hover:opacity-90 text-xs rounded-md mr-2 disabled:opacity-50`}
+              className="defaultBtn"
               disabled={booking?.status === "CANCELLED"}
+              endContent={<FaTimes size={20} />}
             >
-              <FaTimes size={20} className="" />
               <span className="m-0 p-0">Cancel Booking</span>
-            </button>
-
-            <button
+            </Button>
+          </div>
+          <div className="flex justify-start gap-4 items-center mt-8">
+            <Button
               onClick={(event) => handleShowUndoDeleteModal(event)}
-              className={`flex items-center gap-2 w-fit p-2 shadow border bg-gray-100 text-indigo-600 hover:opacity-90 text-xs text-pretty rounded-md mr-2 disabled:opacity-50`}
+              className="defaultBtn"
               disabled={booking?.status === "CONFIRMED"}
+              endContent={<FaUndo size={18} className="" />}
             >
-              <FaUndo size={18} className="" />
               <span className="m-0 p-0">Undo Cancellation</span>
-            </button>
+            </Button>
+            <Button
+              className="defaultBtn"
+              endContent={<Send size={20} />}
+              onClick={handleSendSMS}
+              disabled={isSending}
+              isLoading={isSending}
+            >
+              {isSending ? "Sending..." : "Send SMS"}
+            </Button>
           </div>
         </TailwindWrapper>
       </form>

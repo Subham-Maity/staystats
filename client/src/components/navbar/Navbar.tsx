@@ -21,13 +21,13 @@ interface NavbarProps {
   toggleSidebar: () => void;
 }
 //❌
-const events:any = [
-  "load",
-  "mousemove",
-  "mousedown",
-  "click",
-  "scroll",
-  "keypress",
+const events: any = [
+  // "load",
+  // "mousemove",
+  // "mousedown",
+  // "click",
+  // "scroll",
+  // "keypress",
 ];
 const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false);
@@ -85,14 +85,14 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const resetTimer = () => {
     if (timer) clearTimeout(timer);
   };
-//❌
+  //❌
   const handleLogoutTimer = () => {
     //@ts-ignore
     timer = setTimeout(() => {
       // clears any pending timer.
       resetTimer();
       // Listener clean up. Removes the existing event listener from the window
-      Object.values(events).forEach((item):any => {
+      Object.values(events).forEach((item): any => {
         // @ts-ignore
         window.removeEventListener(item, resetTimer);
       });
@@ -139,7 +139,6 @@ const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
                 />
               </div>
               <Image
-
                 src="/assets/sayngo.png"
                 width={30}
                 height={20}
