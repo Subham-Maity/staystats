@@ -16,10 +16,10 @@ const {
   startSequenceCronJob,
 } = require("./worker/worker");
 
-startBookingCronJob();
-startHotelCronJob();
-startUserCronJob();
-startSequenceCronJob();
+// startBookingCronJob();
+// startHotelCronJob();
+// startUserCronJob();
+// startSequenceCronJob();
 
 app.use(express.json());
 app.use(cors());
@@ -33,9 +33,10 @@ const fileRoutes = require("./routes/fileRoutes");
 const leadRoutes = require("./routes/leadRoutes");
 const workRoutes = require("./routes/workRoutes");
 const dataRoutes = require("./routes/dataRoutes");
+const smsRoutes = require("./utils/twilo/smsRoutes");
 
-app.use("/", authRoutes);
 app.use("/", dataRoutes);
+app.use("/", authRoutes);
 app.use(checkAuth);
 app.use("/", userRoutes);
 app.use("/", hotelRoutes);
@@ -43,6 +44,7 @@ app.use("/", bookingRoutes);
 app.use("/", fileRoutes);
 app.use("/", leadRoutes);
 app.use("/", workRoutes);
+app.use("/", smsRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
