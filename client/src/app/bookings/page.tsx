@@ -123,9 +123,12 @@ const Bookings = () => {
     e && e.preventDefault();
     try {
       if (searchText?.trim()?.length > 0) {
-        let { data } = await axios.get(
-          `/booking/get-all-bookings/search?&query=${searchText}`,
-        );
+        let { data } = await axios.withCache({
+          method: "get",
+          url: `/booking/get-all-bookings/search`,
+          params: { query: searchText },
+          cacheTime: 5 * 60 * 1000,
+        });
 
         if (!data.error) {
           setBookingData(data.bookings);
