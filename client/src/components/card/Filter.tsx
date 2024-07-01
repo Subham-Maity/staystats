@@ -7,8 +7,8 @@ import { DateRangePicker } from "react-date-range";
 import axios from "@/utils/axios";
 
 type Props = {
+  usersData: any;
   setStayColor: any;
-  getStayBookings: any;
   setFilterData: any;
   isFilterOpen: boolean;
   bookingStats: {
@@ -20,14 +20,15 @@ type Props = {
 // Function to remove time from a date
 
 const Filter = ({
+  usersData,
   setStayColor,
-  getStayBookings,
   setFilterData,
   isFilterOpen,
   bookingStats,
 }: Props) => {
   const [hotels, setHotels] = React.useState<any>([]);
   const [users, setUsers] = React.useState<any>([]);
+  console.log(JSON.stringify(usersData.hotel) + "main-users");
 
   const [filter, setFilter] = useState({
     guestName: "",
@@ -136,31 +137,55 @@ const Filter = ({
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
-                <div className="">
-                  <label htmlFor="" className="whitespace-nowrap">
-                    Hotel name
-                  </label>
-                  <select
-                    onChange={(e) => {
-                      setFilter({ ...filter, hotelName: e.target.value });
-                    }}
-                    name=""
-                    id="hotel-drop-down"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={filter.hotelName && filter.hotelName}
-                  >
-                    <option disabled selected value={"--select--"}>
-                      --Select--
-                    </option>
-                    {hotels.map((hotel: any, index: any) => {
-                      return (
+                {usersData.role === "ADMIN" ? (
+                  <div className="">
+                    <label htmlFor="" className="whitespace-nowrap">
+                      Hotel name
+                    </label>
+                    <select
+                      onChange={(e) => {
+                        setFilter({ ...filter, hotelName: e.target.value });
+                      }}
+                      name=""
+                      id="hotel-drop-down"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      value={filter.hotelName && filter.hotelName}
+                    >
+                      <option disabled selected value={"--select--"}>
+                        --Select--
+                      </option>
+                      {hotels.map((hotel: any, index: any) => (
                         <option key={hotel._id} value={hotel._id}>
                           {hotel.hotelName}
                         </option>
-                      );
-                    })}
-                  </select>
-                </div>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="">
+                    <label htmlFor="" className="whitespace-nowrap">
+                      Hotel name
+                    </label>
+                    <select
+                      onChange={(e) => {
+                        setFilter({ ...filter, hotelName: e.target.value });
+                      }}
+                      name=""
+                      id="hotel-drop-down"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      value={filter.hotelName && filter.hotelName}
+                    >
+                      <option disabled selected value={"--select--"}>
+                        --Select--
+                      </option>
+                      {usersData.hotel.map((hotel: any, index: any) => (
+                        <option key={hotel._id} value={hotel._id}>
+                          {hotel.hotelName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
                 <div className="">
                   <label htmlFor="" className="whitespace-nowrap">
                     Booking source
@@ -210,33 +235,48 @@ const Filter = ({
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
-                <div className="">
-                  <label htmlFor="" className="whitespace-nowrap">
-                    Added By
-                  </label>
-                  <select
-                    onChange={(e) => {
-                      setFilter({ ...filter, addedBy: e.target.value });
-                      // console.log(e.target.value)
-                    }}
-                    name=""
-                    id="hotel-drop-down"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={filter.addedBy && filter.addedBy}
-                  >
-                    <option disabled selected value={"--select--"}>
-                      --Select--
-                    </option>
-                    {users.map((user: any, index: any) => {
-                      // console.log(user)
-                      return (
+                {usersData.role === "ADMIN" ? (
+                  <div className="">
+                    <label htmlFor="" className="whitespace-nowrap">
+                      Added By
+                    </label>
+                    <select
+                      onChange={(e) => {
+                        setFilter({ ...filter, addedBy: e.target.value });
+                      }}
+                      name=""
+                      id="hotel-drop-down"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      value={filter.addedBy && filter.addedBy}
+                    >
+                      <option disabled selected value={"--select--"}>
+                        --Select--
+                      </option>
+                      {users.map((user: any, index: any) => (
                         <option key={user._id} value={user._id}>
                           {user.name || user.username}
                         </option>
-                      );
-                    })}
-                  </select>
-                </div>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="">
+                    <label htmlFor="" className="whitespace-nowrap">
+                      Added By
+                    </label>
+                    <select
+                      disabled
+                      name=""
+                      id="hotel-drop-down"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      value={usersData._id}
+                    >
+                      <option value={usersData._id}>
+                        {usersData.name || usersData.username}
+                      </option>
+                    </select>
+                  </div>
+                )}
                 <div className="">
                   {" "}
                   <h1>Status</h1>

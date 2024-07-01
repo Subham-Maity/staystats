@@ -1,19 +1,18 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import axios from "@/utils/axios";
 import axios_ from "axios";
 import validator from "validator";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaQuoteLeft } from "react-icons/fa";
-import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
+import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { BiError } from "react-icons/bi";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import { BASE_URL, FRONTEND_URL } from "@/constants/constant";
+import { FRONTEND_URL } from "@/constants/constant";
+
 const AnimatedImage = motion(Image);
 
 const LoginForm = () => {
@@ -39,24 +38,24 @@ const LoginForm = () => {
       toast.error("Username and Password cannot be empty");
       return;
     }
-    // if (
-    //   !validator.isStrongPassword(password, {
-    //     minLength: 8,
-    //     minLowercase: 1,
-    //     minUppercase: 1,
-    //     minNumbers: 1,
-    //     minSymbols: 1,
-    //   })
-    // ) {
-    //   toast.error("Password is not strong enough");
-    //   return;
-    // }
+    if (
+      !validator.isStrongPassword(password, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+    ) {
+      toast.error("Password is not strong enough");
+      return;
+    }
     let url = isSignUpPage ? `/api/signup` : `/api/login`;
 
     try {
       setLoading(true);
 
-      let {data: ipData} = await axios_.get("https://ipapi.co/json/");
+      let { data: ipData } = await axios_.get("https://ipapi.co/json/");
       let ip = ipData.ip;
 
       const { data: response } = await axios.post(url, {
@@ -71,17 +70,14 @@ const LoginForm = () => {
         localStorage.setItem("authToken", response.jwt);
 
         if (response.user?.role !== "ADMIN") {
-          
           console.log("redirecting to bookings");
           window.location.href = `/bookings`;
-        } else{
+        } else {
           console.log("redirecting to admin");
           window.location.href = `/`;
         }
         // @ts-ignore
         toast.success(`Welcome ${response.user.username}`);
-      
-        
       } else if (response.message) {
         toast.error(response.message);
       }
@@ -116,7 +112,6 @@ const LoginForm = () => {
             perspective: "1000px",
             boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
             borderRadius: "10px",
-            
           }}
           animate={{
             rotateY: ["-10deg", "10deg", "-10deg"],

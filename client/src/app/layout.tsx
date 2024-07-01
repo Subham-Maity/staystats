@@ -29,7 +29,7 @@ export default function RootLayout({
       </head>
       <Providers>
         <body
-          className={`${inter.className} overflow-hidden dark:bg-[#25293c]`}
+          className={`${inter.className} overflow-hidden dark:bg-[#25293c] w-full min-h-screen`}
         >
           <ReduxProviders>
             <ContextProvider>
