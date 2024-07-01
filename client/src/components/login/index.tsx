@@ -13,19 +13,8 @@ import { useSearchParams } from "next/navigation";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import { FRONTEND_URL } from "@/constants/constant";
 import useOrigin from "@/hook/origin/use-origin";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@nextui-org/react";
-import { useDisclosure } from "@nextui-org/use-disclosure";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import { IoCloseOutline } from "react-icons/io5";
+import Credential from "@/components/credential/credential";
+import LoginGraphics from "@/components/login/animation/LoginGraphics1";
 
 const AnimatedImage = motion(Image);
 
@@ -40,8 +29,7 @@ const LoginForm = () => {
   const [loginError, setLoginError] = useState(searchParams.get("error"));
   const [loading, setLoading] = useState(false);
   const [isSignUpPage, setIsSignUpPage] = useState(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [isAlertVisible, setIsAlertVisible] = useState(true);
+
   const loginHandler = async (event: any) => {
     event.preventDefault();
     // @ts-ignore
@@ -108,222 +96,17 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="fade dark:bg-[#25293c] w-full h-screen flex flex-row items-center justify-center relative">
-      <div className="bg-white hidden pr-16 lg:flex h-full w-full flex-col justify-center z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover">
-        <AnimatedImage
-          src="/assets/login-page.jpeg"
-          height={700}
-          width={700}
-          alt="Image"
-          quality={100}
-          className="rounded-md cursor-pointer ml-auto "
-          style={{
-            rotateY: "0deg",
-            originX: "center",
-            originY: "center",
-            perspective: "1000px",
-            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
-            borderRadius: "10px",
-          }}
-          animate={{
-            rotateY: ["-10deg", "10deg", "-10deg"],
-            scale: [0.98, 1.02, 0.98],
-            opacity: [0.9, 1, 0.9],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 4,
-            ease: "easeInOut",
-            stiffness: 50,
-          }}
-        />
+    <div className="fade dark:bg-[#25293c] w-full h-screen flex flex-row items-center justify-center">
+      <div className="bg-white hidden xl:flex h-full w-2/3 justify-center items-center pr-16 lg:flex  flex-col z-50 bg-[url('/assets/login_wave.svg')] bg-no-repeat bg-cover">
+        <LoginGraphics />
       </div>
-      <div className="bg-white w-full px-4 lg:px-0 h-full flex justify-center items-center">
-        <div className="w-[430px] mx-auto flex flex-row h-fit overflow-hidden">
-          <div className="w-full px-2 lg:border-l-2 border-gray-200 sm:px-6 py-7 flex flex-col bg-white">
-            <div className="pb-8 w-full h-full flex flex-col justify-end items-start  text-black">
+      <div className="bg-white  h-full flex items-center justify-center w-full">
+        <div className="flex-row h-fit overflow-hidden w-full lg:px-24 items-center ">
+          <div className="w-full items-center px-2 lg:border-l-2 border-gray-200 sm:px-6 py-7 flex flex-col bg-white">
+            <div className="pb-8 w-full h-full flex flex-col justify-end items-start text-black">
               {origin === productionOrigin ? null : (
                 <>
-                  <Alert className="text-black bg-stone-200 border-black/25 mb-4">
-                    {isAlertVisible && (
-                      <div
-                        className="flex items-center p-4 mb-6 text-yellow-800 border-t-4 border-yellow-300 bg-yellow-50 dark:text-yellow-300 dark:bg-gray-800 dark:border-yellow-800 w-full rounded-lg"
-                        role="alert"
-                      >
-                        <IoMdInformationCircleOutline className="flex-shrink-0 w-5 h-5 mr-3" />
-                        <div className="text-sm font-medium">
-                          We use free server and database. It may be slow, so
-                          please be patient and don't close the page.
-                        </div>
-                        <button
-                          type="button"
-                          className="ml-auto -mx-1.5 -my-1.5 bg-yellow-50 text-yellow-500 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700"
-                          onClick={() => setIsAlertVisible(false)}
-                          aria-label="Close"
-                        >
-                          <span className="sr-only">Dismiss</span>
-                          <IoCloseOutline className="w-4 h-4" />
-                        </button>
-                      </div>
-                    )}
-                    <AlertTitle>🔥 Test ADMIN Credential</AlertTitle>
-                    <AlertDescription>
-                      <span className="text-stone-400 font-light">
-                        username:{" "}
-                      </span>
-                      <span className="text-red-500 font-bold">
-                        subham@admin.com
-                      </span>
-                      <br />
-                      <span className="text-stone-400 font-light">
-                        password:{" "}
-                      </span>
-                      <span className="text-red-500 font-bold">
-                        Admin@123#Subham
-                      </span>
-                    </AlertDescription>
-                    <div className="my-10"></div>
-                    <AlertTitle>🔥 Test SUB-ADMIN Credential</AlertTitle>
-                    <AlertDescription>
-                      <span className="text-stone-400 font-light">
-                        username:{" "}
-                      </span>
-                      <span className="text-red-500 font-bold">
-                        subham@subadmin.com
-                      </span>
-                      <br />
-                      <span className="text-stone-400 font-light">
-                        password:{" "}
-                      </span>
-                      <span className="text-red-500 font-bold">
-                        SubAdmin@123#Subham
-                      </span>
-                    </AlertDescription>
-                    <div className="flex flex-col gap-2 mt-4">
-                      <Button className="defaultBtn mb-5" onPress={onOpen}>
-                        All Features
-                      </Button>
-                      <Modal
-                        isOpen={isOpen}
-                        onOpenChange={onOpenChange}
-                        scrollBehavior="inside"
-                        className="bg-stone-200 text-black"
-                      >
-                        <ModalContent>
-                          {(onClose) => (
-                            <>
-                              <ModalHeader className="flex flex-col gap-1">
-                                Features
-                              </ModalHeader>
-                              <ModalBody>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                  Magna exercitation reprehenderit magna aute
-                                  tempor cupidatat consequat elit dolor
-                                  adipisicing. Mollit dolor eiusmod sunt ex
-                                  incididunt cillum quis. Velit duis sit officia
-                                  eiusmod Lorem aliqua enim laboris do dolor
-                                  eiusmod. Et mollit incididunt nisi consectetur
-                                  esse laborum eiusmod pariatur proident Lorem
-                                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                                </p>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                  Magna exercitation reprehenderit magna aute
-                                  tempor cupidatat consequat elit dolor
-                                  adipisicing. Mollit dolor eiusmod sunt ex
-                                  incididunt cillum quis. Velit duis sit officia
-                                  eiusmod Lorem aliqua enim laboris do dolor
-                                  eiusmod. Et mollit incididunt nisi consectetur
-                                  esse laborum eiusmod pariatur proident Lorem
-                                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                                </p>
-                                <p>
-                                  Mollit dolor eiusmod sunt ex incididunt cillum
-                                  quis. Velit duis sit officia eiusmod Lorem
-                                  aliqua enim laboris do dolor eiusmod. Et
-                                  mollit incididunt nisi consectetur esse
-                                  laborum eiusmod pariatur proident Lorem
-                                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                  Magna exercitation reprehenderit magna aute
-                                  tempor cupidatat consequat elit dolor
-                                  adipisicing. Mollit dolor eiusmod sunt ex
-                                  incididunt cillum quis. Velit duis sit officia
-                                  eiusmod Lorem aliqua enim laboris do dolor
-                                  eiusmod. Et mollit incididunt nisi consectetur
-                                  esse laborum eiusmod pariatur proident Lorem
-                                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                                </p>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                  Magna exercitation reprehenderit magna aute
-                                  tempor cupidatat consequat elit dolor
-                                  adipisicing. Mollit dolor eiusmod sunt ex
-                                  incididunt cillum quis. Velit duis sit officia
-                                  eiusmod Lorem aliqua enim laboris do dolor
-                                  eiusmod. Et mollit incididunt nisi consectetur
-                                  esse laborum eiusmod pariatur proident Lorem
-                                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                                </p>
-                                <p>
-                                  Mollit dolor eiusmod sunt ex incididunt cillum
-                                  quis. Velit duis sit officia eiusmod Lorem
-                                  aliqua enim laboris do dolor eiusmod. Et
-                                  mollit incididunt nisi consectetur esse
-                                  laborum eiusmod pariatur proident Lorem
-                                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                  Magna exercitation reprehenderit magna aute
-                                  tempor cupidatat consequat elit dolor
-                                  adipisicing. Mollit dolor eiusmod sunt ex
-                                  incididunt cillum quis. Velit duis sit officia
-                                  eiusmod Lorem aliqua enim laboris do dolor
-                                  eiusmod. Et mollit incididunt nisi consectetur
-                                  esse laborum eiusmod pariatur proident Lorem
-                                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                                </p>
-                              </ModalBody>
-                              <ModalFooter>
-                                <Button
-                                  color="danger"
-                                  variant="light"
-                                  onPress={onClose}
-                                >
-                                  Close
-                                </Button>
-                              </ModalFooter>
-                            </>
-                          )}
-                        </ModalContent>
-                      </Modal>
-                    </div>
-                  </Alert>
+                  <Credential />
                 </>
               )}
               <h2 className="text-2xl capitalize mb-2 font-medium">

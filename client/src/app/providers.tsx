@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { ThemeProvider } from "next-themes";
 import { NextUIProvider } from "@nextui-org/react";
+import { SnackbarProvider } from "notistack";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = React.useState(false);
@@ -9,7 +10,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   if (!mounted) return <>{children}</>;
   return (
     <ThemeProvider attribute="class" defaultTheme="light">
-      <NextUIProvider>{children}</NextUIProvider>
+      <SnackbarProvider maxSnack={3}>
+        <NextUIProvider>{children}</NextUIProvider>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };
