@@ -22,7 +22,7 @@ startUserCronJob();
 startSequenceCronJob();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 // Routes import
 const authRoutes = require("./routes/authRoutes");
