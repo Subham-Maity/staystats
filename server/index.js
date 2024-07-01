@@ -16,10 +16,10 @@ const {
   startSequenceCronJob,
 } = require("./worker/worker");
 
-// startBookingCronJob();
-// startHotelCronJob();
-// startUserCronJob();
-// startSequenceCronJob();
+startBookingCronJob();
+startHotelCronJob();
+startUserCronJob();
+startSequenceCronJob();
 
 app.use(express.json());
 app.use(cors());
