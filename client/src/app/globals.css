@@ -126,3 +126,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.auth-input{
+ @apply  w-full p-2.5 rounded-md border-[1.5px] focus:border-indigo-400 focus:outline-none text-sm pr-10 bg-stone-100 text-stone-900 font-bold
+}
