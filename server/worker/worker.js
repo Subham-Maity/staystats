@@ -7,16 +7,17 @@ const Sequence = require("../models/sequenceModel");
 const jwt = require("jsonwebtoken");
 
 const secretKey = process.env.JWT_WORKER_SECRET;
+const workerBaseUrl = process.env.BASE_URL_WORKER;
 
 const getJwtToken = () => {
   return jwt.sign({ secretKey }, secretKey, { expiresIn: "5m" });
 };
 const startBookingCronJob = () => {
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("0 */6 * * *", async () => {
     console.log("Booking cron job started");
     try {
       const allData = await Booking.find({});
-      await axios.post("http://localhost:3333/bookings", allData, {
+      await axios.post(workerBaseUrl, allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },
@@ -29,11 +30,11 @@ const startBookingCronJob = () => {
 };
 
 const startHotelCronJob = () => {
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("0 */7 * * *", async () => {
     console.log("Hotel cron job started");
     try {
       const allData = await Hotel.find({});
-      await axios.post("http://localhost:3333/hotels", allData, {
+      await axios.post(workerBaseUrl, allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },
@@ -45,11 +46,11 @@ const startHotelCronJob = () => {
   });
 };
 const startUserCronJob = () => {
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("0 */8 * * *", async () => {
     console.log("User cron job started");
     try {
       const allData = await User.find({});
-      await axios.post("http://localhost:3333/users", allData, {
+      await axios.post(workerBaseUrl, allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },
@@ -61,11 +62,11 @@ const startUserCronJob = () => {
   });
 };
 const startSequenceCronJob = () => {
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("0 */9 * * *", async () => {
     console.log("Sequence cron job started");
     try {
       const allData = await Sequence.find({});
-      await axios.post("http://localhost:3333/sequences", allData, {
+      await axios.post(workerBaseUrl, allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },
