@@ -47,7 +47,6 @@ const BookingTable = ({
 
   loading,
 }: TableProps) => {
-  // console.log(bookingData);
   const [showDeletePopup, setShowDeletePopUp] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
 
@@ -159,16 +158,21 @@ const BookingTable = ({
                       <tr
                         title="Click to view"
                         onClick={() => {
-                          // console.log(booking);
                           getBooking(booking);
                           setShowModal(true);
                         }}
                         key={index}
-                        className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${
-                          booking?.status === "CANCELLED"
-                            ? "line-through text-red-400"
-                            : ""
-                        } ${stayColor ? (isCheckInSelectedDate ? "text-green-500 font-bold bg-green-200/50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800/50" : "text-indigo-500") : "text-black dark:text-white"}`}
+                        className={`text-center light:bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600${booking?.status === "CANCELLED" ? "line-through" : ""}
+    ${
+      booking?.status === "CANCELLED"
+        ? "text-red-400"
+        : stayColor
+          ? isCheckInSelectedDate
+            ? "text-green-500 font-bold bg-green-200/50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800/50"
+            : "text-indigo-500"
+          : "text-black dark:text-white"
+    }
+  `}
                       >
                         <th
                           scope="row"

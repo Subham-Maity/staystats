@@ -577,7 +577,7 @@ const Bookings = () => {
 
         <div>
           <div className="flex flex-wrap gap-2">
-            {user.role === "ADMIN" && (
+            {user && (
               <>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -826,8 +826,8 @@ const Bookings = () => {
       </div>
       <div className="w-full">
         <Filter
+          usersData={user}
           setStayColor={setStayColor}
-          getStayBookings={getStayBookings}
           bookingStats={bookingDataStats}
           isFilterOpen={onFilterOpen}
           setFilterData={(filter: any) => {

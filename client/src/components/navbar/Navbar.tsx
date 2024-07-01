@@ -1,13 +1,9 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { RiMenuUnfoldFill } from "react-icons/ri";
-import { BsBell, BsBarChart, BsDot, BsHouseCheck } from "react-icons/bs";
-import { MdOutlineTipsAndUpdates, MdLogout } from "react-icons/md";
-import { FaBars } from "react-icons/fa";
-import { RiMenu2Fill } from "react-icons/ri";
-import { BiMenuAltLeft } from "react-icons/bi";
+import { RiMenu2Fill, RiMenuUnfoldFill } from "react-icons/ri";
+import { MdLogout } from "react-icons/md";
 import Image from "next/image";
 import Switcher from "../mode/Switcher";
 import { ThemeProvider } from "next-themes";
@@ -22,12 +18,12 @@ interface NavbarProps {
 }
 //❌
 const events: any = [
-  // "load",
-  // "mousemove",
-  // "mousedown",
-  // "click",
-  // "scroll",
-  // "keypress",
+  "load",
+  "mousemove",
+  "mousedown",
+  "click",
+  "scroll",
+  "keypress",
 ];
 const Navbar = ({ toggleSidebar, isSidebarOpen }: NavbarProps) => {
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false);
