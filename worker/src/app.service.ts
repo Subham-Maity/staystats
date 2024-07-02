@@ -63,7 +63,7 @@ export class AppService {
     }
   }
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_3PM)
   async sendDailyDbBackup() {
     try {
       const dbData = await this.getAllDbData();
