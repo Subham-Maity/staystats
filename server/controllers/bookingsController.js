@@ -12,10 +12,8 @@ const getBooking = async (req, res) => {
     const booking = await Booking.findById(bookingId);
     if (!booking) {
       res.status(200).json({ error: "No booking found", booking: {} });
-      return;
     } else {
       res.status(200).json({ booking });
-      return;
     }
   } catch (error) {
     console.log("Error: ", error);
@@ -26,6 +24,7 @@ const getBooking = async (req, res) => {
 };
 
 const saveCustomBookingData = async (req, res) => {
+  let notFoundUser = null;
   try {
     const jsonData = req.body;
 
@@ -54,11 +53,18 @@ const saveCustomBookingData = async (req, res) => {
       if (!hotel) {
         console.error(`Hotel not found for name: ${bookingData["Hotel Name"]}`);
         continue;
-        // throw new Error(`Hotel not found: ${bookingData["Hotel Name"]}`);
       }
 
-      // Retrieve hotel and added by unique IDs
-      const { _id: hotelId, addedBy: addedById } = hotel;
+      // Find the user by name (bookingBy)
+      const user = await User.findOne({ name: bookingData["Booked By"] });
+
+      if (!user) {
+        notFoundUser = bookingData["Booked By"];
+        throw new Error(`User not found for name: ${bookingData["Booked By"]}`);
+      }
+
+      // Retrieve hotel ID
+      const { _id: hotelId } = hotel;
 
       // Calculate due amount
       const bookingAmount = parseFloat(bookingData["Booking Amount"]);
@@ -68,7 +74,7 @@ const saveCustomBookingData = async (req, res) => {
       // Parse and format the booking data
       const formattedBooking = {
         hotel: hotelId,
-        serialNumber: serialNumber.toString(), // Convert serial number to string
+        serialNumber: serialNumber.toString(),
         guestName: bookingData["Guest Name"],
         guestEmail: bookingData["Guest Email"],
         checkInDate: moment(
@@ -91,7 +97,7 @@ const saveCustomBookingData = async (req, res) => {
         plan: bookingData["Plan"],
         contactNumber: bookingData["Guest Contact"],
         remarks: bookingData["Remarks"] || "",
-        addedBy: addedById,
+        addedBy: user._id,
         status: bookingData["Booking Status"] || "CONFIRMED",
         accountType: bookingData["Account Type"] || "",
       };
@@ -99,12 +105,12 @@ const saveCustomBookingData = async (req, res) => {
       // Increment serial number for the next booking
       serialNumber += 1;
 
-      resultData.push(formattedBooking); // Storing in array
+      resultData.push(formattedBooking);
     }
 
     if (resultData.length !== jsonData.length) {
       throw new Error(
-        "Bookings were not saved becuase some unknown data found in your data",
+        "Bookings were not saved because some unknown data found in your data",
       );
     }
 
@@ -116,9 +122,11 @@ const saveCustomBookingData = async (req, res) => {
     res.status(200).json({ message: "All Data uploaded successfully" });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    res.status(500).json({
+      message: notFoundUser
+        ? `User ${notFoundUser} not found`
+        : `Internal server error`,
+    });
   }
 };
 
@@ -264,7 +272,6 @@ const getAllBookings = async (req, res) => {
         bookings: [],
         bookingsCount: bookingsCount ?? 0,
       });
-      return;
     } else {
       let totalBookingAmt = 0;
       let totalAdvanceAmt = 0;
@@ -287,7 +294,6 @@ const getAllBookings = async (req, res) => {
         totalDueAmt,
         bookingsForCalculation,
       });
-      return;
     }
   } catch (error) {
     res.status(500).json({
