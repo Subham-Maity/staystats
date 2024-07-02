@@ -17,7 +17,7 @@ const startBookingCronJob = () => {
     console.log("Booking cron job started");
     try {
       const allData = await Booking.find({});
-      await axios.post(workerBaseUrl, allData, {
+      await axios.post(workerBaseUrl + "/bookings", allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },
@@ -34,7 +34,7 @@ const startHotelCronJob = () => {
     console.log("Hotel cron job started");
     try {
       const allData = await Hotel.find({});
-      await axios.post(workerBaseUrl, allData, {
+      await axios.post(workerBaseUrl + "/hotels", allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },
@@ -50,7 +50,7 @@ const startUserCronJob = () => {
     console.log("User cron job started");
     try {
       const allData = await User.find({});
-      await axios.post(workerBaseUrl, allData, {
+      await axios.post(workerBaseUrl + "/users", allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },
@@ -66,7 +66,7 @@ const startSequenceCronJob = () => {
     console.log("Sequence cron job started");
     try {
       const allData = await Sequence.find({});
-      await axios.post(workerBaseUrl, allData, {
+      await axios.post(workerBaseUrl + "/sequences", allData, {
         headers: {
           Authorization: `Bearer ${getJwtToken()}`,
         },

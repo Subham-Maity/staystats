@@ -28,6 +28,10 @@ export class AppService {
     this.emailRecipients = [
       'maitysubham4041@gmail.com',
       'razmaityofficial@gmail.com',
+      'subham@sayngo.com',
+      'goutam@sayngo.com',
+      'subhaghanta325@gmail.com',
+      'sukanta@sayngo.com',
     ];
   }
 
@@ -63,7 +67,7 @@ export class AppService {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_3PM)
+  @Cron(CronExpression.EVERY_12_HOURS)
   async sendDailyDbBackup() {
     try {
       const dbData = await this.getAllDbData();
