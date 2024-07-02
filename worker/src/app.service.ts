@@ -85,12 +85,14 @@ export class AppService {
   }
   private async sendEmail(to: string, attachment: Buffer) {
     const subject = 'Daily DB Backup';
-    const template = 'db-backup'; // Create this template in your templates folder
-    const context = {
-      date: new Date().toISOString().split('T')[0],
-    };
+    const text = 'Please find attached the daily database backup.';
+    const html = `
+    <h1>Daily DB Backup</h1>
+    <p>Date: ${new Date().toISOString().split('T')[0]}</p>
+    <p>Please find the attached ZIP file containing the database backup.</p>
+  `;
 
-    await this.mail0AuthService.sendMail0Auth(to, subject, template, context, [
+    await this.mail0AuthService.sendMail0Auth(to, subject, text, html, [
       {
         filename: 'db_backup.zip',
         content: attachment,
