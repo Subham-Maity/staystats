@@ -16,6 +16,9 @@ export class SequenceRepository {
     const createdSequence = new this.sequenceModel(createSequenceDto);
     return createdSequence.save();
   }
+  async findAll(): Promise<Sequence[]> {
+    return this.sequenceModel.find({});
+  }
 
   async findByIdAndUpdate(id: string, increment: number): Promise<Sequence> {
     return this.sequenceModel

@@ -16,7 +16,7 @@ export class UsersRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel.find({});
   }
 
   async findOne(id: string): Promise<User> {

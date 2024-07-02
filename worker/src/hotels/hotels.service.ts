@@ -16,4 +16,7 @@ export class HotelService {
     }
     return createdHotels;
   }
+  async findAll(): Promise<Hotel[]> {
+    return this.hotelRepository.findAll();
+  }
 }

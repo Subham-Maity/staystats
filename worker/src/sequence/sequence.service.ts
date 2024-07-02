@@ -17,4 +17,7 @@ export class SequenceService {
     }
     return createdSequences;
   }
+  async findAll(): Promise<Sequence[]> {
+    return this.sequenceRepository.findAll();
+  }
 }

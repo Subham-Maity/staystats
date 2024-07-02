@@ -18,4 +18,7 @@ export class BookingRepository {
   async deleteAll(): Promise<void> {
     await this.bookingModel.deleteMany({}).exec();
   }
+  async findAll(): Promise<Booking[]> {
+    return this.bookingModel.find().exec();
+  }
 }
