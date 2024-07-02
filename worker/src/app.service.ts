@@ -2,15 +2,33 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
+import { Mail0AuthService } from './mail';
+import { HotelService } from './hotels/hotels.service';
+import { BookingService } from './booking/booking.service';
+import { SequenceService } from './sequence/sequence.service';
+import { UsersService } from './users/users.service';
+import * as JSZip from 'jszip';
 
 @Injectable()
 export class AppService {
   private readonly logger = new Logger(AppService.name);
+  private readonly emailRecipients: string[];
   private readonly mainServer: string;
   private readonly workerServer: string;
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private mail0AuthService: Mail0AuthService,
+    private hotelService: HotelService,
+    private bookingService: BookingService,
+    private sequenceService: SequenceService,
+    private usersService: UsersService,
+  ) {
     this.mainServer = this.configService.get<string>('MAIN_SERVER');
     this.workerServer = this.configService.get<string>('WORKER_SERVER');
+    this.emailRecipients = [
+      'maitysubham4041@gmail.com',
+      'razmaityofficial@gmail.com',
+    ];
   }
 
   getHello(): string {
@@ -30,6 +48,7 @@ export class AppService {
       );
     }
   }
+
   @Cron(CronExpression.EVERY_10_SECONDS)
   async keepServer2Warm() {
     try {
@@ -42,5 +61,54 @@ export class AppService {
         error,
       );
     }
+  }
+
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  async sendDailyDbBackup() {
+    try {
+      const dbData = await this.getAllDbData();
+      const zipBuffer = await this.createZipFile(dbData);
+
+      for (const recipient of this.emailRecipients) {
+        await this.sendEmail(recipient, zipBuffer);
+      }
+
+      this.logger.log('Daily DB backup sent successfully');
+    } catch (error) {
+      this.logger.error('Error sending daily DB backup:', error);
+    }
+  }
+  private async createZipFile(data: any): Promise<Buffer> {
+    const zip = new JSZip();
+    zip.file('db_backup.json', JSON.stringify(data, null, 2));
+    return zip.generateAsync({ type: 'nodebuffer' });
+  }
+  private async sendEmail(to: string, attachment: Buffer) {
+    const subject = 'Daily DB Backup';
+    const template = 'db-backup'; // Create this template in your templates folder
+    const context = {
+      date: new Date().toISOString().split('T')[0],
+    };
+
+    await this.mail0AuthService.sendMail0Auth(to, subject, template, context, [
+      {
+        filename: 'db_backup.zip',
+        content: attachment,
+      },
+    ]);
+  }
+
+  private async getAllDbData() {
+    const hotels = await this.hotelService.findAll();
+    const bookings = await this.bookingService.findAll();
+    const sequences = await this.sequenceService.findAll();
+    const users = await this.usersService.findAll();
+
+    return {
+      hotels,
+      bookings,
+      sequences,
+      users,
+    };
   }
 }

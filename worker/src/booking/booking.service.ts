@@ -16,4 +16,7 @@ export class BookingService {
     }
     return createdBookings;
   }
+  async findAll(): Promise<Booking[]> {
+    return this.bookingRepository.findAll();
+  }
 }
