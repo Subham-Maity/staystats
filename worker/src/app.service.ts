@@ -28,10 +28,10 @@ export class AppService {
     this.emailRecipients = [
       'maitysubham4041@gmail.com',
       'razmaityofficial@gmail.com',
-      'subham@sayngo.com',
-      'goutam@sayngo.com',
-      'subhaghanta325@gmail.com',
-      'sukanta@sayngo.com',
+      // 'subham@sayngo.com',
+      // 'goutam@sayngo.com',
+      // 'subhaghanta325@gmail.com',
+      // 'sukanta@sayngo.com',
     ];
   }
 
