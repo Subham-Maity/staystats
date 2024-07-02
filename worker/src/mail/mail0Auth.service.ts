@@ -12,8 +12,8 @@ export class Mail0AuthService {
   async sendMail0Auth(
     to: string,
     subject: string,
-    template: string,
-    context: any,
+    text: string,
+    html: string,
     attachments?: any[],
   ): Promise<void> {
     try {
@@ -21,8 +21,8 @@ export class Mail0AuthService {
         to,
         from: this.mailConfig.senderGmailAddress,
         subject,
-        template,
-        context,
+        text,
+        html,
         attachments,
       });
     } catch (error) {

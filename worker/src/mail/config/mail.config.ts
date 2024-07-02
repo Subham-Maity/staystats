@@ -21,20 +21,6 @@ export class MailConfig {
     );
   }
 
-  //Gmail email--app-password
-
-  get senderGmail(): string {
-    return (
-      this.configService.get<string>('MAIL_SERVICE_SENDER_GMAIL') || Gmail_EMAIL
-    );
-  }
-
-  get appSenderPassword(): string {
-    return (
-      this.configService.get<string>('MAIL_SERVICE_APP_SENDER_PASSWORD') ||
-      Gmail_PASSWORD
-    );
-  }
   //0Auth2.0 Gmail
   get oauthGmailSenderClientId(): string {
     return (
