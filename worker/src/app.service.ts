@@ -13,6 +13,7 @@ import * as JSZip from 'jszip';
 export class AppService {
   private readonly logger = new Logger(AppService.name);
   private readonly emailRecipients: string[];
+  private readonly prodOrNot: boolean;
   private readonly mainServer: string;
   private readonly workerServer: string;
   constructor(
@@ -23,16 +24,18 @@ export class AppService {
     private sequenceService: SequenceService,
     private usersService: UsersService,
   ) {
+    this.prodOrNot = this.configService.get<string>('PRODORNOT') === 'true';
     this.mainServer = this.configService.get<string>('MAIN_SERVER');
     this.workerServer = this.configService.get<string>('WORKER_SERVER');
-    this.emailRecipients = [
-      'maitysubham4041@gmail.com',
-      'razmaityofficial@gmail.com',
-      // 'subham@sayngo.com',
-      // 'goutam@sayngo.com',
-      // 'subhaghanta325@gmail.com',
-      // 'sukanta@sayngo.com',
-    ];
+    this.emailRecipients = this.prodOrNot
+      ? [
+          'maitysubham4041@gmail.com',
+          'subham@sayngo.com',
+          'goutam@sayngo.com',
+          'subhaghanta325@gmail.com',
+          'sukanta@sayngo.com',
+        ]
+      : ['razmaityofficial@gmail.com'];
   }
 
   getHello(): string {
@@ -53,7 +56,7 @@ export class AppService {
     }
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async keepServer2Warm() {
     try {
       const serverUrl = this.workerServer;
@@ -67,7 +70,7 @@ export class AppService {
     }
   }
 
-  @Cron(CronExpression.EVERY_12_HOURS)
+  @Cron(CronExpression.EVERY_6_HOURS)
   async sendDailyDbBackup() {
     try {
       const dbData = await this.getAllDbData();
@@ -88,12 +91,14 @@ export class AppService {
     return zip.generateAsync({ type: 'nodebuffer' });
   }
   private async sendEmail(to: string, attachment: Buffer) {
-    const subject = 'Daily DB Backup';
-    const text = 'Please find attached the daily database backup.';
+    const environment = this.prodOrNot ? 'PRODUCTION' : 'DEVELOPMENT';
+    const subject = `Daily ${environment} DB Backup`;
+    const text = `Please find attached the daily ${environment.toLowerCase()} database backup.`;
     const html = `
-    <h1>Daily DB Backup</h1>
+    <h1>Daily ${environment} DB Backup</h1>
+    <p>Environment: ${environment}</p>
     <p>Date: ${new Date().toISOString().split('T')[0]}</p>
-    <p>Please find the attached ZIP file containing the database backup.</p>
+    <p>Please find the attached ZIP file containing the ${environment.toLowerCase()} database backup.</p>
   `;
 
     await this.mail0AuthService.sendMail0Auth(to, subject, text, html, [

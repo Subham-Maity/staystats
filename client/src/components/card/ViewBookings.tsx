@@ -1,4 +1,11 @@
 import { Button } from "@nextui-org/react";
+import { FaTimes, FaUndo } from "react-icons/fa";
+import React, { useState } from "react";
+import { FiEdit } from "react-icons/fi";
+import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
+import { Send } from "lucide-react";
+import axios from "@/utils/axios";
+import { toast } from "react-toastify";
 
 interface Props {
   booking: {
@@ -31,14 +38,6 @@ interface Props {
   setShowEditModal: (value: boolean) => void;
   onClose: (value: boolean) => void;
 }
-
-import { FaTimes, FaUndo } from "react-icons/fa";
-import React, { useState, useEffect, useRef } from "react";
-import { FiEdit } from "react-icons/fi";
-import TailwindWrapper from "../dash/Components/Wrapper/TailwindWrapper";
-import { Send } from "lucide-react";
-import axios from "@/utils/axios";
-import { toast } from "react-toastify";
 
 const ViewBooking = ({
   booking,
@@ -436,7 +435,7 @@ const ViewBooking = ({
               />
             </div>
           </div>
-          <div className="flex justify-start gap-4 items-center mt-8">
+          <div className="flex justify-start gap-1 items-center mt-8">
             <Button
               disabled={booking?.status === "CANCELLED"}
               data-tip={"Preview Link"}
@@ -446,32 +445,30 @@ const ViewBooking = ({
                 setEditingBookingData(booking);
                 onClose(false);
               }}
-              className="defaultBtn"
-              endContent={<FiEdit className="" size={20} />}
+              className="defaultBtnView"
+              endContent={<FiEdit className="" size={15} />}
             >
               <p>Edit</p>
             </Button>
             <Button
               onClick={(event) => handleShowDeleteModal(event)}
-              className="defaultBtn"
+              className="defaultBtnView"
               disabled={booking?.status === "CANCELLED"}
-              endContent={<FaTimes size={20} />}
+              endContent={<FaTimes size={15} />}
             >
               <span className="m-0 p-0">Cancel Booking</span>
             </Button>
-          </div>
-          <div className="flex justify-start gap-4 items-center mt-8">
             <Button
               onClick={(event) => handleShowUndoDeleteModal(event)}
-              className="defaultBtn"
+              className="defaultBtnView"
               disabled={booking?.status === "CONFIRMED"}
-              endContent={<FaUndo size={18} className="" />}
+              endContent={<FaUndo size={15} className="" />}
             >
               <span className="m-0 p-0">Undo Cancellation</span>
             </Button>
             <Button
-              className="defaultBtn"
-              endContent={<Send size={20} />}
+              className="defaultBtnView"
+              endContent={<Send size={15} />}
               onClick={handleSendSMS}
               disabled={isSending}
               isLoading={isSending}
