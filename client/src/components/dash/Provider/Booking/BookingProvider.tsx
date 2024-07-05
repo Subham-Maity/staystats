@@ -15,7 +15,7 @@ const BookingProvider = ({ children }: { children: React.ReactNode }) => {
     if (bookingData) {
       dispatch(fetchAllBookingsAsync());
     }
-  }, [dispatch, bookingData]);
+  }, []);
 
   return <>{children}</>;
 };
