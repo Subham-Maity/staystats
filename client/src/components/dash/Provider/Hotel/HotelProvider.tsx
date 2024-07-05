@@ -2,12 +2,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/lib/redux/store";
-import {HotelData, UserData} from "@/lib/Types/Dashboard/types";
-import {
-  fetchAllBookingsAsync,
-} from "@/lib/features/bookingSlice";
+import { HotelData } from "@/lib/Types/Dashboard/types";
 
-import {fetchAllHotelsAsync, selectAllhotels} from "@/lib/features/hotelSlice";
+import {
+  fetchAllHotelsAsync,
+  selectAllhotels,
+} from "@/lib/features/hotelSlice";
 
 const HotelProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch: AppDispatch = useDispatch();
@@ -16,7 +16,7 @@ const HotelProvider = ({ children }: { children: React.ReactNode }) => {
     if (HotelData) {
       dispatch(fetchAllHotelsAsync());
     }
-  }, [dispatch, HotelData]);
+  }, []);
 
   return <>{children}</>;
 };
